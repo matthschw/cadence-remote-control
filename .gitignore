@@ -23,3 +23,8 @@
 hs_err_pid*
 /bin/
 /target/
+
+# other stuff
+*.nfs*
+*.cdslck
+*.log.*
