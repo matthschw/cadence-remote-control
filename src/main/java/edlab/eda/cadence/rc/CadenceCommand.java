@@ -1,35 +1,40 @@
 package edlab.eda.cadence.rc;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import edlab.eda.cadence.rc.api.CadenceCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
-public class CadenceCommand {
+public class CadenceCommand implements EvaluateableInVirtuoso {
 
   private CadenceCommandTemplate template;
-  private SkillDataobject[] formalParameters;
-  private Map<String, SkillDataobject> keywordParameters;
+  private EvaluateableInVirtuoso[] formalParameters;
+  private Map<String, EvaluateableInVirtuoso> keywordParameters;
 
   private CadenceCommand(CadenceCommandTemplate template) {
     this.template = template;
+    this.formalParameters = new SkillDataobject[0];
+    this.keywordParameters = new HashMap<String, EvaluateableInVirtuoso>();
   }
 
   private CadenceCommand(CadenceCommandTemplate template,
-      SkillDataobject[] formalParameters) {
+      EvaluateableInVirtuoso[] formalParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
+    this.keywordParameters = new HashMap<String, EvaluateableInVirtuoso>();
   }
 
   private CadenceCommand(CadenceCommandTemplate template,
-      Map<String, SkillDataobject> keywordParameters) {
+      Map<String, EvaluateableInVirtuoso> keywordParameters) {
     this.template = template;
+    this.formalParameters = new SkillDataobject[0];
     this.keywordParameters = keywordParameters;
   }
 
   private CadenceCommand(CadenceCommandTemplate template,
-      SkillDataobject[] formalParameters,
-      Map<String, SkillDataobject> keywordParameters) {
+      EvaluateableInVirtuoso[] formalParameters,
+      Map<String, EvaluateableInVirtuoso> keywordParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
     this.keywordParameters = keywordParameters;
@@ -56,7 +61,7 @@ public class CadenceCommand {
   }
 
   public static CadenceCommand buildCommand(CadenceCommandTemplate template,
-      SkillDataobject[] formalParameters) {
+      EvaluateableInVirtuoso[] formalParameters) {
 
     if (template.getNumOfFormalParameters() == formalParameters.length) {
       return new CadenceCommand(template, formalParameters);
@@ -65,7 +70,7 @@ public class CadenceCommand {
   }
 
   public static CadenceCommand buildCommand(CadenceCommandTemplate template,
-      Map<String, SkillDataobject> keywordParameters) {
+      Map<String, EvaluateableInVirtuoso> keywordParameters) {
 
     for (String key : keywordParameters.keySet()) {
 
@@ -78,8 +83,8 @@ public class CadenceCommand {
   }
 
   public static CadenceCommand buildCommand(CadenceCommandTemplate template,
-      SkillDataobject[] formalParameters,
-      Map<String, SkillDataobject> keywordParameters) {
+      EvaluateableInVirtuoso[] formalParameters,
+      Map<String, EvaluateableInVirtuoso> keywordParameters) {
 
     for (String key : keywordParameters.keySet()) {
 

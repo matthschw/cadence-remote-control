@@ -10,9 +10,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edlab.eda.cadence.rc.EvaluateableInVirtuoso;
 import edlab.eda.cadence.rc.Session;
 
-public abstract class SkillDataobject {
+public abstract class SkillDataobject implements EvaluateableInVirtuoso {
 
   public static final String TYPE_ID = "type";
   public static final String IS_NATIVE_ID = "isNative";

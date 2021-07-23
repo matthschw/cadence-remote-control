@@ -1,6 +1,6 @@
 (setPrompts
-  "[ED-CDS_RC]"
-  "[ED-CDS_RC]"
+  "[ED-CDS-RC]"
+  "[ED-CDS-RC]"
 );setPrompts
 
 (putpropq (quote EDcdsRemoteControl) (makeTable "returnValues" nil) returnValues)
@@ -8,7 +8,9 @@
 
 (defun EDcdsRemoteControlEvalCommand (lCommand)
 
-  (let (fTraverseDataStructure lBuildList)
+  (let (fTraverseDataStructure lBuildList returnValue (sRoot "root"))
+
+    ;(setq returnValue (errset lCommand))
 
     (setq lBuildList (tconc nil nil))
 
@@ -20,142 +22,153 @@
     ;fTraverseDataStructure
     (setq
       fTraverseDataStructure
-      (lambda (aVal sRoot sIndentation)
+      (lambda (val sRoot sIndentation)
 
-        (cond
-
-          ((fixp aVal) 
-
-            (tconc 
-              lBuildList 
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"fixnum\">%L</%s>\n"
-                sIndentation sRoot aVal sRoot
-              );lsprintf
-            );lBuildList
-          )
-
-          ((floatp aVal)
-
-            (tconc
-              lBuildList
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"flonum\">%L</%s>\n"
-                sIndentation
-                sRoot
-                aVal
-                sRoot
-              )
-            );tconc
-          )
-
-          ((stringp aVal) 
-
-            (tconc
-              lBuildList
-              (lsprintf 
-                "%s<%s isNative=\"yes\" type=\"string\">%s</%s>\n"
-                sIndentation
-                sRoot
-                (EDpredictEscapeXML aVal)
-                sRoot
-              );lsprintf
-            );tconc
-          )
-
-          ((dplp aVal)
-
-            (tconc
-              lBuildList
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"dpl\">\n"
-                sIndentation
-                (EDcdsRemoteControlEscapeXML  sRoot)
-              );lsprintf
-            );tconc
-
-            (foreach item aVal->?
-              (funcall
-                fTraverseDataStructure
-                (get aVal item)
-                item
-                (strcat sIndentation "\t")
-              );funcall
-            );foreach
-
-            (tconc
-            	lBuildList
-            	(lsprintf 
-            		"%s</%s>\n"
-            		sIndentation
-            		(EDcdsRemoteControlEscapeXML sRoot)
-            	)
+        (let (idx)
+          (cond
+            ((fixp val) 
+              (tconc 
+                lBuildList 
+                (lsprintf
+                  "%s<%s isNative=\"yes\" type=\"fixnum\">%L</%s>\n"
+                  sIndentation
+                  sRoot
+                  val
+                  sRoot
+                );lsprintf
+              );tconc
             )
-          )
+            ((floatp val)
 
-          ((symbolp aVal) 
-
-            (tconc
-              lBuildList
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"symbol\">%L</%s>\n"
-                sIndentation sRoot aVal sRoot
-              );lsprintf
-            );tconc
-          )
-
-          ((listp aVal)
-
-            (tconc
-              lBuildList
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"list\">\n"
-                sIndentation
-                (EDpredictEscapeXML sRoot)
-              );lsprintf
-            );tconc
-                
-            (foreach item aVal
-              (funcall
-                fTraverseDataStructure
-                item
-                "entry"
-                (strcat sIndentation "\t")
-              );funcall
-            );foreach
-                
-            (tconc
-            	lBuildList
-            	(lsprintf
-            		"%s</%s>\n"
-            		sIndentation
-            		(EDcdsRemoteControlEscapeXML sRoot)
-            	)
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s isNative=\"yes\" type=\"flonum\">%L</%s>\n"
+                  sIndentation
+                  sRoot
+                  val
+                  sRoot
+                );lsprintf
+              );tconc
             )
-          )
-          (t 
-          
-          	(foreach 
-          	
-          	);
-          
-          
-            (tconc
-              lBuildList
-              (lsprintf
-                "%s<%s isNative=\"yes\" type=\"list\">\n"
-                sIndentation
-                (EDpredictEscapeXML sRoot)
-              );lsprintf
-            );tconc
-          )
-        );cond
+
+            ((stringp val) 
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s<%s isNative=\"yes\" type=\"string\">%s</%s>\n"
+                  sIndentation
+                  sRoot
+                  (EDcdsRemoteControlEscapeXML val)
+                  sRoot
+                );lsprintf
+              );tconc
+            )
+
+            ((dplp val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s isNative=\"yes\" type=\"dpl\">\n"
+                  sIndentation
+                  (EDcdsRemoteControlEscapeXML sRoot)
+                );lsprintf
+              );tconc
+
+              (foreach item val->?
+                (funcall
+                  fTraverseDataStructure
+                  (get val item)
+                  item
+                  (strcat sIndentation "\t")
+                );funcall
+              );foreach
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRemoteControlEscapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+
+            ((listp val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s isNative=\"yes\" type=\"list\">\n"
+                  sIndentation
+                  (EDcdsRemoteControlEscapeXML sRoot)
+                );lsprintf
+              );tconc
+                  
+              (foreach item val
+                (funcall
+                  fTraverseDataStructure
+                  item
+                  "entry"
+                  (strcat sIndentation "\t")
+                );funcall
+              );foreach
+                  
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRemoteControlEscapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+            (t 
+
+              (setq idx -1)
+            
+              (foreach id EDcdsRemoteControl.returnValues->?
+                (when
+                  (equal 
+                    (arrayref EDcdsRemoteControl.returnValues id)
+                    val
+                  );equal
+                  (setq idx id)
+                );when
+              );foreach
+
+              (when (equal idx -1)
+                (setq idx EDcdsRemoteControl.maxIndex)
+                (setarray
+                  EDcdsRemoteControl.returnValues
+                  EDcdsRemoteControl.maxIndex
+                  val
+                );setarray
+                EDcdsRemoteControl.maxIndex = EDcdsRemoteControl.maxIndex +1
+              );when
+            
+            
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s>%L<%s>\n"
+                  sIndentation
+                  sRoot
+                  idx
+                  sRoot
+                );lsprintf
+              );tconc
+            )
+          );cond
+        );let
       );lambda
     );setq
 
     (funcall
       fTraverseDataStructure 
-      aVal 
+      lCommand 
       (if (or (stringp sRoot) (symbolp sRoot)) sRoot "root")
       ""
     );funcall
@@ -167,14 +180,14 @@
 (defun EDcdsRemoteControlEscapeXML (sSequence)
   (buildString
     (foreach mapcar x (parseString sSequence "")
-        (cond
-          ((equal x "\"") "&quot;")
-          ((equal x "'")  "&apos;")
-          ((equal x "<") "&lt;")
-          ((equal x ">")  "&gt;")
-          ((equal x "&")  "&amp;")            
-          (t x)
-        );cond
+      (cond
+        ((equal x "\"") "&quot;")
+        ((equal x "'")  "&apos;")
+        ((equal x "<") "&lt;")
+        ((equal x ">")  "&gt;")
+        ((equal x "&")  "&amp;")            
+        (t x)
+      );cond
     );foreach
     ""
   );buildString

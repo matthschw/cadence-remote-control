@@ -3,6 +3,7 @@ package edlab.eda.cadence.rc;
 import java.io.File;
 import java.io.IOException;
 
+import edlab.eda.cadence.rc.api.CadenceCommandTemplate;
 import edlab.eda.cadence.rc.api.CadenceGenericCommandTemplates;
 import edlab.eda.cadence.rc.api.CadenceSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
@@ -21,21 +22,23 @@ public class Session {
   private String command;
   private File workingDir;
   private Matcher<Result> nextCommand = NEXT_COMMAND;
-  private CadenceGenericCommandTemplates commandTemplates = new CadenceGenericCommandTemplates();
+  private  CadenceCommandTemplate controlCommand = new CadenceCommandTemplate(1, 1);
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
-  private static final String PATH_TO_SKILL = "/src/main/skill/EDcdsRemoteControl.il";
-  private static final String PROMPT = "[ED-CDS_RC]";
+  private static final String PATH_TO_SKILL = "./src/main/skill/EDcdsRemoteControl.il";
+  private static final String PROMPT = "\\[ED-CDS-RC\\]";
 
   private static final File DEFAULT_WORKING_DIR = new File("./");
   private static final Matcher<Result> NEXT_COMMAND = Matchers.regexp("\n>");
 
   public static final String CDS_RC_GLOBAL = "EDcdsRemoteControl";
   public static final String CDS_RC_RETURN_VALUES = "returnValues";
+ 
 
   public Session() {
     this.command = DEFAULT_COMMAND;
     this.workingDir = DEFAULT_WORKING_DIR;
+    
   }
 
   public Session(String command) {
@@ -75,10 +78,9 @@ public class Session {
 
       SkillString skillFile = new SkillString(PATH_TO_SKILL);
 
-      this.expect.send(CadenceCommand
-          .buildCommand(commandTemplates.getTemplate(CadenceSkillCommands.LOAD),
-              new SkillDataobject[] { skillFile })
-          .toSkill() + "\n");
+      this.expect.send(CadenceCommand.buildCommand(
+          CadenceGenericCommandTemplates.getTemplate(CadenceSkillCommands.LOAD),
+          new SkillDataobject[] { skillFile }).toSkill() + "\n");
 
       expect.expect(this.nextCommand);
 
@@ -95,13 +97,21 @@ public class Session {
   }
 
   public SkillDataobject evaluate(CadenceCommand command) {
-    return null;
+    
+    CadenceCommand outer = CadenceCommand.buildCommand(template);
+
+    String xml = communicate(command.toSkill());
+    System.out.println(xml);
+
+    SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
+
+    return obj;
   }
 
   public boolean stop() {
 
     communicate(CadenceCommand
-        .buildCommand(commandTemplates.getTemplate(CadenceSkillCommands.EXIT))
+        .buildCommand(CadenceGenericCommandTemplates.getTemplate(CadenceSkillCommands.EXIT))
         .toSkill());
 
     try {
@@ -122,7 +132,6 @@ public class Session {
     String retval = null;
 
     try {
-
       this.expect.send(cmd + "\n");
       retval = expect.expect(this.nextCommand).getBefore();
 
