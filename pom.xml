@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edlab.eda.cadence</groupId>
+	<artifactId>rc</artifactId>
+	<version>0.0.1</version>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>edlab.eda.reader</groupId>
+			<artifactId>nutmeg</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.expectit</groupId>
+			<artifactId>expectit-core</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+	</dependencies>
+	<organization>
+		<name>Electronics &amp; Drives</name>
+		<url>https://www.electronics-and-drives.de/</url>
+	</organization>
+</project>
