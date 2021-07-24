@@ -1,7 +1,7 @@
 package edlab.eda.cadence.rc;
 
-import edlab.eda.cadence.rc.api.CadenceGenericCommandTemplates;
-import edlab.eda.cadence.rc.api.CadenceSkillCommands;
+import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
+import edlab.eda.cadence.rc.api.GenericSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillString;
 
@@ -13,27 +13,25 @@ public class Test {
 
     session.start();
 
-    CadenceCommand command = CadenceCommand.buildCommand(
-        CadenceGenericCommandTemplates
-            .getTemplate(CadenceSkillCommands.OUTFILE),
+    SkillCommand command = SkillCommand.buildCommand(
+        GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommands.OUTFILE),
         new SkillDataobject[] { new SkillString("fuubar.txt") });
 
     SkillDataobject port = session.evaluate(command);
-    System.out.println(port.toSkill());
 
-    command = CadenceCommand.buildCommand(
-        CadenceGenericCommandTemplates
-            .getTemplate(CadenceSkillCommands.FPRINTF),
+    command = SkillCommand.buildCommand(
+        GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommands.FPRINTF),
         new SkillDataobject[] { port, new SkillString("Heinz Banane") });
+    session.evaluate(command);
 
-    command = CadenceCommand.buildCommand(
-        CadenceGenericCommandTemplates.getTemplate(CadenceSkillCommands.CLOSE),
+    command = SkillCommand.buildCommand(
+        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.CLOSE),
         new SkillDataobject[] { port });
 
     session.evaluate(command);
 
     session.stop();
-
   }
-
 }

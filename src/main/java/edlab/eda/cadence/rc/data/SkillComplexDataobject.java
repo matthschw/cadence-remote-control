@@ -10,6 +10,7 @@ public class SkillComplexDataobject extends SkillDataobject {
   @SuppressWarnings("unused")
   private Session session;
   private int identifier;
+  public static final String TYPE_ID = "complex";
 
   public SkillComplexDataobject(Session session, int identifier) {
     this.session = session;

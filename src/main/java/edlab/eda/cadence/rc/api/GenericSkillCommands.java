@@ -1,6 +1,6 @@
 package edlab.eda.cadence.rc.api;
 
-public interface CadenceSkillCommands {
+public interface GenericSkillCommands {
 
   public static final String CAR = "car";
   public static final String LIST = "list";
@@ -10,4 +10,5 @@ public interface CadenceSkillCommands {
   public static final String OUTFILE = "outfile";
   public static final String FPRINTF = "fprintf";
   public static final String CLOSE = "close";
+  public static final String ERRSET = "errset";
 }

@@ -3,15 +3,48 @@
   "[ED-CDS-RC]"
 );setPrompts
 
-(putpropq (quote EDcdsRemoteControl) (makeTable "returnValues" nil) returnValues)
-(putpropq (quote EDcdsRemoteControl) 0 maxIndex)
+(putpropq (quote EDcdsRC) (makeTable "returnValues" nil) returnValues)
+(putpropq (quote EDcdsRC) 0 maxIndex)
 
-(defun EDcdsRemoteControlEvalCommand (lCommand)
+(defun EDcdsRCfmtCmd (result)
 
-  (let (fTraverseDataStructure lBuildList returnValue (sRoot "root"))
+  (let (retval data (maxLength 4000) retstring port file)
 
-    ;(setq returnValue (errset lCommand))
+    (setq retval (list nil))
 
+    (if result then
+
+      (putpropq retval t valid)
+      (putpropq retval (car result) data)
+
+      (setq retstring (EDcdsRCbuildXML retval))
+
+      (when (geqp (strlen retstring) maxLength)
+
+        (setq file (makeTempFileName "/tmp/ed_cds_rc"))
+        (setq port (outfile file))
+        (fprintf port "%s" data)
+        (close port)
+
+        (putpropq retval nil data)
+
+        (setq retstring (EDcdsRCbuildXML retval))
+      );when
+
+    else
+      (putpropq retval nil valid)
+      (putpropq retval errset.errset error)
+      (setq retstring (EDcdsRCbuildXML retval))
+    );if
+
+    (printf retstring)
+  );let
+);defun
+
+
+(defun EDcdsRCbuildXML (content)
+
+  (let (fTraverseDataStructure lBuildList (sRoot "root"))
     (setq lBuildList (tconc nil nil))
 
     (tconc 
@@ -30,7 +63,7 @@
               (tconc 
                 lBuildList 
                 (lsprintf
-                  "%s<%s isNative=\"yes\" type=\"fixnum\">%L</%s>\n"
+                  "%s<%s type=\"fixnum\">%L</%s>\n"
                   sIndentation
                   sRoot
                   val
@@ -43,7 +76,7 @@
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s isNative=\"yes\" type=\"flonum\">%L</%s>\n"
+                  "%s<%s type=\"flonum\">%L</%s>\n"
                   sIndentation
                   sRoot
                   val
@@ -57,10 +90,10 @@
               (tconc
                 lBuildList
                 (lsprintf 
-                  "%s<%s isNative=\"yes\" type=\"string\">%s</%s>\n"
+                  "%s<%s type=\"string\">%s</%s>\n"
                   sIndentation
                   sRoot
-                  (EDcdsRemoteControlEscapeXML val)
+                  (EDcdsRCescapeXML val)
                   sRoot
                 );lsprintf
               );tconc
@@ -71,9 +104,9 @@
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s isNative=\"yes\" type=\"dpl\">\n"
+                  "%s<%s type=\"dpl\">\n"
                   sIndentation
-                  (EDcdsRemoteControlEscapeXML sRoot)
+                  (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
 
@@ -91,7 +124,7 @@
                 (lsprintf 
                   "%s</%s>\n"
                   sIndentation
-                  (EDcdsRemoteControlEscapeXML sRoot)
+                  (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
             )
@@ -101,9 +134,9 @@
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s isNative=\"yes\" type=\"list\">\n"
+                  "%s<%s type=\"list\">\n"
                   sIndentation
-                  (EDcdsRemoteControlEscapeXML sRoot)
+                  (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
                   
@@ -121,18 +154,33 @@
                 (lsprintf
                   "%s</%s>\n"
                   sIndentation
-                  (EDcdsRemoteControlEscapeXML sRoot)
+                  (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
             )
+
+            ((symbolp val) 
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s<%s type=\"symbol\">%s</%s>\n"
+                  sIndentation
+                  sRoot
+                  (EDcdsRCescapeXML (get_pname val))
+                  sRoot
+                );lsprintf
+              );tconc
+            )
+
             (t 
 
               (setq idx -1)
             
-              (foreach id EDcdsRemoteControl.returnValues->?
+              (foreach id EDcdsRC.returnValues->?
                 (when
                   (equal 
-                    (arrayref EDcdsRemoteControl.returnValues id)
+                    (arrayref EDcdsRC.returnValues id)
                     val
                   );equal
                   (setq idx id)
@@ -140,20 +188,20 @@
               );foreach
 
               (when (equal idx -1)
-                (setq idx EDcdsRemoteControl.maxIndex)
+                (setq idx EDcdsRC.maxIndex)
                 (setarray
-                  EDcdsRemoteControl.returnValues
-                  EDcdsRemoteControl.maxIndex
+                  EDcdsRC.returnValues
+                  EDcdsRC.maxIndex
                   val
                 );setarray
-                EDcdsRemoteControl.maxIndex = EDcdsRemoteControl.maxIndex +1
+                EDcdsRC.maxIndex = EDcdsRC.maxIndex +1
               );when
             
             
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s>%L<%s>\n"
+                  "%s<%s type=\"complex\">%L</%s>\n"
                   sIndentation
                   sRoot
                   idx
@@ -168,7 +216,7 @@
 
     (funcall
       fTraverseDataStructure 
-      lCommand 
+      content 
       (if (or (stringp sRoot) (symbolp sRoot)) sRoot "root")
       ""
     );funcall
@@ -177,7 +225,8 @@
   );let
 );defun
 
-(defun EDcdsRemoteControlEscapeXML (sSequence)
+
+(defun EDcdsRCescapeXML (sSequence)
   (buildString
     (foreach mapcar x (parseString sSequence "")
       (cond

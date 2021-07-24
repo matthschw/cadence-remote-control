@@ -3,29 +3,19 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillString extends SkillBoolean {
+public class SkillSymbol extends SkillBoolean {
 
-  public static final String TYPE_ID = "string";
-  private String string;
+  public static final String TYPE_ID = "symbol";
+  private String printName;
 
-  public SkillString(String string) {
+  public SkillSymbol(String printName) {
     super(true);
-    this.string = string;
-  }
-
-  public SkillString() {
-    super(true);
-    this.string = "";
-  }
-
-  public String getString() {
-    return this.string;
+    this.printName = printName;
   }
 
   @Override
   protected String toSkillHierarchical(int depth) {
-
-    return "\"" + this.string + "\"";
+    return "'" + this.printName;
   }
 
   @Override
@@ -33,7 +23,8 @@ public class SkillString extends SkillBoolean {
       Document document) {
     Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
-    element.setTextContent(this.string);
+    element.setTextContent(this.printName);
     return element;
   }
+
 }
