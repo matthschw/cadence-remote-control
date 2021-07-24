@@ -9,7 +9,7 @@ public class Test {
 
   public static void main(String[] args) {
 
-    Session session = new Session();
+    SkillSession session = new SkillSession();
 
     session.start();
 

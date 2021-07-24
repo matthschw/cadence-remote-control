@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
@@ -17,7 +18,7 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public class Session {
+public class SkillSession {
 
   private Process process = null;
   private Expect expect = null;
@@ -43,23 +44,23 @@ public class Session {
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
   public static final String CDS_RC_RETURN_VALUES = "returnValues";
 
-  public Session() {
+  public SkillSession() {
     this.command = DEFAULT_COMMAND;
     this.workingDir = DEFAULT_WORKING_DIR;
 
   }
 
-  public Session(String command) {
+  public SkillSession(String command) {
     this.command = command;
     this.workingDir = DEFAULT_WORKING_DIR;
   }
 
-  public Session(File workingDir) {
+  public SkillSession(File workingDir) {
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir;
   }
 
-  public Session(String command, File workingDir) {
+  public SkillSession(String command, File workingDir) {
     this.command = command;
     this.workingDir = workingDir;
   }
@@ -79,16 +80,17 @@ public class Session {
     try {
       expect = new ExpectBuilder().withInputs(this.process.getInputStream())
           .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
-          .build();
+          .build().withTimeout(1, TimeUnit.HOURS);
 
       expect.expect(nextCommand);
       this.nextCommand = Matchers.regexp("\n" + PROMPT);
 
       SkillString skillFile = new SkillString(PATH_TO_SKILL);
 
-      this.expect.send(SkillCommand.buildCommand(
-          GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.LOAD),
-          new SkillDataobject[] { skillFile }).toSkill() + "\n");
+      this.expect.send(SkillCommand
+          .buildCommand(GenericSkillCommandTemplates
+              .getTemplate(GenericSkillCommands.LOAD), skillFile)
+          .toSkill() + "\n");
 
       expect.expect(this.nextCommand);
 
@@ -107,17 +109,15 @@ public class Session {
   public SkillDataobject evaluate(SkillCommand command) {
 
     SkillCommand outer = SkillCommand.buildCommand(controlCommand,
-        new EvaluateabletoSkill[] { SkillCommand.buildCommand(
-            GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommands.ERRSET),
-            new EvaluateabletoSkill[] { command }) });
+        SkillCommand.buildCommand(GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommands.ERRSET), command));
 
     String skillCommand = outer.toSkill();
 
     if (skillCommand.length() > MAX_CMD_LENGTH) {
       // throw error
     }
-    
+
     String xml = communicate(outer.toSkill());
     xml = xml.substring(0, xml.length() - 1);
 
@@ -127,9 +127,8 @@ public class Session {
     SkillDataobject data;
 
     if (top.getProperty("valid").isTrue()) {
-      
+
       if (top.getKeys().contains("file")) {
-        
 
         SkillString filePath = (SkillString) top.getProperty("file");
 
@@ -146,14 +145,15 @@ public class Session {
 
     } else {
       return null;
-      //throw error
+      // throw error
     }
   }
 
   public boolean stop() {
 
-    communicate(SkillCommand.buildCommand(
-        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.EXIT))
+    communicate(SkillCommand
+        .buildCommand(
+            GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.EXIT))
         .toSkill());
 
     try {

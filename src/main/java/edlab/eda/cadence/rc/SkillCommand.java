@@ -70,6 +70,16 @@ public class SkillCommand implements EvaluateabletoSkill {
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,
+      EvaluateabletoSkill formalParameter) {
+
+    if (template.getNumOfFormalParameters() == 1) {
+      return new SkillCommand(template,
+          new EvaluateabletoSkill[] { formalParameter });
+    }
+    return null;
+  }
+
+  public static SkillCommand buildCommand(SkillCommandTemplate template,
       Map<String, EvaluateabletoSkill> keywordParameters) {
 
     for (String key : keywordParameters.keySet()) {
