@@ -7,7 +7,6 @@ import edlab.eda.cadence.rc.SkillSession;
 
 public class SkillComplexDataobject extends SkillDataobject {
 
-  @SuppressWarnings("unused")
   private SkillSession session;
   private int identifier;
   public static final String TYPE_ID = "complex";
@@ -20,6 +19,10 @@ public class SkillComplexDataobject extends SkillDataobject {
   @Override
   public boolean isTrue() {
     return true;
+  }
+
+  public SkillSession getSession() {
+    return session;
   }
 
   @Override
