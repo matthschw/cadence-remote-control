@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edlab.eda.cadence.rc.EvaluateabletoSkill;
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.SkillMasterSession;
 
 public abstract class SkillDataobject implements EvaluateabletoSkill {
 
@@ -30,7 +30,7 @@ public abstract class SkillDataobject implements EvaluateabletoSkill {
   protected abstract Element traverseSkillDataobjectForXMLGeneration(
       String name, Document document);
 
-  public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
+  public static SkillDataobject getSkillDataobjectFromXML(SkillMasterSession session,
       String xml) {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -55,7 +55,7 @@ public abstract class SkillDataobject implements EvaluateabletoSkill {
 
   }
 
-  private static SkillDataobject traverseNode(SkillSession session, Node node) {
+  private static SkillDataobject traverseNode(SkillMasterSession session, Node node) {
 
     SkillDataobject skillDataobject;
     NamedNodeMap nodeMap = node.getAttributes();

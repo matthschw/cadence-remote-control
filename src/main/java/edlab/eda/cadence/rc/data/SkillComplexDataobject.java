@@ -3,16 +3,16 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.SkillMasterSession;
 
 public class SkillComplexDataobject extends SkillDataobject {
 
   @SuppressWarnings("unused")
-  private SkillSession session;
+  private SkillMasterSession session;
   private int identifier;
   public static final String TYPE_ID = "complex";
 
-  public SkillComplexDataobject(SkillSession session, int identifier) {
+  public SkillComplexDataobject(SkillMasterSession session, int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -25,8 +25,8 @@ public class SkillComplexDataobject extends SkillDataobject {
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref " + SkillSession.CDS_RC_GLOBAL + "."
-        + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier + ")";
+    return "(arrayref " + SkillMasterSession.CDS_RC_GLOBAL + "."
+        + SkillMasterSession.CDS_RC_RETURN_VALUES + " " + this.identifier + ")";
   }
 
   @Override
