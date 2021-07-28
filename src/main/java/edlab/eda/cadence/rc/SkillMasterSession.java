@@ -56,24 +56,19 @@ public class SkillMasterSession {
     this.workingDir = DEFAULT_WORKING_DIR;
   }
 
-  public SkillMasterSession(String command) {
-    this.command = command;
-    this.workingDir = DEFAULT_WORKING_DIR;
-  }
-
   public SkillMasterSession(File workingDir) {
     this.command = DEFAULT_COMMAND;
-    this.workingDir = workingDir;
-  }
-
-  public SkillMasterSession(String command, File workingDir) {
-    this.command = command;
     this.workingDir = workingDir;
   }
 
   public SkillMasterSession setTimeout(long duration, TimeUnit unit) {
     this.timeoutDuration = duration;
     this.timeoutTimeUnit = unit;
+    return this;
+  }
+
+  public SkillMasterSession setCommand(String command) {
+    this.command = command;
     return this;
   }
 
@@ -109,9 +104,9 @@ public class SkillMasterSession {
         this.lastActivity = new Date();
         this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
             this.timeoutTimeUnit);
-        
+
         this.watchdog.start();
-        
+
       } catch (IOException e) {
 
         System.err.println(
@@ -140,12 +135,12 @@ public class SkillMasterSession {
     if (!isActive()) {
       start();
     }
-    
+
     SkillDataobject data;
-    
+
     this.watchdog.kill();
     this.watchdog = null;
-    
+
     if (isActive()) {
 
       SkillCommand outer = SkillCommand.buildCommand(controlCommand,
@@ -187,17 +182,17 @@ public class SkillMasterSession {
     } else {
       data = null;
     }
-    
+
     this.lastActivity = new Date();
     this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
         this.timeoutTimeUnit);
     this.watchdog.start();
-    
+
     return data;
   }
 
   public boolean stop() {
-    
+
     this.watchdog.kill();
     this.watchdog = null;
 
@@ -214,7 +209,7 @@ public class SkillMasterSession {
     if (this.process != null) {
       this.process.destroyForcibly();
     }
-    
+
     this.process = null;
 
     return true;

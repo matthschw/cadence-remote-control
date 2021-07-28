@@ -13,8 +13,8 @@ import edlab.eda.cadence.rc.data.SkillDataobject;
 public abstract class SkillSlaveSession {
 
   private StringListener listener;
-  private FileOutputStream instream;
-  private FileOutputStream outstream;
+  private FileInputStream instream;
+  private PrintStream outstream;
 
   public SkillSlaveSession(Scanner stringScanner) {
 
@@ -38,8 +38,8 @@ public abstract class SkillSlaveSession {
 
       System.exit(-1);
     }
-    
-    FileInputStream instream = new FileInputStream(fd);
+
+    instream = new FileInputStream(fd);
 
     fd = null;
     try {
@@ -55,14 +55,9 @@ public abstract class SkillSlaveSession {
       System.exit(-1);
     }
 
-    FileOutputStream outstream = new FileOutputStream(fd);
-
-    PrintStream outprintstream = new PrintStream(outstream);
-  }
-
-  public SkillDataobject evaluateCommand(SkillCommand command) {
-
-    return null;
+    outstream = new PrintStream(new FileOutputStream(fd));
+    
+    Scanner sc = new Scanner(instream);
   }
 
   public abstract void react(SkillDataobject obj);
