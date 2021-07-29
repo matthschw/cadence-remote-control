@@ -19,7 +19,7 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public class SkillMasterSession {
+public class SkillSession {
 
   private Process process = null;
   private Expect expect = null;
@@ -51,23 +51,23 @@ public class SkillMasterSession {
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
   public static final String CDS_RC_RETURN_VALUES = "returnValues";
 
-  public SkillMasterSession() {
+  public SkillSession() {
     this.command = DEFAULT_COMMAND;
     this.workingDir = DEFAULT_WORKING_DIR;
   }
 
-  public SkillMasterSession(File workingDir) {
+  public SkillSession(File workingDir) {
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir;
   }
 
-  public SkillMasterSession setTimeout(long duration, TimeUnit unit) {
+  public SkillSession setTimeout(long duration, TimeUnit unit) {
     this.timeoutDuration = duration;
     this.timeoutTimeUnit = unit;
     return this;
   }
 
-  public SkillMasterSession setCommand(String command) {
+  public SkillSession setCommand(String command) {
     this.command = command;
     return this;
   }

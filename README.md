@@ -1,5 +1,59 @@
 # cadence-remote-control
+
 Remote Control for Cadence-Tools in Java
+
+This toolbox provides remote-control capabilities for Cadence-based
+tools in Java.
+
+# Installation
+
+Clone this repository:
+
+```bash
+$ git clone https://github.com/matthschw/cadence-remote-control.git
+```
+
+`cadence-remote-contro` into the directory.
+
+## Setup
+Add the dependency to your project
+
+```xml
+<dependency>
+  <groupId>edlab.eda</groupId>
+  <artifactId>cadence.rc</artifactId>
+  <version>1.0.1</version>
+</dependency>
+```
+
+Import the corresponding package to your code
+```java
+import edlab.eda.reader.cadence.rc.*;
+```
+
+# Utilization
+
+The toolbox provides to different use-cases how to remote control 
+Cadence-Tools:
+
+## SkillSession
+This class is used when the Cadence-Tool is started and controlled from Java.
+
+## SkillChildSession
+
+This class is used when Java is started as Subprocess (IPC) in
+Virtuoso.
+
+
+# TODO
+
+- [ ] Add relevant commands as templates
+- [ ] Add *SkillChildSession*
+
+# Derivatives
+
+- [virtuoso-remote-control](https://github.com/matthschw/virtuoso-remote-control)
+- [spectre-remote-control](https://github.com/matthschw/spectre-remote-control)
 
 ## License
 

@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 class SkillSessionWatchdog extends Thread {
 
-  private SkillMasterSession session;
+  private SkillSession session;
 
   private static final long WATCHDOG_INIT_WAIT_TIME_MS = 1000;
   private static final long WATCHDOG_CHECK_INTERVAL_MS = 500;
@@ -13,7 +13,7 @@ class SkillSessionWatchdog extends Thread {
   private long duration_ms;
   private boolean killed = false;
 
-  public SkillSessionWatchdog(SkillMasterSession session, long duration,
+  public SkillSessionWatchdog(SkillSession session, long duration,
       TimeUnit unit) {
     this.duration_ms = unit.toMillis(duration);
 

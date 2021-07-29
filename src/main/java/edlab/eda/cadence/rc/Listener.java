@@ -6,9 +6,9 @@ public abstract class Listener extends Thread {
 
   protected volatile boolean running = true;
   protected Scanner scanner;
-  protected SkillSlaveSession session;
+  protected SkillChildSession session;
 
-  public Listener(Scanner scanner, SkillSlaveSession session) {
+  public Listener(Scanner scanner, SkillChildSession session) {
     this.scanner = scanner;
     this.session = session;
   }

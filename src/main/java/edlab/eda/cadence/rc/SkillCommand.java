@@ -6,35 +6,35 @@ import java.util.Map;
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
-public class SkillCommand implements EvaluateabletoSkill {
+public class SkillCommand implements EvaluateableToSkill {
 
   private SkillCommandTemplate template;
-  private EvaluateabletoSkill[] formalParameters;
-  private Map<String, EvaluateabletoSkill> keywordParameters;
+  private EvaluateableToSkill[] formalParameters;
+  private Map<String, EvaluateableToSkill> keywordParameters;
 
   private SkillCommand(SkillCommandTemplate template) {
     this.template = template;
     this.formalParameters = new SkillDataobject[0];
-    this.keywordParameters = new HashMap<String, EvaluateabletoSkill>();
+    this.keywordParameters = new HashMap<String, EvaluateableToSkill>();
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      EvaluateabletoSkill[] formalParameters) {
+      EvaluateableToSkill[] formalParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
-    this.keywordParameters = new HashMap<String, EvaluateabletoSkill>();
+    this.keywordParameters = new HashMap<String, EvaluateableToSkill>();
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      Map<String, EvaluateabletoSkill> keywordParameters) {
+      Map<String, EvaluateableToSkill> keywordParameters) {
     this.template = template;
     this.formalParameters = new SkillDataobject[0];
     this.keywordParameters = keywordParameters;
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      EvaluateabletoSkill[] formalParameters,
-      Map<String, EvaluateabletoSkill> keywordParameters) {
+      EvaluateableToSkill[] formalParameters,
+      Map<String, EvaluateableToSkill> keywordParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
     this.keywordParameters = keywordParameters;
@@ -61,26 +61,28 @@ public class SkillCommand implements EvaluateabletoSkill {
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateabletoSkill[] formalParameters) {
+      EvaluateableToSkill[] formalParameters) {
 
-    if (template.getNumOfFormalParameters() == formalParameters.length) {
+    if (template.getNumOfFormalParameters() < 0
+        || template.getNumOfFormalParameters() == formalParameters.length) {
       return new SkillCommand(template, formalParameters);
     }
+
     return null;
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateabletoSkill formalParameter) {
+      EvaluateableToSkill formalParameter) {
 
     if (template.getNumOfFormalParameters() == 1) {
       return new SkillCommand(template,
-          new EvaluateabletoSkill[] { formalParameter });
+          new EvaluateableToSkill[] { formalParameter });
     }
     return null;
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      Map<String, EvaluateabletoSkill> keywordParameters) {
+      Map<String, EvaluateableToSkill> keywordParameters) {
 
     for (String key : keywordParameters.keySet()) {
 
@@ -93,8 +95,8 @@ public class SkillCommand implements EvaluateabletoSkill {
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateabletoSkill[] formalParameters,
-      Map<String, EvaluateabletoSkill> keywordParameters) {
+      EvaluateableToSkill[] formalParameters,
+      Map<String, EvaluateableToSkill> keywordParameters) {
 
     for (String key : keywordParameters.keySet()) {
 
@@ -102,7 +104,9 @@ public class SkillCommand implements EvaluateabletoSkill {
         return null;
       }
     }
-    if (template.getNumOfFormalParameters() == formalParameters.length) {
+
+    if (template.getNumOfFormalParameters() < 0
+        || template.getNumOfFormalParameters() == formalParameters.length) {
       return new SkillCommand(template, formalParameters, keywordParameters);
     } else {
       return null;

@@ -1,6 +1,6 @@
 package edlab.eda.cadence.rc;
 
-public interface EvaluateabletoSkill {
+public interface EvaluateableToSkill {
 
   public String toSkill();
 }

@@ -11,7 +11,7 @@ public class SkillCommandTemplate {
 
   public SkillCommandTemplate(String name) {
     this.name = name;
-    this.numOfFormalParameters = 0;
+    this.numOfFormalParameters = -1;
   }
 
   public SkillCommandTemplate(String name, int numOfFormalParameters) {

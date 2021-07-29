@@ -1,22 +1,23 @@
 package edlab.eda.cadence.rc;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.GenericSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillString;
 
-public class Test {
+public class SlaveSession {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
-    SkillMasterSession session = new SkillMasterSession();
-
-    session.start();
+    SkillChildSession session = new SkillChildSession(new Scanner(System.in));
 
     SkillCommand command = SkillCommand.buildCommand(
         GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommands.OUTFILE),
-        new SkillDataobject[] { new SkillString("fuubar.txt") });
+        new SkillDataobject[] { new SkillString("fuubar2.txt") });
 
     SkillDataobject port = session.evaluate(command);
 
@@ -31,7 +32,9 @@ public class Test {
         new SkillDataobject[] { port });
 
     session.evaluate(command);
-
-    session.stop();
+    
+    
+   
   }
+
 }

@@ -6,7 +6,7 @@ import edlab.eda.cadence.rc.data.SkillDataobject;
 
 public class StringListener extends Listener {
 
-  public StringListener(Scanner scanner, SkillSlaveSession session) {
+  public StringListener(Scanner scanner, SkillChildSession session) {
     super(scanner, session);
     this.scanner.useDelimiter("& ");
   }
@@ -23,7 +23,7 @@ public class StringListener extends Listener {
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(null,
           xml);
 
-      session.react(obj);
+     // session.react(obj);
 
       try {
         Thread.sleep(1);

@@ -3,15 +3,15 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edlab.eda.cadence.rc.SkillMasterSession;
+import edlab.eda.cadence.rc.SkillSession;
 
 public class SkillComplexDataobject extends SkillDataobject {
 
-  private SkillMasterSession session;
+  private SkillSession session;
   private int identifier;
   public static final String TYPE_ID = "complex";
 
-  public SkillComplexDataobject(SkillMasterSession session, int identifier) {
+  public SkillComplexDataobject(SkillSession session, int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -21,15 +21,15 @@ public class SkillComplexDataobject extends SkillDataobject {
     return true;
   }
 
-  public SkillMasterSession getSession() {
+  public SkillSession getSession() {
     return session;
   }
 
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref " + SkillMasterSession.CDS_RC_GLOBAL + "."
-        + SkillMasterSession.CDS_RC_RETURN_VALUES + " " + this.identifier + ")";
+    return "(arrayref " + SkillSession.CDS_RC_GLOBAL + "."
+        + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier + ")";
   }
 
   @Override
