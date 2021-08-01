@@ -21,7 +21,7 @@ public class SkillSessionTest {
 
   @Test
   void test() throws MaxCommandLengthExeeded, EvaluationFailedException,
-      UnableToStartSkillSession {
+      UnableToStartSkillSession, IncorrectSyntaxException {
 
     SkillSession session = new SkillSession();
 
@@ -35,14 +35,12 @@ public class SkillSessionTest {
     writeFile(session);
     addUpValuesInList(session);
 
-    if (!session.stop()) {
-      fail("Unable to stop session");
-    }
+    session.stop();
   }
 
   private static void writeFile(SkillSession session)
       throws MaxCommandLengthExeeded, UnableToStartSkillSession,
-      EvaluationFailedException {
+      EvaluationFailedException, IncorrectSyntaxException {
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
@@ -81,7 +79,7 @@ public class SkillSessionTest {
 
   private static void addUpValuesInList(SkillSession session)
       throws MaxCommandLengthExeeded, UnableToStartSkillSession,
-      EvaluationFailedException {
+      EvaluationFailedException, IncorrectSyntaxException {
 
     SkillList list = new SkillList();
 

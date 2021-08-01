@@ -54,8 +54,8 @@
 
 (putpropq 
   (arrayref EDcdsRC.session "main")
-  (makeTable "returnValues" nil)
-  returnValues
+  (makeTable "retVals" nil)
+  retVals
 );putpropq
 
 (putpropq
@@ -273,12 +273,12 @@
             
               (foreach
                 id 
-                (getq (arrayref EDcdsRC.session session) returnValues)->?
+                (getq (arrayref EDcdsRC.session session) retVals)->?
 
                 (when
                   (equal 
                     (arrayref 
-                      (getq (arrayref EDcdsRC.session session) returnValues)
+                      (getq (arrayref EDcdsRC.session session) retVals)
                       id
                     );arrayref
                     val
@@ -291,7 +291,7 @@
 
                 (setq idx  (getq (arrayref EDcdsRC.session session) maxIndex))
                 (setarray
-                  (getq (arrayref EDcdsRC.session session) returnValues)
+                  (getq (arrayref EDcdsRC.session session) retVals)
                   (getq (arrayref EDcdsRC.session session) maxIndex)
                   val
                 );setarray

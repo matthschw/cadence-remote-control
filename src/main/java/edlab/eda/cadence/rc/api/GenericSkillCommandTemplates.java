@@ -1,8 +1,14 @@
 package edlab.eda.cadence.rc.api;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+/**
+ * Generic SKill-Command templates
+ *
+ */
 public class GenericSkillCommandTemplates {
 
   public static final String SET = "set";
@@ -27,14 +33,18 @@ public class GenericSkillCommandTemplates {
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
   public static final String SET_PROMPTS = "setPrompts";
-  
-  
+
+  public static final String ED_CDS_RC_FOMAT_COMMAND = "EDcdsRCfmtCmd";
+  public static final String ED_CDS_RC_BUILD_XML = "EDcdsRCbuildXML";
+  public static final String ED_CDS_RC_ESCPAE_XML = "EDcdsRCescapeXML";
 
   private static GenericSkillCommandTemplates commandTemplates = null;
 
   private Map<String, SkillCommandTemplate> templates;
 
   private GenericSkillCommandTemplates() {
+
+    Set<String> keywordParameters;
 
     templates = new HashMap<String, SkillCommandTemplate>();
 
@@ -77,8 +87,35 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
     templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
+
+    keywordParameters = new HashSet<String>();
+    keywordParameters.add("returnTyp");
+
+    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND,
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND, 1,
+            keywordParameters));
+
+    keywordParameters = new HashSet<String>();
+    keywordParameters.add("session");
+
+    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML,
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML, 1,
+            keywordParameters));
+
+    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML, 1));
+
   }
 
+  /**
+   * Get a {@link SkillCommandTemplate} by name
+   * 
+   * @param name Name of the command
+   * @return template when existing,<code>null</code> otherwise
+   */
   public static SkillCommandTemplate getTemplate(String name) {
     if (commandTemplates == null) {
       commandTemplates = new GenericSkillCommandTemplates();

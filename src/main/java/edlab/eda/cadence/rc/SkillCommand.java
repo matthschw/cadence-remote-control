@@ -43,7 +43,7 @@ public class SkillCommand implements EvaluateableToSkill {
     this.formalParameters = formalParameters;
     this.keywordParameters = keywordParameters;
   }
-  
+
   @Override
   public String toSkill() {
     String retval = "(" + template.getName();
@@ -62,56 +62,103 @@ public class SkillCommand implements EvaluateableToSkill {
   }
 
   /**
+   * Create a SKILL command from a given template
    * 
-   * @param template
-   * @return
+   * @param template SKILL-Command template
+   * @return SkillCommand
+   * @throws IncorrectSyntaxException
    */
-  public static SkillCommand buildCommand(SkillCommandTemplate template) {
-    return new SkillCommand(template);
+  public static SkillCommand buildCommand(SkillCommandTemplate template)
+      throws IncorrectSyntaxException {
+    if (template.getNumOfFormalParameters() > 0) {
+      throw new IncorrectSyntaxException(0,
+          template.getNumOfFormalParameters());
+    } else {
+      return new SkillCommand(template);
+    }
   }
 
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @param template         SKILL-Command template
+   * @param formalParameters list of formal parameters
+   * @return SkillCommand
+   * @throws IncorrectSyntaxException
+   */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateableToSkill[] formalParameters) {
+      EvaluateableToSkill[] formalParameters) throws IncorrectSyntaxException {
 
     if (template.getNumOfFormalParameters() < 0
         || template.getNumOfFormalParameters() == formalParameters.length) {
       return new SkillCommand(template, formalParameters);
+    } else {
+      throw new IncorrectSyntaxException(formalParameters.length,
+          template.getNumOfFormalParameters());
     }
-
-    return null;
   }
 
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @param template         SKILL-Command template
+   * @param formalParameters formal parameter
+   * @return SkillCommand
+   * @throws IncorrectSyntaxException
+   */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateableToSkill formalParameter) {
+      EvaluateableToSkill formalParameter) throws IncorrectSyntaxException {
 
-    if (template.getNumOfFormalParameters() == 1) {
+    if (template.getNumOfFormalParameters() == 1
+        || template.getNumOfFormalParameters() < 0) {
       return new SkillCommand(template,
           new EvaluateableToSkill[] { formalParameter });
+    } else {
+      throw new IncorrectSyntaxException(1,
+          template.getNumOfFormalParameters());
     }
-    return null;
   }
 
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @param template          SKILL-Command template
+   * @param keywordParameters map of keyword parameters
+   * @return SkillCommand
+   * @throws IncorrectSyntaxException
+   */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      Map<String, EvaluateableToSkill> keywordParameters) {
+      Map<String, EvaluateableToSkill> keywordParameters)
+      throws IncorrectSyntaxException {
 
     for (String key : keywordParameters.keySet()) {
 
       if (!template.getKeywordParameters().contains(key)) {
-        return null;
+        throw new IncorrectSyntaxException(key);
       }
     }
 
     return new SkillCommand(template, keywordParameters);
   }
 
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @param template          SKILL-Command template
+   * @param formalParameters  list of formal parameters
+   * @param keywordParameters map of keyword parameters
+   * @return SkillCommand
+   * @throws IncorrectSyntaxException
+   */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
       EvaluateableToSkill[] formalParameters,
-      Map<String, EvaluateableToSkill> keywordParameters) {
+      Map<String, EvaluateableToSkill> keywordParameters)
+      throws IncorrectSyntaxException {
 
     for (String key : keywordParameters.keySet()) {
 
       if (!template.getKeywordParameters().contains(key)) {
-        return null;
+        throw new IncorrectSyntaxException(key);
       }
     }
 
@@ -119,7 +166,8 @@ public class SkillCommand implements EvaluateableToSkill {
         || template.getNumOfFormalParameters() == formalParameters.length) {
       return new SkillCommand(template, formalParameters, keywordParameters);
     } else {
-      return null;
+      throw new IncorrectSyntaxException(formalParameters.length,
+          template.getNumOfFormalParameters());
     }
   }
 }

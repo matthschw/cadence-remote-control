@@ -14,22 +14,48 @@ import org.w3c.dom.NodeList;
 import edlab.eda.cadence.rc.EvaluateableToSkill;
 import edlab.eda.cadence.rc.SkillSession;
 
+/**
+ * Skill Dataobject
+ *
+ */
 public abstract class SkillDataobject implements EvaluateableToSkill {
 
+  /**
+   * Identifier of the type of the {@link SkillDataobject} in a XML
+   */
   public static final String TYPE_ID = "type";
 
-  public String toSkill() {
+  /**
+   * 
+   * @return <code>true</true> when the {@link SkillDataobject} is true wrt. to
+   *         SKILL syntax, <code>false</true> otherwise
+   */
+  public abstract boolean isTrue();
 
+  @Override
+  public String toSkill() {
     return this.toSkillHierarchical(0);
   }
 
-  public abstract boolean isTrue();
+  /**
+   * Convert a {@link SkillDataobject} to a SKILL representation while taking
+   * hierarchical syntax rules into account
+   * 
+   * @param depth Hierarchy in which the {@link SkillDataobject} is instantiated
+   * @return SKILL representation of a {@link SkillDataobject}
+   */
+  abstract String toSkillHierarchical(int depth);
 
-  protected abstract String toSkillHierarchical(int depth);
+  abstract Element traverseSkillDataobjectForXMLGeneration(String name,
+      Document document);
 
-  protected abstract Element traverseSkillDataobjectForXMLGeneration(
-      String name, Document document);
-
+  /**
+   * Create a {@link SkillDataobject} from a XML
+   * 
+   * @param session Corresponding {@link SkillSession}
+   * @param xml     XML as string to be parsed
+   * @return SkillDataobject
+   */
   public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
       String xml) {
 
@@ -55,6 +81,14 @@ public abstract class SkillDataobject implements EvaluateableToSkill {
 
   }
 
+  /**
+   * Traverse a node from a session's return value for creating a
+   * {@link SkillDataobject}
+   * 
+   * @param session Corresponding session
+   * @param node    Node in the XML
+   * @return SkillDataobject
+   */
   private static SkillDataobject traverseNode(SkillSession session, Node node) {
 
     SkillDataobject skillDataobject;
@@ -137,6 +171,13 @@ public abstract class SkillDataobject implements EvaluateableToSkill {
     return skillDataobject;
   }
 
+  /**
+   * Check whether a {@link Node} is valid with the here utilized protocol
+   * 
+   * @param node to be checked
+   * @return <code>true</true> when the node is valid, <code>false</true>
+   *         otherwise
+   */
   private static boolean isValidNode(Node node) {
 
     if (node.hasAttributes()) {
@@ -147,9 +188,7 @@ public abstract class SkillDataobject implements EvaluateableToSkill {
       } else {
         return false;
       }
-
     } else
       return false;
   }
-
 }

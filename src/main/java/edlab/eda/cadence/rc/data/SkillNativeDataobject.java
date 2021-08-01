@@ -14,8 +14,20 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
+/**
+ * SkillNativeDataobject, where the entire data is transferred
+ *
+ */
 public abstract class SkillNativeDataobject extends SkillDataobject {
-  public String writeSkillDataobjectToXML(String path) {
+
+  /**
+   * Create a XML of a {@link SkillNativeDataobject}
+   * 
+   * @param path Path where the XML is created
+   * @return <code>true</code> when the XML was created successfully,
+   *         <code>false</code> otherwise
+   */
+  public boolean writeSkillDataobjectToXML(String path) {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder;
@@ -35,16 +47,14 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
 
       transformer.transform(domSource, streamResult);
 
+      return true;
+
     } catch (ParserConfigurationException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      return false;
     } catch (TransformerConfigurationException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      return false;
     } catch (TransformerException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      return false;
     }
-    return path;
   }
 }

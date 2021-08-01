@@ -1,5 +1,9 @@
 package edlab.eda.cadence.rc.data;
 
+/**
+ * Representation of a Boolean Value in SKILL.
+ *
+ */
 public abstract class SkillBoolean extends SkillNativeDataobject {
 
   protected boolean bool;
@@ -13,7 +17,6 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
 
   @Override
   public boolean isTrue() {
-    // TODO Auto-generated method stub
     return bool;
   }
 }
