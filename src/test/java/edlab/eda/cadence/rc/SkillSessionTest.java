@@ -1,6 +1,8 @@
 package edlab.eda.cadence.rc;
 
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
+import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
+import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
 import edlab.eda.cadence.rc.data.SkillList;

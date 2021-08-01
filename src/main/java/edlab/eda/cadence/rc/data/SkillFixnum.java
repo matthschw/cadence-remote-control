@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a Fixnum
+ * Representation of a SKILL-Fixnum
  *
  */
 public class SkillFixnum extends SkillNumber {

@@ -3,7 +3,7 @@ package edlab.eda.cadence.rc.data;
 import java.math.BigDecimal;
 
 /**
- * Representation of a Number
+ * Representation of a native SKILL-Number
  *
  */
 public abstract class SkillNumber extends SkillBoolean {

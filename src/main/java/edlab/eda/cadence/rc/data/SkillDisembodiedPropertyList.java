@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a Disembodied Property List
+ * Representation of a native SKILL Disembodied Property List
  *
  */
 public class SkillDisembodiedPropertyList extends SkillBoolean {

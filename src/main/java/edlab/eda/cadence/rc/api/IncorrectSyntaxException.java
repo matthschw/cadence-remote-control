@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.api;
 
 public class IncorrectSyntaxException extends Exception {
 

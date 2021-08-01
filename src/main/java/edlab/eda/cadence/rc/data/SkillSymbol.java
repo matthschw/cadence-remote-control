@@ -4,7 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * SkillSymbol
+ * Representation of a SKILL-Symbol
  *
  */
 public class SkillSymbol extends SkillBoolean {

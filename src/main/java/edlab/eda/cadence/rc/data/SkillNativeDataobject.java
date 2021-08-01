@@ -15,7 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 /**
- * SkillNativeDataobject, where the entire data is transferred
+ * Representation of a native SKILL-Object
  *
  */
 public abstract class SkillNativeDataobject extends SkillDataobject {

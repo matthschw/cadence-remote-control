@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * SkillList
+ * Representation of a SKILL-List
  *
  */
 public class SkillList extends SkillBoolean

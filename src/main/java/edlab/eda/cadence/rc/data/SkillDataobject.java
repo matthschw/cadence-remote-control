@@ -15,7 +15,7 @@ import edlab.eda.cadence.rc.EvaluateableToSkill;
 import edlab.eda.cadence.rc.SkillSession;
 
 /**
- * Skill Dataobject
+ * Representation of a native SKILL-Dataobject
  *
  */
 public abstract class SkillDataobject implements EvaluateableToSkill {

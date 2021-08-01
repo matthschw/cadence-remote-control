@@ -1,9 +1,9 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.api;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import edlab.eda.cadence.rc.api.SkillCommandTemplate;
+import edlab.eda.cadence.rc.EvaluateableToSkill;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
 /**

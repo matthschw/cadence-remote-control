@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a Flonum
+ * Representation of a SKILL-Flonum
  *
  */
 public class SkillFlonum extends SkillNumber {
