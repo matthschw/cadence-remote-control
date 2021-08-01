@@ -1,6 +1,6 @@
 package edlab.eda.cadence.rc;
 
-class EvaluationFailedException extends Exception {
+public class EvaluationFailedException extends Exception {
 
   private static final long serialVersionUID = -1887101604969243884L;
 
