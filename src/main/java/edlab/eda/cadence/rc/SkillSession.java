@@ -224,7 +224,11 @@ public class SkillSession {
           }
 
         } else {
-          data = null;
+
+          SkillString errorstring = (SkillString) top.getProperty("error");
+
+          throw new EvaluationFailedException(skillCommand,
+              errorstring.getString());
         }
       } catch (Exception e) {
         throw new EvaluationFailedException(skillCommand, xml);

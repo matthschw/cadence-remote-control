@@ -77,7 +77,6 @@ public class SkillSessionTest {
     if (file.exists()) {
       file.delete();
     }
-
   }
 
   private static void addUpValuesInList(SkillSession session)
