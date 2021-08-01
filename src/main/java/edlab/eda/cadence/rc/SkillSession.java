@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
-import edlab.eda.cadence.rc.api.GenericSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
@@ -19,6 +18,10 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
+/**
+ * Session for communicate with an interactive session in Cadence-SKILL syntax
+ *
+ */
 public class SkillSession {
 
   private Process process = null;
@@ -50,6 +53,8 @@ public class SkillSession {
   private static final Matcher<Result> NEXT_COMMAND = Matchers.regexp("\n>");
 
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
+  public static final String CDS_RC_SESSIONS = "session";
+  public static final String CDS_RC_SESSION = "main";
   public static final String CDS_RC_RETURN_VALUES = "returnValues";
 
   public SkillSession() {
@@ -62,18 +67,39 @@ public class SkillSession {
     this.workingDir = workingDir;
   }
 
+  /**
+   * Set the timeout for the session. The session will terminate when no action
+   * is performed (command is sent) or the session does not respond in the
+   * specified time.
+   * 
+   * @param duration Timeout
+   * @param unit     Time Unit to be used
+   * @return this
+   */
   public SkillSession setTimeout(long duration, TimeUnit unit) {
     this.timeoutDuration = duration;
     this.timeoutTimeUnit = unit;
     return this;
   }
 
+  /**
+   * Specify the command to be used to invoke the session
+   * 
+   * @param command
+   * @return this
+   */
   public SkillSession setCommand(String command) {
     this.command = command;
     return this;
   }
 
-  public boolean start() throws UnableToStartSkillSession {
+  /**
+   * Start the session
+   * 
+   * @return this
+   * @throws UnableToStartSkillSession When starting of the subprocess failed
+   */
+  public SkillSession start() throws UnableToStartSkillSession {
 
     if (!isActive()) {
       try {
@@ -97,16 +123,16 @@ public class SkillSession {
 
         this.expect.send(SkillCommand.buildCommand(
             GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommands.SET_PROMPTS),
+                .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS),
             new EvaluateableToSkill[] { new SkillString(PROMPT),
                 new SkillString(PROMPT) })
             .toSkill() + "\n");
         expect.expect(nextCommand);
 
-        this.expect.send(SkillCommand
-            .buildCommand(GenericSkillCommandTemplates.getTemplate(
-                GenericSkillCommands.LOAD), new SkillString(PATH_TO_SKILL))
-            .toSkill() + "\n");
+        this.expect.send(SkillCommand.buildCommand(
+            GenericSkillCommandTemplates
+                .getTemplate(GenericSkillCommandTemplates.LOAD),
+            new SkillString(PATH_TO_SKILL)).toSkill() + "\n");
         expect.expect(nextCommand);
 
         this.lastActivity = new Date();
@@ -125,9 +151,9 @@ public class SkillSession {
         throw new UnableToStartSkillSession(this.command, workingDir);
       }
 
-      return true;
+      return this;
     } else {
-      return true;
+      return this;
     }
   }
 
@@ -139,6 +165,15 @@ public class SkillSession {
     }
   }
 
+  /**
+   * Evaluate a Skill Command in the session
+   * 
+   * @param command Command to be evaluated
+   * @return Skill Dataobject that is returned from the Session
+   * @throws MaxCommandLengthExeeded
+   * @throws UnableToStartSkillSession
+   * @throws EvaluationFailedException
+   */
   public SkillDataobject evaluate(SkillCommand command)
       throws MaxCommandLengthExeeded, UnableToStartSkillSession,
       EvaluationFailedException {
@@ -156,7 +191,7 @@ public class SkillSession {
 
       SkillCommand outer = SkillCommand.buildCommand(controlCommand,
           SkillCommand.buildCommand(GenericSkillCommandTemplates
-              .getTemplate(GenericSkillCommands.ERRSET), command));
+              .getTemplate(GenericSkillCommandTemplates.ERRSET), command));
 
       String skillCommand = outer.toSkill();
 
@@ -206,15 +241,18 @@ public class SkillSession {
     return data;
   }
 
+  /**
+   * Stop the session
+   * 
+   * @return
+   */
   public boolean stop() {
 
     this.watchdog.kill();
     this.watchdog = null;
 
-    communicate(SkillCommand
-        .buildCommand(
-            GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.EXIT))
-        .toSkill());
+    communicate(SkillCommand.buildCommand(GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.EXIT)).toSkill());
 
     try {
       this.expect.close();
@@ -248,7 +286,7 @@ public class SkillSession {
     return this.lastActivity;
   }
 
-  public static String readFile(File file) {
+  private static String readFile(File file) {
 
     Scanner scanner;
     String rtn = "";
@@ -264,7 +302,6 @@ public class SkillSession {
       return rtn;
 
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
       return null;
     }
   }

@@ -6,6 +6,10 @@ import java.util.Map;
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
+/**
+ * Class which represents a Skill-Command
+ *
+ */
 public class SkillCommand implements EvaluateableToSkill {
 
   private SkillCommandTemplate template;
@@ -39,11 +43,8 @@ public class SkillCommand implements EvaluateableToSkill {
     this.formalParameters = formalParameters;
     this.keywordParameters = keywordParameters;
   }
-
-  public static SkillCommand buildCommand(SkillCommandTemplate template) {
-    return new SkillCommand(template);
-  }
-
+  
+  @Override
   public String toSkill() {
     String retval = "(" + template.getName();
 
@@ -58,6 +59,15 @@ public class SkillCommand implements EvaluateableToSkill {
     retval += ")";
 
     return retval;
+  }
+
+  /**
+   * 
+   * @param template
+   * @return
+   */
+  public static SkillCommand buildCommand(SkillCommandTemplate template) {
+    return new SkillCommand(template);
   }
 
   public static SkillCommand buildCommand(SkillCommandTemplate template,

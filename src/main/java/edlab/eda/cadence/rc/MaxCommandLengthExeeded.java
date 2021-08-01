@@ -1,6 +1,6 @@
 package edlab.eda.cadence.rc;
 
-public class MaxCommandLengthExeeded extends Exception {
+class MaxCommandLengthExeeded extends Exception {
 
   private static final long serialVersionUID = 5929631070701197449L;
 

@@ -2,7 +2,7 @@ package edlab.eda.cadence.rc;
 
 import java.io.File;
 
-public class UnableToStartSkillSession extends Exception {
+class UnableToStartSkillSession extends Exception {
 
   private static final long serialVersionUID = -5809804414514574838L;
 

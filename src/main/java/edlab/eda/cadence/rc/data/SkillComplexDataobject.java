@@ -28,8 +28,10 @@ public class SkillComplexDataobject extends SkillDataobject {
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref " + SkillSession.CDS_RC_GLOBAL + "."
-        + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier + ")";
+    return "(arrayref (arrayref " + SkillSession.CDS_RC_GLOBAL + "."
+        + SkillSession.CDS_RC_SESSIONS + " " + SkillSession.CDS_RC_SESSION
+        + ")->" + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier
+        + ")";
   }
 
   @Override

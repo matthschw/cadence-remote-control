@@ -1,7 +1,6 @@
 package edlab.eda.cadence.rc;
 
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
-import edlab.eda.cadence.rc.api.GenericSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
 import edlab.eda.cadence.rc.data.SkillList;
@@ -21,12 +20,16 @@ public class SkillSessionTest {
   private static String FILE_NAME = "fuubar.txt";
 
   @Test
-  void test() throws MaxCommandLengthExeeded, UnableToStartSkillSession,
-      EvaluationFailedException {
+  void test() throws MaxCommandLengthExeeded, EvaluationFailedException,
+      UnableToStartSkillSession {
+
     SkillSession session = new SkillSession();
 
-    if (!session.start()) {
+    try {
+      session.start();
+    } catch (UnableToStartSkillSession e) {
       fail("Unable to start session");
+      session.stop();
     }
 
     writeFile(session);
@@ -46,19 +49,23 @@ public class SkillSessionTest {
       file.delete();
     }
 
-    SkillCommand command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.OUTFILE),
-        new SkillString(FILE_NAME));
+    SkillCommand command = SkillCommand
+        .buildCommand(
+            GenericSkillCommandTemplates
+                .getTemplate(GenericSkillCommandTemplates.OUTFILE),
+            new SkillString(FILE_NAME));
 
     SkillDataobject port = session.evaluate(command);
 
     command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.FPRINTF),
+        GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.FPRINTF),
         new SkillDataobject[] { port, new SkillString("Heinz Banane") });
     session.evaluate(command);
 
     command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.CLOSE),
+        GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.CLOSE),
         new SkillDataobject[] { port });
 
     session.evaluate(command);
@@ -66,9 +73,11 @@ public class SkillSessionTest {
     if (!file.exists()) {
       fail("File was not generated");
     }
+
     if (file.exists()) {
       file.delete();
     }
+
   }
 
   private static void addUpValuesInList(SkillSession session)
@@ -89,7 +98,8 @@ public class SkillSessionTest {
     }
 
     SkillCommand command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates.getTemplate(GenericSkillCommands.APPLY),
+        GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.APPLY),
         new SkillDataobject[] { new SkillSymbol("plus"), list });
 
     SkillDataobject retval = session.evaluate(command);
