@@ -5,13 +5,29 @@ import org.w3c.dom.Element;
 
 import edlab.eda.cadence.rc.SkillSession;
 
+/**
+ * SkillComplexDataobject - This object is a reference to an object in the
+ * {@link SkillSession}
+ *
+ */
 public class SkillComplexDataobject extends SkillDataobject {
 
   private SkillSession session;
   private int identifier;
+
+  /**
+   * Type-Identifier in XML
+   */
   public static final String TYPE_ID = "complex";
 
-  public SkillComplexDataobject(SkillSession session, int identifier) {
+  /**
+   * Create a {@link SkillComplexDataobject}
+   * 
+   * @param session    {@link SkillSession} where the
+   *                   {@link SkillComplexDataobject} is referenced
+   * @param identifier Identifier of the {@link SkillComplexDataobject}
+   */
+  SkillComplexDataobject(SkillSession session, int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -21,6 +37,11 @@ public class SkillComplexDataobject extends SkillDataobject {
     return true;
   }
 
+  /**
+   * Get the session where the {@link SkillComplexDataobject} is referenced
+   * 
+   * @return session
+   */
   public SkillSession getSession() {
     return session;
   }
@@ -37,8 +58,6 @@ public class SkillComplexDataobject extends SkillDataobject {
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
       Document document) {
-    // TODO Auto-generated method stub
     return null;
   }
-
 }

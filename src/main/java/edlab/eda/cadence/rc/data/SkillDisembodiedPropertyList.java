@@ -8,8 +8,15 @@ import java.util.Set;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Representation of a Disembodied Property List
+ *
+ */
 public class SkillDisembodiedPropertyList extends SkillBoolean {
 
+  /**
+   * Type-Identifier in XML
+   */
   public static final String TYPE_ID = "dpl";
 
   private Map<String, SkillDataobject> properties;
