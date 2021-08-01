@@ -5,6 +5,7 @@ import edlab.eda.cadence.rc.api.GenericSkillCommands;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
 import edlab.eda.cadence.rc.data.SkillList;
+import edlab.eda.cadence.rc.data.SkillNumber;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
 
@@ -60,7 +61,7 @@ public class SkillSessionTest {
     session.evaluate(command);
 
     if (!file.exists()) {
-      fail("File was not genrated");
+      fail("File was not generated");
     }
     if (file.exists()) {
       file.delete();
@@ -88,10 +89,10 @@ public class SkillSessionTest {
 
     SkillDataobject retval = session.evaluate(command);
 
-    if (retval instanceof SkillFixnum) {
+    if (retval instanceof SkillNumber) {
 
-      SkillFixnum num = (SkillFixnum) retval;
-      
+      SkillNumber num = (SkillNumber) retval;
+
       if (num.getValue().intValue() != sum) {
 
         fail("Summation incorrect (" + num.getValue().intValue() + "!=" + sum

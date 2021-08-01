@@ -13,7 +13,11 @@ Clone this repository:
 $ git clone https://github.com/matthschw/cadence-remote-control.git
 ```
 
-`cadence-remote-contro` into the directory.
+`cd cadence-remote-control` into the directory and install it
+
+```bash
+mvn install
+```
 
 ## Setup
 Add the dependency to your project
@@ -22,7 +26,7 @@ Add the dependency to your project
 <dependency>
   <groupId>edlab.eda</groupId>
   <artifactId>cadence.rc</artifactId>
-  <version>1.0.1</version>
+  <version>0.0.1</version>
 </dependency>
 ```
 
@@ -44,10 +48,11 @@ This class is used when the Cadence-Tool is started and controlled from Java.
 This class is used when Java is started as Subprocess (IPC) in
 Virtuoso.
 
+*TO BE IMPLEMENTED*
 
 # TODO
 
-- [ ] Add relevant commands as templates
+- [ ] Add all relevant commands as templates
 - [ ] Add *SkillChildSession*
 
 # Derivatives

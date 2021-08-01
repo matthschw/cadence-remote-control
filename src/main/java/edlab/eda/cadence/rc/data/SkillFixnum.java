@@ -5,32 +5,21 @@ import java.math.BigDecimal;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillFixnum extends SkillBoolean {
+public class SkillFixnum extends SkillNumber {
 
   public static final String TYPE_ID = "fixnum";
-  private int fixnum;
 
   public SkillFixnum(int fixnum) {
-    super(true);
-    this.fixnum = fixnum;
+    super(new BigDecimal(fixnum));
   }
 
   public int getFixnum() {
-    return this.fixnum;
+    return this.number.intValue();
   }
 
   public int setFixum(int fixnum) {
-    return this.fixnum = fixnum;
-  }
-
-  public BigDecimal getValue() {
-    return new BigDecimal(this.fixnum);
-  }
-
-  @Override
-  protected String toSkillHierarchical(int depth) {
-
-    return "" + this.fixnum;
+    this.number = new BigDecimal(fixnum);
+    return this.number.intValue();
   }
 
   @Override
@@ -38,7 +27,7 @@ public class SkillFixnum extends SkillBoolean {
       Document document) {
     Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
-    element.setTextContent(Integer.toString(this.fixnum));
+    element.setTextContent(this.number.toString());
     return element;
   }
 

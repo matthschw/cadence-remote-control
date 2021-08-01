@@ -2,9 +2,22 @@ package edlab.eda.cadence.rc.data;
 
 import java.math.BigDecimal;
 
-public abstract class SkillNumber extends SkillDataobject {
+public abstract class SkillNumber extends SkillBoolean {
 
-  public abstract String toSkillHierarchical(int depth);
+  protected BigDecimal number;
 
-  public abstract BigDecimal getValue();
+  public SkillNumber(BigDecimal number) {
+    super(true);
+    this.number = number;
+  }
+
+  @Override
+  protected String toSkillHierarchical(int depth) {
+
+    return "" + this.number.toString();
+  }
+
+  public BigDecimal getValue() {
+    return this.number;
+  }
 }
