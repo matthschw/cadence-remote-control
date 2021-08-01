@@ -21,7 +21,8 @@ public class SkillSessionTest {
   private static String FILE_NAME = "fuubar.txt";
 
   @Test
-  void test() {
+  void test() throws MaxCommandLengthExeeded, UnableToStartSkillSession,
+      EvaluationFailedException {
     SkillSession session = new SkillSession();
 
     if (!session.start()) {
@@ -36,7 +37,9 @@ public class SkillSessionTest {
     }
   }
 
-  private static void writeFile(SkillSession session) {
+  private static void writeFile(SkillSession session)
+      throws MaxCommandLengthExeeded, UnableToStartSkillSession,
+      EvaluationFailedException {
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
@@ -68,7 +71,9 @@ public class SkillSessionTest {
     }
   }
 
-  private static void addUpValuesInList(SkillSession session) {
+  private static void addUpValuesInList(SkillSession session)
+      throws MaxCommandLengthExeeded, UnableToStartSkillSession,
+      EvaluationFailedException {
 
     SkillList list = new SkillList();
 

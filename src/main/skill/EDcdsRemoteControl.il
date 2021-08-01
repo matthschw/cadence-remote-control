@@ -1,12 +1,88 @@
-(setPrompts
-  "[ED-CDS-RC]"
-  "[ED-CDS-RC]"
-);setPrompts
+/*=============================================================================*
+*
+* EDcdsRemoteControl
+*
+* This file provides Cadence SKILL functions that are used for creating
+* a remote-control for Cadence-Tools in Java.
+*
+* Authors: 
+* - Matthias Schweikardt
+*
+* Lint: IQ score is 100 (best is 100)
+*       {sklint ?file "EDcdsRemoteControl.il"}
+*
+* Globals:
+* - Symbols:
+*    o EDcdsRC
+* - Functions:
+*    o EDcdsRCfmtCmd
+*    o EDcdsRCbuildXML
+*    o EDcdsRCescapeXML
+*
+* Copyright (C) 2021, Electronics & Drives 
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see 
+* [https://www.gnu.org/licenses/](https://www.gnu.org/licenses).
+*
+*=============================================================================*/
 
-(putpropq (quote EDcdsRC) (makeTable "returnValues" nil) returnValues)
-(putpropq (quote EDcdsRC) 0 maxIndex)
 
-(defun EDcdsRCfmtCmd (result)
+;SETUP
+; Create global symbol EDcdsRC
+(putpropq
+  (quote EDcdsRC)
+  (makeTable "session" nil)
+  session
+);putpropq
+
+(setarray
+  EDcdsRC.session
+  "main"
+  (list nil)
+);setarray
+
+(putpropq 
+  (arrayref EDcdsRC.session "main")
+  (makeTable "returnValues" nil)
+  returnValues
+);putpropq
+
+(putpropq
+  (arrayref EDcdsRC.session "main")
+  0
+  maxIndex
+);putpropq
+
+
+;FUNCTION
+; EDcdsRCfmtCmd
+;
+; Format the return value of a SKILL-Function to an XML-Representation
+;
+;Parameters:
+; result            return value of a SKILL function 
+;
+; ?returnType       string, either "print" or "string". When "print" is 
+;                     provided, the XML is printed to the XIW, when "string"
+;                     is provided, the string is returned
+;                     
+; ?session          identifier of the session
+;
+;Return:
+; t/string       XML-Reference
+;
+(defun EDcdsRCfmtCmd (result @key (returnType "print") (session "main"))
 
   (let (retval data (maxLength 4000) retstring port file)
 
@@ -17,7 +93,7 @@
       (putpropq retval t valid)
       (putpropq retval (car result) data)
 
-      (setq retstring (EDcdsRCbuildXML retval))
+      (setq retstring (EDcdsRCbuildXML retval ?session session))
 
       (when (geqp (strlen retstring) maxLength)
 
@@ -28,23 +104,41 @@
 
         (putpropq retval nil data)
 
-        (setq retstring (EDcdsRCbuildXML retval))
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
       );when
 
     else
       (putpropq retval nil valid)
       (putpropq retval errset.errset error)
-      (setq retstring (EDcdsRCbuildXML retval))
+      (setq retstring (EDcdsRCbuildXML retval ?session session))
     );if
 
-    (printf retstring)
+    (if (equal returnType "print") then
+      (printf retstring)
+    else
+      retstring
+    );if
   );let
 );defun
 
 
-(defun EDcdsRCbuildXML (content)
+;FUNCTION
+; EDcdsRCbuildXML
+;
+; Build the XML-Representation of a SKILL-Dataobject
+;
+;Parameters:
+; content           SKILL-Dataobject
+;                     
+; ?session          identifier of the session
+;
+;Return:
+; string            XML
+;
+(defun EDcdsRCbuildXML (content @key (session "main"))
 
   (let (fTraverseDataStructure lBuildList (sRoot "root"))
+
     (setq lBuildList (tconc nil nil))
 
     (tconc 
@@ -177,10 +271,16 @@
 
               (setq idx -1)
             
-              (foreach id EDcdsRC.returnValues->?
+              (foreach
+                id 
+                (getq (arrayref EDcdsRC.session session) returnValues)->?
+
                 (when
                   (equal 
-                    (arrayref EDcdsRC.returnValues id)
+                    (arrayref 
+                      (getq (arrayref EDcdsRC.session session) returnValues)
+                      id
+                    );arrayref
                     val
                   );equal
                   (setq idx id)
@@ -188,15 +288,20 @@
               );foreach
 
               (when (equal idx -1)
-                (setq idx EDcdsRC.maxIndex)
+
+                (setq idx  (getq (arrayref EDcdsRC.session session) maxIndex))
                 (setarray
-                  EDcdsRC.returnValues
-                  EDcdsRC.maxIndex
+                  (getq (arrayref EDcdsRC.session session) returnValues)
+                  (getq (arrayref EDcdsRC.session session) maxIndex)
                   val
                 );setarray
-                EDcdsRC.maxIndex = EDcdsRC.maxIndex +1
+
+                (putpropq
+                  (arrayref EDcdsRC.session session)
+                  (plus (getq (arrayref EDcdsRC.session session) maxIndex) 1)
+                  maxIndex
+                );putpropq
               );when
-            
             
               (tconc
                 lBuildList
@@ -226,6 +331,17 @@
 );defun
 
 
+;FUNCTION
+; EDcdsRCescapeXML
+;
+; Escape a string s.t. it matches the XML-Syntax
+;
+;Parameters:
+; sSequence         String
+;
+;Return:
+; string            escaped string
+;
 (defun EDcdsRCescapeXML (sSequence)
   (buildString
     (foreach mapcar x (parseString sSequence "")

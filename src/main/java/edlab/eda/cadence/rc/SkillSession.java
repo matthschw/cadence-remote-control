@@ -43,7 +43,8 @@ public class SkillSession {
 
   private static final int MAX_CMD_LENGTH = 8000;
 
-  private static final String PROMPT = "\\[ED-CDS-RC\\]";
+  private static final String PROMPT = "[ED-CDS-RC]";
+  private static final String PROMPT_REGEX = "\\[ED-CDS-RC\\]";
 
   private static final File DEFAULT_WORKING_DIR = new File("./");
   private static final Matcher<Result> NEXT_COMMAND = Matchers.regexp("\n>");
@@ -72,7 +73,7 @@ public class SkillSession {
     return this;
   }
 
-  public boolean start() {
+  public boolean start() throws UnableToStartSkillSession {
 
     if (!isActive()) {
       try {
@@ -82,25 +83,32 @@ public class SkillSession {
       } catch (IOException e) {
         System.err.println(
             "Unable to execute session" + " with error:\n" + e.getMessage());
-        return false;
+
+        throw new UnableToStartSkillSession(this.command, workingDir);
       }
 
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
-
         expect.expect(nextCommand);
-        this.nextCommand = Matchers.regexp("\n" + PROMPT);
 
-        SkillString skillFile = new SkillString(PATH_TO_SKILL);
+        this.nextCommand = Matchers.regexp("\n" + PROMPT_REGEX);
+
+        this.expect.send(SkillCommand.buildCommand(
+            GenericSkillCommandTemplates
+                .getTemplate(GenericSkillCommands.SET_PROMPTS),
+            new EvaluateableToSkill[] { new SkillString(PROMPT),
+                new SkillString(PROMPT) })
+            .toSkill() + "\n");
+        expect.expect(nextCommand);
 
         this.expect.send(SkillCommand
-            .buildCommand(GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommands.LOAD), skillFile)
+            .buildCommand(GenericSkillCommandTemplates.getTemplate(
+                GenericSkillCommands.LOAD), new SkillString(PATH_TO_SKILL))
             .toSkill() + "\n");
+        expect.expect(nextCommand);
 
-        expect.expect(this.nextCommand);
         this.lastActivity = new Date();
         this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
             this.timeoutTimeUnit);
@@ -113,7 +121,8 @@ public class SkillSession {
             "Unable to execute expect" + " with error:\n" + e.getMessage());
 
         this.process.destroy();
-        return false;
+
+        throw new UnableToStartSkillSession(this.command, workingDir);
       }
 
       return true;
@@ -130,13 +139,15 @@ public class SkillSession {
     }
   }
 
-  public SkillDataobject evaluate(SkillCommand command) {
+  public SkillDataobject evaluate(SkillCommand command)
+      throws MaxCommandLengthExeeded, UnableToStartSkillSession,
+      EvaluationFailedException {
 
     if (!isActive()) {
       start();
     }
 
-    SkillDataobject data;
+    SkillDataobject data = null;
 
     this.watchdog.kill();
     this.watchdog = null;
@@ -150,37 +161,41 @@ public class SkillSession {
       String skillCommand = outer.toSkill();
 
       if (skillCommand.length() > MAX_CMD_LENGTH) {
-        // throw error
+        throw new MaxCommandLengthExeeded(skillCommand, MAX_CMD_LENGTH);
       }
 
-      String xml = communicate(outer.toSkill());
+      String xml = communicate(skillCommand);
       xml = xml.substring(0, xml.length() - 1);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
-      SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
-      if (top.getProperty("valid").isTrue()) {
+      try {
+        SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
-        if (top.getKeys().contains("file")) {
+        if (top.getProperty("valid").isTrue()) {
 
-          SkillString filePath = (SkillString) top.getProperty("file");
+          if (top.getKeys().contains("file")) {
 
-          File dataFile = new File(filePath.getString());
+            SkillString filePath = (SkillString) top.getProperty("file");
 
-          xml = readFile(dataFile);
+            File dataFile = new File(filePath.getString());
 
-          data = SkillDataobject.getSkillDataobjectFromXML(this, xml);
+            xml = readFile(dataFile);
+
+            data = SkillDataobject.getSkillDataobjectFromXML(this, xml);
+          } else {
+            data = top.getProperty("data");
+          }
+
         } else {
-          data = top.getProperty("data");
+          data = null;
         }
-
-      } else {
-        data = null;
-        // throw error
+      } catch (Exception e) {
+        throw new EvaluationFailedException(skillCommand, xml);
       }
     } else {
-      data = null;
+      throw new UnableToStartSkillSession(this.command, workingDir);
     }
 
     this.lastActivity = new Date();

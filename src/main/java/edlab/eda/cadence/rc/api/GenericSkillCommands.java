@@ -19,8 +19,9 @@ public interface GenericSkillCommands {
   public static final String FPRINTF = "fprintf";
   public static final String CLOSE = "close";
   
+  public static final String LOADI = "loadi";
   public static final String ERRSET = "errset";
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
-  public static final String LOADI = "loadi";
+  public static final String SET_PROMPTS = "setPrompts";
 }

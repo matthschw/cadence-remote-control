@@ -50,7 +50,8 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommands.LOAD, 1));
     templates.put(GenericSkillCommands.LOADI,
         new SkillCommandTemplate(GenericSkillCommands.LOADI, 1));
-
+    templates.put(GenericSkillCommands.SET_PROMPTS,
+        new SkillCommandTemplate(GenericSkillCommands.SET_PROMPTS, 2));
   }
 
   public static SkillCommandTemplate getTemplate(String name) {
