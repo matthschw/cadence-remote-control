@@ -26,9 +26,10 @@ public abstract class SkillDataobject implements EvaluateableToSkill {
   public static final String TYPE_ID = "type";
 
   /**
+   * Returns when the {@link SkillDataobject} is logically true
    * 
-   * @return <code>true</true> when the {@link SkillDataobject} is true wrt. to
-   *         SKILL syntax, <code>false</true> otherwise
+   * @return <code>true</code> when the {@link SkillDataobject} is true wrt. to
+   *         SKILL syntax, <code>false</code> otherwise
    */
   public abstract boolean isTrue();
 

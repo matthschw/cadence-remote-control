@@ -89,7 +89,7 @@ public class SkillSession {
   /**
    * Specify the command to be used to invoke the session
    * 
-   * @param command
+   * @param command Start-command of the Cadence Tool
    * @return this
    */
   public SkillSession setCommand(String command) {
@@ -187,9 +187,10 @@ public class SkillSession {
    * 
    * @param command Command to be evaluated
    * @return Skill Dataobject that is returned from the Session
-   * @throws MaxCommandLengthExeeded
-   * @throws UnableToStartSkillSession
-   * @throws EvaluationFailedException
+   * @throws MaxCommandLengthExeeded   When the maximal command length is
+   *                                   exceeded
+   * @throws UnableToStartSkillSession When the session could not be started
+   * @throws EvaluationFailedException When evaluation of the command failed
    */
   public SkillDataobject evaluate(SkillCommand command)
       throws MaxCommandLengthExeeded, UnableToStartSkillSession,

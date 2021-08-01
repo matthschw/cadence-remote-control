@@ -65,8 +65,8 @@ public class SkillCommand implements EvaluateableToSkill {
    * Create a SKILL command from a given template
    * 
    * @param template SKILL-Command template
-   * @return SkillCommand
-   * @throws IncorrectSyntaxException
+   * @return SkillCommand {
+   * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template)
       throws IncorrectSyntaxException {
@@ -82,9 +82,9 @@ public class SkillCommand implements EvaluateableToSkill {
    * Create a SKILL command from a given template
    * 
    * @param template         SKILL-Command template
-   * @param formalParameters list of formal parameters
+   * @param formalParameters List of formal parameters
    * @return SkillCommand
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
       EvaluateableToSkill[] formalParameters) throws IncorrectSyntaxException {
@@ -101,10 +101,10 @@ public class SkillCommand implements EvaluateableToSkill {
   /**
    * Create a SKILL command from a given template
    * 
-   * @param template         SKILL-Command template
-   * @param formalParameters formal parameter
+   * @param template        SKILL-Command template
+   * @param formalParameter Formal parameter
    * @return SkillCommand
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
       EvaluateableToSkill formalParameter) throws IncorrectSyntaxException {
@@ -123,9 +123,9 @@ public class SkillCommand implements EvaluateableToSkill {
    * Create a SKILL command from a given template
    * 
    * @param template          SKILL-Command template
-   * @param keywordParameters map of keyword parameters
+   * @param keywordParameters Map of keyword parameters
    * @return SkillCommand
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
       Map<String, EvaluateableToSkill> keywordParameters)
@@ -145,10 +145,10 @@ public class SkillCommand implements EvaluateableToSkill {
    * Create a SKILL command from a given template
    * 
    * @param template          SKILL-Command template
-   * @param formalParameters  list of formal parameters
-   * @param keywordParameters map of keyword parameters
+   * @param formalParameters  List of formal parameters
+   * @param keywordParameters Map of keyword parameters
    * @return SkillCommand
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
       EvaluateableToSkill[] formalParameters,

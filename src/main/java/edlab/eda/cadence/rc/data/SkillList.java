@@ -52,8 +52,8 @@ public class SkillList extends SkillBoolean
    * Remove of a {@link SkillDataobject} from a list
    * 
    * @param skillDataobject Object to be removed
-   * @return <code>true</true> when the object was removed successfully,
-   *         <code>false</true> otherwise
+   * @return <code>true</code> when the object was removed successfully,
+   *         <code>false</code> otherwise
    */
   public boolean remove(SkillDataobject skillDataobject) {
     boolean retval = this.list.remove(skillDataobject);

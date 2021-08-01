@@ -42,5 +42,4 @@ public class SkillFixnum extends SkillNumber {
     element.setTextContent(this.number.toString());
     return element;
   }
-
 }
