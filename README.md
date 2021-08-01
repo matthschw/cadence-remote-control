@@ -43,6 +43,40 @@ Cadence-Tools:
 ## SkillSession
 This class is used when the Cadence-Tool is started and controlled from Java.
 
+```java
+//Create a new session
+ SkillSession session = new SkillSession();
+ 
+//Start the session
+session.start();
+
+//Build the command 
+SkillCommand command = SkillCommand
+  .buildCommand(
+      GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.OUTFILE),
+      new SkillString(FILE_NAME));
+
+//Evaluate the command
+SkillDataobject port = session.evaluate(command);
+
+command = SkillCommand.buildCommand(
+  GenericSkillCommandTemplates
+      .getTemplate(GenericSkillCommandTemplates.FPRINTF),
+  new SkillDataobject[] { port, new SkillString("Heinz Banane") });
+session.evaluate(command);
+
+command = SkillCommand.buildCommand(
+  GenericSkillCommandTemplates
+      .getTemplate(GenericSkillCommandTemplates.CLOSE),
+  new SkillDataobject[] { port });
+
+session.evaluate(command);
+ 
+//Stop the session
+session.stop();
+```
+
 ## SkillChildSession
 
 This class is used when Java is started as Subprocess (IPC) in
