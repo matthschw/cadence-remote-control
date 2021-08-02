@@ -32,6 +32,7 @@ public class GenericSkillCommandTemplates {
   public static final String ERRSET = "errset";
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
+  public static final String LOAD_CONTEXT = "loadContext";
   public static final String SET_PROMPTS = "setPrompts";
 
   public static final String ED_CDS_RC_FOMAT_COMMAND = "EDcdsRCfmtCmd";
@@ -85,6 +86,8 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD, 1));
     templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
+    templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1)); 
     templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
 

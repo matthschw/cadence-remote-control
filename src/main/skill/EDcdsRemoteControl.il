@@ -193,7 +193,7 @@
               );tconc
             )
 
-            ((dplp val)
+            ((and (listp val) (null (car val)))
 
               (tconc
                 lBuildList
