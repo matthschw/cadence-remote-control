@@ -91,4 +91,32 @@ public class SkillDisembodiedPropertyList extends SkillBoolean {
     return element;
   }
 
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillDisembodiedPropertyList) {
+
+      SkillDisembodiedPropertyList object = (SkillDisembodiedPropertyList) o;
+
+      if (this.properties.size() != object.properties.size()) {
+        return false;
+      }
+
+      for (String key : this.properties.keySet()) {
+
+        if (!object.properties.containsKey(key)) {
+          return false;
+        }
+
+        if (!this.properties.get(key).equals(object.properties.get(key))) {
+          return false;
+        }
+      }
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

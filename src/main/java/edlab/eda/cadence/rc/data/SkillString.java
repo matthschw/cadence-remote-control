@@ -49,4 +49,15 @@ public class SkillString extends SkillBoolean {
     element.setTextContent(this.string);
     return element;
   }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillString) {
+      SkillString object = (SkillString) o;
+      return this.string.equals(object.string);
+    } else {
+      return false;
+    }
+  }
 }

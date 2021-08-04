@@ -60,4 +60,18 @@ public class SkillComplexDataobject extends SkillDataobject {
       Document document) {
     return null;
   }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillComplexDataobject) {
+      SkillComplexDataobject object = (SkillComplexDataobject) o;
+
+      return this.session == object.session
+          && this.identifier == object.identifier;
+
+    } else {
+      return false;
+    }
+  }
 }

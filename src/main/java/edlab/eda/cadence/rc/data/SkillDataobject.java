@@ -34,6 +34,9 @@ public abstract class SkillDataobject implements EvaluateableToSkill {
   public abstract boolean isTrue();
 
   @Override
+  public abstract boolean equals(Object o);
+
+  @Override
   public String toSkill() {
     return this.toSkillHierarchical(0);
   }

@@ -39,4 +39,15 @@ public class SkillSymbol extends SkillBoolean {
     element.setTextContent(this.printName);
     return element;
   }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillSymbol) {
+      SkillSymbol object = (SkillSymbol) o;
+      return this.printName.equals(object.printName);
+    } else {
+      return false;
+    }
+  }
 }

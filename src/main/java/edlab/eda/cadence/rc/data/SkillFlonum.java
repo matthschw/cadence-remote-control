@@ -2,7 +2,6 @@ package edlab.eda.cadence.rc.data;
 
 import java.math.BigDecimal;
 
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -42,5 +41,16 @@ public class SkillFlonum extends SkillNumber {
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
     element.setTextContent(this.number.toString());
     return element;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillFlonum) {
+      SkillFlonum object = (SkillFlonum) o;
+      return this.getValue().equals(object.getValue());
+    } else {
+      return false;
+    }
   }
 }

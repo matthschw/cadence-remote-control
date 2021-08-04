@@ -42,4 +42,15 @@ public class SkillFixnum extends SkillNumber {
     element.setTextContent(this.number.toString());
     return element;
   }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillFixnum) {
+      SkillFixnum object = (SkillFixnum) o;
+      return this.getValue().equals(object.getValue());
+    } else {
+      return false;
+    }
+  }
 }

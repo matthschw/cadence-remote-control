@@ -134,4 +134,27 @@ public class SkillList extends SkillBoolean
     }
     return element;
   }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (o instanceof SkillList) {
+
+      SkillList object = (SkillList) o;
+
+      if (this.list.size() != object.list.size()) {
+        return false;
+      }
+      
+      for (int i = 0; i < this.list.size(); i++) {
+        if (!this.list.get(i).equals(object.list.get(i))) {
+          return false;
+        }
+      }
+      
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
