@@ -69,7 +69,7 @@ session.evaluate(command);
 command = SkillCommand.buildCommand(
   GenericSkillCommandTemplates
       .getTemplate(GenericSkillCommandTemplates.CLOSE),
-  new SkillDataobject[] { port });
+   port );
 
 session.evaluate(command);
  
