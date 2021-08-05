@@ -89,11 +89,6 @@ Virtuoso.
 - [ ] Add all relevant commands as templates
 - [ ] Add *SkillChildSession*
 
-# Derivatives
-
-- [virtuoso-remote-control](https://github.com/matthschw/virtuoso-remote-control)
-- [spectre-remote-control](https://github.com/matthschw/spectre-remote-control)
-
 ## License
 
 Copyright (C) 2021, [Electronics & Drives](https://www.electronics-and-drives.de/)
