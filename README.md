@@ -1,4 +1,4 @@
-# cadence-remote-control
+# cadence-remote-control (Pre-Alpha)
 
 Remote Control for Cadence-Tools in Java
 
@@ -10,7 +10,7 @@ tools in Java.
 Clone this repository:
 
 ```bash
-$ git clone https://github.com/matthschw/cadence-remote-control.git
+$ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
 ```
 
 `cd cadence-remote-control` into the directory and install it
