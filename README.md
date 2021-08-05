@@ -87,6 +87,7 @@ Virtuoso.
 # TODO
 
 - [ ] Add all relevant commands as templates
+- [ ] Complete documentation
 - [ ] Add *SkillChildSession*
 
 ## License
