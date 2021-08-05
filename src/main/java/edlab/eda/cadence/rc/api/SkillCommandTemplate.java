@@ -1,7 +1,10 @@
 package edlab.eda.cadence.rc.api;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import edlab.eda.cadence.rc.EvaluableToSkill;
 
 /**
  * Template of a SKILL Command
@@ -85,5 +88,59 @@ public class SkillCommandTemplate {
    */
   public Set<String> getKeywordParameters() {
     return keywordParameters;
+  }
+
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @return SKILL command
+   * @throws IncorrectSyntaxException When syntax from the template is violated
+   */
+  public SkillCommand build() throws IncorrectSyntaxException {
+    return SkillCommand.buildCommand(this);
+  }
+
+  /**
+   * Create a SKILL command from a given template
+   * 
+   * @param formalParameters List of formal parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException When syntax from the template is violated
+   */
+  public SkillCommand build(EvaluableToSkill[] formalParameters)
+      throws IncorrectSyntaxException {
+    return SkillCommand.buildCommand(this, formalParameters);
+  }
+
+  /**
+   * @param formalParameter Formal parameter
+   * @return SKILL command
+   * @throws IncorrectSyntaxException When syntax from the template is violated
+   */
+  public SkillCommand build(EvaluableToSkill formalParameter)
+      throws IncorrectSyntaxException {
+    return SkillCommand.buildCommand(this, formalParameter);
+  }
+
+  /**
+   * @param keywordParameters Map of keyword parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException When syntax from the template is violated
+   */
+  public SkillCommand build(Map<String, EvaluableToSkill> keywordParameters)
+      throws IncorrectSyntaxException {
+    return SkillCommand.buildCommand(this, keywordParameters);
+  }
+
+  /**
+   * @param formalParameters  List of formal parameters
+   * @param keywordParameters Map of keyword parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException When syntax from the template is violated
+   */
+  public SkillCommand build(EvaluableToSkill[] formalParameters,
+      Map<String, EvaluableToSkill> keywordParameters)
+      throws IncorrectSyntaxException {
+    return SkillCommand.buildCommand(this, formalParameters, keywordParameters);
   }
 }
