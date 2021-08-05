@@ -27,7 +27,8 @@ public class GenericSkillCommandTemplates {
   public static final String OUTFILE = "outfile";
   public static final String FPRINTF = "fprintf";
   public static final String CLOSE = "close";
-
+  
+  public static final String PROGN = "progn";
   public static final String LOADI = "loadi";
   public static final String ERRSET = "errset";
   public static final String EXIT = "exit";
@@ -75,9 +76,12 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.OUTFILE, 1));
     templates.put(GenericSkillCommandTemplates.FPRINTF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.FPRINTF, 2));
+    
     templates.put(GenericSkillCommandTemplates.CLOSE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CLOSE, 1));
 
+    templates.put(GenericSkillCommandTemplates.PROGN,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.PROGN));
     templates.put(GenericSkillCommandTemplates.ERRSET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ERRSET, 1));
     templates.put(GenericSkillCommandTemplates.EXIT,
