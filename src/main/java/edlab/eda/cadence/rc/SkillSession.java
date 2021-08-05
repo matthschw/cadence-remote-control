@@ -133,7 +133,7 @@ public class SkillSession {
           this.expect.send(SkillCommand.buildCommand(
               GenericSkillCommandTemplates
                   .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS),
-              new EvaluateableToSkill[] { new SkillString(PROMPT),
+              new EvaluableToSkill[] { new SkillString(PROMPT),
                   new SkillString(PROMPT) })
               .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {

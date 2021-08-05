@@ -3,42 +3,43 @@ package edlab.eda.cadence.rc.api;
 import java.util.HashMap;
 import java.util.Map;
 
-import edlab.eda.cadence.rc.EvaluateableToSkill;
+import edlab.eda.cadence.rc.EvaluableToSkill;
+import edlab.eda.cadence.rc.SkillSession;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
 /**
  * Class which represents a Skill-Command
  *
  */
-public class SkillCommand implements EvaluateableToSkill {
+public class SkillCommand implements EvaluableToSkill {
 
   private SkillCommandTemplate template;
-  private EvaluateableToSkill[] formalParameters;
-  private Map<String, EvaluateableToSkill> keywordParameters;
+  private EvaluableToSkill[] formalParameters;
+  private Map<String, EvaluableToSkill> keywordParameters;
 
   private SkillCommand(SkillCommandTemplate template) {
     this.template = template;
     this.formalParameters = new SkillDataobject[0];
-    this.keywordParameters = new HashMap<String, EvaluateableToSkill>();
+    this.keywordParameters = new HashMap<String, EvaluableToSkill>();
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      EvaluateableToSkill[] formalParameters) {
+      EvaluableToSkill[] formalParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
-    this.keywordParameters = new HashMap<String, EvaluateableToSkill>();
+    this.keywordParameters = new HashMap<String, EvaluableToSkill>();
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      Map<String, EvaluateableToSkill> keywordParameters) {
+      Map<String, EvaluableToSkill> keywordParameters) {
     this.template = template;
     this.formalParameters = new SkillDataobject[0];
     this.keywordParameters = keywordParameters;
   }
 
   private SkillCommand(SkillCommandTemplate template,
-      EvaluateableToSkill[] formalParameters,
-      Map<String, EvaluateableToSkill> keywordParameters) {
+      EvaluableToSkill[] formalParameters,
+      Map<String, EvaluableToSkill> keywordParameters) {
     this.template = template;
     this.formalParameters = formalParameters;
     this.keywordParameters = keywordParameters;
@@ -87,7 +88,7 @@ public class SkillCommand implements EvaluateableToSkill {
    * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateableToSkill[] formalParameters) throws IncorrectSyntaxException {
+      EvaluableToSkill[] formalParameters) throws IncorrectSyntaxException {
 
     if (template.getNumOfFormalParameters() < 0
         || template.getNumOfFormalParameters() == formalParameters.length) {
@@ -107,12 +108,12 @@ public class SkillCommand implements EvaluateableToSkill {
    * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateableToSkill formalParameter) throws IncorrectSyntaxException {
+      EvaluableToSkill formalParameter) throws IncorrectSyntaxException {
 
     if (template.getNumOfFormalParameters() == 1
         || template.getNumOfFormalParameters() < 0) {
       return new SkillCommand(template,
-          new EvaluateableToSkill[] { formalParameter });
+          new EvaluableToSkill[] { formalParameter });
     } else {
       throw new IncorrectSyntaxException(1,
           template.getNumOfFormalParameters());
@@ -128,7 +129,7 @@ public class SkillCommand implements EvaluateableToSkill {
    * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      Map<String, EvaluateableToSkill> keywordParameters)
+      Map<String, EvaluableToSkill> keywordParameters)
       throws IncorrectSyntaxException {
 
     for (String key : keywordParameters.keySet()) {
@@ -151,8 +152,8 @@ public class SkillCommand implements EvaluateableToSkill {
    * @throws IncorrectSyntaxException When syntax from the template is violated
    */
   public static SkillCommand buildCommand(SkillCommandTemplate template,
-      EvaluateableToSkill[] formalParameters,
-      Map<String, EvaluateableToSkill> keywordParameters)
+      EvaluableToSkill[] formalParameters,
+      Map<String, EvaluableToSkill> keywordParameters)
       throws IncorrectSyntaxException {
 
     for (String key : keywordParameters.keySet()) {
@@ -169,5 +170,24 @@ public class SkillCommand implements EvaluateableToSkill {
       throw new IncorrectSyntaxException(formalParameters.length,
           template.getNumOfFormalParameters());
     }
+  }
+
+  @Override
+  public boolean canBeUsedInSession(SkillSession session) {
+
+    for (int i = 0; i < formalParameters.length; i++) {
+      if (!formalParameters[i].canBeUsedInSession(session)) {
+        return false;
+      }
+    }
+
+    for (String key : this.keywordParameters.keySet()) {
+      if (keywordParameters.get(key).canBeUsedInSession(session)) {
+        return false;
+      }
+
+    }
+
+    return true;
   }
 }

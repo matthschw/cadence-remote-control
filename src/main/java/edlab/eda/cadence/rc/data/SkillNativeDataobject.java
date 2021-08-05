@@ -14,6 +14,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
+import edlab.eda.cadence.rc.SkillSession;
+
 /**
  * Representation of a native SKILL-Object
  *
@@ -57,4 +59,9 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
       return false;
     }
   }
+
+  public boolean canBeUsedInSession(SkillSession session) {
+    return true;
+  }
+
 }

@@ -11,14 +11,14 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edlab.eda.cadence.rc.EvaluateableToSkill;
+import edlab.eda.cadence.rc.EvaluableToSkill;
 import edlab.eda.cadence.rc.SkillSession;
 
 /**
  * Representation of a native SKILL-Dataobject
  *
  */
-public abstract class SkillDataobject implements EvaluateableToSkill {
+public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Identifier of the type of the {@link SkillDataobject} in a XML
