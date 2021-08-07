@@ -42,26 +42,36 @@ public class SkillSession {
   private Matcher<Result> nextCommand = NEXT_COMMAND;
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
-  @SuppressWarnings("unused")
+
   private static final String SKILL_RESOURCE = "EDcdsRemoteControl.il";
+
   @SuppressWarnings("unused")
   private static final String CONTEXT_RESOURCE = "64bit/EDcdsRC.cxt";
 
   private static final int MAX_CMD_LENGTH = 7500;
 
+  //Promt in Cadence Session
   private static final String PROMPT = "[ED-CDS-RC]";
   private static final String PROMPT_REGEX = "\\[ED-CDS-RC\\]";
 
   private static final File DEFAULT_WORKING_DIR = new File("./");
   private static final Matcher<Result> NEXT_COMMAND = Matchers.regexp("\n>");
 
+  // Identifiers in Cadence Session
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
   public static final String CDS_RC_SESSIONS = "session";
   public static final String CDS_RC_SESSION = "main";
   public static final String CDS_RC_RETURN_VALUES = "retVals";
 
-  public static final String TMP_FILE_NAME = "ed_cds_rc";
+  // Temporary file name prefix and suffix
+  public static final String TMP_FILE_PREFIX = "ed_cds_rc";
   public static final String TMP_SKILL_FILE_SUFFIX = ".il";
+
+  // Identifiers in DPL from Cadence tool
+  public static final String ID_VALID = "valid";
+  public static final String ID_DATA = "data";
+  public static final String ID_FILE = "file";
+  public static final String ID_ERROR = "error";
 
   /**
    * Create a Session
@@ -136,10 +146,11 @@ public class SkillSession {
         this.nextCommand = Matchers.regexp("\n" + PROMPT_REGEX);
 
         try {
-          this.expect.send(SkillCommand.buildCommand(
-              GenericSkillCommandTemplates
-                  .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS),
-              new EvaluableToSkill[] { new SkillString(PROMPT),
+
+          ;
+          this.expect.send(GenericSkillCommandTemplates
+              .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
+              .build(new EvaluableToSkill[] { new SkillString(PROMPT),
                   new SkillString(PROMPT) })
               .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {
@@ -149,20 +160,19 @@ public class SkillSession {
 
         File skillControlApi = getResourcePath(SKILL_RESOURCE,
             TMP_SKILL_FILE_SUFFIX);
-        skillControlApi.deleteOnExit();
 
         try {
 
-          this.expect.send(SkillCommand
-              .buildCommand(
-                  GenericSkillCommandTemplates
-                      .getTemplate(GenericSkillCommandTemplates.LOAD),
-                  new SkillString(skillControlApi.getAbsolutePath()))
+          this.expect.send(GenericSkillCommandTemplates
+              .getTemplate(GenericSkillCommandTemplates.LOAD)
+              .build(new SkillString(skillControlApi.getAbsolutePath()))
               .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {
         }
 
         expect.expect(nextCommand);
+
+        skillControlApi.delete();
 
         this.lastActivity = new Date();
         this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
@@ -228,12 +238,11 @@ public class SkillSession {
       SkillCommand outer = null;
 
       try {
-
-        outer = SkillCommand.buildCommand(
-            GenericSkillCommandTemplates.getTemplate(
-                GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND),
-            SkillCommand.buildCommand(GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommandTemplates.ERRSET), command));
+        outer = GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND)
+            .build(GenericSkillCommandTemplates
+                .getTemplate(GenericSkillCommandTemplates.ERRSET)
+                .build(command));
       } catch (IncorrectSyntaxException e) {
         // Cannot occur
       }
@@ -244,12 +253,11 @@ public class SkillSession {
 
         try {
 
-          File file = File.createTempFile(TMP_FILE_NAME, TMP_SKILL_FILE_SUFFIX);
+          File file = File.createTempFile(TMP_FILE_PREFIX, TMP_SKILL_FILE_SUFFIX);
 
           FileWriter writer = new FileWriter(file);
           writer.write(command.toSkill());
           writer.close();
-
           try {
 
             outer = GenericSkillCommandTemplates.getTemplate(
@@ -273,11 +281,11 @@ public class SkillSession {
 
         SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
-        if (top.getProperty("valid").isTrue()) {
+        if (top.getProperty(ID_VALID).isTrue()) {
 
-          if (top.getKeys().contains("file")) {
+          if (top.getKeys().contains(ID_FILE)) {
 
-            SkillString filePath = (SkillString) top.getProperty("file");
+            SkillString filePath = (SkillString) top.getProperty(ID_FILE);
 
             File dataFile = new File(filePath.getString());
 
@@ -290,7 +298,7 @@ public class SkillSession {
             dataFile.delete();
           }
 
-          data = top.getProperty("data");
+          data = top.getProperty(ID_DATA);
 
         } else {
 
@@ -381,7 +389,7 @@ public class SkillSession {
     try {
       data = stream.readAllBytes();
       stream.close();
-      file = File.createTempFile(TMP_FILE_NAME, suffix);
+      file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
     } catch (IOException e) {
       file = null;

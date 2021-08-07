@@ -91,7 +91,6 @@ public class SkillSessionTest {
 
     SkillString retval = (SkillString) session.evaluate(command);
 
-
     if (!str.contentEquals(retval.getString())) {
       fail("Strcat failed");
     }
@@ -118,7 +117,7 @@ public class SkillSessionTest {
     command = SkillCommand.buildCommand(
         GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.FPRINTF),
-        new SkillDataobject[] { port, new SkillString("Heinz Banane") });
+        new SkillDataobject[] { port, new SkillString("Hello World") });
     session.evaluate(command);
 
     command = SkillCommand.buildCommand(

@@ -84,7 +84,7 @@
 ;
 (defun EDcdsRCfmtCmd (result @key (returnType "print") (session "main"))
 
-  (let (retval data (maxLength 4000) retstring port file)
+  (let (retval (maxLength 4000) retstring port file)
 
     (setq retval (list nil))
 
@@ -123,12 +123,14 @@
 );defun
 
 ;FUNCTION
-; EDcdsRCfmtCmd
+; EDcdsRCexCmdFile
 ;
-; Format the return value of a SKILL-Function to an XML-Representation
+; Evaluate a SKILL-Function that is stored in a file and return a
+;  XML-Representation
+; 
 ;
 ;Parameters:
-; result            return value of a SKILL function 
+; file              file path where the SKILL command is stored
 ;
 ; ?returnType       string, either "print" or "string". When "print" is 
 ;                     provided, the XML is printed to the XIW, when "string"
