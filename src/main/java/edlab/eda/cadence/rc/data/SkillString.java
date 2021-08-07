@@ -1,5 +1,6 @@
 package edlab.eda.cadence.rc.data;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -38,7 +39,7 @@ public class SkillString extends SkillBoolean {
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "\"" + this.string + "\"";
+    return "\"" + StringEscapeUtils.escapeJava(this.string) + "\"";
   }
 
   @Override

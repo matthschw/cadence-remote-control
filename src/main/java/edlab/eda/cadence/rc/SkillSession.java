@@ -1,7 +1,9 @@
 package edlab.eda.cadence.rc;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Date;
@@ -42,9 +44,10 @@ public class SkillSession {
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
   @SuppressWarnings("unused")
   private static final String SKILL_RESOURCE = "EDcdsRemoteControl.il";
+  @SuppressWarnings("unused")
   private static final String CONTEXT_RESOURCE = "64bit/EDcdsRC.cxt";
 
-  private static final int MAX_CMD_LENGTH = 8000;
+  private static final int MAX_CMD_LENGTH = 7500;
 
   private static final String PROMPT = "[ED-CDS-RC]";
   private static final String PROMPT_REGEX = "\\[ED-CDS-RC\\]";
@@ -56,6 +59,9 @@ public class SkillSession {
   public static final String CDS_RC_SESSIONS = "session";
   public static final String CDS_RC_SESSION = "main";
   public static final String CDS_RC_RETURN_VALUES = "retVals";
+
+  public static final String TMP_FILE_NAME = "ed_cds_rc";
+  public static final String TMP_SKILL_FILE_SUFFIX = ".il";
 
   /**
    * Create a Session
@@ -141,15 +147,18 @@ public class SkillSession {
 
         expect.expect(nextCommand);
 
+        File skillControlApi = getResourcePath(SKILL_RESOURCE,
+            TMP_SKILL_FILE_SUFFIX);
+        skillControlApi.deleteOnExit();
+
         try {
 
-          this.expect
-              .send(SkillCommand
-                  .buildCommand(
-                      GenericSkillCommandTemplates.getTemplate(
-                          GenericSkillCommandTemplates.LOAD_CONTEXT),
-                      new SkillString(getResourcePath(CONTEXT_RESOURCE)))
-                  .toSkill() + "\n");
+          this.expect.send(SkillCommand
+              .buildCommand(
+                  GenericSkillCommandTemplates
+                      .getTemplate(GenericSkillCommandTemplates.LOAD),
+                  new SkillString(skillControlApi.getAbsolutePath()))
+              .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {
         }
 
@@ -219,18 +228,39 @@ public class SkillSession {
       SkillCommand outer = null;
 
       try {
+
         outer = SkillCommand.buildCommand(
             GenericSkillCommandTemplates.getTemplate(
                 GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND),
             SkillCommand.buildCommand(GenericSkillCommandTemplates
                 .getTemplate(GenericSkillCommandTemplates.ERRSET), command));
-      } catch (IncorrectSyntaxException e1) {
+      } catch (IncorrectSyntaxException e) {
+        // Cannot occur
       }
 
       String skillCommand = outer.toSkill();
 
       if (skillCommand.length() > MAX_CMD_LENGTH) {
-        throw new MaxCommandLengthExeeded(skillCommand, MAX_CMD_LENGTH);
+
+        try {
+
+          File file = File.createTempFile(TMP_FILE_NAME, TMP_SKILL_FILE_SUFFIX);
+
+          FileWriter writer = new FileWriter(file);
+          writer.write(command.toSkill());
+          writer.close();
+
+          try {
+
+            outer = GenericSkillCommandTemplates.getTemplate(
+                GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE)
+                .build(new SkillString(file.getAbsolutePath()));
+            skillCommand = outer.toSkill();
+          } catch (IncorrectSyntaxException e) {
+            // Cannot occur
+          }
+        } catch (IOException e) {
+        }
       }
 
       String xml = communicate(skillCommand);
@@ -240,6 +270,7 @@ public class SkillSession {
           xml);
 
       try {
+
         SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
         if (top.getProperty("valid").isTrue()) {
@@ -253,10 +284,13 @@ public class SkillSession {
             xml = new String(Files.readAllBytes(dataFile.toPath()),
                 StandardCharsets.US_ASCII);
 
-            data = SkillDataobject.getSkillDataobjectFromXML(this, xml);
-          } else {
-            data = top.getProperty("data");
+            top = (SkillDisembodiedPropertyList) SkillDataobject
+                .getSkillDataobjectFromXML(this, xml);
+
+            dataFile.delete();
           }
+
+          data = top.getProperty("data");
 
         } else {
 
@@ -331,16 +365,28 @@ public class SkillSession {
   }
 
   /**
-   * Load a resource
+   * Get path to a resource
    * 
    * @param fileName File Name of the Resource
    * @return Path to the resource
    */
-  private String getResourcePath(String fileName) {
+  private File getResourcePath(String fileName, String suffix) {
 
-    // The class loader that loaded the class
-    ClassLoader classLoader = getClass().getClassLoader();
+    InputStream stream = getClass().getClassLoader()
+        .getResourceAsStream(fileName);
 
-    return classLoader.getResource(fileName).getPath();
+    byte[] data;
+    File file = null;
+
+    try {
+      data = stream.readAllBytes();
+      stream.close();
+      file = File.createTempFile(TMP_FILE_NAME, suffix);
+      Files.write(file.toPath(), data);
+    } catch (IOException e) {
+      file = null;
+    }
+
+    return file;
   }
 }
