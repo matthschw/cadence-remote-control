@@ -99,10 +99,11 @@
 
         (setq file (makeTempFileName "/tmp/ed_cds_rc"))
         (setq port (outfile file))
-        (fprintf port "%s" data)
+        (fprintf port "%s" retstring)
         (close port)
 
-        (putpropq retval nil data)
+        (putpropq retval nil  data)
+        (putpropq retval file file)
 
         (setq retstring (EDcdsRCbuildXML retval ?session session))
       );when
@@ -118,6 +119,39 @@
     else
       retstring
     );if
+  );let
+);defun
+
+;FUNCTION
+; EDcdsRCfmtCmd
+;
+; Format the return value of a SKILL-Function to an XML-Representation
+;
+;Parameters:
+; result            return value of a SKILL function 
+;
+; ?returnType       string, either "print" or "string". When "print" is 
+;                     provided, the XML is printed to the XIW, when "string"
+;                     is provided, the string is returned
+;                     
+; ?session          identifier of the session
+;
+;Return:
+; t/string       XML-Reference
+;
+(defun EDcdsRCexCmdFile (file @key (returnType "print") (session "main"))
+
+  (let (port command)
+
+    (setq port (infile file))
+    (setq command (read port))
+    (close port)
+
+    (EDcdsRCfmtCmd
+      (errset (eval command))
+      ?returnType returnType
+      ?session session
+    );EDcdsRCfmtCmd
   );let
 );defun
 
