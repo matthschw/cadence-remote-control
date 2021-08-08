@@ -39,9 +39,9 @@ public class SkillSession {
 
   private SkillSessionWatchdog watchdog;
 
-  private Matcher<Result> nextCommand = NEXT_COMMAND;
-
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
+
+  private static final File DEFAULT_WORKING_DIR = new File("./");
 
   private static final String SKILL_RESOURCE = "EDcdsRemoteControl.il";
 
@@ -50,12 +50,11 @@ public class SkillSession {
 
   private static final int MAX_CMD_LENGTH = 7500;
 
-  //Promt in Cadence Session
-  private static final String PROMPT = "[ED-CDS-RC]";
-  private static final String PROMPT_REGEX = "\\[ED-CDS-RC\\]";
-
-  private static final File DEFAULT_WORKING_DIR = new File("./");
-  private static final Matcher<Result> NEXT_COMMAND = Matchers.regexp("\n>");
+  // Prompt in Cadence Session
+  private static final String PROMPT = ">";
+  private static final String PROMPT_REGEX = "\n>";
+  private static final Matcher<Result> NEXT_COMMAND = Matchers
+      .regexp(PROMPT_REGEX);
 
   // Identifiers in Cadence Session
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
@@ -66,6 +65,10 @@ public class SkillSession {
   // Temporary file name prefix and suffix
   public static final String TMP_FILE_PREFIX = "ed_cds_rc";
   public static final String TMP_SKILL_FILE_SUFFIX = ".il";
+
+  // XML
+  private static final Matcher<Result> XML_MATCH = Matchers
+      .regexp("<<1([\\S\\s]+)2>>");
 
   // Identifiers in DPL from Cadence tool
   public static final String ID_VALID = "valid";
@@ -141,13 +144,9 @@ public class SkillSession {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
-        expect.expect(nextCommand);
-
-        this.nextCommand = Matchers.regexp("\n" + PROMPT_REGEX);
+        expect.expect(NEXT_COMMAND);
 
         try {
-
-          ;
           this.expect.send(GenericSkillCommandTemplates
               .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
               .build(new EvaluableToSkill[] { new SkillString(PROMPT),
@@ -156,7 +155,7 @@ public class SkillSession {
         } catch (IncorrectSyntaxException e) {
         }
 
-        expect.expect(nextCommand);
+        expect.expect(NEXT_COMMAND);
 
         File skillControlApi = getResourcePath(SKILL_RESOURCE,
             TMP_SKILL_FILE_SUFFIX);
@@ -170,7 +169,7 @@ public class SkillSession {
         } catch (IncorrectSyntaxException e) {
         }
 
-        expect.expect(nextCommand);
+        expect.expect(NEXT_COMMAND);
 
         skillControlApi.delete();
 
@@ -214,7 +213,7 @@ public class SkillSession {
    * Evaluate a Skill Command in the session
    * 
    * @param command Command to be evaluated
-   * @return Skill Dataobject that is returned from the Session
+   * @return Skill data-object that is returned from the Session
    * @throws MaxCommandLengthExeeded   When the maximal command length is
    *                                   exceeded
    * @throws UnableToStartSkillSession When the session could not be started
@@ -244,20 +243,23 @@ public class SkillSession {
                 .getTemplate(GenericSkillCommandTemplates.ERRSET)
                 .build(command));
       } catch (IncorrectSyntaxException e) {
-        // Cannot occur
+        // cannot occur
       }
 
       String skillCommand = outer.toSkill();
 
+      // store command in a file when MAX_CMD_LENGTH exceeded
       if (skillCommand.length() > MAX_CMD_LENGTH) {
 
         try {
 
-          File file = File.createTempFile(TMP_FILE_PREFIX, TMP_SKILL_FILE_SUFFIX);
+          File file = File.createTempFile(TMP_FILE_PREFIX,
+              TMP_SKILL_FILE_SUFFIX);
 
           FileWriter writer = new FileWriter(file);
           writer.write(command.toSkill());
           writer.close();
+
           try {
 
             outer = GenericSkillCommandTemplates.getTemplate(
@@ -265,14 +267,14 @@ public class SkillSession {
                 .build(new SkillString(file.getAbsolutePath()));
             skillCommand = outer.toSkill();
           } catch (IncorrectSyntaxException e) {
-            // Cannot occur
+            // cannot occur
           }
         } catch (IOException e) {
+          // "/tmp" is always writable
         }
       }
 
       String xml = communicate(skillCommand);
-      xml = xml.substring(0, xml.length() - 1);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
@@ -302,7 +304,7 @@ public class SkillSession {
 
         } else {
 
-          SkillString errorstring = (SkillString) top.getProperty("error");
+          SkillString errorstring = (SkillString) top.getProperty(ID_ERROR);
 
           throw new EvaluationFailedException(skillCommand,
               errorstring.getString());
@@ -354,8 +356,9 @@ public class SkillSession {
     String retval = null;
 
     try {
+
       this.expect.send(cmd + "\n");
-      retval = expect.expect(this.nextCommand).getBefore();
+      retval = expect.expect(XML_MATCH).group(1);
 
     } catch (Exception e) {
     }

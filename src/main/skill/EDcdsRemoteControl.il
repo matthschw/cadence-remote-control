@@ -179,7 +179,7 @@
 
     (tconc 
       lBuildList 
-      "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+      "<&><?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
     );tconc
 
     ;fTraverseDataStructure
@@ -361,6 +361,8 @@
       (if (or (stringp sRoot) (symbolp sRoot)) sRoot "root")
       ""
     );funcall
+    
+    (tconc lBuildList "<&>")
 
     (apply 'strcat (cdar lBuildList))
   );let

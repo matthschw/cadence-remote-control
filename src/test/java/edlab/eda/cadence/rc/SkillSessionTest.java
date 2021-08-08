@@ -94,7 +94,6 @@ public class SkillSessionTest {
     if (!str.contentEquals(retval.getString())) {
       fail("Strcat failed");
     }
-
   }
 
   private static void writeFile(SkillSession session)
