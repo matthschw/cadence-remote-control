@@ -113,6 +113,8 @@ public class SkillCommandTemplate {
   }
 
   /**
+   * Create a SKILL command from a given template
+   * 
    * @param formalParameter Formal parameter
    * @return SKILL command
    * @throws IncorrectSyntaxException When syntax from the template is violated
@@ -123,6 +125,8 @@ public class SkillCommandTemplate {
   }
 
   /**
+   * Create a SKILL command from a given template
+   * 
    * @param keywordParameters Map of keyword parameters
    * @return SKILL command
    * @throws IncorrectSyntaxException When syntax from the template is violated
@@ -133,6 +137,8 @@ public class SkillCommandTemplate {
   }
 
   /**
+   * Create a SKILL command from a given template
+   * 
    * @param formalParameters  List of formal parameters
    * @param keywordParameters Map of keyword parameters
    * @return SKILL command

@@ -1,8 +1,12 @@
 package edlab.eda.cadence.rc.api;
 
+/**
+ * Exception that is thrown when a
+ *
+ */
 public class IncorrectSyntaxException extends Exception {
 
-  private static final long serialVersionUID = -6242260639498297179L;
+  private static final long serialVersionUID = 6242260639498297179L;
 
   public IncorrectSyntaxException(int providedFormalParamaters,
       int neededFormalParameters) {
@@ -12,6 +16,6 @@ public class IncorrectSyntaxException extends Exception {
 
   public IncorrectSyntaxException(String incorrectKeywordParameter) {
     super(incorrectKeywordParameter
-        + " is not a keyword paramter of the funtction");
+        + " is not a keyword parameter of the funtction");
   }
 }

@@ -68,7 +68,7 @@ class SkillSessionWatchdog extends Thread {
   }
 
   /**
-   * Kill the Watchdog-Thread
+   * Kill watchdog thread
    */
   public void kill() {
     this.killed = true;

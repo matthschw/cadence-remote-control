@@ -22,7 +22,8 @@ import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
 /**
- * Session for communicate with an interactive session in Cadence-SKILL syntax
+ * Session for communication with an interactive session using Cadence SKILL
+ * syntax
  *
  */
 public class SkillSession {
@@ -220,8 +221,7 @@ public class SkillSession {
    * @throws EvaluationFailedException When evaluation of the command failed
    */
   public SkillDataobject evaluate(SkillCommand command)
-      throws MaxCommandLengthExeeded, UnableToStartSkillSession,
-      EvaluationFailedException {
+      throws UnableToStartSkillSession, EvaluationFailedException {
 
     if (!isActive()) {
       start();
@@ -283,11 +283,11 @@ public class SkillSession {
 
         SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
-        if (top.getProperty(ID_VALID).isTrue()) {
+        if (top.get(ID_VALID).isTrue()) {
 
-          if (top.getKeys().contains(ID_FILE)) {
+          if (top.containsKey(ID_FILE)) {
 
-            SkillString filePath = (SkillString) top.getProperty(ID_FILE);
+            SkillString filePath = (SkillString) top.get(ID_FILE);
 
             File dataFile = new File(filePath.getString());
 
@@ -300,11 +300,11 @@ public class SkillSession {
             dataFile.delete();
           }
 
-          data = top.getProperty(ID_DATA);
+          data = top.get(ID_DATA);
 
         } else {
 
-          SkillString errorstring = (SkillString) top.getProperty(ID_ERROR);
+          SkillString errorstring = (SkillString) top.get(ID_ERROR);
 
           throw new EvaluationFailedException(skillCommand,
               errorstring.getString());
@@ -376,9 +376,10 @@ public class SkillSession {
   }
 
   /**
-   * Get path to a resource
+   * Get the path to a resource
    * 
-   * @param fileName File Name of the Resource
+   * @param fileName File name of the resource
+   * @param suffix
    * @return Path to the resource
    */
   private File getResourcePath(String fileName, String suffix) {

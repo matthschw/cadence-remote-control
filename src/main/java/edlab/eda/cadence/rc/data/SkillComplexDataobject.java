@@ -6,8 +6,7 @@ import org.w3c.dom.Element;
 import edlab.eda.cadence.rc.SkillSession;
 
 /**
- * SkillComplexDataobject - This object is a reference to an object in the
- * {@link SkillSession}
+ * Reference to an object in a {@link SkillSession}
  *
  */
 public class SkillComplexDataobject extends SkillDataobject {

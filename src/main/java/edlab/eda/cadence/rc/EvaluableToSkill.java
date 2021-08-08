@@ -19,7 +19,7 @@ public interface EvaluableToSkill {
    * {@link SkillSession}
    * 
    * @param session SkillSession
-   * @return
+   * @return 
    */
   public boolean canBeUsedInSession(SkillSession session);
 }
