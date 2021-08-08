@@ -119,7 +119,11 @@ public class SkillSessionTest {
     }
 
     writeFile(session);
-    addUpValuesInList(session);
+
+    for (int i = 0; i < 1000; i++) {
+      addUpValuesInList(session);
+    }
+
     strcat(session);
 
     session.stop();
