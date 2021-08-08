@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Date;
@@ -130,6 +131,7 @@ public class SkillSession {
   public SkillSession start() throws UnableToStartSkillSession {
 
     if (!isActive()) {
+
       try {
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
             workingDir);
@@ -140,6 +142,14 @@ public class SkillSession {
 
         throw new UnableToStartSkillSession(this.command, workingDir);
       }
+
+      // add shutdown hook for process
+      Runtime.getRuntime().addShutdownHook(new Thread() {
+        @Override
+        public void run() {
+          process.destroyForcibly();
+        }
+      });
 
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
@@ -211,17 +221,21 @@ public class SkillSession {
   }
 
   /**
-   * Evaluate a Skill Command in the session
+   * Evaluate a Skill command in the session
    * 
    * @param command Command to be evaluated
-   * @return Skill data-object that is returned from the Session
-   * @throws MaxCommandLengthExeeded   When the maximal command length is
-   *                                   exceeded
-   * @throws UnableToStartSkillSession When the session could not be started
-   * @throws EvaluationFailedException When evaluation of the command failed
+   * @return Skill data-object that is returned from the session
+   * @throws UnableToStartSkillSession           When the session could not be
+   *                                             started
+   * @throws EvaluationFailedException           When evaluation of the command
+   *                                             failed
+   * @throws InvalidDataobjectReferenceExecption When the command contains data
+   *                                             that is is not referenced in
+   *                                             this session
    */
   public SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSkillSession, EvaluationFailedException {
+      throws UnableToStartSkillSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption {
 
     if (!isActive()) {
       start();
@@ -233,6 +247,10 @@ public class SkillSession {
     this.watchdog = null;
 
     if (isActive()) {
+
+      if (!command.canBeUsedInSession(this)) {
+        throw new InvalidDataobjectReferenceExecption(command, this);
+      }
 
       SkillCommand outer = null;
 
@@ -351,6 +369,12 @@ public class SkillSession {
 
   }
 
+  /**
+   * Execute a Skill command
+   * 
+   * @param cmd Skill command to be executed
+   * @return XML from Skill session
+   */
   private String communicate(String cmd) {
 
     String retval = null;
@@ -379,7 +403,7 @@ public class SkillSession {
    * Get the path to a resource
    * 
    * @param fileName File name of the resource
-   * @param suffix
+   * @param suffix   Suffix of the file which will be generated
    * @return Path to the resource
    */
   private File getResourcePath(String fileName, String suffix) {
@@ -395,10 +419,40 @@ public class SkillSession {
       stream.close();
       file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
+      file.deleteOnExit();
     } catch (IOException e) {
       file = null;
     }
 
     return file;
+  }
+
+  @Override
+  public String toString() {
+    return "[CMD=" + this.command + " DIR=" + this.workingDir + " PID="
+        + this.getPid() + "]";
+  }
+
+  /**
+   * Get the PID of the subprocess
+   * 
+   * @return PID of subprocess if running, <code>-1</code> otherwise
+   */
+  public long getPid() {
+
+    long pid = -1;
+
+    try {
+      if (this.process.getClass().getName().equals("java.lang.UNIXProcess")) {
+        Field f = this.process.getClass().getDeclaredField("pid");
+        f.setAccessible(true);
+        pid = f.getLong(this.process);
+        f.setAccessible(false);
+      }
+    } catch (Exception e) {
+      pid = -1;
+    }
+
+    return pid;
   }
 }

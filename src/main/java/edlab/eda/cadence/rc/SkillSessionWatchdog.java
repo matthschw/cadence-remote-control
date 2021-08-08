@@ -19,10 +19,11 @@ class SkillSessionWatchdog extends Thread {
   private boolean killed = false;
 
   /**
-   * Create a Watchdog for {@link SkillSession} 
-   * @param session
-   * @param duration
-   * @param unit
+   * Create a Watchdog for a {@link SkillSession}
+   * 
+   * @param session  Session
+   * @param duration Timeout duration
+   * @param unit     Timeout unit
    */
   SkillSessionWatchdog(SkillSession session, long duration, TimeUnit unit) {
     this.duration_ms = unit.toMillis(duration);
@@ -68,7 +69,7 @@ class SkillSessionWatchdog extends Thread {
   }
 
   /**
-   * Kill watchdog thread
+   * Kill the watchdog thread
    */
   public void kill() {
     this.killed = true;

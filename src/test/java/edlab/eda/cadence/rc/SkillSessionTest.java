@@ -44,7 +44,9 @@ public class SkillSessionTest {
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n"
-      + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat."
+      + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum.\n"
+      + "sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet.\n"
+      + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.\n"
       + "Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n"
@@ -108,7 +110,8 @@ public class SkillSessionTest {
 
   @Test
   void test() throws EvaluationFailedException, UnableToStartSkillSession,
-      IncorrectSyntaxException, IOException {
+      IncorrectSyntaxException, IOException,
+      InvalidDataobjectReferenceExecption {
 
     SkillSession session = new SkillSession();
 
@@ -130,8 +133,9 @@ public class SkillSessionTest {
     session.stop();
   }
 
-  private void strcat(SkillSession session) throws IncorrectSyntaxException,
-      UnableToStartSkillSession, EvaluationFailedException {
+  private void strcat(SkillSession session)
+      throws IncorrectSyntaxException, UnableToStartSkillSession,
+      EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
     SkillCommand command = GenericSkillCommandTemplates
         .getTemplate(GenericSkillCommandTemplates.STRCAT)
@@ -147,7 +151,8 @@ public class SkillSessionTest {
 
   private static void writeFile(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
-      IncorrectSyntaxException, IOException {
+      IncorrectSyntaxException, IOException,
+      InvalidDataobjectReferenceExecption {
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
@@ -195,7 +200,7 @@ public class SkillSessionTest {
 
   private static void addUpValuesInList(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
-      IncorrectSyntaxException {
+      IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
 
     SkillList list = new SkillList();
 

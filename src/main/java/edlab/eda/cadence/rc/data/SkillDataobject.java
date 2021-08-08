@@ -202,4 +202,13 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     } else
       return false;
   }
+
+  public SkillDataobject getFalse() {
+    return new SkillList();
+  }
+
+  public SkillDataobject getTrue() {
+    return new SkillSymbol("t");
+  }
+
 }

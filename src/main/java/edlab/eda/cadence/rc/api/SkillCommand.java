@@ -1,5 +1,6 @@
 package edlab.eda.cadence.rc.api;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -190,4 +191,5 @@ public class SkillCommand implements EvaluableToSkill {
 
     return true;
   }
+  
 }
