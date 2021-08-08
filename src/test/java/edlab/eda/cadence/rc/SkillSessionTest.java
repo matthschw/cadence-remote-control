@@ -13,6 +13,8 @@ import edlab.eda.cadence.rc.data.SkillSymbol;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,6 @@ import org.junit.jupiter.api.Test;
 public class SkillSessionTest {
 
   private static final String FILE_NAME = "fuubar.txt";
-
   private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n"
@@ -107,7 +108,7 @@ public class SkillSessionTest {
 
   @Test
   void test() throws EvaluationFailedException, UnableToStartSkillSession,
-      IncorrectSyntaxException {
+      IncorrectSyntaxException, IOException {
 
     SkillSession session = new SkillSession();
 
@@ -146,7 +147,7 @@ public class SkillSessionTest {
 
   private static void writeFile(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
-      IncorrectSyntaxException {
+      IncorrectSyntaxException, IOException {
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
@@ -164,7 +165,7 @@ public class SkillSessionTest {
     command = SkillCommand.buildCommand(
         GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.FPRINTF),
-        new SkillDataobject[] { port, new SkillString("Hello World") });
+        new SkillDataobject[] { port, new SkillString(STR) });
     session.evaluate(command);
 
     command = SkillCommand.buildCommand(
@@ -176,6 +177,15 @@ public class SkillSessionTest {
 
     if (!file.exists()) {
       fail("File was not generated");
+
+    }
+
+    byte[] data = Files.readAllBytes(file.toPath());
+
+    String content = new String(data);
+
+    if (!content.equals(STR)) {
+      fail("Content of file incorrect");
     }
 
     if (file.exists()) {
