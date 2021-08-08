@@ -1,7 +1,7 @@
 package edlab.eda.cadence.rc.data;
 
 /**
- * Representation of a Boolean Value in SKILL.
+ * Representation of a boolean value in SKILL
  *
  */
 public abstract class SkillBoolean extends SkillNativeDataobject {

@@ -8,7 +8,7 @@ import edlab.eda.cadence.rc.SkillSession;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
 /**
- * Class which represents a Skill-Command
+ * Representation of a Skill command
  *
  */
 public class SkillCommand implements EvaluableToSkill {
@@ -182,7 +182,7 @@ public class SkillCommand implements EvaluableToSkill {
     }
 
     for (String key : this.keywordParameters.keySet()) {
-      if (keywordParameters.get(key).canBeUsedInSession(session)) {
+      if (!keywordParameters.get(key).canBeUsedInSession(session)) {
         return false;
       }
 

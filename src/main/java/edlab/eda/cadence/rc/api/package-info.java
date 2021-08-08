@@ -1,4 +1,4 @@
 /**
- * This package contains SKILL command syntax
+ * This package contains the SKILL API
  */
 package edlab.eda.cadence.rc.api;

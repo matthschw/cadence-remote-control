@@ -125,6 +125,7 @@ public class SkillList extends SkillBoolean
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
       Document document) {
+
     Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
@@ -132,6 +133,7 @@ public class SkillList extends SkillBoolean
       element.appendChild(skillDataobject
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }
+
     return element;
   }
 
@@ -145,13 +147,13 @@ public class SkillList extends SkillBoolean
       if (this.list.size() != object.list.size()) {
         return false;
       }
-      
+
       for (int i = 0; i < this.list.size(); i++) {
         if (!this.list.get(i).equals(object.list.get(i))) {
           return false;
         }
       }
-      
+
       return true;
     } else {
       return false;

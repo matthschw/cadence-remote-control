@@ -15,7 +15,7 @@ import edlab.eda.cadence.rc.EvaluableToSkill;
 import edlab.eda.cadence.rc.SkillSession;
 
 /**
- * Representation of a native SKILL-Dataobject
+ * Representation of a SKILL data-object
  *
  */
 public abstract class SkillDataobject implements EvaluableToSkill {
@@ -50,6 +50,13 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    */
   abstract String toSkillHierarchical(int depth);
 
+  /**
+   * Create a XML element of a SKILL data-object
+   * 
+   * @param name     Name of the SKILl data-object
+   * @param document D
+   * @return XML Element
+   */
   abstract Element traverseSkillDataobjectForXMLGeneration(String name,
       Document document);
 
@@ -112,7 +119,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
         next = nodeList.item(i);
         if (isValidNode(nodeList.item(i))) {
-          dpl.addProperty(next.getNodeName(), traverseNode(session, next));
+          dpl.put(next.getNodeName(), traverseNode(session, next));
         }
       }
 

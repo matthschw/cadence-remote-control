@@ -1,18 +1,19 @@
 package edlab.eda.cadence.rc.data;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a native SKILL Disembodied Property List
+ * Representation of a native SKILL disembodied property list
  *
  */
-public class SkillDisembodiedPropertyList extends SkillBoolean {
+public class SkillDisembodiedPropertyList extends SkillBoolean
+    implements Map<String, SkillDataobject> {
 
   /**
    * Type-Identifier in XML
@@ -21,6 +22,9 @@ public class SkillDisembodiedPropertyList extends SkillBoolean {
 
   private Map<String, SkillDataobject> properties;
 
+  /**
+   * Create an empty disembodied property list
+   */
   public SkillDisembodiedPropertyList() {
     super(true);
     this.properties = new HashMap<String, SkillDataobject>();
@@ -29,24 +33,6 @@ public class SkillDisembodiedPropertyList extends SkillBoolean {
   public SkillDisembodiedPropertyList(Map<String, SkillDataobject> properties) {
     super(true);
     this.properties = properties;
-  }
-
-  public SkillDataobject getProperty(String key) {
-    return this.properties.get(key);
-  }
-
-  public void addProperty(String key, SkillDataobject skillDataobject) {
-
-    this.properties.put(key, skillDataobject);
-  }
-
-  public SkillDataobject removeKey(String key) {
-
-    return this.properties.remove(key);
-  }
-
-  public Set<String> getKeys() {
-    return this.properties.keySet();
   }
 
   @Override
@@ -69,10 +55,6 @@ public class SkillDisembodiedPropertyList extends SkillBoolean {
     s += ")";
 
     return s;
-  }
-
-  public Set<Entry<String, SkillDataobject>> entrySet() {
-    return this.properties.entrySet();
   }
 
   @Override
@@ -117,6 +99,76 @@ public class SkillDisembodiedPropertyList extends SkillBoolean {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public void clear() {
+    this.properties.clear();
+  }
+
+  @Override
+  public boolean containsKey(Object arg0) {
+    return this.properties.containsKey(arg0);
+  }
+
+  @Override
+  public boolean containsValue(Object arg0) {
+
+    return this.properties.containsValue(arg0);
+  }
+
+  @Override
+  public Set<Entry<String, SkillDataobject>> entrySet() {
+
+    return this.properties.entrySet();
+  }
+
+  @Override
+  public SkillDataobject get(Object arg0) {
+
+    return this.properties.get(arg0);
+  }
+
+  @Override
+  public boolean isEmpty() {
+
+    return this.properties.isEmpty();
+  }
+
+  @Override
+  public Set<String> keySet() {
+
+    return this.properties.keySet();
+  }
+
+  @Override
+  public SkillDataobject put(String arg0, SkillDataobject arg1) {
+
+    return this.properties.put(arg0, arg1);
+  }
+
+  @Override
+  public void putAll(Map<? extends String, ? extends SkillDataobject> arg0) {
+
+    this.putAll(arg0);
+  }
+
+  @Override
+  public SkillDataobject remove(Object arg0) {
+
+    return this.properties.remove(arg0);
+  }
+
+  @Override
+  public int size() {
+
+    return this.properties.size();
+  }
+
+  @Override
+  public Collection<SkillDataobject> values() {
+
+    return this.properties.values();
   }
 
 }

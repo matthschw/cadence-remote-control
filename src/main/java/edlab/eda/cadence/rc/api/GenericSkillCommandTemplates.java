@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Generic SKill-Command templates
+ * Container for generic SKILL command templates
  *
  */
 public class GenericSkillCommandTemplates {
@@ -28,20 +28,24 @@ public class GenericSkillCommandTemplates {
   public static final String FPRINTF = "fprintf";
   public static final String CLOSE = "close";
   public static final String STRCAT = "strcat";
-  
+
   public static final String PROGN = "progn";
   public static final String LOADI = "loadi";
   public static final String ERRSET = "errset";
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
   public static final String LOAD_CONTEXT = "loadContext";
+  
   public static final String SET_PROMPTS = "setPrompts";
+  
+  public static final String GET_INSTALL_PATH = "getInstallPath";
+  public static final String GET_WORKING_DIR = "getInstallPath";
+  public static final String GET_LOGIN = "getLogin";
 
   public static final String ED_CDS_RC_FOMAT_COMMAND = "EDcdsRCfmtCmd";
   public static final String ED_CDS_RC_BUILD_XML = "EDcdsRCbuildXML";
   public static final String ED_CDS_RC_ESCPAE_XML = "EDcdsRCescapeXML";
   public static final String ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE = "EDcdsRCexCmdFile";
-  
 
   private static GenericSkillCommandTemplates commandTemplates = null;
 
@@ -81,7 +85,7 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.FPRINTF, 2));
     templates.put(GenericSkillCommandTemplates.STRCAT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.STRCAT));
-    
+
     templates.put(GenericSkillCommandTemplates.CLOSE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CLOSE, 1));
 
@@ -96,20 +100,21 @@ public class GenericSkillCommandTemplates {
     templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
     templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1)); 
+        new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1));
     templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
 
     keywordParameters = new HashSet<String>();
     keywordParameters.add("returnType");
     keywordParameters.add("session");
-    
+
     templates.put(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND, 1,
             keywordParameters));
-    
-    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE,
+
+    templates.put(
+        GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE, 1,
             keywordParameters));
@@ -132,11 +137,11 @@ public class GenericSkillCommandTemplates {
    * @return template when existing,<code>null</code> otherwise
    */
   public static SkillCommandTemplate getTemplate(String name) {
+
     if (commandTemplates == null) {
       commandTemplates = new GenericSkillCommandTemplates();
     }
 
     return commandTemplates.templates.get(name);
   }
-
 }
