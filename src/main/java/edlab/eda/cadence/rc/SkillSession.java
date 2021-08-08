@@ -147,7 +147,10 @@ public class SkillSession {
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
         public void run() {
-          process.destroyForcibly();
+          try {
+            process.destroyForcibly();
+          } catch (Exception e) {
+          }
         }
       });
 
