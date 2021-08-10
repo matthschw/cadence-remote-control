@@ -35,12 +35,13 @@ public class GenericSkillCommandTemplates {
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
   public static final String LOAD_CONTEXT = "loadContext";
-  
+
   public static final String SET_PROMPTS = "setPrompts";
-  
+
   public static final String GET_INSTALL_PATH = "getInstallPath";
-  public static final String GET_WORKING_DIR = "getInstallPath";
+  public static final String GET_WORKING_DIR = "getWorkingDir";
   public static final String GET_LOGIN = "getLogin";
+  public static final String GET_CURRENT_TIME = "getCurrentTime";
 
   public static final String ED_CDS_RC_FOMAT_COMMAND = "EDcdsRCfmtCmd";
   public static final String ED_CDS_RC_BUILD_XML = "EDcdsRCbuildXML";
@@ -101,8 +102,22 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
     templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1));
+
     templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
+
+    templates.put(GenericSkillCommandTemplates.GET_INSTALL_PATH,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_INSTALL_PATH,
+            0));
+    templates.put(GenericSkillCommandTemplates.GET_WORKING_DIR,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_WORKING_DIR,
+            0));    
+    templates.put(GenericSkillCommandTemplates.GET_LOGIN,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_LOGIN,
+            0));  
+    templates.put(GenericSkillCommandTemplates.GET_CURRENT_TIME,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_CURRENT_TIME,
+            0));      
 
     keywordParameters = new HashSet<String>();
     keywordParameters.add("returnType");
