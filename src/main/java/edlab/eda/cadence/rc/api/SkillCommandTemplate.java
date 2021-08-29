@@ -6,7 +6,7 @@ import java.util.Map;
 import edlab.eda.cadence.rc.EvaluableToSkill;
 
 /**
- * Template of a SKILL Command
+ * Template of a SKILL-Command
  *
  */
 public class SkillCommandTemplate {
@@ -95,8 +95,9 @@ public class SkillCommandTemplate {
   /**
    * Build a SKILL command
    * 
-   * @return
-   * @throws IncorrectSyntaxException
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand() throws IncorrectSyntaxException {
 
@@ -105,9 +106,12 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamater
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamater Single formal parameter
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill formalParamater)
       throws IncorrectSyntaxException {
@@ -119,9 +123,12 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamaters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamaters Array of formal parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the number of provided parameters do
+   *                                  not match
    */
   public SkillCommand buildCommand(EvaluableToSkill[] formalParamaters)
       throws IncorrectSyntaxException {
@@ -132,9 +139,12 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param optionalAndRestParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param optionalAndRestParameters Optional parameters and rest as list
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(
       List<EvaluableToSkill> optionalAndRestParameters)
@@ -151,13 +161,14 @@ public class SkillCommandTemplate {
         if (optionalAndRestParameters.size() > template
             .getOptionalParameters()) {
 
-          // add exception
-          return null;
+          throw IncorrectSyntaxException
+              .createInvalidOptionalParametersExecption(this.name,
+                  template.getOptionalParameters());
         }
 
       } else {
-        // add exception
-        return null;
+        throw IncorrectSyntaxException
+            .createHasNoOptionalParametersExecption(this.name);
       }
     }
 
@@ -165,10 +176,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamater
-   * @param optionalAndRestParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamater           Single formal parameter
+   * @param optionalAndRestParameters Optional parameters and rest as list
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill formalParamater,
       List<EvaluableToSkill> optionalAndRestParameters)
@@ -185,13 +199,14 @@ public class SkillCommandTemplate {
         if (optionalAndRestParameters.size() > template
             .getOptionalParameters()) {
 
-          // add exception
-          return null;
+          throw IncorrectSyntaxException
+              .createInvalidOptionalParametersExecption(this.name,
+                  template.getOptionalParameters());
         }
 
       } else {
-        // add exception
-        return null;
+        throw IncorrectSyntaxException
+            .createHasNoOptionalParametersExecption(this.name);
       }
     }
 
@@ -200,10 +215,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamaters
-   * @param optionalAndRestParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamaters          Array of formal parameters
+   * @param optionalAndRestParameters Optional parameters and rest as list
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill[] formalParamaters,
       List<EvaluableToSkill> optionalAndRestParameters)
@@ -219,13 +237,15 @@ public class SkillCommandTemplate {
 
         if (optionalAndRestParameters.size() > template
             .getOptionalParameters()) {
-          // add exception
-          return null;
+
+          throw IncorrectSyntaxException
+              .createInvalidOptionalParametersExecption(this.name,
+                  template.getOptionalParameters());
         }
 
       } else {
-        // add exception
-        return null;
+        throw IncorrectSyntaxException
+            .createHasNoOptionalParametersExecption(this.name);
       }
     }
 
@@ -234,9 +254,12 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param keywordParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param keywordParameters Map of keyword parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(
       Map<String, EvaluableToSkill> keywordParameters)
@@ -249,10 +272,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param keywordParameters
-   * @param restParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param keywordParameters Map of keyword parameters
+   * @param restParameters    Rest parameters as list
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(
       Map<String, EvaluableToSkill> keywordParameters,
@@ -261,8 +287,7 @@ public class SkillCommandTemplate {
     this.checkFormalParameters(0);
 
     if (!this.canHaveRest && !restParameters.isEmpty()) {
-      // add exception
-      return null;
+      throw IncorrectSyntaxException.createHasNoRestExecption(this.name);
     }
 
     this.checkKeywordParameters(keywordParameters);
@@ -271,10 +296,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamater
-   * @param keywordParameters
+   * Build a SKILL command
+   * 
+   * @param formalParamater   Single formal parameter
+   * @param keywordParameters Map of keyword parameters
    * @return
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill formalParamater,
       Map<String, EvaluableToSkill> keywordParameters)
@@ -288,11 +316,14 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamater
-   * @param keywordParameters
-   * @param restParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamater   Single formal parameter
+   * @param keywordParameters Map of keyword parameters
+   * @param restParameters    Rest parameters as list
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill formalParamater,
       Map<String, EvaluableToSkill> keywordParameters,
@@ -301,8 +332,7 @@ public class SkillCommandTemplate {
     this.checkFormalParameters(1);
 
     if (!this.canHaveRest && !restParameters.isEmpty()) {
-      // add exception
-      return null;
+      throw IncorrectSyntaxException.createHasNoRestExecption(this.name);
     }
 
     this.checkKeywordParameters(keywordParameters);
@@ -312,10 +342,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamaters
-   * @param keywordParameters
-   * @return
-   * @throws IncorrectSyntaxException
+   * Build a SKILL command
+   * 
+   * @param formalParamaters  Array of formal parameters
+   * @param keywordParameters Map of keyword parameters
+   * @return SKILL command
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill[] formalParamaters,
       Map<String, EvaluableToSkill> keywordParameters)
@@ -328,11 +361,14 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParamaters
-   * @param keywordParameters
-   * @param restParameters
+   * Build a SKILL command
+   * 
+   * @param formalParamaters  Array of formal parameters
+   * @param keywordParameters Map of keyword parameters
+   * @param restParameters    Rest parameters as list
    * @return
-   * @throws IncorrectSyntaxException
+   * @throws IncorrectSyntaxException when the provided parameters do not match
+   *                                  with the template
    */
   public SkillCommand buildCommand(EvaluableToSkill[] formalParamaters,
       Map<String, EvaluableToSkill> keywordParameters,
@@ -341,8 +377,7 @@ public class SkillCommandTemplate {
     this.checkFormalParameters(formalParamaters.length);
 
     if (!this.canHaveRest && !restParameters.isEmpty()) {
-      // add exception
-      return null;
+      throw IncorrectSyntaxException.createHasNoRestExecption(this.name);
     }
 
     this.checkKeywordParameters(keywordParameters);
@@ -352,8 +387,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param formalParameters
-   * @throws IncorrectSyntaxException
+   * Check whether the correct number of formal parameters is provided
+   * 
+   * @param formalParameters Array of formal parameters
+   * @throws IncorrectSyntaxException when the number of provided parameters do
+   *                                  not match
    */
   private void checkFormalParameters(int formalParameters)
       throws IncorrectSyntaxException {
@@ -365,10 +403,15 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * @param keywordParameters
+   * Check whether the provided keyword parameters match with template
+   * 
+   * @param keywordParameters Map of keyword parameters
+   * @throws IncorrectSyntaxException when the keys of the provided parameters
+   *                                  do not match with template
    */
   private void checkKeywordParameters(
-      Map<String, EvaluableToSkill> keywordParameters) {
+      Map<String, EvaluableToSkill> keywordParameters)
+      throws IncorrectSyntaxException {
 
     if (this instanceof KeywordParameterSkillCommandTemplate) {
 
@@ -377,13 +420,15 @@ public class SkillCommandTemplate {
       for (String key : keywordParameters.keySet()) {
 
         if (!template.getKeywordParameters().contains(key)) {
-          // throw error;
+          IncorrectSyntaxException.createInvalidKeywordExecption(this.name,
+              key);
         }
       }
 
     } else {
       if (keywordParameters.size() > 0) {
-        // throw error;
+        IncorrectSyntaxException
+            .createNoKeywordParameterFuntionException(this.name);
       }
     }
   }

@@ -1,5 +1,9 @@
 package edlab.eda.cadence.rc.api;
 
+/**
+ * Template of a SKILL-Command with optional parameters
+ *
+ */
 public class OptionalParameterSkillCommandTemplate
     extends SkillCommandTemplate {
 
@@ -33,11 +37,24 @@ public class OptionalParameterSkillCommandTemplate
     return this.optionalParameters;
   }
 
+  /**
+   * @param name
+   * @param optionalParameters
+   * @return
+   */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int optionalParameters) {
+    
+    
     return new OptionalParameterSkillCommandTemplate(name, optionalParameters);
   }
 
+  /**
+   * @param name
+   * @param formalParameters
+   * @param optionalParameters
+   * @return
+   */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int formalParameters, int optionalParameters) {
 
@@ -53,6 +70,12 @@ public class OptionalParameterSkillCommandTemplate
     }
   }
 
+  /**
+   * @param name
+   * @param optionalParameters
+   * @param canHaveRest
+   * @return
+   */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int optionalParameters, boolean canHaveRest) {
 
@@ -64,6 +87,13 @@ public class OptionalParameterSkillCommandTemplate
     }
   }
 
+  /**
+   * @param name
+   * @param formalParameters
+   * @param optionalParameters
+   * @param canHaveRest
+   * @return
+   */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int formalParameters, int optionalParameters, boolean canHaveRest) {
 
