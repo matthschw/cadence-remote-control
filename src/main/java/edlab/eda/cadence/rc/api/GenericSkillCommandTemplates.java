@@ -69,37 +69,46 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.CADR, 1));
     templates.put(GenericSkillCommandTemplates.NTH,
         new SkillCommandTemplate(GenericSkillCommandTemplates.NTH, 2));
+
     templates.put(GenericSkillCommandTemplates.LIST,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.LIST));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.LIST, true));
 
     templates.put(GenericSkillCommandTemplates.APPLY,
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
     templates.put(GenericSkillCommandTemplates.EVAL,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 2));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 1));
 
     templates.put(GenericSkillCommandTemplates.ARRAYREF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ARRAYREF, 2));
 
     templates.put(GenericSkillCommandTemplates.OUTFILE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.OUTFILE, 1));
+
     templates.put(GenericSkillCommandTemplates.FPRINTF,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.FPRINTF, 2));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.FPRINTF, 1,
+            true));
+
     templates.put(GenericSkillCommandTemplates.STRCAT,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.STRCAT));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.STRCAT, 1, true));
 
     templates.put(GenericSkillCommandTemplates.CLOSE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CLOSE, 1));
 
     templates.put(GenericSkillCommandTemplates.PROGN,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.PROGN));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.PROGN, true));
+
     templates.put(GenericSkillCommandTemplates.ERRSET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ERRSET, 1));
+
     templates.put(GenericSkillCommandTemplates.EXIT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EXIT, 0));
+
     templates.put(GenericSkillCommandTemplates.LOAD,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD, 1));
+
     templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
+    
     templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1));
 
@@ -107,35 +116,31 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
 
     templates.put(GenericSkillCommandTemplates.GET_INSTALL_PATH,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_INSTALL_PATH,
-            0));
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_INSTALL_PATH));
     templates.put(GenericSkillCommandTemplates.GET_WORKING_DIR,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_WORKING_DIR,
-            0));    
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_WORKING_DIR));
     templates.put(GenericSkillCommandTemplates.GET_LOGIN,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_LOGIN,
-            0));  
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_LOGIN));
     templates.put(GenericSkillCommandTemplates.GET_CURRENT_TIME,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_CURRENT_TIME,
-            0));      
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_CURRENT_TIME));
 
     keywordParameters = new HashSet<String>();
     keywordParameters.add("returnType");
     keywordParameters.add("session");
 
     templates.put(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND,
-        new SkillCommandTemplate(
+        KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND, 1,
             keywordParameters));
 
     templates.put(
         GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE,
-        new SkillCommandTemplate(
+        KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE, 1,
             keywordParameters));
 
     templates.put(GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML,
-        new SkillCommandTemplate(
+        KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML, 1,
             keywordParameters));
 

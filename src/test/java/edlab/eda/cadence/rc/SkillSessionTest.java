@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.LinkedList;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
@@ -118,8 +119,8 @@ public class SkillSessionTest {
     try {
       session.start();
     } catch (UnableToStartSkillSession e) {
-      fail("Unable to start session");
       session.stop();
+      fail("Unable to start session");
     }
 
     writeFile(session);
@@ -137,10 +138,14 @@ public class SkillSessionTest {
       throws IncorrectSyntaxException, UnableToStartSkillSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
+    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+
+    rest.add(new SkillString(STR2));
+    rest.add(new SkillString(STR3));
+
     SkillCommand command = GenericSkillCommandTemplates
         .getTemplate(GenericSkillCommandTemplates.STRCAT)
-        .build(new EvaluableToSkill[] { new SkillString(STR1),
-            new SkillString(STR2), new SkillString(STR3) });
+        .buildCommand(new SkillString(STR1), rest);
 
     SkillString retval = (SkillString) session.evaluate(command);
 
@@ -153,30 +158,30 @@ public class SkillSessionTest {
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
+
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
       file.delete();
     }
 
-    SkillCommand command = SkillCommand
-        .buildCommand(
-            GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommandTemplates.OUTFILE),
-            new SkillString(FILE_NAME));
+    SkillCommand command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.OUTFILE)
+        .buildCommand(new SkillString(FILE_NAME));
 
     SkillDataobject port = session.evaluate(command);
 
-    command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.FPRINTF),
-        new SkillDataobject[] { port, new SkillString(STR) });
+    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    rest.add(new SkillString(STR));
+
+    command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.FPRINTF)
+        .buildCommand(port, rest);
+
     session.evaluate(command);
 
-    command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.CLOSE),
-        new SkillDataobject[] { port });
+    command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.CLOSE).buildCommand(port);
 
     session.evaluate(command);
 
@@ -215,10 +220,9 @@ public class SkillSessionTest {
       list.addAtLast(new SkillFixnum(rand));
     }
 
-    SkillCommand command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.APPLY),
-        new SkillDataobject[] { new SkillSymbol("plus"), list });
+    SkillCommand command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.APPLY)
+        .buildCommand(new SkillDataobject[] { new SkillSymbol("plus"), list });
 
     SkillDataobject retval = session.evaluate(command);
 

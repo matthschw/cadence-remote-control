@@ -161,11 +161,12 @@ public class SkillSession {
         expect.expect(NEXT_COMMAND);
 
         try {
-          this.expect.send(GenericSkillCommandTemplates
-              .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
-              .build(new EvaluableToSkill[] { new SkillString(PROMPT),
-                  new SkillString(PROMPT) })
-              .toSkill() + "\n");
+          this.expect
+              .send(GenericSkillCommandTemplates
+                  .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
+                  .buildCommand(new EvaluableToSkill[] {
+                      new SkillString(PROMPT), new SkillString(PROMPT) })
+                  .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {
         }
 
@@ -178,7 +179,7 @@ public class SkillSession {
 
           this.expect.send(GenericSkillCommandTemplates
               .getTemplate(GenericSkillCommandTemplates.LOAD)
-              .build(new SkillString(skillControlApi.getAbsolutePath()))
+              .buildCommand(new SkillString(skillControlApi.getAbsolutePath()))
               .toSkill() + "\n");
         } catch (IncorrectSyntaxException e) {
         }
@@ -260,9 +261,9 @@ public class SkillSession {
       try {
         outer = GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND)
-            .build(GenericSkillCommandTemplates
+            .buildCommand(GenericSkillCommandTemplates
                 .getTemplate(GenericSkillCommandTemplates.ERRSET)
-                .build(command));
+                .buildCommand(command));
       } catch (IncorrectSyntaxException e) {
         // cannot occur
       }
@@ -285,7 +286,7 @@ public class SkillSession {
 
             outer = GenericSkillCommandTemplates.getTemplate(
                 GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE)
-                .build(new SkillString(file.getAbsolutePath()));
+                .buildCommand(new SkillString(file.getAbsolutePath()));
             skillCommand = outer.toSkill();
           } catch (IncorrectSyntaxException e) {
             // cannot occur
@@ -354,8 +355,9 @@ public class SkillSession {
     this.watchdog = null;
 
     try {
-      communicate(SkillCommand.buildCommand(GenericSkillCommandTemplates
-          .getTemplate(GenericSkillCommandTemplates.EXIT)).toSkill());
+      communicate(GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.EXIT).buildCommand()
+          .toSkill());
     } catch (IncorrectSyntaxException e) {
     }
 
