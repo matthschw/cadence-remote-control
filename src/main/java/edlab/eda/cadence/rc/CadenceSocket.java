@@ -156,23 +156,26 @@ public class CadenceSocket {
         .info("Cleared Server-Socket @ " + this.serverSocket.getLocalPort());
   }
 
-  public void readEvalPrint() throws IOException {
+  public void runRepl() throws IOException {
 
     byte[] data;
 
-    while (true) {
-
+    repl: while (true) {
+      
       while (this.frameworkInputStream.available() == 0) {
         try {
           Thread.sleep(10);
         } catch (InterruptedException e) {
         }
-      }
-      
-      data = new byte[this.frameworkInputStream.available()];
-      this.frameworkInputStream.read(data);
 
-      //data = this.frameworkInputStream.readAllBytes();
+        if (this.frameworkInputStream.read() == -1) {
+          break repl;
+        }
+      }
+
+      data = new byte[this.frameworkInputStream.available() + 1];
+      this.frameworkInputStream.read(data, 1,
+          this.frameworkInputStream.available());
 
       this.logger.info("Received \"" + new String(data) + "\" from framework");
 
@@ -184,15 +187,11 @@ public class CadenceSocket {
 
       this.logger.info("Sent \"" + new String(data) + "\" to cadence");
 
-      try {
-        while (this.cadenceInputStream.available() == 0) {
-          try {
-            Thread.sleep(10);
-          } catch (InterruptedException e) {
-          }
+      while (this.cadenceInputStream.available() == 0) {
+        try {
+          Thread.sleep(10);
+        } catch (InterruptedException e) {
         }
-      } catch (IOException e) {
-        System.exit(-1);
       }
 
       try {
@@ -204,10 +203,16 @@ public class CadenceSocket {
 
       this.logger.info("Received \"" + new String(data) + "\" from cadence");
 
-      this.frameworkOutputStream.write(data);
+      if (!this.socket.isConnected()) {
+        break repl;
+      } else {
+        this.frameworkOutputStream.write(data);
+      }
 
       this.logger.info("Sent \"" + new String(data) + "\" to framework");
     }
+
+    this.clear();
   }
 
   public static void main(String[] args)
@@ -218,14 +223,9 @@ public class CadenceSocket {
     CadenceSocket socket = new CadenceSocket();
     System.out.print(socket.getPort());
 
-    socket.start();
-
     while (true) {
-      try {
-        socket.readEvalPrint();
-      } catch (IOException e) {
-        socket.clear();
-      }
+      socket.start();
+      socket.runRepl();
     }
   }
 }
