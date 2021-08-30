@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import edlab.eda.cadence.rc.EvaluableToSkill;
+import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 
 /**
  * Template of a SKILL-Command

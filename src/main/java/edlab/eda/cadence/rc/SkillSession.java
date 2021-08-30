@@ -420,7 +420,8 @@ public class SkillSession {
     File file = null;
 
     try {
-      data = stream.readAllBytes();
+      data = new byte[stream.available()];
+      stream.read(data);
       stream.close();
       file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
