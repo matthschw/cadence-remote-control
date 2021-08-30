@@ -1,5 +1,13 @@
 package edlab.eda.cadence.rc;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.Random;
+
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
@@ -10,18 +18,8 @@ import edlab.eda.cadence.rc.data.SkillNumber;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.LinkedList;
-import java.util.Random;
-
-import org.junit.jupiter.api.Test;
-
-public class SkillSessionTest {
-
+public class SkillSessionMethods {
+  
   private static final String FILE_NAME = "fuubar.txt";
   private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
@@ -108,33 +106,8 @@ public class SkillSessionTest {
   private static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
 
   private static final String STR = STR1 + STR2 + STR3;
-
-  @Test
-  void test() throws EvaluationFailedException, UnableToStartSkillSession,
-      IncorrectSyntaxException, IOException,
-      InvalidDataobjectReferenceExecption {
-
-    SkillSession session = new SkillSession();
-
-    try {
-      session.start();
-    } catch (UnableToStartSkillSession e) {
-      session.stop();
-      fail("Unable to start session");
-    }
-
-    writeFile(session);
-
-    for (int i = 0; i < 1000; i++) {
-      addUpValuesInList(session);
-    }
-
-    strcat(session);
-
-    session.stop();
-  }
-
-  private void strcat(SkillSession session)
+  
+  static void strcat(SkillInteractiveSession session)
       throws IncorrectSyntaxException, UnableToStartSkillSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
@@ -154,7 +127,7 @@ public class SkillSessionTest {
     }
   }
 
-  private static void writeFile(SkillSession session)
+  static void writeFile(SkillInteractiveSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
@@ -203,7 +176,7 @@ public class SkillSessionTest {
     }
   }
 
-  private static void addUpValuesInList(SkillSession session)
+  static void addUpValuesInList(SkillInteractiveSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
 
@@ -239,4 +212,5 @@ public class SkillSessionTest {
       fail("Incorrect return value");
     }
   }
+
 }

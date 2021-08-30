@@ -60,6 +60,7 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
     }
   }
 
+  @Override
   public boolean canBeUsedInSession(SkillSession session) {
     return true;
   }

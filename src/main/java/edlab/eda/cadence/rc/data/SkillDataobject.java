@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edlab.eda.cadence.rc.EvaluableToSkill;
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.SkillInteractiveSession;
 
 /**
  * Representation of a SKILL data-object
@@ -63,11 +63,11 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Create a {@link SkillDataobject} from a XML
    * 
-   * @param session Corresponding {@link SkillSession}
+   * @param session Corresponding {@link SkillInteractiveSession}
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
+  public static SkillDataobject getSkillDataobjectFromXML(SkillInteractiveSession session,
       String xml) {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -100,7 +100,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param node    Node in the XML
    * @return SkillDataobject
    */
-  private static SkillDataobject traverseNode(SkillSession session, Node node) {
+  private static SkillDataobject traverseNode(SkillInteractiveSession session, Node node) {
 
     SkillDataobject skillDataobject;
     NamedNodeMap nodeMap = node.getAttributes();

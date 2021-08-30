@@ -3,15 +3,16 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import edlab.eda.cadence.rc.SkillInteractiveSession;
 import edlab.eda.cadence.rc.SkillSession;
 
 /**
- * Reference to an object in a {@link SkillSession}
+ * Reference to an object in a {@link SkillInteractiveSession}
  *
  */
 public class SkillComplexDataobject extends SkillDataobject {
 
-  private SkillSession session;
+  private SkillInteractiveSession session;
   private int identifier;
 
   /**
@@ -22,11 +23,11 @@ public class SkillComplexDataobject extends SkillDataobject {
   /**
    * Create a {@link SkillComplexDataobject}
    * 
-   * @param session    {@link SkillSession} where the
+   * @param session    {@link SkillInteractiveSession} where the
    *                   {@link SkillComplexDataobject} is referenced
    * @param identifier Identifier of the {@link SkillComplexDataobject}
    */
-  SkillComplexDataobject(SkillSession session, int identifier) {
+  SkillComplexDataobject(SkillInteractiveSession session, int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -41,16 +42,16 @@ public class SkillComplexDataobject extends SkillDataobject {
    * 
    * @return session
    */
-  public SkillSession getSession() {
+  public SkillInteractiveSession getSession() {
     return session;
   }
 
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref (arrayref " + SkillSession.CDS_RC_GLOBAL + "."
-        + SkillSession.CDS_RC_SESSIONS + " \"" + SkillSession.CDS_RC_SESSION
-        + "\")->" + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier
+    return "(arrayref (arrayref " + SkillInteractiveSession.CDS_RC_GLOBAL + "."
+        + SkillInteractiveSession.CDS_RC_SESSIONS + " \"" + SkillInteractiveSession.CDS_RC_SESSION
+        + "\")->" + SkillInteractiveSession.CDS_RC_RETURN_VALUES + " " + this.identifier
         + ")";
   }
 
