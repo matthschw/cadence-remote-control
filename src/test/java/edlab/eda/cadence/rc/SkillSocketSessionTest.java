@@ -1,7 +1,5 @@
 package edlab.eda.cadence.rc;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -27,34 +25,25 @@ public class SkillSocketSessionTest {
 
     Scanner scanner = new Scanner(
         new File(CadenceSocket.SOCKET_PORT_FILE_NAME));
+
     int port = Integer.parseInt(scanner.nextLine());
     scanner.close();
 
-    System.err.println(port);
-    
     SkillSocketSession session = new SkillSocketSession(port);
-    
+
     session.start();
 
-    /*
-     * SkillInteractiveSession session = new SkillInteractiveSession();
-     * 
-     * try { session.start(); } catch (UnableToStartSkillSession e) {
-     * session.stop(); fail("Unable to start session"); }
-     * 
-     * SkillSessionMethods.writeFile(session);
-     * 
-     * for (int i = 0; i < 1000; i++) {
-     * SkillSessionMethods.addUpValuesInList(session); }
-     * 
-     * SkillSessionMethods.strcat(session);
-     * 
-     * session.stop();
-     */
-    
+    SkillSessionMethods.writeFile(session);
+
+    for (int i = 0; i < 1000; i++) {
+      SkillSessionMethods.addUpValuesInList(session);
+    }
+
+    SkillSessionMethods.strcat(session);
+
     session.stop();
 
     process.destroy();
-   // process.destroyForcibly();
+    // process.destroyForcibly();
   }
 }

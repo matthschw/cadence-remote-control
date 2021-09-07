@@ -93,11 +93,15 @@
       (putpropq retval t valid)
       (putpropq retval (car result) data)
 
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
 
       (when (geqp (strlen retstring) maxLength)
       
-        (setq retstring (EDcdsRCbuildXML retval ?session session ?ciw nil))
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
 
         (setq file (makeTempFileName "/tmp/ed_cds_rc"))
         (setq port (outfile file))
@@ -113,7 +117,12 @@
     else
       (putpropq retval nil valid)
       (putpropq retval errset.errset error)
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
     );if
 
     (if (equal returnType "print") then
@@ -173,13 +182,13 @@
 ;Return:
 ; string            XML
 ;
-(defun EDcdsRCbuildXML (content @key (session "main") (ciw t))
+(defun EDcdsRCbuildXML (content @key (session "main") (bCiw "t"))
 
   (let (fTraverseDataStructure lBuildList (sRoot "root"))
 
     (setq lBuildList (tconc nil nil))
     
-	 (when ciw
+	 (when bCiw
 		(tconc lBuildList "<<1")
 	 );when
 	 
@@ -368,7 +377,7 @@
       ""
     );funcall
     
-	 (when ciw
+	 (when bCiw
 		(tconc  lBuildList "2>>")
 	 );when
 

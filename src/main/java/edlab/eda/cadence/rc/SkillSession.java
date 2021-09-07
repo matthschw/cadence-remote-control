@@ -91,7 +91,7 @@ public abstract class SkillSession {
    * @param suffix   Suffix of the file which will be generated
    * @return Path to the resource
    */
-  protected File getResourcePath(String fileName, String suffix) {
+  public File getResourcePath(String fileName, String suffix) {
 
     InputStream stream = getClass().getClassLoader()
         .getResourceAsStream(fileName);

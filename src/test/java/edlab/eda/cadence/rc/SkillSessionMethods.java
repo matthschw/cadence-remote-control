@@ -107,7 +107,7 @@ public class SkillSessionMethods {
 
   private static final String STR = STR1 + STR2 + STR3;
   
-  static void strcat(SkillInteractiveSession session)
+  static void strcat(SkillSession session)
       throws IncorrectSyntaxException, UnableToStartSkillSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
@@ -127,7 +127,7 @@ public class SkillSessionMethods {
     }
   }
 
-  static void writeFile(SkillInteractiveSession session)
+  static void writeFile(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
@@ -176,7 +176,7 @@ public class SkillSessionMethods {
     }
   }
 
-  static void addUpValuesInList(SkillInteractiveSession session)
+  static void addUpValuesInList(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
 

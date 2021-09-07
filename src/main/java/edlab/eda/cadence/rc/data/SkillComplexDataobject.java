@@ -12,7 +12,7 @@ import edlab.eda.cadence.rc.SkillSession;
  */
 public class SkillComplexDataobject extends SkillDataobject {
 
-  private SkillInteractiveSession session;
+  private SkillSession session;
   private int identifier;
 
   /**
@@ -27,7 +27,7 @@ public class SkillComplexDataobject extends SkillDataobject {
    *                   {@link SkillComplexDataobject} is referenced
    * @param identifier Identifier of the {@link SkillComplexDataobject}
    */
-  SkillComplexDataobject(SkillInteractiveSession session, int identifier) {
+  SkillComplexDataobject(SkillSession session, int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -42,8 +42,8 @@ public class SkillComplexDataobject extends SkillDataobject {
    * 
    * @return session
    */
-  public SkillInteractiveSession getSession() {
-    return session;
+  public SkillSession getSession() {
+    return this.session;
   }
 
   @Override

@@ -30,6 +30,7 @@ public class CadenceSocket {
   private OutputStream frameworkOutputStream;
   private FileInputStream cadenceInputStream;
   private FileOutputStream cadenceOutputStream;
+
   private Logger logger;
 
   public CadenceSocket() throws IOException, NoSuchMethodException,
@@ -161,21 +162,17 @@ public class CadenceSocket {
     byte[] data;
 
     repl: while (true) {
-      
+
       while (this.frameworkInputStream.available() == 0) {
         try {
           Thread.sleep(10);
         } catch (InterruptedException e) {
         }
-
-        if (this.frameworkInputStream.read() == -1) {
-          break repl;
-        }
       }
 
-      data = new byte[this.frameworkInputStream.available() + 1];
-      this.frameworkInputStream.read(data, 1,
-          this.frameworkInputStream.available());
+      data = new byte[this.frameworkInputStream.available()];
+
+      this.frameworkInputStream.read(data);
 
       this.logger.info("Received \"" + new String(data) + "\" from framework");
 

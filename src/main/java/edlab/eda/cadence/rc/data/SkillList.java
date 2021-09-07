@@ -18,6 +18,11 @@ public class SkillList extends SkillBoolean
    */
   public static final String TYPE_ID = "list";
 
+  /**
+   * Name-Identifier in XML
+   */
+  public static final String NAME_ID = "name";
+
   private LinkedList<SkillDataobject> list;
 
   /**
