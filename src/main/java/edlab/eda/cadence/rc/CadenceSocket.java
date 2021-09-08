@@ -13,9 +13,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class CadenceSocket {
 
@@ -31,20 +28,9 @@ public class CadenceSocket {
   private FileInputStream cadenceInputStream;
   private FileOutputStream cadenceOutputStream;
 
-  private Logger logger;
-
   public CadenceSocket() throws IOException, NoSuchMethodException,
       SecurityException, InstantiationException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
-
-    // Creating logfile
-    this.logger = Logger.getLogger("ipcLog");
-
-    FileHandler fileHandler = new FileHandler(
-        "/home/schweikardt/github/cadence-remote-control/log");
-    this.logger.addHandler(fileHandler);
-    fileHandler.setFormatter(new SimpleFormatter());
-    this.logger.info("Logfile had been created successfully");
 
     Constructor<FileDescriptor> ctor;
     FileDescriptor fd = null;
@@ -56,8 +42,6 @@ public class CadenceSocket {
 
     this.cadenceInputStream = new FileInputStream(fd);
 
-    this.logger.info("Created Cadence Input-Stream");
-
     fd = null;
 
     ctor = FileDescriptor.class.getDeclaredConstructor(Integer.TYPE);
@@ -67,13 +51,8 @@ public class CadenceSocket {
 
     this.cadenceOutputStream = new FileOutputStream(fd);
 
-    this.logger.info("Created Cadence Output-Stream");
-
     this.serverSocket = new ServerSocket();
     this.serverSocket.bind(null);
-
-    this.logger
-        .info("Created Server-Socket @ " + this.serverSocket.getLocalPort());
 
     // add shutdown hook for server socket
     Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -116,21 +95,11 @@ public class CadenceSocket {
 
   public void start() throws IOException {
 
-    this.logger.info("Waiting for connection...");
-
     this.socket = this.serverSocket.accept();
-
-    this.logger.info("Created Socket @ " + this.socket.getPort());
 
     this.frameworkInputStream = this.socket.getInputStream();
 
-    this.logger
-        .info("Created Framework Input-Stream @ " + this.socket.getPort());
-
     this.frameworkOutputStream = this.socket.getOutputStream();
-
-    this.logger
-        .info("Created Framework Output-Stream @ " + this.socket.getPort());
   }
 
   public void clear() {
@@ -154,9 +123,6 @@ public class CadenceSocket {
 
     this.frameworkInputStream = null;
     this.frameworkOutputStream = null;
-
-    this.logger
-        .info("Cleared Server-Socket @ " + this.serverSocket.getLocalPort());
   }
 
   public void runRepl() throws IOException {
@@ -181,15 +147,11 @@ public class CadenceSocket {
         break repl;
       }
 
-      this.logger.info("Received \"" + new String(data) + "\" from framework");
-
       try {
         this.cadenceOutputStream.write(data);
       } catch (IOException e) {
         System.exit(-1);
       }
-
-      this.logger.info("Sent \"" + new String(data) + "\" to cadence");
 
       while (this.cadenceInputStream.available() == 0) {
         try {
@@ -205,15 +167,11 @@ public class CadenceSocket {
         System.exit(-1);
       }
 
-      this.logger.info("Received \"" + new String(data) + "\" from cadence");
-
       if (!this.socket.isConnected()) {
         break repl;
       } else {
         this.frameworkOutputStream.write(data);
       }
-
-      this.logger.info("Sent \"" + new String(data) + "\" to framework");
     }
 
     this.clear();

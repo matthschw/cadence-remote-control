@@ -35,16 +35,22 @@ public class SkillSocketSessionTest {
 
     SkillSessionMethods.writeFile(session);
 
-    /*
-     * for (int i = 0; i < 1000; i++) {
-     * SkillSessionMethods.addUpValuesInList(session); }
-     */
+    session.stop();
+    session = new SkillSocketSession(port);
+    session.start();
+
+    for (int i = 0; i < 1000; i++) {
+      SkillSessionMethods.addUpValuesInList(session);
+    }
     
+    session.stop();
+    session = new SkillSocketSession(port);
+    session.start();
+
     SkillSessionMethods.strcat(session);
 
     session.stop();
 
     process.destroy();
-    // process.destroyForcibly();
   }
 }

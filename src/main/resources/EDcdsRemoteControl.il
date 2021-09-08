@@ -74,7 +74,7 @@
 ; result            return value of a SKILL function 
 ;
 ; ?returnType       string, either "print" or "string". When "print" is 
-;                     provided, the XML is printed to the XIW, when "string"
+;                     provided, the XML is printed to the CIW, when "string"
 ;                     is provided, the string is returned
 ;                     
 ; ?session          identifier of the session

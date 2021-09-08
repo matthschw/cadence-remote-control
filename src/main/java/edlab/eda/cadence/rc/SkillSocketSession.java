@@ -65,6 +65,26 @@ public class SkillSocketSession extends SkillSession {
       }
       throw new UnableToStartSkillSession(this.port);
     }
+
+    // add shutdown hook for process
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+
+      @Override
+      public void run() {
+        try {
+          outputStream.write(0);
+          outputStream.flush();
+
+          inputStream.close();
+          outputStream.close();
+          socket.shutdownInput();
+          socket.shutdownOutput();
+          socket.close();
+        } catch (Exception e) {
+        }
+      }
+    });
+
     return this;
   }
 
@@ -121,7 +141,6 @@ public class SkillSocketSession extends SkillSession {
     }
 
     xml = new String(data);
-    //System.err.println(xml);
     xml = xml.substring(2, xml.length() - 2);
 
     xml = StringEscapeUtils.unescapeJava(xml);
@@ -137,14 +156,13 @@ public class SkillSocketSession extends SkillSession {
       if (top.get(SkillSession.ID_VALID).isTrue()) {
 
         if (top.containsKey(SkillSession.ID_FILE)) {
-          
+
           SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
 
           File dataFile = new File(filePath.getString());
 
           xml = new String(Files.readAllBytes(dataFile.toPath()),
               StandardCharsets.US_ASCII);
-          
 
           top = (SkillDisembodiedPropertyList) SkillDataobject
               .getSkillDataobjectFromXML(this, xml);
@@ -171,7 +189,7 @@ public class SkillSocketSession extends SkillSession {
 
   @Override
   public void stop() {
-    
+
     try {
       this.outputStream.write(0);
       this.outputStream.flush();
