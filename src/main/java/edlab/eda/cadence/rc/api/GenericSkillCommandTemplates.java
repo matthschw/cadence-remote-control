@@ -11,6 +11,8 @@ import java.util.Set;
  */
 public class GenericSkillCommandTemplates {
 
+  public static final String PLUS = "plus";
+
   public static final String SET = "set";
   public static final String GET = "get";
 
@@ -58,8 +60,12 @@ public class GenericSkillCommandTemplates {
 
     templates = new HashMap<String, SkillCommandTemplate>();
 
+    templates.put(GenericSkillCommandTemplates.PLUS,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.PLUS, 2, true));
+
     templates.put(GenericSkillCommandTemplates.SET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET, 2));
+
     templates.put(GenericSkillCommandTemplates.GET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET, 2));
 
@@ -108,7 +114,7 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
-    
+
     templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1));
 
@@ -116,13 +122,15 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
 
     templates.put(GenericSkillCommandTemplates.GET_INSTALL_PATH,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_INSTALL_PATH));
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.GET_INSTALL_PATH));
     templates.put(GenericSkillCommandTemplates.GET_WORKING_DIR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET_WORKING_DIR));
     templates.put(GenericSkillCommandTemplates.GET_LOGIN,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET_LOGIN));
     templates.put(GenericSkillCommandTemplates.GET_CURRENT_TIME,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.GET_CURRENT_TIME));
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.GET_CURRENT_TIME));
 
     keywordParameters = new HashSet<String>();
     keywordParameters.add("returnType");

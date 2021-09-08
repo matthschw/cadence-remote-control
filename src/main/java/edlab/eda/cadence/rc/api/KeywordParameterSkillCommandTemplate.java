@@ -36,7 +36,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
   }
 
   /**
-   * Get number of keyword parameters of the SKILL-Command template
+   * Get keyword parameters of the SKILL-Command template
    * 
    * @return Names of keyword-parameters
    */

@@ -38,22 +38,25 @@ public class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * @param name
-   * @param optionalParameters
-   * @return
+   * Build a SKILL command template with optional parameters
+   * 
+   * @param name               Name of the command
+   * @param optionalParameters Number of optional parameters
+   * @return SKILL-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int optionalParameters) {
-    
-    
+
     return new OptionalParameterSkillCommandTemplate(name, optionalParameters);
   }
 
   /**
-   * @param name
-   * @param formalParameters
-   * @param optionalParameters
-   * @return
+   * Build a SKILL command template with optional parameters
+   * 
+   * @param name               Name of the command
+   * @param formalParameters   Number of formal parameters
+   * @param optionalParameters Number of optional parameters
+   * @return SKILL-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int formalParameters, int optionalParameters) {
@@ -71,10 +74,13 @@ public class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * @param name
-   * @param optionalParameters
-   * @param canHaveRest
-   * @return
+   * Build a SKILL command template with optional parameters
+   * 
+   * @param name               Name of the command
+   * @param optionalParameters Number of optional parameters
+   * @param canHaveRest        <code>true</code> when the command can have rest,
+   *                           <code>false</code> otherwise
+   * @return SKILL-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int optionalParameters, boolean canHaveRest) {
@@ -88,11 +94,14 @@ public class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * @param name
-   * @param formalParameters
-   * @param optionalParameters
-   * @param canHaveRest
-   * @return
+   * Build a SKILL command template with optional parameters
+   * 
+   * @param name               canHaveRest
+   * @param formalParameters   Number of formal parameters
+   * @param optionalParameters Number of optional parameters
+   * @param canHaveRest        <code>true</code> when the command can have rest,
+   *                           <code>false</code> otherwise
+   * @return SKILL-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(String name,
       int formalParameters, int optionalParameters, boolean canHaveRest) {

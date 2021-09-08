@@ -21,7 +21,7 @@ public class SkillCommandTemplate {
    * 
    * @param name Name of the command
    */
-  public SkillCommandTemplate(String name) {
+  protected SkillCommandTemplate(String name) {
     this.name = name;
     this.formalParameters = 0;
     this.canHaveRest = false;
@@ -33,7 +33,7 @@ public class SkillCommandTemplate {
    * 
    * @param name Name of the command
    */
-  public SkillCommandTemplate(String name, boolean canHaveRest) {
+  protected SkillCommandTemplate(String name, boolean canHaveRest) {
     this.name = name;
     this.formalParameters = 0;
     this.canHaveRest = canHaveRest;
@@ -45,7 +45,7 @@ public class SkillCommandTemplate {
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
    */
-  public SkillCommandTemplate(String name, int numOfFormalParameters) {
+  protected SkillCommandTemplate(String name, int numOfFormalParameters) {
     this.name = name;
     this.formalParameters = numOfFormalParameters;
     this.canHaveRest = false;
@@ -57,7 +57,7 @@ public class SkillCommandTemplate {
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
    */
-  public SkillCommandTemplate(String name, int numOfFormalParameters,
+  protected SkillCommandTemplate(String name, int numOfFormalParameters,
       boolean canHaveRest) {
     this.name = name;
     this.formalParameters = numOfFormalParameters;
@@ -90,6 +90,53 @@ public class SkillCommandTemplate {
    */
   public boolean canHaveRest() {
     return this.canHaveRest;
+  }
+
+  /**
+   * Build a SKILL command template
+   * 
+   * @param name Name of the command
+   * @return SKILL-Command template
+   */
+  public static SkillCommandTemplate build(String name) {
+    return new SkillCommandTemplate(name);
+  }
+
+  /**
+   * Build a SKILL command template
+   * 
+   * @param name        Name of the command
+   * @param canHaveRest <code>true</code> when the command can have rest,
+   *                    <code>false</code> otherwise
+   * @return SKILL-Command template
+   */
+  public static SkillCommandTemplate build(String name, boolean canHaveRest) {
+    return new SkillCommandTemplate(name, canHaveRest);
+  }
+
+  /**
+   * Build a SKILL command template
+   * 
+   * @param name             Name of the command
+   * @param formalParameters Number of formal parameters
+   * @return SKILL-Command template
+   */
+  public static SkillCommandTemplate build(String name, int formalParameters) {
+    return new SkillCommandTemplate(name, formalParameters);
+  }
+
+  /**
+   * Build a SKILL command template
+   * 
+   * @param name             Name of the command
+   * @param formalParameters Number of formal parameters
+   * @param canHaveRest      <code>true</code> when the command can have rest,
+   *                         <code>false</code> otherwise
+   * @return SKILL-Command template
+   */
+  public static SkillCommandTemplate build(String name, int formalParameters,
+      boolean canHaveRest) {
+    return new SkillCommandTemplate(name, formalParameters, canHaveRest);
   }
 
   /**

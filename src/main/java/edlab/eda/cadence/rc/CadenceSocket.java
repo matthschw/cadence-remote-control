@@ -14,6 +14,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Socket Server that is started in a Cadence tool and will create a socket
+ *
+ */
 public class CadenceSocket {
 
   public static final String SOCKET_PORT_FILE_NAME = ".ed_cds_rc_socket";
@@ -28,7 +32,7 @@ public class CadenceSocket {
   private FileInputStream cadenceInputStream;
   private FileOutputStream cadenceOutputStream;
 
-  public CadenceSocket() throws IOException, NoSuchMethodException,
+  private CadenceSocket() throws IOException, NoSuchMethodException,
       SecurityException, InstantiationException, IllegalAccessException,
       IllegalArgumentException, InvocationTargetException {
 
@@ -86,13 +90,17 @@ public class CadenceSocket {
         }
       }
     });
-
   }
 
   public int getPort() {
     return this.serverSocket.getLocalPort();
   }
 
+  /**
+   * Wait for incoming connection
+   * 
+   * @throws IOException (occurs never)
+   */
   public void start() throws IOException {
 
     this.socket = this.serverSocket.accept();
@@ -102,7 +110,10 @@ public class CadenceSocket {
     this.frameworkOutputStream = this.socket.getOutputStream();
   }
 
-  public void clear() {
+  /**
+   * Clear the socket
+   */
+  private void clear() {
 
     try {
       this.frameworkInputStream.close();
@@ -125,6 +136,11 @@ public class CadenceSocket {
     this.frameworkOutputStream = null;
   }
 
+  /**
+   * Read-Eval-Print-Loop
+   * 
+   * @throws IOException (occurs never)
+   */
   public void runRepl() throws IOException {
 
     byte[] data;
@@ -150,6 +166,7 @@ public class CadenceSocket {
       try {
         this.cadenceOutputStream.write(data);
       } catch (IOException e) {
+        // Exit when Cadence crashed
         System.exit(-1);
       }
 
@@ -164,6 +181,7 @@ public class CadenceSocket {
         data = new byte[this.cadenceInputStream.available()];
         this.cadenceInputStream.read(data);
       } catch (IOException e) {
+        // Exit when Cadence crashed
         System.exit(-1);
       }
 
@@ -177,12 +195,24 @@ public class CadenceSocket {
     this.clear();
   }
 
+  /**
+   * Method which is invoked from a Cadence tool
+   * 
+   * @throws IOException
+   * @throws NoSuchMethodException
+   * @throws SecurityException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   * @throws IllegalArgumentException
+   * @throws InvocationTargetException
+   */
   public static void main(String[] args)
       throws IOException, NoSuchMethodException, SecurityException,
       InstantiationException, IllegalAccessException, IllegalArgumentException,
       InvocationTargetException {
 
     CadenceSocket socket = new CadenceSocket();
+
     System.out.print(socket.getPort());
 
     while (true) {

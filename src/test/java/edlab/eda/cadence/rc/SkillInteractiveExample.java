@@ -1,0 +1,41 @@
+package edlab.eda.cadence.rc;
+
+import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
+import edlab.eda.cadence.rc.api.SkillCommand;
+import edlab.eda.cadence.rc.api.SkillCommandTemplate;
+import edlab.eda.cadence.rc.data.SkillDataobject;
+import edlab.eda.cadence.rc.data.SkillFixnum;
+
+public class SkillInteractiveExample {
+
+  public static void main(String[] args)
+      throws UnableToStartSkillSession, IncorrectSyntaxException,
+      EvaluationFailedException, InvalidDataobjectReferenceExecption {
+
+    // Create an interactive session
+    SkillInteractiveSession session = new SkillInteractiveSession();
+
+    // Start the session
+    session.start();
+
+    // create a command template for the command "plus"
+    SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
+
+    // create the command "(plus 1 41)"
+    SkillCommand command = template.buildCommand(
+        new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+
+    // evaluate the command in the session
+    SkillDataobject obj = session.evaluate(command);
+
+    // typecast result
+    SkillFixnum num = (SkillFixnum) obj;
+
+    System.out.println(num.getFixnum());
+
+    // close session
+    session.stop();
+
+  }
+
+}
