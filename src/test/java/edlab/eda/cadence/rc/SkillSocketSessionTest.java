@@ -35,10 +35,11 @@ public class SkillSocketSessionTest {
 
     SkillSessionMethods.writeFile(session);
 
-    for (int i = 0; i < 1000; i++) {
-      SkillSessionMethods.addUpValuesInList(session);
-    }
-
+    /*
+     * for (int i = 0; i < 1000; i++) {
+     * SkillSessionMethods.addUpValuesInList(session); }
+     */
+    
     SkillSessionMethods.strcat(session);
 
     session.stop();

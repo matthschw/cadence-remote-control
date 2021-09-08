@@ -121,6 +121,7 @@ public class SkillSocketSession extends SkillSession {
     }
 
     xml = new String(data);
+    //System.err.println(xml);
     xml = xml.substring(2, xml.length() - 2);
 
     xml = StringEscapeUtils.unescapeJava(xml);
@@ -170,8 +171,16 @@ public class SkillSocketSession extends SkillSession {
 
   @Override
   public void stop() {
+    
+    try {
+      this.outputStream.write(0);
+      this.outputStream.flush();
+    } catch (IOException e) {
+    }
 
     try {
+      this.inputStream.close();
+      this.outputStream.close();
       this.socket.shutdownInput();
       this.socket.shutdownOutput();
       this.socket.close();

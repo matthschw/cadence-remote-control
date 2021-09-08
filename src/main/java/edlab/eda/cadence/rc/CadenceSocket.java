@@ -116,6 +116,8 @@ public class CadenceSocket {
 
   public void start() throws IOException {
 
+    this.logger.info("Waiting for connection...");
+
     this.socket = this.serverSocket.accept();
 
     this.logger.info("Created Socket @ " + this.socket.getPort());
@@ -164,6 +166,7 @@ public class CadenceSocket {
     repl: while (true) {
 
       while (this.frameworkInputStream.available() == 0) {
+
         try {
           Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -173,6 +176,10 @@ public class CadenceSocket {
       data = new byte[this.frameworkInputStream.available()];
 
       this.frameworkInputStream.read(data);
+
+      if (data.length == 1) {
+        break repl;
+      }
 
       this.logger.info("Received \"" + new String(data) + "\" from framework");
 
