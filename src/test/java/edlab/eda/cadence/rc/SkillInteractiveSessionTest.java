@@ -1,6 +1,10 @@
 package edlab.eda.cadence.rc;
 
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
+import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
+import edlab.eda.cadence.rc.session.SkillInteractiveSession;
+import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;

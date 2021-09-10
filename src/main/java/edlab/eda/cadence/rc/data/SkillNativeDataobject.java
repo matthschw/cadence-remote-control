@@ -14,7 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Representation of a native SKILL-Object

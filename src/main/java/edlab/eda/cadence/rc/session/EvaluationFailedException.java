@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 /**
  * Exception that is thrown when a Skill command cannot be evaluated

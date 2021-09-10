@@ -7,6 +7,11 @@ import java.util.Scanner;
 import org.junit.jupiter.api.Test;
 
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
+import edlab.eda.cadence.rc.session.CadenceSocket;
+import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
+import edlab.eda.cadence.rc.session.SkillSocketSession;
+import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
 
 public class SkillSocketSessionTest {
 
@@ -30,6 +35,7 @@ public class SkillSocketSessionTest {
     scanner.close();
 
     SkillSocketSession session = new SkillSocketSession(port);
+    
 
     session.start();
 

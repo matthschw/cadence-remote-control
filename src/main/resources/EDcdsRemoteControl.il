@@ -74,7 +74,7 @@
 ; result            return value of a SKILL function 
 ;
 ; ?returnType       string, either "print" or "string". When "print" is 
-;                     provided, the XML is printed to the CIW, when "string"
+;                     provided, the XML is printed to the XIW, when "string"
 ;                     is provided, the string is returned
 ;                     
 ; ?session          identifier of the session
@@ -111,7 +111,11 @@
         (putpropq retval nil  data)
         (putpropq retval file file)
 
-        (setq retstring (EDcdsRCbuildXML retval ?session session))
+        (if (equal returnType "print") then
+          (setq retstring (EDcdsRCbuildXML retval ?session session))
+        else
+          (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+        );if
       );when
 
     else

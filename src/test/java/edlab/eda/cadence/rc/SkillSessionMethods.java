@@ -17,6 +17,11 @@ import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillNumber;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
+import edlab.eda.cadence.rc.session.EvaluableToSkill;
+import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
+import edlab.eda.cadence.rc.session.SkillSession;
+import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
 
 public class SkillSessionMethods {
   
@@ -187,7 +192,7 @@ public class SkillSessionMethods {
     int rand;
 
     for (int i = 0; i < 100; i++) {
-      rand = random.nextInt(1000);
+      rand = random.nextInt(10000);
 
       sum += rand;
       list.addAtLast(new SkillFixnum(rand));

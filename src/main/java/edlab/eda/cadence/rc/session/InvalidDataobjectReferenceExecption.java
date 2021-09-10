@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
 

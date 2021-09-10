@@ -5,6 +5,11 @@ import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
+import edlab.eda.cadence.rc.session.EvaluableToSkill;
+import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
+import edlab.eda.cadence.rc.session.SkillInteractiveSession;
+import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
 
 public class SkillInteractiveExample {
 

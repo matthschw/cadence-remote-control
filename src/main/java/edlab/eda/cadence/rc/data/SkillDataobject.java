@@ -11,9 +11,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edlab.eda.cadence.rc.EvaluableToSkill;
-import edlab.eda.cadence.rc.SkillInteractiveSession;
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.session.EvaluableToSkill;
+import edlab.eda.cadence.rc.session.SkillInteractiveSession;
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Representation of a SKILL data-object

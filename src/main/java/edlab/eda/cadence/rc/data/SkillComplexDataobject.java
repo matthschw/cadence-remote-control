@@ -3,8 +3,8 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edlab.eda.cadence.rc.SkillInteractiveSession;
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.session.SkillInteractiveSession;
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Reference to an object in a {@link SkillInteractiveSession}

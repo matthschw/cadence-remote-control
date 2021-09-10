@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import java.io.File;
 import java.io.FileDescriptor;

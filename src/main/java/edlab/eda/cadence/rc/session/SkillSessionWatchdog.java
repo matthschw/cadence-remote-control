@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

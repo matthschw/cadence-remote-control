@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
@@ -19,7 +19,6 @@ import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
 
-@SuppressWarnings("deprecation")
 public class SkillSocketSession extends SkillSession {
 
   private int port;
@@ -143,7 +142,9 @@ public class SkillSocketSession extends SkillSession {
     xml = new String(data);
     xml = xml.substring(2, xml.length() - 2);
 
-    xml = StringEscapeUtils.unescapeJava(xml);
+    xml= StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
+    
+    //xml = StringEscapeUtils.unescapeJava(xml);
 
     SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
 

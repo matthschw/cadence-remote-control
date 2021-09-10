@@ -3,7 +3,7 @@ package edlab.eda.cadence.rc.api;
 import java.util.List;
 import java.util.Map;
 
-import edlab.eda.cadence.rc.EvaluableToSkill;
+import edlab.eda.cadence.rc.session.EvaluableToSkill;
 
 /**
  * Template of a SKILL-Command

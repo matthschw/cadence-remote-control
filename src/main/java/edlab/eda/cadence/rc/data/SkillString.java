@@ -38,8 +38,7 @@ public class SkillString extends SkillBoolean {
 
   @Override
   protected String toSkillHierarchical(int depth) {
-
-    return "\"" + StringEscapeUtils.escapeJava(this.string) + "\"";
+    return "\"" + StringEscapeUtils.ESCAPE_JAVA.translate(this.string) + "\"";
   }
 
   @Override
