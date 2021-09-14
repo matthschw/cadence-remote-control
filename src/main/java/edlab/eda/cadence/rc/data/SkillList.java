@@ -1,7 +1,9 @@
 package edlab.eda.cadence.rc.data;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,6 +33,67 @@ public class SkillList extends SkillBoolean
   public SkillList() {
     super(false);
     this.list = new LinkedList<SkillDataobject>();
+  }
+
+  /**
+   * Create a Skill list
+   */
+  public SkillList(List<SkillDataobject> data) {
+
+    super(true);
+
+    this.list = new LinkedList<SkillDataobject>(data);
+
+    if (this.list.isEmpty()) {
+      super.bool = false;
+    }
+  }
+
+  /**
+   * Create a Skill list from a string array
+   */
+  public SkillList(String[] data) {
+
+    super(true);
+    this.list = new LinkedList<SkillDataobject>();
+
+    for (String string : data) {
+      this.list.add(new SkillString(string));
+    }
+
+    if (this.list.isEmpty()) {
+      super.bool = false;
+    }
+  }
+
+  /**
+   * Create a Skill list from an integer array
+   */
+  public SkillList(int[] data) {
+
+    super(true);
+    this.list = new LinkedList<SkillDataobject>();
+
+    for (int i = 0; i < data.length; i++) {
+      this.list.add(new SkillFixnum(data[i]));
+    }
+
+    if (this.list.isEmpty()) {
+      super.bool = false;
+    }
+  }
+
+  /**
+   * Create a Skill list from a {@link BigDecimal} array
+   */
+  public SkillList(BigDecimal[] data) {
+
+    super(false);
+    this.list = new LinkedList<SkillDataobject>();
+
+    for (int i = 0; i < data.length; i++) {
+      this.list.add(new SkillFlonum(data[i]));
+    }
   }
 
   /**
@@ -164,4 +227,22 @@ public class SkillList extends SkillBoolean
       return false;
     }
   }
+
+  /**
+   * Build a Skill list from an array of integers
+   * 
+   * @param values Array of integers
+   * @return Skill list
+   */
+  public static SkillList get(int[] values) {
+
+    SkillList list = new SkillList();
+
+    for (int i = 0; i < values.length; i++) {
+      list.addAtLast(new SkillFixnum(values[i]));
+    }
+
+    return list;
+  }
+
 }
