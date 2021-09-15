@@ -19,5 +19,4 @@ public class InvalidDataobjectReferenceExecption extends Exception {
         + " contains references that are not defined in session= "
         + session.toString());
   }
-
 }

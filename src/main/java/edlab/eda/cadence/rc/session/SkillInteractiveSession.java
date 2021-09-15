@@ -19,7 +19,7 @@ import net.sf.expectit.Expect;
 import net.sf.expectit.ExpectBuilder;
 
 /**
- * Session for communication with an interactive session using Cadence SKILL
+ * Session for communication with an interactive session using Cadence Skill
  * syntax
  *
  */

@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a SKILL-Fixnum
+ * Representation of a Skill fixnum
  *
  */
 public class SkillFixnum extends SkillNumber {
@@ -17,7 +17,7 @@ public class SkillFixnum extends SkillNumber {
   public static final String TYPE_ID = "fixnum";
 
   /**
-   * Create a new SKILL representation of a fixnum
+   * Create a new Skill representation of a fixnum
    * 
    * @param fixnum Fixnum
    */
@@ -25,10 +25,19 @@ public class SkillFixnum extends SkillNumber {
     super(new BigDecimal(fixnum));
   }
 
+  /**
+   * Get the fixnum value
+   * 
+   * @return fixnum
+   */
   public int getFixnum() {
     return this.number.intValue();
   }
 
+  /**
+   * @param fixnum
+   * @return
+   */
   public int setFixum(int fixnum) {
     this.number = new BigDecimal(fixnum);
     return this.number.intValue();
@@ -45,7 +54,6 @@ public class SkillFixnum extends SkillNumber {
 
   @Override
   public boolean equals(Object o) {
-
     if (o instanceof SkillFixnum) {
       SkillFixnum object = (SkillFixnum) o;
       return this.getValue().equals(object.getValue());

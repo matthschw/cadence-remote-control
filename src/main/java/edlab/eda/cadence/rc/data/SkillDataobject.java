@@ -16,7 +16,7 @@ import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a SKILL data-object
+ * Representation of a Skill data-object
  *
  */
 public abstract class SkillDataobject implements EvaluableToSkill {
@@ -203,7 +203,4 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     } else
       return false;
   }
-
-
-
 }

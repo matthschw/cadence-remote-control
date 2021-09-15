@@ -77,7 +77,6 @@ public class SkillComplexDataobject extends SkillDataobject {
 
   @Override
   public boolean canBeUsedInSession(SkillSession session) {
-
     return session.equals(this.session);
   }
 }

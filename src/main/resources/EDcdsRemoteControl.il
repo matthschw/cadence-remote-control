@@ -308,6 +308,107 @@
               );tconc
             )
 
+            /*
+            ((complexp val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"complex\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+
+              (tconc
+                lBuildList
+                (funcall
+                  fTraverseDataStructure
+                  (real val)
+                  "real"
+                  (strcat sIndentation "\t")
+                );funcall
+              );tconc
+
+              (tconc
+                lBuildList
+                (funcall
+                  fTraverseDataStructure
+                  (imag val)
+                  "imag"
+                  (strcat sIndentation "\t")
+                );funcall
+              );tconc
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+            */
+            /*
+            ((drIsWaveform val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"wave\" x=\"%s\" y=\"%s\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                  (drGetWaveformXType val)
+                  (drGetWaveformYType val)
+                );lsprintf
+              );tconc
+
+
+              (setq xVec (drGetWaveformXVec val))
+              (setq yVec (drGetWaveformYVec val))
+
+              (for i 0 (drVectorLength xVec)
+
+                (tconc
+                  lBuildList
+                  (lsprintf
+                    "%s%s<%L>\n"
+                    sIndentation
+                    "\t"
+                    i
+                  );lsprintf
+
+                  (tconc
+                    lBuildList
+                    (lsprintf
+                      "%s%s</%s>\n"
+                      sIndentation
+                      "\t"
+                      i
+                    );lsprintf
+                  );tconc
+                );tconc
+              );for
+
+                  
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+            */
+
+            /*
+            ((famIsFamily val)
+              nil
+            )
+            */
+            
             ((symbolp val) 
 
               (tconc
@@ -381,11 +482,13 @@
       ""
     );funcall
     
-	 (when bCiw
-		(tconc  lBuildList "2>>")
-	 );when
+  (when bCiw
+    (tconc  lBuildList "2>>")
+  );when
 
-    (apply 'strcat (cdar lBuildList))
+  (apply 'strcat (cdar lBuildList))
+
+  ;(cdar lBuildList)
   );let
 );defun
 
@@ -416,3 +519,5 @@
     ""
   );buildString
 );defun
+
+

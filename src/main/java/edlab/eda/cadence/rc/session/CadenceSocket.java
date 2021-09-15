@@ -92,7 +92,7 @@ public class CadenceSocket {
     });
   }
 
-  public int getPort() {
+  private int getPort() {
     return this.serverSocket.getLocalPort();
   }
 

@@ -25,13 +25,13 @@ public class SkillFlonum extends SkillNumber {
     super(flonum);
   }
 
+  /**
+   * Get the flonum
+   * 
+   * @return flonum
+   */
   public BigDecimal getFlonum() {
-
     return this.number;
-  }
-
-  public BigDecimal setFlonum(BigDecimal flonum) {
-    return this.number = flonum;
   }
 
   @Override
