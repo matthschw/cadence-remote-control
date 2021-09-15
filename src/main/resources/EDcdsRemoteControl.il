@@ -308,37 +308,32 @@
               );tconc
             )
 
-            /*
+      
             ((complexp val)
 
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s type=\"complex\">\n"
+                  "%s<%s type=\"doublecomplex\">\n"
                   sIndentation
                   (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
 
-              (tconc
-                lBuildList
-                (funcall
-                  fTraverseDataStructure
-                  (real val)
-                  "real"
-                  (strcat sIndentation "\t")
-                );funcall
-              );tconc
 
-              (tconc
-                lBuildList
-                (funcall
-                  fTraverseDataStructure
-                  (imag val)
-                  "imag"
-                  (strcat sIndentation "\t")
-                );funcall
-              );tconc
+              (funcall
+                fTraverseDataStructure
+                (real val)
+                "real"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (funcall
+                fTraverseDataStructure
+                (imag val)
+                "imag"
+                (strcat sIndentation "\t")
+              );funcall
 
               (tconc
                 lBuildList
@@ -349,7 +344,7 @@
                 );lsprintf
               );tconc
             )
-            */
+         
             /*
             ((drIsWaveform val)
 
@@ -408,7 +403,7 @@
               nil
             )
             */
-            
+
             ((symbolp val) 
 
               (tconc
