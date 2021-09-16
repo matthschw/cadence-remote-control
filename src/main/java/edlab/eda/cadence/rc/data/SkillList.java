@@ -96,14 +96,69 @@ public class SkillList extends SkillBoolean
     }
   }
 
+  private void updateBool() {
+    if (this.list != null) {
+
+      if (this.list.isEmpty()) {
+        super.bool = false;
+      } else {
+        super.bool = true;
+      }
+    } else {
+      super.bool = false;
+    }
+  }
+
   /**
    * Add a {@link SkillDataobject} as first list element
    * 
    * @param skillDataobject Object to be added
    */
+  @Deprecated
   public void addAtFirst(SkillDataobject skillDataobject) {
-    super.bool = true;
     this.list.addFirst(skillDataobject);
+    this.updateBool();
+  }
+
+  /**
+   * Add a {@link SkillDataobject} as first list element
+   * 
+   * @param skillDataobject Object to be added
+   */
+  public void prepend(SkillDataobject skillDataobject) {
+    this.list.addFirst(skillDataobject);
+    this.updateBool();
+  }
+
+  /**
+   * Add a list of {@link SkillDataobject} as first list elements
+   * 
+   * @param skillDataobject Object to be added
+   */
+  public void prepend(List<SkillDataobject> skillDataobjects) {
+
+    LinkedList<SkillDataobject> result = new LinkedList<SkillDataobject>();
+
+    for (SkillDataobject skillDataobject : skillDataobjects) {
+      result.add(skillDataobject);
+    }
+
+    for (SkillDataobject skillDataobject : this.list) {
+      result.add(skillDataobject);
+    }
+
+    this.list = result;
+
+    this.updateBool();
+  }
+
+  /**
+   * Add a list of {@link SkillDataobject} as first list elements
+   * 
+   * @param list to be added
+   */
+  public void prepend(SkillList list) {
+    this.prepend(list.list);
   }
 
   /**
@@ -111,9 +166,51 @@ public class SkillList extends SkillBoolean
    * 
    * @param skillDataobject Object to be added
    */
+  @Deprecated
   public void addAtLast(SkillDataobject skillDataobject) {
-    super.bool = true;
     this.list.addLast(skillDataobject);
+    this.updateBool();
+  }
+
+  /**
+   * Add a {@link SkillDataobject} as last list element
+   * 
+   * @param skillDataobject Object to be added
+   */
+  public void append(SkillDataobject skillDataobject) {
+    this.list.addLast(skillDataobject);
+    this.updateBool();
+  }
+
+  /**
+   * Add a list of {@link SkillDataobject} as last list elements
+   * 
+   * @param skillDataobjects Objects to be added
+   */
+  public void append(List<SkillDataobject> skillDataobjects) {
+
+    LinkedList<SkillDataobject> result = new LinkedList<SkillDataobject>();
+
+    for (SkillDataobject skillDataobject : this.list) {
+      result.add(skillDataobject);
+    }
+
+    for (SkillDataobject skillDataobject : skillDataobjects) {
+      result.add(skillDataobject);
+    }
+
+    this.list = result;
+
+    this.updateBool();
+  }
+
+  /**
+   * Add a list of {@link SkillDataobject} as last list elements
+   * 
+   * @param list to be added
+   */
+  public void append(SkillList list) {
+    this.append(list.list);
   }
 
   /**

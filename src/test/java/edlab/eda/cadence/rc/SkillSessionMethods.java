@@ -195,7 +195,7 @@ public class SkillSessionMethods {
       rand = random.nextInt(10000);
 
       sum += rand;
-      list.addAtLast(new SkillFixnum(rand));
+      list.append(new SkillFixnum(rand));
     }
 
     SkillCommand command = GenericSkillCommandTemplates
