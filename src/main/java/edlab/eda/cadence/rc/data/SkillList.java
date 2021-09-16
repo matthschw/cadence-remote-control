@@ -214,6 +214,16 @@ public class SkillList extends SkillBoolean
   }
 
   /**
+   * Add a list of {@link SkillDataobject} as last list elements
+   * 
+   * @param list to be added
+   */
+  public void append1(SkillDataobject skillDataobject) {
+    this.list.addLast(skillDataobject);
+    this.updateBool();
+  }
+
+  /**
    * Remove of a {@link SkillDataobject} from a list
    * 
    * @param skillDataobject Object to be removed
