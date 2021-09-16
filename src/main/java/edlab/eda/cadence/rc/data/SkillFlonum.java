@@ -6,7 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a SKILL-Flonum
+ * Representation of a Skill flonum
  *
  */
 public class SkillFlonum extends SkillNumber {
@@ -46,11 +46,18 @@ public class SkillFlonum extends SkillNumber {
   @Override
   public boolean equals(Object o) {
 
+    BigDecimal value = null;
+
     if (o instanceof SkillFlonum) {
-      SkillFlonum object = (SkillFlonum) o;
-      return this.getValue().equals(object.getValue());
-    } else {
-      return false;
+      value = ((SkillFlonum) o).getFlonum();
+    } else if (o instanceof Double) {
+      value = new BigDecimal((Double) o);
+    } else if (o instanceof Float) {
+      value = new BigDecimal((Float) o);
+    } else if (o instanceof BigDecimal) {
+      value = (BigDecimal) o;
     }
+    
+    return this.getValue().equals(value);
   }
 }

@@ -261,6 +261,7 @@ public class SkillList extends SkillBoolean
   public String toSkillHierarchical(int depth) {
 
     if (super.bool) {
+
       String s;
       Boolean firstIteration = true;
 
@@ -293,7 +294,6 @@ public class SkillList extends SkillBoolean
 
   @Override
   public Iterator<SkillDataobject> iterator() {
-
     return this.list.iterator();
   }
 

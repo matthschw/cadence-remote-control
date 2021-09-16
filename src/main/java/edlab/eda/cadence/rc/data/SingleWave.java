@@ -24,7 +24,7 @@ public class SingleWave extends Wave {
     SkillList retval = new SkillList();
 
     for (BigDecimal value : this.wave) {
-      retval.addAtLast(new SkillFlonum(value));
+      retval.append(new SkillFlonum(value));
     }
 
     return retval;
