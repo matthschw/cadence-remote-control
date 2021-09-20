@@ -248,7 +248,7 @@
               );tconc
             )
 
-            ((and (listp val) (null (car val)))
+            ((and (listp val) (plusp (length val)) (null (car val)))
 
               (tconc
                 lBuildList
