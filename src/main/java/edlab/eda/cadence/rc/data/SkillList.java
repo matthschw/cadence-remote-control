@@ -65,7 +65,8 @@ public class SkillList extends SkillBoolean
       super.bool = false;
     }
   }
-
+  
+  
   /**
    * Create a Skill list from an integer array
    */

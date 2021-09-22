@@ -100,7 +100,7 @@ public class SkillInteractiveSession extends SkillSession {
 
         throw new UnableToStartSkillSession(this.command, workingDir);
       }
-
+      
       // add shutdown hook for process
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
@@ -292,7 +292,10 @@ public class SkillInteractiveSession extends SkillSession {
   @Override
   public void stop() {
 
-    this.watchdog.kill();
+    if (watchdog instanceof SkillSessionWatchdog) {
+      this.watchdog.kill();
+    }
+    
     this.watchdog = null;
 
     try {
