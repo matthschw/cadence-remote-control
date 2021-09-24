@@ -23,6 +23,7 @@ public class GenericSkillCommandTemplates {
 
   public static final String APPLY = "apply";
   public static final String EVAL = "eval";
+  public static final String IS_CALLABLE = "isCallable";
 
   public static final String ARRAYREF = "arrayref";
 
@@ -83,6 +84,8 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
     templates.put(GenericSkillCommandTemplates.EVAL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 1));
+    templates.put(GenericSkillCommandTemplates.IS_CALLABLE,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.IS_CALLABLE, 1));    
 
     templates.put(GenericSkillCommandTemplates.ARRAYREF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ARRAYREF, 2));
