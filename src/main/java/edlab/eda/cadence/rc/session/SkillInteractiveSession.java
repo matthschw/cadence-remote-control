@@ -73,6 +73,7 @@ public class SkillInteractiveSession extends SkillSession {
     this.timeoutTimeUnit = unit;
     return this;
   }
+  
 
   /**
    * Specify the command to be used to invoke the session
@@ -95,12 +96,13 @@ public class SkillInteractiveSession extends SkillSession {
             workingDir);
 
       } catch (IOException e) {
+        
         System.err.println(
             "Unable to execute session" + " with error:\n" + e.getMessage());
 
         throw new UnableToStartSkillSession(this.command, workingDir);
       }
-      
+
       // add shutdown hook for process
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
@@ -115,7 +117,8 @@ public class SkillInteractiveSession extends SkillSession {
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
-            .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
+            .build().withTimeout(10, TimeUnit.DAYS);
+        
         expect.expect(SkillSession.NEXT_COMMAND);
 
         try {
@@ -295,7 +298,7 @@ public class SkillInteractiveSession extends SkillSession {
     if (watchdog instanceof SkillSessionWatchdog) {
       this.watchdog.kill();
     }
-    
+
     this.watchdog = null;
 
     try {
