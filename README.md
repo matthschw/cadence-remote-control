@@ -1,4 +1,4 @@
-# cadence-remote-control (Pre-Alpha)
+# cadence-remote-control
 
 Remote Control for Cadence-Tools in Java
 
@@ -32,7 +32,7 @@ Add the dependency to your project
 
 Import the corresponding package to your code
 ```java
-import edlab.eda.reader.cadence.rc.*;
+import edlab.eda.cadence.rc.*;
 ```
 
 # Utilization

@@ -37,6 +37,8 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list
+   * 
+   * @param data list of Skill data-objects
    */
   public SkillList(List<SkillDataobject> data) {
 
@@ -51,6 +53,8 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list from a string array
+   * 
+   * @param data array of {@link String}
    */
   public SkillList(String[] data) {
 
@@ -65,10 +69,11 @@ public class SkillList extends SkillBoolean
       super.bool = false;
     }
   }
-  
-  
+
   /**
    * Create a Skill list from an integer array
+   * 
+   * @param data array of {@link Integer}
    */
   public SkillList(int[] data) {
 
@@ -86,6 +91,8 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list from a {@link BigDecimal} array
+   * 
+   * @param data array of {@link BigDecimal}
    */
   public SkillList(BigDecimal[] data) {
 
@@ -134,7 +141,7 @@ public class SkillList extends SkillBoolean
   /**
    * Add a list of {@link SkillDataobject} as first list elements
    * 
-   * @param skillDataobject Object to be added
+   * @param skillDataobjects List of Skill data-objects
    */
   public void prepend(List<SkillDataobject> skillDataobjects) {
 
@@ -208,7 +215,7 @@ public class SkillList extends SkillBoolean
   /**
    * Add a list of {@link SkillDataobject} as last list elements
    * 
-   * @param list to be added
+   * @param list list to be appended
    */
   public void append(SkillList list) {
     this.append(list.list);
@@ -217,7 +224,7 @@ public class SkillList extends SkillBoolean
   /**
    * Add a list of {@link SkillDataobject} as last list elements
    * 
-   * @param list to be added
+   * @param skillDataobject Skill data-object to be appended at the end
    */
   public void append1(SkillDataobject skillDataobject) {
     this.list.addLast(skillDataobject);

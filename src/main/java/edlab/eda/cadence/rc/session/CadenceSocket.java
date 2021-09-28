@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,9 +31,7 @@ public class CadenceSocket {
   private FileInputStream cadenceInputStream;
   private FileOutputStream cadenceOutputStream;
 
-  private CadenceSocket() throws IOException, NoSuchMethodException,
-      SecurityException, InstantiationException, IllegalAccessException,
-      IllegalArgumentException, InvocationTargetException {
+  private CadenceSocket() throws Exception {
 
     Constructor<FileDescriptor> ctor;
     FileDescriptor fd = null;
@@ -198,18 +195,10 @@ public class CadenceSocket {
   /**
    * Method which is invoked from a Cadence tool
    * 
-   * @throws IOException
-   * @throws NoSuchMethodException
-   * @throws SecurityException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   * @throws IllegalArgumentException
-   * @throws InvocationTargetException
+   * @param args Array of strings
+   * @throws Exception Is thrown when the connection cannot be establised
    */
-  public static void main(String[] args)
-      throws IOException, NoSuchMethodException, SecurityException,
-      InstantiationException, IllegalAccessException, IllegalArgumentException,
-      InvocationTargetException {
+  public static void main(String[] args) throws Exception {
 
     CadenceSocket socket = new CadenceSocket();
 

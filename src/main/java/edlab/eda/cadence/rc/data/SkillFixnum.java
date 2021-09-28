@@ -35,8 +35,10 @@ public class SkillFixnum extends SkillNumber {
   }
 
   /**
-   * @param fixnum
-   * @return
+   * Set the fixnum value
+   * 
+   * @param fixnum Value as integer
+   * @return value
    */
   public int setFixum(int fixnum) {
     this.number = new BigDecimal(fixnum);

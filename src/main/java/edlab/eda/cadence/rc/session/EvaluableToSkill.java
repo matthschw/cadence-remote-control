@@ -10,7 +10,7 @@ public interface EvaluableToSkill {
   /**
    * Evaluate to a SKILL representation
    * 
-   * @return SKILL Code
+   * @return Skill Code
    */
   public String toSkill();
 
@@ -19,7 +19,8 @@ public interface EvaluableToSkill {
    * {@link SkillSession}
    * 
    * @param session SkillSession
-   * @return 
+   * @return <code>true</code> when a Skill expression can be used in a session,
+   *         <code>false</code> otherwise
    */
   public boolean canBeUsedInSession(SkillSession session);
 }

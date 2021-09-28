@@ -31,7 +31,9 @@ public class SkillCommandTemplate {
    * Create a SKILL-Command template with an arbitrary number of formal
    * parameters
    * 
-   * @param name Name of the command
+   * @param name        Name of the command
+   * @param canHaveRest <code>true</code> when the command can have rest,
+   *                    <code>false</code> otherwise
    */
   protected SkillCommandTemplate(String name, boolean canHaveRest) {
     this.name = name;
@@ -56,6 +58,8 @@ public class SkillCommandTemplate {
    * 
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
+   * @param canHaveRest           <code>true</code> when the command can have
+   *                              rest, <code>false</code> otherwise
    */
   protected SkillCommandTemplate(String name, int numOfFormalParameters,
       boolean canHaveRest) {
@@ -347,7 +351,7 @@ public class SkillCommandTemplate {
    * 
    * @param formalParamater   Single formal parameter
    * @param keywordParameters Map of keyword parameters
-   * @return
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -413,7 +417,7 @@ public class SkillCommandTemplate {
    * @param formalParamaters  Array of formal parameters
    * @param keywordParameters Map of keyword parameters
    * @param restParameters    Rest parameters as list
-   * @return
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
