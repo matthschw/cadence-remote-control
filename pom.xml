@@ -83,7 +83,7 @@
 				<version>3.1.0</version>
 				<configuration>
 					<serverId>github</serverId>
-					<pubScmUrl>scm:git:https://github.com/matthschw/cadence-remote-control.git</pubScmUrl>
+					<pubScmUrl>scm:git:https://github.com/electronics-and-drives/cadence-remote-control.git</pubScmUrl>
 					<scmBranch>gh-pages</scmBranch>
 					<checkinComment>Updated JavaDocs via Maven</checkinComment>
 					<content>${project.build.directory}/apidocs</content>
