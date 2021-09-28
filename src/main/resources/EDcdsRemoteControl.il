@@ -93,11 +93,15 @@
       (putpropq retval t valid)
       (putpropq retval (car result) data)
 
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
 
       (when (geqp (strlen retstring) maxLength)
       
-        (setq retstring (EDcdsRCbuildXML retval ?session session ?ciw nil))
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
 
         (setq file (makeTempFileName "/tmp/ed_cds_rc"))
         (setq port (outfile file))
@@ -107,13 +111,22 @@
         (putpropq retval nil  data)
         (putpropq retval file file)
 
-        (setq retstring (EDcdsRCbuildXML retval ?session session))
+        (if (equal returnType "print") then
+          (setq retstring (EDcdsRCbuildXML retval ?session session))
+        else
+          (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+        );if
       );when
 
     else
       (putpropq retval nil valid)
       (putpropq retval errset.errset error)
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
     );if
 
     (if (equal returnType "print") then
@@ -173,13 +186,13 @@
 ;Return:
 ; string            XML
 ;
-(defun EDcdsRCbuildXML (content @key (session "main") (ciw t))
+(defun EDcdsRCbuildXML (content @key (session "main") (bCiw "t"))
 
   (let (fTraverseDataStructure lBuildList (sRoot "root"))
 
     (setq lBuildList (tconc nil nil))
     
-	 (when ciw
+	 (when bCiw
 		(tconc lBuildList "<<1")
 	 );when
 	 
@@ -235,7 +248,7 @@
               );tconc
             )
 
-            ((and (listp val) (null (car val)))
+            ((and (listp val) (plusp (length val)) (null (car val)))
 
               (tconc
                 lBuildList
@@ -294,6 +307,102 @@
                 );lsprintf
               );tconc
             )
+
+            /*
+            ((complexp val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"doublecomplex\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+
+
+              (funcall
+                fTraverseDataStructure
+                (real val)
+                "real"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (funcall
+                fTraverseDataStructure
+                (imag val)
+                "imag"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+              
+            /*
+            ((drIsWaveform val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"wave\" x=\"%s\" y=\"%s\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                  (drGetWaveformXType val)
+                  (drGetWaveformYType val)
+                );lsprintf
+              );tconc
+
+
+              (setq xVec (drGetWaveformXVec val))
+              (setq yVec (drGetWaveformYVec val))
+
+              (for i 0 (drVectorLength xVec)
+
+                (tconc
+                  lBuildList
+                  (lsprintf
+                    "%s%s<%L>\n"
+                    sIndentation
+                    "\t"
+                    i
+                  );lsprintf
+
+                  (tconc
+                    lBuildList
+                    (lsprintf
+                      "%s%s</%s>\n"
+                      sIndentation
+                      "\t"
+                      i
+                    );lsprintf
+                  );tconc
+                );tconc
+              );for
+
+                  
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+            */
+
+            /*
+            ((famIsFamily val)
+              nil
+            )
+            */
 
             ((symbolp val) 
 
@@ -368,11 +477,13 @@
       ""
     );funcall
     
-	 (when ciw
-		(tconc  lBuildList "2>>")
-	 );when
+  (when bCiw
+    (tconc  lBuildList "2>>")
+  );when
 
-    (apply 'strcat (cdar lBuildList))
+  (apply 'strcat (cdar lBuildList))
+
+  ;(cdar lBuildList)
   );let
 );defun
 
@@ -403,3 +514,5 @@
     ""
   );buildString
 );defun
+
+

@@ -1,8 +1,8 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 /**
  * Interface that represents object that can be evaluated in a
- * {@link SkillSession}
+ * {@link SkillInteractiveSession}
  *
  */
 public interface EvaluableToSkill {

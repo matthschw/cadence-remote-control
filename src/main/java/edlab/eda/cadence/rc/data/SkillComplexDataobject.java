@@ -3,10 +3,11 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edlab.eda.cadence.rc.SkillSession;
+import edlab.eda.cadence.rc.session.SkillInteractiveSession;
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Reference to an object in a {@link SkillSession}
+ * Reference to an object in a {@link SkillInteractiveSession}
  *
  */
 public class SkillComplexDataobject extends SkillDataobject {
@@ -22,7 +23,7 @@ public class SkillComplexDataobject extends SkillDataobject {
   /**
    * Create a {@link SkillComplexDataobject}
    * 
-   * @param session    {@link SkillSession} where the
+   * @param session    {@link SkillInteractiveSession} where the
    *                   {@link SkillComplexDataobject} is referenced
    * @param identifier Identifier of the {@link SkillComplexDataobject}
    */
@@ -42,15 +43,15 @@ public class SkillComplexDataobject extends SkillDataobject {
    * @return session
    */
   public SkillSession getSession() {
-    return session;
+    return this.session;
   }
 
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref (arrayref " + SkillSession.CDS_RC_GLOBAL + "."
-        + SkillSession.CDS_RC_SESSIONS + " \"" + SkillSession.CDS_RC_SESSION
-        + "\")->" + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier
+    return "(arrayref (arrayref " + SkillInteractiveSession.CDS_RC_GLOBAL + "."
+        + SkillInteractiveSession.CDS_RC_SESSIONS + " \"" + SkillInteractiveSession.CDS_RC_SESSION
+        + "\")->" + SkillInteractiveSession.CDS_RC_RETURN_VALUES + " " + this.identifier
         + ")";
   }
 
@@ -76,7 +77,6 @@ public class SkillComplexDataobject extends SkillDataobject {
 
   @Override
   public boolean canBeUsedInSession(SkillSession session) {
-
     return session.equals(this.session);
   }
 }

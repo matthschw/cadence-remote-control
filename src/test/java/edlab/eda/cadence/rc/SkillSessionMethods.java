@@ -1,5 +1,13 @@
 package edlab.eda.cadence.rc;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.LinkedList;
+import java.util.Random;
+
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
@@ -9,18 +17,14 @@ import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillNumber;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
+import edlab.eda.cadence.rc.session.EvaluableToSkill;
+import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
+import edlab.eda.cadence.rc.session.SkillSession;
+import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Random;
-
-import org.junit.jupiter.api.Test;
-
-public class SkillSessionTest {
-
+public class SkillSessionMethods {
+  
   private static final String FILE_NAME = "fuubar.txt";
   private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
@@ -107,40 +111,19 @@ public class SkillSessionTest {
   private static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
 
   private static final String STR = STR1 + STR2 + STR3;
-
-  @Test
-  void test() throws EvaluationFailedException, UnableToStartSkillSession,
-      IncorrectSyntaxException, IOException,
-      InvalidDataobjectReferenceExecption {
-
-    SkillSession session = new SkillSession();
-
-    try {
-      session.start();
-    } catch (UnableToStartSkillSession e) {
-      fail("Unable to start session");
-      session.stop();
-    }
-
-    writeFile(session);
-
-    for (int i = 0; i < 1000; i++) {
-      addUpValuesInList(session);
-    }
-
-    strcat(session);
-
-    session.stop();
-  }
-
-  private void strcat(SkillSession session)
+  
+  static void strcat(SkillSession session)
       throws IncorrectSyntaxException, UnableToStartSkillSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
+    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+
+    rest.add(new SkillString(STR2));
+    rest.add(new SkillString(STR3));
+
     SkillCommand command = GenericSkillCommandTemplates
         .getTemplate(GenericSkillCommandTemplates.STRCAT)
-        .build(new EvaluableToSkill[] { new SkillString(STR1),
-            new SkillString(STR2), new SkillString(STR3) });
+        .buildCommand(new SkillString(STR1), rest);
 
     SkillString retval = (SkillString) session.evaluate(command);
 
@@ -149,34 +132,34 @@ public class SkillSessionTest {
     }
   }
 
-  private static void writeFile(SkillSession session)
+  static void writeFile(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
+
     File file = new File(FILE_NAME);
 
     if (file.exists()) {
       file.delete();
     }
 
-    SkillCommand command = SkillCommand
-        .buildCommand(
-            GenericSkillCommandTemplates
-                .getTemplate(GenericSkillCommandTemplates.OUTFILE),
-            new SkillString(FILE_NAME));
+    SkillCommand command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.OUTFILE)
+        .buildCommand(new SkillString(FILE_NAME));
 
     SkillDataobject port = session.evaluate(command);
 
-    command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.FPRINTF),
-        new SkillDataobject[] { port, new SkillString(STR) });
+    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    rest.add(new SkillString(STR));
+
+    command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.FPRINTF)
+        .buildCommand(port, rest);
+
     session.evaluate(command);
 
-    command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.CLOSE),
-        new SkillDataobject[] { port });
+    command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.CLOSE).buildCommand(port);
 
     session.evaluate(command);
 
@@ -198,7 +181,7 @@ public class SkillSessionTest {
     }
   }
 
-  private static void addUpValuesInList(SkillSession session)
+  static void addUpValuesInList(SkillSession session)
       throws UnableToStartSkillSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
 
@@ -209,16 +192,15 @@ public class SkillSessionTest {
     int rand;
 
     for (int i = 0; i < 100; i++) {
-      rand = random.nextInt(1000);
+      rand = random.nextInt(10000);
 
       sum += rand;
-      list.addAtLast(new SkillFixnum(rand));
+      list.append(new SkillFixnum(rand));
     }
 
-    SkillCommand command = SkillCommand.buildCommand(
-        GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.APPLY),
-        new SkillDataobject[] { new SkillSymbol("plus"), list });
+    SkillCommand command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.APPLY)
+        .buildCommand(new SkillDataobject[] { new SkillSymbol("plus"), list });
 
     SkillDataobject retval = session.evaluate(command);
 
@@ -235,4 +217,5 @@ public class SkillSessionTest {
       fail("Incorrect return value");
     }
   }
+
 }

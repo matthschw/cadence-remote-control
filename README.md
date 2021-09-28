@@ -40,55 +40,76 @@ import edlab.eda.reader.cadence.rc.*;
 The toolbox provides to different use-cases how to remote control 
 Cadence-Tools:
 
-## SkillSession
+## SkillInteractiveSession
 This class is used when the Cadence-Tool is started and controlled from Java.
 
 ```java
-//Create a new session
- SkillSession session = new SkillSession();
- 
-//Start the session
+// Create an interactive session
+SkillInteractiveSession session = new SkillInteractiveSession();
+
+// Start the session
 session.start();
 
-//Build the command 
-SkillCommand command = SkillCommand
-  .buildCommand(
-      GenericSkillCommandTemplates
-          .getTemplate(GenericSkillCommandTemplates.OUTFILE),
-      new SkillString(FILE_NAME));
+// create a command template for the command "plus"
+SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
 
-//Evaluate the command
-SkillDataobject port = session.evaluate(command);
+// create the command "(plus 1 41)"
+SkillCommand command = template.buildCommand(
+    new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
 
-command = SkillCommand.buildCommand(
-  GenericSkillCommandTemplates
-      .getTemplate(GenericSkillCommandTemplates.FPRINTF),
-  new SkillDataobject[] { port, new SkillString("Heinz Banane") });
-session.evaluate(command);
+// evaluate the command in the session
+SkillDataobject obj = session.evaluate(command);
 
-command = SkillCommand.buildCommand(
-  GenericSkillCommandTemplates
-      .getTemplate(GenericSkillCommandTemplates.CLOSE),
-   port );
+// typecast result
+SkillFixnum num = (SkillFixnum) obj;
 
-session.evaluate(command);
- 
-//Stop the session
+System.out.println(num.getFixnum());
+
+// close session
 session.stop();
 ```
 
 ## SkillChildSession
 
-This class is used when Java is started as Subprocess (IPC) in
-Virtuoso.
 
-*TO BE IMPLEMENTED*
+From Cadence tools, a Java-Socket can be started.
 
-# TODO
+```lisp
+(load "./src/main/skill/EDcdsRemoteControl.il")
+(ipcSkillProcess "java -cp <PATH-TO-JAR> edlab.eda.cadence.rc.CadenceSocket")
+```
 
-- [ ] Add all relevant commands as templates
-- [ ] Complete documentation
-- [ ] Add *SkillChildSession*
+When the socket is started, the file ´.ed_cds_rc_socket´ is created in the
+working directory, which contains the socket number.
+
+Afterwards, the session can be accessed from Java
+
+```java
+// Create a socket session for the started port
+SkillSocketSession session = new SkillSocketSession(port);
+
+// Start the session
+session.start();
+
+// create a command template for the command "plus"
+SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
+
+// create the command "(plus 1 41)"
+SkillCommand command = template.buildCommand(
+    new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+
+// evaluate the command in the session
+SkillDataobject obj = session.evaluate(command);
+
+// typecast result
+SkillFixnum num = (SkillFixnum) obj;
+
+System.out.println(num.getFixnum());
+
+// close session
+session.stop();
+```
+
 
 ## License
 

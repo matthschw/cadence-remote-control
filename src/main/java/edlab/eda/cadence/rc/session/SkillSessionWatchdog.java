@@ -1,16 +1,16 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Watchdog which observes the {@link SkillSession} and terminates if the
+ * Watchdog which observes the {@link SkillInteractiveSession} and terminates if the
  * specified timeout is exceeded
  *
  */
 class SkillSessionWatchdog extends Thread {
 
-  private SkillSession session;
+  private SkillInteractiveSession session;
 
   private static final long WATCHDOG_INIT_WAIT_TIME_MS = 1000;
   private static final long WATCHDOG_CHECK_INTERVAL_MS = 500;
@@ -19,13 +19,13 @@ class SkillSessionWatchdog extends Thread {
   private boolean killed = false;
 
   /**
-   * Create a Watchdog for a {@link SkillSession}
+   * Create a Watchdog for a {@link SkillInteractiveSession}
    * 
    * @param session  Session
    * @param duration Timeout duration
    * @param unit     Timeout unit
    */
-  SkillSessionWatchdog(SkillSession session, long duration, TimeUnit unit) {
+  SkillSessionWatchdog(SkillInteractiveSession session, long duration, TimeUnit unit) {
     this.duration_ms = unit.toMillis(duration);
 
     this.session = session;

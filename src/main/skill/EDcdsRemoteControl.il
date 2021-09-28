@@ -93,9 +93,15 @@
       (putpropq retval t valid)
       (putpropq retval (car result) data)
 
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
 
       (when (geqp (strlen retstring) maxLength)
+      
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
 
         (setq file (makeTempFileName "/tmp/ed_cds_rc"))
         (setq port (outfile file))
@@ -105,13 +111,22 @@
         (putpropq retval nil  data)
         (putpropq retval file file)
 
-        (setq retstring (EDcdsRCbuildXML retval ?session session))
+        (if (equal returnType "print") then
+          (setq retstring (EDcdsRCbuildXML retval ?session session))
+        else
+          (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+        );if
       );when
 
     else
       (putpropq retval nil valid)
       (putpropq retval errset.errset error)
-      (setq retstring (EDcdsRCbuildXML retval ?session session))
+
+      (if (equal returnType "print") then
+        (setq retstring (EDcdsRCbuildXML retval ?session session))
+      else
+        (setq retstring (EDcdsRCbuildXML retval ?session session ?bCiw nil))
+      );if
     );if
 
     (if (equal returnType "print") then
@@ -171,15 +186,19 @@
 ;Return:
 ; string            XML
 ;
-(defun EDcdsRCbuildXML (content @key (session "main"))
+(defun EDcdsRCbuildXML (content @key (session "main") (bCiw "t"))
 
   (let (fTraverseDataStructure lBuildList (sRoot "root"))
 
     (setq lBuildList (tconc nil nil))
-
+    
+	 (when bCiw
+		(tconc lBuildList "<<1")
+	 );when
+	 
     (tconc 
       lBuildList 
-      "<&><?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+      "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
     );tconc
 
     ;fTraverseDataStructure
@@ -362,7 +381,9 @@
       ""
     );funcall
     
-    (tconc lBuildList "<&>")
+	 (when bCiw
+		(tconc  lBuildList "2>>")
+	 );when
 
     (apply 'strcat (cdar lBuildList))
   );let

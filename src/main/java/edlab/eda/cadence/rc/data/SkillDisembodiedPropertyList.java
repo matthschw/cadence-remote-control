@@ -30,6 +30,11 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
     this.properties = new HashMap<String, SkillDataobject>();
   }
 
+  /**
+   * Create an empty disembodied property list from a map
+   * 
+   * @param properties Map of key-value pairs
+   */
   public SkillDisembodiedPropertyList(Map<String, SkillDataobject> properties) {
     super(true);
     this.properties = properties;
@@ -113,62 +118,51 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
 
   @Override
   public boolean containsValue(Object arg0) {
-
     return this.properties.containsValue(arg0);
   }
 
   @Override
   public Set<Entry<String, SkillDataobject>> entrySet() {
-
     return this.properties.entrySet();
   }
 
   @Override
   public SkillDataobject get(Object arg0) {
-
     return this.properties.get(arg0);
   }
 
   @Override
   public boolean isEmpty() {
-
     return this.properties.isEmpty();
   }
 
   @Override
   public Set<String> keySet() {
-
     return this.properties.keySet();
   }
 
   @Override
   public SkillDataobject put(String arg0, SkillDataobject arg1) {
-
     return this.properties.put(arg0, arg1);
   }
 
   @Override
   public void putAll(Map<? extends String, ? extends SkillDataobject> arg0) {
-
     this.putAll(arg0);
   }
 
   @Override
   public SkillDataobject remove(Object arg0) {
-
     return this.properties.remove(arg0);
   }
 
   @Override
   public int size() {
-
     return this.properties.size();
   }
 
   @Override
   public Collection<SkillDataobject> values() {
-
     return this.properties.values();
   }
-
 }

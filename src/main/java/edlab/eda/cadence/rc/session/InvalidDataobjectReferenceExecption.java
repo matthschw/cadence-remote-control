@@ -1,4 +1,4 @@
-package edlab.eda.cadence.rc;
+package edlab.eda.cadence.rc.session;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
 
@@ -19,5 +19,4 @@ public class InvalidDataobjectReferenceExecption extends Exception {
         + " contains references that are not defined in session= "
         + session.toString());
   }
-
 }
