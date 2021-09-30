@@ -516,3 +516,101 @@
 );defun
 
 
+(when (hiGraphicMode)
+
+  (defun EDedpStartSocket ()
+    (let 
+      (
+        (socketFile ".ed_cds_rc_socket")
+        port socket
+        (running nil)
+        (edpJarEnvVar "ED_EDP_JAR")
+        edpJarPath
+      )
+
+      (setq edpJarPath (getShellEnvVar edpJarEnvVar))
+
+      (if (and (stringp edpJarPath) (isFile edpJarPath)) then
+
+        (when (and EDedpSocket.cid (ipcIsActiveProcess EDedpSocket.cid))
+
+          (when (isFile socketFile)
+
+            (setq port (infile socketFile))
+            (setq socket (read port))
+            (close port)
+
+            (info "**INFO** Socket already started @ %L, no action performed\n" socket)
+            (setq running nil)
+          );when
+        );when
+
+        (unless running
+
+          (putpropq
+            (quote EDedpSocket)
+            (ipcSkillProcess
+              (lsprintf
+                "java -cp %s edlab.eda.cadence.rc.session.CadenceSocket"
+                edpJarPath
+              );lsprintf
+            );ipcSkillProcess
+            cid
+          );putpropq
+
+          (ipcSleep 1)
+
+          (if (isFile socketFile) then
+
+            (setq port (infile socketFile))
+            (setq socket (read port))
+            (close port)
+
+            (info "**INFO** Socket started @ %L\n" socket)
+
+            t
+
+          else
+            (error "Unable to start socket")
+            nil
+          );if
+        );unless
+
+      else
+
+        (error
+          "Environment Variable \"%s\" does not point to a JAR"
+          edpJarEnvVar
+        );error
+
+        nil
+      );if
+    );let
+  );defun EDedpStartSocket
+
+  (let (socketMenuItem)
+
+    (setq
+      socketMenuItem
+      (hiCreateMenuItem
+        ?name (quote EDedpStartSocketMenuItem)
+        ?itemText "Start Socket"
+        ?callback "(EDedpStartSocket)"
+      );hiCreateMenuItem
+    );setq
+
+    (hiCreateMenu
+      (quote EDedpMenu)
+      "E&&D"
+      (list socketMenuItem)
+    );hiCreateMenu
+
+    (unless (member (quote EDedpMenu) (hiGetBannerMenus (hiGetCIWindow)))
+      (hiInsertBannerMenu
+        (hiGetCIWindow)
+        (quote EDedpMenu)
+        3
+      );hiInsertBannerMenu
+    );unless
+  );let
+);when
