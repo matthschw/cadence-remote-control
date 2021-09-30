@@ -142,9 +142,9 @@ public class SkillSocketSession extends SkillSession {
     xml = new String(data);
     xml = xml.substring(2, xml.length() - 2);
 
-    xml= StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
-    
-    //xml = StringEscapeUtils.unescapeJava(xml);
+    xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
+
+    // xml = StringEscapeUtils.unescapeJava(xml);
 
     SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
 
