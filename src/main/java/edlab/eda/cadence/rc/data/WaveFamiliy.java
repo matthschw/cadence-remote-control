@@ -15,7 +15,7 @@ public class WaveFamiliy extends Wave {
     SkillList retval = new SkillList();
 
     for (Wave wave : this.waves) {
-      retval.addAtLast(wave.toSkill());
+      retval.append1(wave.toSkill());
     }
 
     return retval;

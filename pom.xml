@@ -14,11 +14,11 @@
 
 
 	<distributionManagement>
-	   <repository>
-	     <id>github</id>
-	     <name>GitHub electronics-and-drives Apache Maven Packages</name>
-	     <url>https://maven.pkg.github.com/electronics-and-drives/cadence-remote-control</url>
-	   </repository>
+		<repository>
+			<id>github</id>
+			<name>GitHub electronics-and-drives Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/electronics-and-drives/cadence-remote-control</url>
+		</repository>
 	</distributionManagement>
 
 	<build>

@@ -137,7 +137,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
       for (int i = 0; i < nodeList.getLength(); i++) {
 
         if (isValidNode(nodeList.item(i))) {
-          list.addAtLast(traverseNode(session, nodeList.item(i)));
+          list.append1(traverseNode(session, nodeList.item(i)));
         }
       }
 
