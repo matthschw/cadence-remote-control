@@ -15,13 +15,15 @@ public class GenericSkillCommandTemplates {
 
   public static final String SET = "set";
   public static final String GET = "get";
-
+  public static final String GETQ = "getq";
+  
   public static final String CAR = "car";
   public static final String CADR = "cadr";
   public static final String NTH = "nth";
   public static final String LIST = "list";
 
   public static final String APPLY = "apply";
+  public static final String FUNCALL = "funcall";
   public static final String EVAL = "eval";
   public static final String IS_CALLABLE = "isCallable";
 
@@ -69,6 +71,9 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.GET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET, 2));
+    
+    templates.put(GenericSkillCommandTemplates.GETQ,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.GETQ, 2));
 
     templates.put(GenericSkillCommandTemplates.CAR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CAR, 1));
@@ -82,6 +87,10 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.APPLY,
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
+    
+    templates.put(GenericSkillCommandTemplates.FUNCALL,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.FUNCALL,true));
+    
     templates.put(GenericSkillCommandTemplates.EVAL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 1));
     templates.put(GenericSkillCommandTemplates.IS_CALLABLE,

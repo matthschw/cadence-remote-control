@@ -95,6 +95,7 @@ public class SkillCommand implements EvaluableToSkill {
     if (this.optionalAndRestParameters != null) {
       for (EvaluableToSkill evaluableToSkill : this.formalParameters) {
         if (!evaluableToSkill.canBeUsedInSession(session)) {
+          System.err.println(evaluableToSkill.toSkill());
           return false;
         }
       }
