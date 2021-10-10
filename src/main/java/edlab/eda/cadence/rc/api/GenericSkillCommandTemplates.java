@@ -24,6 +24,7 @@ public class GenericSkillCommandTemplates {
 
   public static final String APPLY = "apply";
   public static final String FUNCALL = "funcall";
+  public static final String MAPCAR = "mapcar";
   public static final String EVAL = "eval";
   public static final String IS_CALLABLE = "isCallable";
 
@@ -87,6 +88,9 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.APPLY,
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
+    
+    templates.put(GenericSkillCommandTemplates.MAPCAR,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.MAPCAR, 2, true));
     
     templates.put(GenericSkillCommandTemplates.FUNCALL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.FUNCALL,true));
