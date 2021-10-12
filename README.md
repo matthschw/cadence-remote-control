@@ -19,6 +19,8 @@ $ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
 ```bash
 mvn install
 ```
+Please pay attention that Virtuoso is started in graphical mode while
+the project is installed.
 
 ## Setup
 Add the dependency to your project
