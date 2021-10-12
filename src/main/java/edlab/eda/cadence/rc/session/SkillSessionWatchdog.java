@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Watchdog which observes the {@link SkillInteractiveSession} and terminates if the
- * specified timeout is exceeded
+ * Watchdog which observes the {@link SkillInteractiveSession} and terminates if
+ * the specified timeout is exceeded
  *
  */
 class SkillSessionWatchdog extends Thread {
@@ -17,6 +17,7 @@ class SkillSessionWatchdog extends Thread {
 
   private long duration_ms;
   private boolean killed = false;
+  private Thread parent;
 
   /**
    * Create a Watchdog for a {@link SkillInteractiveSession}
@@ -25,10 +26,23 @@ class SkillSessionWatchdog extends Thread {
    * @param duration Timeout duration
    * @param unit     Timeout unit
    */
-  SkillSessionWatchdog(SkillInteractiveSession session, long duration, TimeUnit unit) {
+  SkillSessionWatchdog(SkillInteractiveSession session, long duration,
+      TimeUnit unit, Thread thread) {
+
     this.duration_ms = unit.toMillis(duration);
+    this.parent = thread;
 
     this.session = session;
+
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        try {
+          killed = true;
+        } catch (Exception e) {
+        }
+      }
+    });
   }
 
   @Override
@@ -50,7 +64,7 @@ class SkillSessionWatchdog extends Thread {
       } catch (InterruptedException e) {
       }
 
-      if (killed) {
+      if (this.killed) {
         contineWatching = false;
       } else {
 
@@ -65,6 +79,11 @@ class SkillSessionWatchdog extends Thread {
             contineWatching = false;
           }
         }
+      }
+
+      if (!this.parent.isAlive()) {
+        this.session.stop();
+        contineWatching = false;
       }
     }
   }

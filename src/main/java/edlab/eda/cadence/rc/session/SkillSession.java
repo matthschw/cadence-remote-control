@@ -36,7 +36,7 @@ public abstract class SkillSession {
   public static final String TMP_FILE_PREFIX = "ed_cds_rc";
   public static final String TMP_SKILL_FILE_SUFFIX = ".il";
   public static final String TMP_SKILLPP_FILE_SUFFIX = ".ils";
-  
+
   // XML
   protected static final Matcher<Result> XML_MATCH = Matchers
       .regexp("<<1([\\S\\s]+)2>>");

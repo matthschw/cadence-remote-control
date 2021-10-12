@@ -39,7 +39,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
 
-  private static final File DEFAULT_WORKING_DIR = new File("./");
+  private static final File DEFAULT_WORKING_DIR = new File("");
 
   /**
    * Create a Session
@@ -73,7 +73,6 @@ public class SkillInteractiveSession extends SkillSession {
     this.timeoutTimeUnit = unit;
     return this;
   }
-  
 
   /**
    * Specify the command to be used to invoke the session
@@ -92,11 +91,24 @@ public class SkillInteractiveSession extends SkillSession {
     if (!isActive()) {
 
       try {
+
+        // List<String> command = new LinkedList<String>();
+
+        // command.add("virtuoso");
+        // command.add("-nograph");
+
+        // ProcessBuilder builder = new ProcessBuilder(command);
+        // builder.directory(this.workingDir);
+        // builder.inheritIO();
+        // builder.redirectInput(Redirect.INHERIT);
+
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
-            workingDir);
+            this.workingDir);
+
+        // this.process = builder.start();
 
       } catch (IOException e) {
-        
+
         System.err.println(
             "Unable to execute session" + " with error:\n" + e.getMessage());
 
@@ -115,13 +127,15 @@ public class SkillInteractiveSession extends SkillSession {
       });
 
       try {
+
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(10, TimeUnit.DAYS);
-        
+
         expect.expect(SkillSession.NEXT_COMMAND);
 
         try {
+
           this.expect
               .send(GenericSkillCommandTemplates
                   .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
@@ -129,6 +143,7 @@ public class SkillInteractiveSession extends SkillSession {
                       new SkillString(SkillSession.PROMPT),
                       new SkillString(SkillSession.PROMPT) })
                   .toSkill() + "\n");
+          
         } catch (IncorrectSyntaxException e) {
         }
 
@@ -151,10 +166,12 @@ public class SkillInteractiveSession extends SkillSession {
         skillControlApi.delete();
 
         this.lastActivity = new Date();
-        this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-            this.timeoutTimeUnit);
 
-        this.watchdog.start();
+        if (this.timeoutDuration > 0) {
+          this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
+              this.timeoutTimeUnit, Thread.currentThread());
+          this.watchdog.start();
+        }
 
       } catch (IOException e) {
 
@@ -187,13 +204,15 @@ public class SkillInteractiveSession extends SkillSession {
       InvalidDataobjectReferenceExecption {
 
     if (!isActive()) {
-      start();
+      this.start();
     }
 
     SkillDataobject data = null;
 
-    this.watchdog.kill();
-    this.watchdog = null;
+    if (this.watchdog instanceof SkillSessionWatchdog) {
+      this.watchdog.kill();
+      this.watchdog = null;
+    }
 
     if (isActive()) {
 
@@ -285,9 +304,12 @@ public class SkillInteractiveSession extends SkillSession {
     }
 
     this.lastActivity = new Date();
-    this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-        this.timeoutTimeUnit);
-    this.watchdog.start();
+
+    if (this.timeoutDuration > 0) {
+      this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
+          this.timeoutTimeUnit, Thread.currentThread());
+      this.watchdog.start();
+    }
 
     return data;
   }
@@ -297,9 +319,8 @@ public class SkillInteractiveSession extends SkillSession {
 
     if (watchdog instanceof SkillSessionWatchdog) {
       this.watchdog.kill();
+      this.watchdog = null;
     }
-
-    this.watchdog = null;
 
     try {
       communicate(GenericSkillCommandTemplates
