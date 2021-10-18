@@ -64,5 +64,4 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
   public boolean canBeUsedInSession(SkillSession session) {
     return true;
   }
-
 }

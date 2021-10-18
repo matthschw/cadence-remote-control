@@ -1,10 +1,22 @@
 package edlab.eda.cadence.rc.data;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -64,12 +76,39 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Create a {@link SkillDataobject} from a XML
    * 
+   * @param xml File that contains the XML
+   * @return SkillDataobject
+   */
+  public static SkillDataobject getSkillDataobjectFromXML(File xml) {
+    try {
+      return getSkillDataobjectFromXML(null,
+          FileUtils.readFileToByteArray(xml));
+    } catch (IOException e) {
+      return new SkillList();
+    }
+  }
+
+  /**
+   * Create a {@link SkillDataobject} from a XML
+   * 
    * @param session Corresponding {@link SkillInteractiveSession}
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
   public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
       String xml) {
+    return getSkillDataobjectFromXML(session, xml.getBytes());
+  }
+
+  /**
+   * Create a {@link SkillDataobject} from a XML
+   * 
+   * @param session Corresponding {@link SkillInteractiveSession}
+   * @param xml     XML to be parsed as byte array
+   * @return SkillDataobject
+   */
+  public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
+      byte[] xml) {
 
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder;
@@ -77,9 +116,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     try {
       dBuilder = dbFactory.newDocumentBuilder();
 
-      // System.out.println(xml);
-
-      Document doc = dBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
+      Document doc = dBuilder.parse(new ByteArrayInputStream(xml));
 
       doc.getDocumentElement().normalize();
 
@@ -90,7 +127,47 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     } catch (Exception e) {
       return new SkillList();
     }
+  }
 
+  /**
+   * Write a Skill data-object to a file
+   * 
+   * @param File Path to XML file
+   * @return file when successful, <code>null</code> otherwise
+   */
+  public File writeSkillDataobjectToXML(File file) {
+
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder;
+
+    try {
+      dBuilder = dbFactory.newDocumentBuilder();
+      Document document = dBuilder.newDocument();
+
+      document.appendChild(
+          this.traverseSkillDataobjectForXMLGeneration("root", document));
+
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+
+      // indent by 2 characters
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
+          "2");
+
+      DOMSource domSource = new DOMSource(document);
+      StreamResult streamResult = new StreamResult(file);
+
+      transformer.transform(domSource, streamResult);
+
+    } catch (ParserConfigurationException e) {
+      return null;
+    } catch (TransformerConfigurationException e) {
+      return null;
+    } catch (TransformerException e) {
+      return null;
+    }
+    return file;
   }
 
   /**

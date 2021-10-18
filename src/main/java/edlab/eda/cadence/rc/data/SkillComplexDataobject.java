@@ -50,8 +50,9 @@ public class SkillComplexDataobject extends SkillDataobject {
   protected String toSkillHierarchical(int depth) {
 
     return "(arrayref (arrayref " + SkillInteractiveSession.CDS_RC_GLOBAL + "."
-        + SkillInteractiveSession.CDS_RC_SESSIONS + " \"" + SkillInteractiveSession.CDS_RC_SESSION
-        + "\")->" + SkillInteractiveSession.CDS_RC_RETURN_VALUES + " " + this.identifier
+        + SkillInteractiveSession.CDS_RC_SESSIONS + " \""
+        + SkillInteractiveSession.CDS_RC_SESSION + "\")->"
+        + SkillInteractiveSession.CDS_RC_RETURN_VALUES + " " + this.identifier
         + ")";
   }
 
@@ -77,6 +78,7 @@ public class SkillComplexDataobject extends SkillDataobject {
 
   @Override
   public boolean canBeUsedInSession(SkillSession session) {
-    return session.equals(this.session);
+    return session != null && this.session != null
+        && session.equals(this.session);
   }
 }
