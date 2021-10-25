@@ -12,4 +12,8 @@ public class EvaluationFailedException extends Exception {
     super("Evaluation of command : " + command + " failed with exception "
         + retval);
   }
+
+  public EvaluationFailedException(String command) {
+    super("Evaluation of command : " + command + " failed");
+  }
 }

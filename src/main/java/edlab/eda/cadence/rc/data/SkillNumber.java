@@ -3,25 +3,11 @@ package edlab.eda.cadence.rc.data;
 import java.math.BigDecimal;
 
 /**
- * Representation of a native SKILL-Number
- *
+ * Representation of a native Skill number
  */
 public abstract class SkillNumber extends SkillBoolean {
 
-  protected BigDecimal number;
-
-  public SkillNumber(BigDecimal number) {
+  public SkillNumber() {
     super(true);
-    this.number = number;
-  }
-
-  @Override
-  protected String toSkillHierarchical(int depth) {
-
-    return "" + this.number.toString();
-  }
-
-  public BigDecimal getValue() {
-    return this.number;
   }
 }

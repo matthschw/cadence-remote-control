@@ -11,6 +11,8 @@ import org.w3c.dom.Element;
  */
 public class SkillFlonum extends SkillNumber {
 
+  private BigDecimal value;
+
   /**
    * Type-Identifier in XML
    */
@@ -22,7 +24,8 @@ public class SkillFlonum extends SkillNumber {
    * @param flonum Flonum
    */
   public SkillFlonum(BigDecimal flonum) {
-    super(flonum);
+    super();
+    this.value = flonum;
   }
 
   /**
@@ -31,7 +34,7 @@ public class SkillFlonum extends SkillNumber {
    * @return flonum
    */
   public BigDecimal getFlonum() {
-    return this.number;
+    return this.value;
   }
 
   @Override
@@ -39,7 +42,7 @@ public class SkillFlonum extends SkillNumber {
       Document document) {
     Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
-    element.setTextContent(this.number.toString());
+    element.setTextContent(this.value.toString());
     return element;
   }
 
@@ -57,7 +60,12 @@ public class SkillFlonum extends SkillNumber {
     } else if (o instanceof BigDecimal) {
       value = (BigDecimal) o;
     }
-    
-    return this.getValue().equals(value);
+
+    return this.getFlonum().equals(value);
+  }
+
+  @Override
+  protected String toSkillHierarchical(int depth) {
+    return "" + this.value.toString();
   }
 }

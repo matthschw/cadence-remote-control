@@ -21,7 +21,6 @@ import net.sf.expectit.ExpectBuilder;
 /**
  * Session for communication with an interactive session using Cadence Skill
  * syntax
- *
  */
 public class SkillInteractiveSession extends SkillSession {
 
@@ -86,33 +85,19 @@ public class SkillInteractiveSession extends SkillSession {
   }
 
   @Override
-  public SkillInteractiveSession start() throws UnableToStartSkillSession {
+  public SkillInteractiveSession start()
+      throws UnableToStartSession, EvaluationFailedException {
 
-    if (!isActive()) {
+    if (!this.isActive()) {
 
       try {
-
-        // List<String> command = new LinkedList<String>();
-
-        // command.add("virtuoso");
-        // command.add("-nograph");
-
-        // ProcessBuilder builder = new ProcessBuilder(command);
-        // builder.directory(this.workingDir);
-        // builder.inheritIO();
-        // builder.redirectInput(Redirect.INHERIT);
 
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
             this.workingDir);
 
-        // this.process = builder.start();
-
       } catch (IOException e) {
-
-        System.err.println(
-            "Unable to execute session" + " with error:\n" + e.getMessage());
-
-        throw new UnableToStartSkillSession(this.command, workingDir);
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
       }
 
       // add shutdown hook for process
@@ -127,65 +112,88 @@ public class SkillInteractiveSession extends SkillSession {
       });
 
       try {
-
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(10, TimeUnit.DAYS);
-
-        expect.expect(SkillSession.NEXT_COMMAND);
-
-        try {
-
-          this.expect
-              .send(GenericSkillCommandTemplates
-                  .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS)
-                  .buildCommand(new EvaluableToSkill[] {
-                      new SkillString(SkillSession.PROMPT),
-                      new SkillString(SkillSession.PROMPT) })
-                  .toSkill() + "\n");
-          
-        } catch (IncorrectSyntaxException e) {
-        }
-
-        expect.expect(SkillSession.NEXT_COMMAND);
-
-        File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
-            SkillSession.TMP_SKILL_FILE_SUFFIX);
-
-        try {
-
-          this.expect.send(GenericSkillCommandTemplates
-              .getTemplate(GenericSkillCommandTemplates.LOAD)
-              .buildCommand(new SkillString(skillControlApi.getAbsolutePath()))
-              .toSkill() + "\n");
-        } catch (IncorrectSyntaxException e) {
-        }
-
-        expect.expect(SkillSession.NEXT_COMMAND);
-
-        skillControlApi.delete();
-
-        this.lastActivity = new Date();
-
-        if (this.timeoutDuration > 0) {
-          this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-              this.timeoutTimeUnit, Thread.currentThread());
-          this.watchdog.start();
-        }
-
       } catch (IOException e) {
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
+      }
 
-        System.err.println(
-            "Unable to execute expect" + " with error:\n" + e.getMessage());
+      try {
+        expect.expect(SkillSession.NEXT_COMMAND);
+      } catch (IOException e) {
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
+      }
 
-        this.process.destroy();
+      SkillCommand skillPromptsCommand = null;
 
-        throw new UnableToStartSkillSession(this.command, workingDir);
+      try {
+        skillPromptsCommand = GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS).buildCommand(
+                new EvaluableToSkill[] { new SkillString(SkillSession.PROMPT),
+                    new SkillString(SkillSession.PROMPT) });
+      } catch (IncorrectSyntaxException e) {
+        // cannot happen
+      }
+
+      try {
+        this.expect.send(skillPromptsCommand.toSkill() + "\n");
+      } catch (IOException e) {
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
+      }
+
+      try {
+        expect.expect(SkillSession.NEXT_COMMAND);
+      } catch (IOException e) {
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
+      }
+
+      File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
+          SkillSession.TMP_SKILL_FILE_SUFFIX);
+
+      SkillCommand skillLoadCommand = null;
+
+      try {
+        skillLoadCommand = GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.LOAD)
+            .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
+      } catch (IncorrectSyntaxException e1) {
+        // cannot happen
+      }
+
+      try {
+        this.expect.send(skillLoadCommand.toSkill() + "\n");
+      } catch (IOException e) {
+        this.stop();
+        throw new EvaluationFailedException(skillLoadCommand.toSkill());
+      }
+
+      try {
+        expect.expect(SkillSession.NEXT_COMMAND);
+      } catch (IOException e) {
+        this.stop();
+        throw new UnableToStartSession(this.command, workingDir);
+      }
+
+      skillControlApi.delete();
+
+      this.lastActivity = new Date();
+
+      if (this.timeoutDuration > 0) {
+        this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
+            this.timeoutTimeUnit, Thread.currentThread());
+        this.watchdog.start();
       }
 
       return this;
+
     } else {
-      return this;
+
+      return null;
     }
   }
 
@@ -200,7 +208,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSkillSession, EvaluationFailedException,
+      throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
     if (!isActive()) {
@@ -214,7 +222,7 @@ public class SkillInteractiveSession extends SkillSession {
       this.watchdog = null;
     }
 
-    if (isActive()) {
+    if (this.isActive()) {
 
       if (!command.canBeUsedInSession(this)) {
         throw new InvalidDataobjectReferenceExecption(command, this);
@@ -300,7 +308,7 @@ public class SkillInteractiveSession extends SkillSession {
         throw new EvaluationFailedException(skillCommand, xml);
       }
     } else {
-      throw new UnableToStartSkillSession(this.command, workingDir);
+      throw new UnableToStartSession(this.command, workingDir);
     }
 
     this.lastActivity = new Date();

@@ -192,10 +192,10 @@
 
     (setq lBuildList (tconc nil nil))
     
-	 (when bCiw
-		(tconc lBuildList "<<1")
-	 );when
-	 
+   (when bCiw
+    (tconc lBuildList "<<1")
+   );when
+   
     (tconc 
       lBuildList 
       "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"

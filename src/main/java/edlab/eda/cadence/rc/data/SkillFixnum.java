@@ -1,7 +1,5 @@
 package edlab.eda.cadence.rc.data;
 
-import java.math.BigDecimal;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -10,6 +8,8 @@ import org.w3c.dom.Element;
  *
  */
 public class SkillFixnum extends SkillNumber {
+
+  private int value;
 
   /**
    * Type-Identifier in XML
@@ -22,7 +22,9 @@ public class SkillFixnum extends SkillNumber {
    * @param fixnum Fixnum
    */
   public SkillFixnum(int fixnum) {
-    super(new BigDecimal(fixnum));
+    super();
+    this.value = fixnum;
+
   }
 
   /**
@@ -31,7 +33,7 @@ public class SkillFixnum extends SkillNumber {
    * @return fixnum
    */
   public int getFixnum() {
-    return this.number.intValue();
+    return this.value;
   }
 
   /**
@@ -41,8 +43,8 @@ public class SkillFixnum extends SkillNumber {
    * @return value
    */
   public int setFixum(int fixnum) {
-    this.number = new BigDecimal(fixnum);
-    return this.number.intValue();
+    this.value = fixnum;
+    return this.value;
   }
 
   @Override
@@ -50,17 +52,23 @@ public class SkillFixnum extends SkillNumber {
       Document document) {
     Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
-    element.setTextContent(this.number.toString());
+    element.setTextContent(String.valueOf(this.value));
     return element;
   }
 
   @Override
   public boolean equals(Object o) {
+    
     if (o instanceof SkillFixnum) {
       SkillFixnum object = (SkillFixnum) o;
-      return this.getValue().equals(object.getValue());
+      return this.value == object.value;
     } else {
       return false;
     }
+  }
+
+  @Override
+  protected String toSkillHierarchical(int depth) {
+    return String.valueOf(this.value);
   }
 }

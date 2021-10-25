@@ -37,12 +37,12 @@ public class SkillSocketSession extends SkillSession {
   }
 
   @Override
-  public SkillSession start() throws UnableToStartSkillSession {
+  public SkillSession start() throws UnableToStartSession {
 
     try {
       this.socket = new Socket("0.0.0.0", this.port);
     } catch (IOException e) {
-      throw new UnableToStartSkillSession(this.port);
+      throw new UnableToStartSession(this.port);
     }
 
     try {
@@ -52,7 +52,7 @@ public class SkillSocketSession extends SkillSession {
         this.socket.close();
       } catch (IOException e1) {
       }
-      throw new UnableToStartSkillSession(this.port);
+      throw new UnableToStartSession(this.port);
     }
 
     try {
@@ -62,7 +62,7 @@ public class SkillSocketSession extends SkillSession {
         this.socket.close();
       } catch (IOException e1) {
       }
-      throw new UnableToStartSkillSession(this.port);
+      throw new UnableToStartSession(this.port);
     }
 
     // add shutdown hook for process
@@ -94,7 +94,7 @@ public class SkillSocketSession extends SkillSession {
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSkillSession, EvaluationFailedException,
+      throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
     byte[] data = null;
@@ -113,6 +113,7 @@ public class SkillSocketSession extends SkillSession {
               .buildCommand(command), this.keywords);
 
     } catch (IncorrectSyntaxException e) {
+      //cannot happen
     }
 
     String inputString = outer.toSkill() + "\n";
@@ -130,7 +131,7 @@ public class SkillSocketSession extends SkillSession {
         }
       }
     } catch (IOException e) {
-      throw new UnableToStartSkillSession(this.port);
+      throw new UnableToStartSession(this.port);
     }
 
     try {
@@ -143,8 +144,6 @@ public class SkillSocketSession extends SkillSession {
     xml = xml.substring(2, xml.length() - 2);
 
     xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
-
-    // xml = StringEscapeUtils.unescapeJava(xml);
 
     SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
 
@@ -183,9 +182,8 @@ public class SkillSocketSession extends SkillSession {
     } catch (Exception e) {
       throw new EvaluationFailedException(inputString, xml);
     }
-
+    
     return content;
-
   }
 
   @Override
@@ -215,5 +213,4 @@ public class SkillSocketSession extends SkillSession {
   public String toString() {
     return "[PORT:" + this.port + "]";
   }
-
 }

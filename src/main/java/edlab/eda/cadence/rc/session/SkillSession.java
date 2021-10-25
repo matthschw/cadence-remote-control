@@ -51,9 +51,11 @@ public abstract class SkillSession {
    * Start the session
    * 
    * @return this
-   * @throws UnableToStartSkillSession When starting of the subprocess failed
+   * @throws UnableToStartSession      When starting of the subprocess failed
+   * @throws EvaluationFailedException When the setup of the session failed
    */
-  public abstract SkillSession start() throws UnableToStartSkillSession;
+  public abstract SkillSession start()
+      throws UnableToStartSession, EvaluationFailedException;
 
   /**
    * Check if the session is active
@@ -68,7 +70,7 @@ public abstract class SkillSession {
    * 
    * @param command Command to be evaluated
    * @return Skill data-object that is returned from the session
-   * @throws UnableToStartSkillSession           When the session could not be
+   * @throws UnableToStartSession                When the session could not be
    *                                             started
    * @throws EvaluationFailedException           When evaluation of the command
    *                                             failed
@@ -77,7 +79,7 @@ public abstract class SkillSession {
    *                                             this session
    */
   public abstract SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSkillSession, EvaluationFailedException,
+      throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption;
 
   /**

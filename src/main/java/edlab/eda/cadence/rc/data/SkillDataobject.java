@@ -240,6 +240,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
           Integer.parseInt(node.getTextContent()));
 
       break;
+      
     case SkillSymbol.TYPE_ID:
 
       skillDataobject = new SkillSymbol(node.getTextContent());
