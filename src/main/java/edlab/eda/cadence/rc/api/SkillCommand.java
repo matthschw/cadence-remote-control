@@ -30,35 +30,35 @@ public class SkillCommand implements EvaluableToSkill {
   @Override
   public String toSkill() {
 
-    String retval = "(" + template.getName();
+    String retval = "(" + this.template.getName();
 
-    if (formalParameters != null) {
+    if (this.formalParameters != null) {
 
-      for (int i = 0; i < formalParameters.length; i++) {
+      for (int i = 0; i < this.formalParameters.length; i++) {
 
-        if (formalParameters[i] == null) {
+        if (this.formalParameters[i] == null) {
           retval += " nil";
         } else {
-          retval += " " + formalParameters[i].toSkill();
+          retval += " " + this.formalParameters[i].toSkill();
         }
       }
     }
 
-    if (keywordParameters != null) {
+    if (this.keywordParameters != null) {
 
-      for (String key : keywordParameters.keySet()) {
+      for (String key : this.keywordParameters.keySet()) {
 
-        if (keywordParameters.get(key) == null) {
+        if (this.keywordParameters.get(key) == null) {
           retval += " nil";
         } else {
-          retval += " ?" + key + " " + keywordParameters.get(key).toSkill();
+          retval += " ?" + key + " " + this.keywordParameters.get(key).toSkill();
         }
       }
     }
 
-    if (optionalAndRestParameters != null) {
+    if (this.optionalAndRestParameters != null) {
 
-      for (EvaluableToSkill evaluableToSkill : optionalAndRestParameters) {
+      for (EvaluableToSkill evaluableToSkill : this.optionalAndRestParameters) {
 
         if (evaluableToSkill == null) {
           retval += " nil";
