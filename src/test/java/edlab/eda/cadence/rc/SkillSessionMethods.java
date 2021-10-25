@@ -189,19 +189,13 @@ public class SkillSessionMethods {
               new SkillString("A") });
 
       try {
-        
-        System.err.println("1");
-        
-        SkillDataobject y = session.evaluate(cmd);
-        System.err.println("2");
-        System.err.println(y.toSkill());
-        
+
+        session.evaluate(cmd);
+
       } catch (UnableToStartSession e) {
-        System.err.println("A");
       } catch (EvaluationFailedException e) {
         return;
       } catch (InvalidDataobjectReferenceExecption e) {
-        System.err.println("B");
       }
 
       fail("Error in command \"" + cmd.toSkill() + "\" not detected");

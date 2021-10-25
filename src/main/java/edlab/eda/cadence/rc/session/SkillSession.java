@@ -87,6 +87,11 @@ public abstract class SkillSession {
    */
   public abstract void stop();
 
+  @Override
+  protected void finalize() {
+    this.stop();
+  }
+
   /**
    * Get the path to a resource
    * 
