@@ -21,10 +21,10 @@ import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.EvaluationFailedException;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillSession;
-import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
+import edlab.eda.cadence.rc.session.UnableToStartSession;
 
 public class SkillSessionMethods {
-  
+
   private static final String FILE_NAME = "fuubar.txt";
   private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
@@ -111,9 +111,9 @@ public class SkillSessionMethods {
   private static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
 
   private static final String STR = STR1 + STR2 + STR3;
-  
+
   static void strcat(SkillSession session)
-      throws IncorrectSyntaxException, UnableToStartSkillSession,
+      throws IncorrectSyntaxException, UnableToStartSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
     LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
@@ -132,9 +132,8 @@ public class SkillSessionMethods {
     }
   }
 
-  static void writeFile(SkillSession session)
-      throws UnableToStartSkillSession, EvaluationFailedException,
-      IncorrectSyntaxException, IOException,
+  static void writeFile(SkillSession session) throws UnableToStartSession,
+      EvaluationFailedException, IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
 
     File file = new File(FILE_NAME);
@@ -181,8 +180,39 @@ public class SkillSessionMethods {
     }
   }
 
+  static void detectError(SkillSession session) {
+
+    try {
+      SkillCommand cmd = GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.PLUS)
+          .buildCommand(new EvaluableToSkill[] { new SkillFixnum(10),
+              new SkillString("A") });
+
+      try {
+        
+        System.err.println("1");
+        
+        SkillDataobject y = session.evaluate(cmd);
+        System.err.println("2");
+        System.err.println(y.toSkill());
+        
+      } catch (UnableToStartSession e) {
+        System.err.println("A");
+      } catch (EvaluationFailedException e) {
+        return;
+      } catch (InvalidDataobjectReferenceExecption e) {
+        System.err.println("B");
+      }
+
+      fail("Error in command \"" + cmd.toSkill() + "\" not detected");
+
+    } catch (IncorrectSyntaxException e) {
+
+    }
+  }
+
   static void addUpValuesInList(SkillSession session)
-      throws UnableToStartSkillSession, EvaluationFailedException,
+      throws UnableToStartSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
 
     SkillList list = new SkillList();
@@ -206,16 +236,14 @@ public class SkillSessionMethods {
 
     if (retval instanceof SkillNumber) {
 
-      SkillNumber num = (SkillNumber) retval;
+      SkillFixnum num = (SkillFixnum) retval;
 
-      if (num.getValue().intValue() != sum) {
+      if (num.getFixnum() != sum) {
 
-        fail("Summation incorrect (" + num.getValue().intValue() + "!=" + sum
-            + ")");
+        fail("Summation incorrect (" + num.getFixnum() + "!=" + sum + ")");
       }
     } else {
       fail("Incorrect return value");
     }
   }
-
 }

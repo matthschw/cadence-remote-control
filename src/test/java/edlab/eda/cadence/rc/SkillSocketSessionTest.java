@@ -11,12 +11,12 @@ import edlab.eda.cadence.rc.session.CadenceSocket;
 import edlab.eda.cadence.rc.session.EvaluationFailedException;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillSocketSession;
-import edlab.eda.cadence.rc.session.UnableToStartSkillSession;
+import edlab.eda.cadence.rc.session.UnableToStartSession;
 
 public class SkillSocketSessionTest {
 
   @Test
-  void test() throws EvaluationFailedException, UnableToStartSkillSession,
+  void test() throws EvaluationFailedException, UnableToStartSession,
       IncorrectSyntaxException, IOException,
       InvalidDataobjectReferenceExecption {
 
@@ -24,7 +24,7 @@ public class SkillSocketSessionTest {
         .exec("virtuoso -replay ./src/test/resources/replay.il");
 
     try {
-      Thread.sleep(10000);
+      Thread.sleep(5000);
     } catch (InterruptedException e) {
     }
 
@@ -45,7 +45,7 @@ public class SkillSocketSessionTest {
     session = new SkillSocketSession(port);
     session.start();
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 100; i++) {
       SkillSessionMethods.addUpValuesInList(session);
     }
     
@@ -54,7 +54,7 @@ public class SkillSocketSessionTest {
     session.start();
 
     SkillSessionMethods.strcat(session);
-
+    
     session.stop();
 
     process.destroy();
