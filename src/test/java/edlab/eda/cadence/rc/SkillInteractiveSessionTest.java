@@ -19,7 +19,7 @@ public class SkillInteractiveSessionTest {
       InvalidDataobjectReferenceExecption {
 
     SkillInteractiveSession session = new SkillInteractiveSession();
-
+    
     try {
       session.start();
     } catch (UnableToStartSession e) {

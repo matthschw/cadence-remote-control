@@ -17,6 +17,7 @@ import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
 import net.sf.expectit.Expect;
 import net.sf.expectit.ExpectBuilder;
+import net.sf.expectit.matcher.Matchers;
 
 /**
  * Session for communication with an interactive session using Cadence Skill
@@ -44,6 +45,7 @@ public class SkillInteractiveSession extends SkillSession {
    * Create a Session
    */
   public SkillInteractiveSession() {
+    super();
     this.command = DEFAULT_COMMAND;
     this.workingDir = DEFAULT_WORKING_DIR.getAbsoluteFile();
   }
@@ -54,6 +56,7 @@ public class SkillInteractiveSession extends SkillSession {
    * @param workingDir directory where the session is started
    */
   public SkillInteractiveSession(File workingDir) {
+    super();
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir.getAbsoluteFile();
   }
@@ -121,7 +124,7 @@ public class SkillInteractiveSession extends SkillSession {
       }
 
       try {
-        expect.expect(SkillSession.NEXT_COMMAND);
+        expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
@@ -132,11 +135,14 @@ public class SkillInteractiveSession extends SkillSession {
       try {
         skillPromptsCommand = GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS).buildCommand(
-                new EvaluableToSkill[] { new SkillString(SkillSession.PROMPT),
-                    new SkillString(SkillSession.PROMPT) });
+                new EvaluableToSkill[] { new SkillString(PROMPT_DEFAULT),
+                    new SkillString(PROMPT_DEFAULT) });
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
+      
+      this.prompt = PROMPT_DEFAULT;
+      this.nextCommand = Matchers.regexp("\n" + this.prompt);
 
       try {
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
@@ -146,7 +152,7 @@ public class SkillInteractiveSession extends SkillSession {
       }
 
       try {
-        expect.expect(SkillSession.NEXT_COMMAND);
+        expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
@@ -173,7 +179,7 @@ public class SkillInteractiveSession extends SkillSession {
       }
 
       try {
-        expect.expect(SkillSession.NEXT_COMMAND);
+        expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);

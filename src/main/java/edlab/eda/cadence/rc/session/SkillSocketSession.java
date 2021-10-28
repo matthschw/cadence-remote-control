@@ -30,6 +30,7 @@ public class SkillSocketSession extends SkillSession {
   private Map<String, EvaluableToSkill> keywords;
 
   public SkillSocketSession(int port) {
+    super();
     this.port = port;
 
     this.keywords = new HashMap<String, EvaluableToSkill>();

@@ -21,10 +21,11 @@ public abstract class SkillSession {
   protected static final int MAX_CMD_LENGTH = 7500;
 
   // Prompt in Cadence Session
-  protected static final String PROMPT = ">";
-  protected static final String PROMPT_REGEX = "\n>";
-  protected static final Matcher<Result> NEXT_COMMAND = Matchers
-      .regexp(PROMPT_REGEX);
+  protected static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
+  protected static final String PROMPT_DEFAULT = ">";
+
+  protected String prompt = PROMPT_DEFAULT;
+  protected Matcher<Result> nextCommand;
 
   // Identifiers in Cadence Session
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
@@ -46,6 +47,17 @@ public abstract class SkillSession {
   public static final String ID_DATA = "data";
   public static final String ID_FILE = "file";
   public static final String ID_ERROR = "error";
+
+  protected SkillSession() {
+
+    String content = System.getenv(PROMPT_ENV_VAR);
+
+    if (content instanceof String) {
+      this.prompt = content;
+    }
+
+    this.nextCommand = Matchers.regexp("\n" + this.prompt);
+  }
 
   /**
    * Start the session
