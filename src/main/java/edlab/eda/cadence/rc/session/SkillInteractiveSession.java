@@ -6,15 +6,12 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
-import edlab.eda.cadence.rc.data.SkillBoolean;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
@@ -93,7 +90,7 @@ public class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession start()
       throws UnableToStartSession, EvaluationFailedException {
-
+    
     if (!this.isActive()) {
 
       try {
@@ -105,7 +102,7 @@ public class SkillInteractiveSession extends SkillSession {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-
+      
       // add shutdown hook for process
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
@@ -115,7 +112,7 @@ public class SkillInteractiveSession extends SkillSession {
           } catch (Exception e) {
           }
         }
-      });
+      }); 
 
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
@@ -132,7 +129,7 @@ public class SkillInteractiveSession extends SkillSession {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-
+      
       SkillCommand skillPromptsCommand = null;
 
       try {
@@ -161,17 +158,15 @@ public class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartSession(this.command, workingDir);
       }
 
-      File skillControlApi = this.getResourcePath(SkillSession.CONTEXT_RESOURCE,
-          SkillSession.TMP_CXT_FILE_SUFFIX);
+      File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
+          SkillSession.TMP_SKILL_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
 
       try {
         skillLoadCommand = GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT)
-            .buildCommand(new SkillString(skillControlApi.getAbsolutePath()),
-                new ArrayList<EvaluableToSkill>(Arrays.asList(
-                    new EvaluableToSkill[] { SkillBoolean.getTrue() })));
+            .getTemplate(GenericSkillCommandTemplates.LOAD)
+            .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }

@@ -15,6 +15,8 @@ public abstract class SkillSession {
 
   // Context file
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
+  // Skill file
+  public static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
   
   protected static final int MAX_CMD_LENGTH = 7500;
 
@@ -54,7 +56,6 @@ public abstract class SkillSession {
     if (content instanceof String) {
       this.prompt = content;
     }
-
     this.nextCommand = Matchers.regexp("\n" + this.prompt);
   }
 
@@ -117,7 +118,6 @@ public abstract class SkillSession {
 
     byte[] data;
     File file = null;
-
     try {
       data = new byte[stream.available()];
       stream.read(data);

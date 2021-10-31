@@ -1,6 +1,8 @@
 (let 
   (
-    (skillDir "./src/main/skill") (cxtDir   "./src/main/resources/cxt")
+    (skillDir "./src/main/skill") 
+    (cxtResourceDir     "./src/main/resources/cxt")
+    (skillResourceDir   "./src/main/resources/skill")
     postfix cid context
   )
   
@@ -11,12 +13,17 @@
 
   (setq context (ipcReadProcess cid 10))
 
-  (when (isDir cxtDir)
-    (system (strcat "rm -rf " cxtDir))
+  (when (isDir cxtResourceDir)
+    (system (strcat "rm -rf " cxtResourceDir))
   );when
   
-  (createDir cxtDir)
-
+  (when (isDir skillResourceDir)
+    (system (strcat "rm -rf " skillResourceDir))
+  );when
+  
+  (createDir cxtResourceDir)
+  (createDir skillResourceDir)
+  
   (setContext context)
 
   (foreach file (getDirFiles skillDir)
@@ -25,8 +32,9 @@
 
     (when (or (equal postfix "il") (equal postfix "ils"))
       (load (strcat skillDir "/" file))
+      (compress (strcat skillDir "/" file) (strcat skillResourceDir "/" file))
     );when
   );foreach
 
-  (saveContext (strcat cxtDir "/" context  ".cxt"))
+  (saveContext (strcat cxtResourceDir "/" context  ".cxt"))
 );let
