@@ -22,7 +22,7 @@ public class UnableToStartSession extends Exception {
     super(
         "Unable to start session with command \"" + command + "\" in directory "
             + workingDir.getAbsolutePath() + ". " + "\nPlease investigate \""
-            + logfile.getAbsolutePath() + " for detailed information.");
+            + logfile.getAbsolutePath() + "\" for detailed information.");
   }
 
   public UnableToStartSession(int port) {

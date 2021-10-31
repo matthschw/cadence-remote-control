@@ -19,7 +19,7 @@ $ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
 ```bash
 mvn install
 ```
-Make sure, that Virtuoso executable if available during the 
+Make sure, that Virtuoso is available during the 
 installation process, i.e. the command
 ```bash
 virtuoso -W

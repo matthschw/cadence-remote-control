@@ -8,6 +8,8 @@
 * Authors: 
 * - Matthias Schweikardt
 *
+* Language: Cadence SKILL
+*
 * Lint: IQ score is 100 (best is 100)
 *       {sklint ?file "EDcdsRemoteControl.il"}
 *
