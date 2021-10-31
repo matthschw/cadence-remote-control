@@ -13,11 +13,9 @@ import net.sf.expectit.matcher.Matchers;
 
 public abstract class SkillSession {
 
-  protected static final String SKILL_RESOURCE = "EDcdsRemoteControl.il";
-
-  @SuppressWarnings("unused")
-  private static final String CONTEXT_RESOURCE = "64bit/EDcdsRC.cxt";
-
+  // Context file
+  public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
+  
   protected static final int MAX_CMD_LENGTH = 7500;
 
   // Prompt in Cadence Session
@@ -33,10 +31,11 @@ public abstract class SkillSession {
   public static final String CDS_RC_SESSION = "main";
   public static final String CDS_RC_RETURN_VALUES = "retVals";
 
-  // Temporary file name prefix and suffix
+  // Temporary file name prefix and suffixes
   public static final String TMP_FILE_PREFIX = "ed_cds_rc";
   public static final String TMP_SKILL_FILE_SUFFIX = ".il";
   public static final String TMP_SKILLPP_FILE_SUFFIX = ".ils";
+  public static final String TMP_CXT_FILE_SUFFIX = ".cxt";
 
   // XML
   protected static final Matcher<Result> XML_MATCH = Matchers

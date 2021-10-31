@@ -192,10 +192,10 @@
 
     (setq lBuildList (tconc nil nil))
     
-	 (when bCiw
-		(tconc lBuildList "<<1")
-	 );when
-	 
+   (when bCiw
+    (tconc lBuildList "<<1")
+   );when
+   
     (tconc 
       lBuildList 
       "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
@@ -248,7 +248,7 @@
               );tconc
             )
 
-            ((and (listp val) (null (car val)))
+            ((and (listp val) (plusp (length val)) (null (car val)))
 
               (tconc
                 lBuildList
@@ -307,6 +307,102 @@
                 );lsprintf
               );tconc
             )
+
+            /*
+            ((complexp val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"doublecomplex\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+
+
+              (funcall
+                fTraverseDataStructure
+                (real val)
+                "real"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (funcall
+                fTraverseDataStructure
+                (imag val)
+                "imag"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (tconc
+                lBuildList
+                (lsprintf 
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+              
+            /*
+            ((drIsWaveform val)
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"wave\" x=\"%s\" y=\"%s\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                  (drGetWaveformXType val)
+                  (drGetWaveformYType val)
+                );lsprintf
+              );tconc
+
+
+              (setq xVec (drGetWaveformXVec val))
+              (setq yVec (drGetWaveformYVec val))
+
+              (for i 0 (drVectorLength xVec)
+
+                (tconc
+                  lBuildList
+                  (lsprintf
+                    "%s%s<%L>\n"
+                    sIndentation
+                    "\t"
+                    i
+                  );lsprintf
+
+                  (tconc
+                    lBuildList
+                    (lsprintf
+                      "%s%s</%s>\n"
+                      sIndentation
+                      "\t"
+                      i
+                    );lsprintf
+                  );tconc
+                );tconc
+              );for
+
+                  
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+            )
+            */
+
+            /*
+            ((famIsFamily val)
+              nil
+            )
+            */
 
             ((symbolp val) 
 
@@ -381,11 +477,13 @@
       ""
     );funcall
     
-	 (when bCiw
-		(tconc  lBuildList "2>>")
-	 );when
+  (when bCiw
+    (tconc  lBuildList "2>>")
+  );when
 
-    (apply 'strcat (cdar lBuildList))
+  (apply 'strcat (cdar lBuildList))
+
+  ;(cdar lBuildList)
   );let
 );defun
 

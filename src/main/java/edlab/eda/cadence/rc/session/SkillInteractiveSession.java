@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
+import edlab.eda.cadence.rc.data.SkillBoolean;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
@@ -140,7 +143,7 @@ public class SkillInteractiveSession extends SkillSession {
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
-      
+
       this.prompt = PROMPT_DEFAULT;
       this.nextCommand = Matchers.regexp("\n" + this.prompt);
 
@@ -158,16 +161,18 @@ public class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartSession(this.command, workingDir);
       }
 
-      File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
-          SkillSession.TMP_SKILL_FILE_SUFFIX);
+      File skillControlApi = this.getResourcePath(SkillSession.CONTEXT_RESOURCE,
+          SkillSession.TMP_CXT_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
 
       try {
         skillLoadCommand = GenericSkillCommandTemplates
-            .getTemplate(GenericSkillCommandTemplates.LOAD)
-            .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
-      } catch (IncorrectSyntaxException e1) {
+            .getTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT)
+            .buildCommand(new SkillString(skillControlApi.getAbsolutePath()),
+                new ArrayList<EvaluableToSkill>(Arrays.asList(
+                    new EvaluableToSkill[] { SkillBoolean.getTrue() })));
+      } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
 

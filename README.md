@@ -19,8 +19,15 @@ $ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
 ```bash
 mvn install
 ```
+Make sure, that Virtuoso executable if available during the 
+installation process, i.e. the command
+```bash
+virtuoso -W
+```
+should return *sub-version  IC6.1.8-64b.500.20* or something similar.
 Please pay attention that Virtuoso is started in graphical mode while
 the project is installed.
+Do not interact with this CIW.
 
 ## Setup
 Add the dependency to your project
@@ -112,7 +119,6 @@ System.out.println(num.getFixnum());
 // close session
 session.stop();
 ```
-
 
 ## License
 

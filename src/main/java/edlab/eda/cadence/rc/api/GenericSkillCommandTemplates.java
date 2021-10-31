@@ -16,7 +16,7 @@ public class GenericSkillCommandTemplates {
   public static final String SET = "set";
   public static final String GET = "get";
   public static final String GETQ = "getq";
-  
+
   public static final String CAR = "car";
   public static final String CADR = "cadr";
   public static final String NTH = "nth";
@@ -72,7 +72,7 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.GET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET, 2));
-    
+
     templates.put(GenericSkillCommandTemplates.GETQ,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GETQ, 2));
 
@@ -88,17 +88,17 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.APPLY,
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
-    
+
     templates.put(GenericSkillCommandTemplates.MAPCAR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.MAPCAR, 2, true));
-    
+
     templates.put(GenericSkillCommandTemplates.FUNCALL,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.FUNCALL,true));
-    
+        new SkillCommandTemplate(GenericSkillCommandTemplates.FUNCALL, true));
+
     templates.put(GenericSkillCommandTemplates.EVAL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 1));
     templates.put(GenericSkillCommandTemplates.IS_CALLABLE,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.IS_CALLABLE, 1));    
+        new SkillCommandTemplate(GenericSkillCommandTemplates.IS_CALLABLE, 1));
 
     templates.put(GenericSkillCommandTemplates.ARRAYREF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ARRAYREF, 2));
@@ -132,7 +132,8 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
 
     templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
-        new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD_CONTEXT, 1));
+        OptionalParameterSkillCommandTemplate
+            .build(GenericSkillCommandTemplates.LOAD_CONTEXT, 1, 1));
 
     templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));

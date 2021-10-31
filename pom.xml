@@ -108,7 +108,9 @@
           <jvm>${env.JAVA_HOME}/bin/java</jvm>
         </configuration>
       </plugin>
-      <!--
+
+
+
         <plugin>
           <artifactId>exec-maven-plugin</artifactId>
           <version>3.0.0</version>
@@ -127,9 +129,9 @@
             </execution>
           </executions>
         </plugin>
-      -->
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
