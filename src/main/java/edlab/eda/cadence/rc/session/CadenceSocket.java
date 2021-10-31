@@ -196,7 +196,7 @@ public class CadenceSocket {
    * Method which is invoked from a Cadence tool
    * 
    * @param args Array of strings
-   * @throws Exception Is thrown when the connection cannot be establised
+   * @throws Exception Is thrown when the connection cannot be established
    */
   public static void main(String[] args) throws Exception {
 
