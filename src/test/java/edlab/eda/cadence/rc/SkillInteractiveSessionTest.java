@@ -20,6 +20,8 @@ public class SkillInteractiveSessionTest {
 
     SkillInteractiveSession session = new SkillInteractiveSession();
     
+    System.err.println(session);
+    
     try {
       session.start();
     } catch (UnableToStartSession e) {
