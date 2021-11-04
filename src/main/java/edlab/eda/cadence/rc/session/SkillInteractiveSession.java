@@ -154,15 +154,18 @@ public class SkillInteractiveSession extends SkillSession {
       }
       System.err.println("H");
       try {
+        System.err.println("H1");
         expect.expect(this.nextCommand);
       } catch (IOException e) {
+        System.err.println("H2");
         this.stop();
+        System.err.println("H3");
         throw new UnableToStartSession(this.command, workingDir);
       }
-
+      System.err.println("H4");
       File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
           SkillSession.TMP_SKILL_FILE_SUFFIX);
-
+      System.err.println("H5");
       SkillCommand skillLoadCommand = null;
       System.err.println("I");
       try {
