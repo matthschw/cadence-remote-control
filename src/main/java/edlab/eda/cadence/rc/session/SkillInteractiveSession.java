@@ -163,8 +163,7 @@ public class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartSession(this.command, workingDir);
       }
       System.err.println("H4");
-      System.err.println(this);
-      File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
+      File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
           SkillSession.TMP_SKILL_FILE_SUFFIX);
       System.err.println("H5");
       SkillCommand skillLoadCommand = null;
