@@ -120,6 +120,17 @@ System.out.println(num.getFixnum());
 session.stop();
 ```
 
+## Known Issues
+
+When the unit tests throw errors, please try first
+```bash
+mvn install -Dmaven.test.skip=true
+```
+before executing
+```bash
+mvn install
+```
+
 ## License
 
 Copyright (C) 2021, [Electronics & Drives](https://www.electronics-and-drives.de/)
