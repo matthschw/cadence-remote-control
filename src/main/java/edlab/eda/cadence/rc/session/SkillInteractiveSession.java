@@ -91,10 +91,10 @@ public class SkillInteractiveSession extends SkillSession {
   public SkillInteractiveSession start()
       throws UnableToStartSession, EvaluationFailedException {
     
-    System.err.println("start");
+    System.err.println("A");
     
     if (!this.isActive()) {
-
+      System.err.println("B");
       try {
 
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
@@ -104,7 +104,7 @@ public class SkillInteractiveSession extends SkillSession {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-      
+      System.err.println("C");
       // add shutdown hook for process
       Runtime.getRuntime().addShutdownHook(new Thread() {
         @Override
@@ -115,7 +115,7 @@ public class SkillInteractiveSession extends SkillSession {
           }
         }
       }); 
-
+      System.err.println("D");
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
@@ -124,14 +124,14 @@ public class SkillInteractiveSession extends SkillSession {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-
+      System.err.println("E");
       try {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-      
+      System.err.println("F");
       SkillCommand skillPromptsCommand = null;
 
       try {
@@ -142,7 +142,7 @@ public class SkillInteractiveSession extends SkillSession {
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
-
+      System.err.println("G");
       this.prompt = PROMPT_DEFAULT;
       this.nextCommand = Matchers.regexp("\n" + this.prompt);
 
@@ -152,7 +152,7 @@ public class SkillInteractiveSession extends SkillSession {
         this.stop();
         throw new UnableToStartSession(this.command, workingDir);
       }
-
+      System.err.println("H");
       try {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
@@ -164,7 +164,7 @@ public class SkillInteractiveSession extends SkillSession {
           SkillSession.TMP_SKILL_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
-
+      System.err.println("I");
       try {
         skillLoadCommand = GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.LOAD)
@@ -172,14 +172,14 @@ public class SkillInteractiveSession extends SkillSession {
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
-
+      System.err.println("J");
       try {
         this.expect.send(skillLoadCommand.toSkill() + "\n");
       } catch (IOException e) {
         this.stop();
         throw new EvaluationFailedException(skillLoadCommand.toSkill());
       }
-
+      System.err.println("K");
       try {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
@@ -190,13 +190,13 @@ public class SkillInteractiveSession extends SkillSession {
       skillControlApi.delete();
 
       this.lastActivity = new Date();
-
+      System.err.println("K");
       if (this.timeoutDuration > 0) {
         this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
             this.timeoutTimeUnit, Thread.currentThread());
         this.watchdog.start();
       }
-
+      System.err.println("L");
       return this;
 
     } else {
