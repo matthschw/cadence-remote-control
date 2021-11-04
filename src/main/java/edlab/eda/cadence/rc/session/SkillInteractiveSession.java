@@ -91,6 +91,8 @@ public class SkillInteractiveSession extends SkillSession {
   public SkillInteractiveSession start()
       throws UnableToStartSession, EvaluationFailedException {
     
+    System.err.println("start");
+    
     if (!this.isActive()) {
 
       try {
