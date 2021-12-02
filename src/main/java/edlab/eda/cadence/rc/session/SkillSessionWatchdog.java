@@ -81,7 +81,7 @@ class SkillSessionWatchdog extends Thread {
         }
       }
 
-      if (this.parent != null && !this.parent.isAlive()) {
+      if (this.parent != null && !this.parent.isAlive() & !this.killed) {
         this.session.stop();
         contineWatching = false;
       }

@@ -377,6 +377,7 @@ public class SkillInteractiveSession extends SkillSession {
       retval = expect.expect(SkillSession.XML_MATCH).group(1);
 
     } catch (Exception e) {
+      e.printStackTrace();
     }
 
     return retval;
