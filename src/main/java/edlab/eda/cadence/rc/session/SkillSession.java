@@ -17,7 +17,7 @@ public abstract class SkillSession {
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
   // Skill file
   public static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
-  
+
   protected static final int MAX_CMD_LENGTH = 7500;
 
   // Prompt in Cadence Session
@@ -95,6 +95,25 @@ public abstract class SkillSession {
       InvalidDataobjectReferenceExecption;
 
   /**
+   * Evaluate a Skill command in the session
+   * 
+   * @param command Command to be evaluated
+   * @param parent  Parent thread that is used by the watchdog for
+   *                identification whether the parent thread is finished
+   * @return Skill data-object that is returned from the session
+   * @throws UnableToStartSession                When the session could not be
+   *                                             started
+   * @throws EvaluationFailedException           When evaluation of the command
+   *                                             failed
+   * @throws InvalidDataobjectReferenceExecption When the command contains data
+   *                                             that is is not referenced in
+   *                                             this session
+   */
+  public abstract SkillDataobject evaluate(SkillCommand command, Thread parent)
+      throws UnableToStartSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption;
+
+  /**
    * Stop the session
    */
   public abstract void stop();
@@ -131,4 +150,5 @@ public abstract class SkillSession {
 
     return file;
   }
+
 }

@@ -92,6 +92,13 @@ public class SkillSocketSession extends SkillSession {
   public boolean isActive() {
     return this.socket.isConnected();
   }
+  
+  @Override
+  public SkillDataobject evaluate(SkillCommand command, Thread parent)
+      throws UnableToStartSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption {
+    return this.evaluate(command);
+  }
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)

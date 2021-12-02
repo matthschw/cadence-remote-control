@@ -90,7 +90,7 @@ public class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession start()
       throws UnableToStartSession, EvaluationFailedException {
-    
+
     if (!this.isActive()) {
 
       try {
@@ -112,7 +112,7 @@ public class SkillInteractiveSession extends SkillSession {
           } catch (Exception e) {
           }
         }
-      }); 
+      });
 
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
@@ -161,7 +161,7 @@ public class SkillInteractiveSession extends SkillSession {
           SkillSession.TMP_SKILL_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
-    
+
       try {
         skillLoadCommand = GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.LOAD)
@@ -169,7 +169,7 @@ public class SkillInteractiveSession extends SkillSession {
       } catch (IncorrectSyntaxException e) {
         // cannot happen
       }
-      
+
       try {
         this.expect.send(skillLoadCommand.toSkill() + "\n");
       } catch (IOException e) {
@@ -213,6 +213,13 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)
+      throws UnableToStartSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption {
+    return this.evaluate(command, Thread.currentThread());
+  }
+
+  @Override
+  public SkillDataobject evaluate(SkillCommand command, Thread parent)
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
@@ -273,7 +280,7 @@ public class SkillInteractiveSession extends SkillSession {
         }
       }
 
-      String xml = communicate(skillCommand);
+      String xml = this.communicate(skillCommand);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
@@ -320,7 +327,7 @@ public class SkillInteractiveSession extends SkillSession {
 
     if (this.timeoutDuration > 0) {
       this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-          this.timeoutTimeUnit, Thread.currentThread());
+          this.timeoutTimeUnit, parent);
       this.watchdog.start();
     }
 
@@ -366,7 +373,6 @@ public class SkillInteractiveSession extends SkillSession {
     String retval = null;
 
     try {
-
       this.expect.send(cmd + "\n");
       retval = expect.expect(SkillSession.XML_MATCH).group(1);
 
