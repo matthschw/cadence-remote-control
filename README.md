@@ -89,7 +89,7 @@ From Cadence tools, a Java-Socket can be started.
 (ipcSkillProcess "java -cp <PATH-TO-JAR> edlab.eda.cadence.rc.CadenceSocket")
 ```
 
-When the socket is started, the file ´.ed_cds_rc_socket´ is created in the
+When the socket is started, the file `.ed_cds_rc_socket` is created in the
 working directory, which contains the socket number.
 
 Afterwards, the session can be accessed from Java
