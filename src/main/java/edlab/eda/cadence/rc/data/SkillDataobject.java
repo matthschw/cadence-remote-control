@@ -132,7 +132,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Write a Skill data-object to a file
    * 
-   * @param File Path to XML file
+   * @param file Path to XML file
    * @return file when successful, <code>null</code> otherwise
    */
   public File writeSkillDataobjectToXML(File file) {
@@ -240,7 +240,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
           Integer.parseInt(node.getTextContent()));
 
       break;
-      
+
     case SkillSymbol.TYPE_ID:
 
       skillDataobject = new SkillSymbol(node.getTextContent());
