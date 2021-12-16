@@ -90,6 +90,11 @@ public class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession start()
       throws UnableToStartSession, EvaluationFailedException {
+    return this.start(Thread.currentThread());
+  }
+
+  public SkillInteractiveSession start(Thread parent)
+      throws UnableToStartSession, EvaluationFailedException {
 
     if (!this.isActive()) {
 
@@ -190,7 +195,7 @@ public class SkillInteractiveSession extends SkillSession {
 
       if (this.timeoutDuration > 0) {
         this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-            this.timeoutTimeUnit, Thread.currentThread());
+            this.timeoutTimeUnit, parent);
         this.watchdog.start();
       }
 
@@ -204,7 +209,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public boolean isActive() {
-    if (process == null || !process.isAlive()) {
+    if (this.process == null || !this.process.isAlive()) {
       return false;
     } else {
       return true;
@@ -223,8 +228,8 @@ public class SkillInteractiveSession extends SkillSession {
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
-    if (!isActive()) {
-      this.start();
+    if (!this.isActive()) {
+      this.start(parent);
     }
 
     SkillDataobject data = null;
