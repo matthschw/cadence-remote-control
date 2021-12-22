@@ -80,6 +80,7 @@ public class SkillInteractiveSession extends SkillSession {
    * Specify the command to be used to invoke the session
    * 
    * @param command Start-command of the Cadence Tool
+   * 
    * @return this
    */
   public SkillInteractiveSession setCommand(String command) {

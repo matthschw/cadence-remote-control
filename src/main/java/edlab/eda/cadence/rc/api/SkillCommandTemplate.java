@@ -223,7 +223,8 @@ public class SkillCommandTemplate {
       }
     }
 
-    return new SkillCommand(this, new EvaluableToSkill[] {}, null, optionalAndRestParameters);
+    return new SkillCommand(this, new EvaluableToSkill[] {}, null,
+        optionalAndRestParameters);
   }
 
   /**
@@ -319,7 +320,8 @@ public class SkillCommandTemplate {
     this.checkFormalParameters(0);
     this.checkKeywordParameters(keywordParameters);
 
-    return new SkillCommand(this, new EvaluableToSkill[] {}, keywordParameters, null);
+    return new SkillCommand(this, new EvaluableToSkill[] {}, keywordParameters,
+        null);
   }
 
   /**

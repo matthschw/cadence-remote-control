@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillComplexNumber extends SkillNumber{
+public class SkillComplexNumber extends SkillNumber {
 
   /**
    * Type-Identifier in XML
    */
   public static final String TYPE_ID = "doublecomplex";
-  
+
   public SkillComplexNumber(BigDecimal number) {
     super();
   }

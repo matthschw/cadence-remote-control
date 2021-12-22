@@ -92,7 +92,7 @@ public class SkillSocketSession extends SkillSession {
   public boolean isActive() {
     return this.socket.isConnected();
   }
-  
+
   @Override
   public SkillDataobject evaluate(SkillCommand command, Thread parent)
       throws UnableToStartSession, EvaluationFailedException,
@@ -121,7 +121,7 @@ public class SkillSocketSession extends SkillSession {
               .buildCommand(command), this.keywords);
 
     } catch (IncorrectSyntaxException e) {
-      //cannot happen
+      // cannot happen
     }
 
     String inputString = outer.toSkill() + "\n";
@@ -190,7 +190,7 @@ public class SkillSocketSession extends SkillSession {
     } catch (Exception e) {
       throw new EvaluationFailedException(inputString, xml);
     }
-    
+
     return content;
   }
 

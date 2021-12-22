@@ -51,7 +51,8 @@ public class SkillCommand implements EvaluableToSkill {
         if (this.keywordParameters.get(key) == null) {
           retval += " nil";
         } else {
-          retval += " ?" + key + " " + this.keywordParameters.get(key).toSkill();
+          retval += " ?" + key + " "
+              + this.keywordParameters.get(key).toSkill();
         }
       }
     }

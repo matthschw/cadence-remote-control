@@ -58,7 +58,7 @@ public class SkillFixnum extends SkillNumber {
 
   @Override
   public boolean equals(Object o) {
-    
+
     if (o instanceof SkillFixnum) {
       SkillFixnum object = (SkillFixnum) o;
       return this.value == object.value;

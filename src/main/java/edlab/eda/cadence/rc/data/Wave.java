@@ -4,6 +4,4 @@ public abstract class Wave {
 
   protected abstract SkillDataobject toSkill();
 
-
-
 }
