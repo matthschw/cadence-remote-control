@@ -62,7 +62,7 @@ public class GenericSkillCommandTemplates {
 
     Set<String> keywordParameters;
 
-    templates = new HashMap<String, SkillCommandTemplate>();
+    templates = new HashMap<>();
 
     templates.put(GenericSkillCommandTemplates.PLUS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.PLUS, 2, true));
@@ -149,7 +149,7 @@ public class GenericSkillCommandTemplates {
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.GET_CURRENT_TIME));
 
-    keywordParameters = new HashSet<String>();
+    keywordParameters = new HashSet<>();
     keywordParameters.add("returnType");
     keywordParameters.add("session");
 
@@ -177,7 +177,7 @@ public class GenericSkillCommandTemplates {
 
   /**
    * Get a {@link SkillCommandTemplate} by name
-   * 
+   *
    * @param name Name of the command
    * @return template when existing,<code>null</code> otherwise
    */

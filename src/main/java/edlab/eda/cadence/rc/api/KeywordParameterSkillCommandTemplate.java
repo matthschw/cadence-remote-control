@@ -37,7 +37,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
   /**
    * Get keyword parameters of the SKILL-Command template
-   * 
+   *
    * @return Names of keyword-parameters
    */
   public Set<String> getKeywordParameters() {
@@ -46,7 +46,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
   /**
    * Build a SKILL command template with keyword parameters
-   * 
+   *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
    * @return SKILL-Command template
@@ -58,7 +58,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
   /**
    * Build a SKILL command template with formal and keyword parameters
-   * 
+   *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
@@ -77,7 +77,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
   /**
    * Build a SKILL command template with keyword parameters and rest
-   * 
+   *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
@@ -92,7 +92,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
   /**
    * Build a SKILL command template with formal and keyword parameters and rest
-   * 
+   *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters

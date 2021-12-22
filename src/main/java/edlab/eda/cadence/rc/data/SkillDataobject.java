@@ -40,7 +40,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Returns when the {@link SkillDataobject} is logically true
-   * 
+   *
    * @return <code>true</code> when the {@link SkillDataobject} is true wrt. to
    *         SKILL syntax, <code>false</code> otherwise
    */
@@ -57,7 +57,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Convert a {@link SkillDataobject} to a SKILL representation while taking
    * hierarchical syntax rules into account
-   * 
+   *
    * @param depth Hierarchy in which the {@link SkillDataobject} is instantiated
    * @return SKILL representation of a {@link SkillDataobject}
    */
@@ -65,7 +65,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Create a XML element of a SKILL data-object
-   * 
+   *
    * @param name     Name of the SKILl data-object
    * @param document D
    * @return XML Element
@@ -75,7 +75,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Create a {@link SkillDataobject} from a XML
-   * 
+   *
    * @param xml File that contains the XML
    * @return SkillDataobject
    */
@@ -90,7 +90,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Create a {@link SkillDataobject} from a XML
-   * 
+   *
    * @param session Corresponding {@link SkillInteractiveSession}
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
@@ -102,7 +102,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Create a {@link SkillDataobject} from a XML
-   * 
+   *
    * @param session Corresponding {@link SkillInteractiveSession}
    * @param xml     XML to be parsed as byte array
    * @return SkillDataobject
@@ -131,7 +131,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Write a Skill data-object to a file
-   * 
+   *
    * @param file Path to XML file
    * @return file when successful, <code>null</code> otherwise
    */
@@ -173,7 +173,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Traverse a node from a session's return value for creating a
    * {@link SkillDataobject}
-   * 
+   *
    * @param session Corresponding session
    * @param node    Node in the XML
    * @return SkillDataobject
@@ -263,7 +263,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
   /**
    * Check whether a {@link Node} is valid with the here utilized protocol
-   * 
+   *
    * @param node to be checked
    * @return <code>true</true> when the node is valid, <code>false</true>
    *         otherwise

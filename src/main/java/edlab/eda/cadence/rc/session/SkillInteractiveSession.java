@@ -52,7 +52,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   /**
    * Create a Session
-   * 
+   *
    * @param workingDir directory where the session is started
    */
   public SkillInteractiveSession(File workingDir) {
@@ -65,7 +65,7 @@ public class SkillInteractiveSession extends SkillSession {
    * Set the timeout for the session. The session will terminate when no action
    * is performed (command is sent) or the session does not respond in the
    * specified time.
-   * 
+   *
    * @param duration Timeout
    * @param unit     Time Unit to be used
    * @return this
@@ -78,9 +78,9 @@ public class SkillInteractiveSession extends SkillSession {
 
   /**
    * Specify the command to be used to invoke the session
-   * 
+   *
    * @param command Start-command of the Cadence Tool
-   * 
+   *
    * @return this
    */
   public SkillInteractiveSession setCommand(String command) {
@@ -370,7 +370,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   /**
    * Execute a Skill command
-   * 
+   *
    * @param cmd Skill command to be executed
    * @return XML from Skill session
    */
@@ -390,7 +390,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   /**
    * Get date of last activity in the session
-   * 
+   *
    * @return date of last activity in the session
    */
   Date getLastActivity() {
@@ -405,7 +405,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   /**
    * Get the PID of the subprocess
-   * 
+   *
    * @return PID of subprocess if running, <code>-1</code> otherwise
    */
   public long getPid() {

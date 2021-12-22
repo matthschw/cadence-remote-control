@@ -22,7 +22,7 @@ public class SkillComplexDataobject extends SkillDataobject {
 
   /**
    * Create a {@link SkillComplexDataobject}
-   * 
+   *
    * @param session    {@link SkillInteractiveSession} where the
    *                   {@link SkillComplexDataobject} is referenced
    * @param identifier Identifier of the {@link SkillComplexDataobject}
@@ -39,7 +39,7 @@ public class SkillComplexDataobject extends SkillDataobject {
 
   /**
    * Get the session where the {@link SkillComplexDataobject} is referenced
-   * 
+   *
    * @return session
    */
   public SkillSession getSession() {
@@ -49,10 +49,10 @@ public class SkillComplexDataobject extends SkillDataobject {
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    return "(arrayref (arrayref " + SkillInteractiveSession.CDS_RC_GLOBAL + "."
-        + SkillInteractiveSession.CDS_RC_SESSIONS + " \""
-        + SkillInteractiveSession.CDS_RC_SESSION + "\")->"
-        + SkillInteractiveSession.CDS_RC_RETURN_VALUES + " " + this.identifier
+    return "(arrayref (arrayref " + SkillSession.CDS_RC_GLOBAL + "."
+        + SkillSession.CDS_RC_SESSIONS + " \""
+        + SkillSession.CDS_RC_SESSION + "\")->"
+        + SkillSession.CDS_RC_RETURN_VALUES + " " + this.identifier
         + ")";
   }
 

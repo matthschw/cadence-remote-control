@@ -20,7 +20,7 @@ public class SkillFlonum extends SkillNumber {
 
   /**
    * Create a new SKILL representation of a flonum
-   * 
+   *
    * @param flonum Flonum
    */
   public SkillFlonum(BigDecimal flonum) {
@@ -30,7 +30,7 @@ public class SkillFlonum extends SkillNumber {
 
   /**
    * Get the flonum
-   * 
+   *
    * @return flonum
    */
   public BigDecimal getFlonum() {

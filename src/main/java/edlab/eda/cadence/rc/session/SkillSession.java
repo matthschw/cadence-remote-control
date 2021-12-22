@@ -61,7 +61,7 @@ public abstract class SkillSession {
 
   /**
    * Start the session
-   * 
+   *
    * @return this
    * @throws UnableToStartSession      When starting of the subprocess failed
    * @throws EvaluationFailedException When the setup of the session failed
@@ -71,7 +71,7 @@ public abstract class SkillSession {
 
   /**
    * Check if the session is active
-   * 
+   *
    * @return <code>true</code> when the session is active, <code>false</code>
    *         otherwise
    */
@@ -79,7 +79,7 @@ public abstract class SkillSession {
 
   /**
    * Evaluate a Skill command in the session
-   * 
+   *
    * @param command Command to be evaluated
    * @return Skill data-object that is returned from the session
    * @throws UnableToStartSession                When the session could not be
@@ -96,7 +96,7 @@ public abstract class SkillSession {
 
   /**
    * Evaluate a Skill command in the session
-   * 
+   *
    * @param command Command to be evaluated
    * @param parent  Parent thread that is used by the watchdog for
    *                identification whether the parent thread is finished
@@ -125,7 +125,7 @@ public abstract class SkillSession {
 
   /**
    * Get the path to a resource
-   * 
+   *
    * @param fileName File name of the resource
    * @param suffix   Suffix of the file which will be generated
    * @return Path to the resource

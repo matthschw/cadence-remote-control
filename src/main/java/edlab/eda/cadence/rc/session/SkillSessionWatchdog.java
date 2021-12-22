@@ -21,7 +21,7 @@ class SkillSessionWatchdog extends Thread {
 
   /**
    * Create a Watchdog for a {@link SkillInteractiveSession}
-   * 
+   *
    * @param session  Session
    * @param duration Timeout duration
    * @param unit     Timeout unit

@@ -116,7 +116,7 @@ public class SkillSessionMethods {
       throws IncorrectSyntaxException, UnableToStartSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
-    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    LinkedList<EvaluableToSkill> rest = new LinkedList<>();
 
     rest.add(new SkillString(STR2));
     rest.add(new SkillString(STR3));
@@ -148,7 +148,7 @@ public class SkillSessionMethods {
 
     SkillDataobject port = session.evaluate(command);
 
-    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    LinkedList<EvaluableToSkill> rest = new LinkedList<>();
     rest.add(new SkillString(STR));
 
     command = GenericSkillCommandTemplates

@@ -1,15 +1,16 @@
 package edlab.eda.cadence.rc;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.session.EvaluationFailedException;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
-
-import static org.junit.jupiter.api.Assertions.*;
-import java.io.IOException;
-
-import org.junit.jupiter.api.Test;
 
 public class SkillInteractiveSessionTest {
 
@@ -19,14 +20,14 @@ public class SkillInteractiveSessionTest {
       InvalidDataobjectReferenceExecption {
 
     SkillInteractiveSession session = new SkillInteractiveSession();
-    
+
     try {
       session.start();
     } catch (UnableToStartSession e) {
       session.stop();
       fail("Unable to start session");
     }
-    
+
     SkillSessionMethods.detectError(session);
 
     SkillSessionMethods.writeFile(session);

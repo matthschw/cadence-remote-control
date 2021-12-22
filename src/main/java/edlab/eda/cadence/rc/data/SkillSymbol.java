@@ -18,7 +18,7 @@ public class SkillSymbol extends SkillBoolean {
 
   /**
    * Create a SkillSymbol from a given print name
-   * 
+   *
    * @param printName Symbol name
    */
   public SkillSymbol(String printName) {

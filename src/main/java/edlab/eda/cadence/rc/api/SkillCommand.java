@@ -34,12 +34,12 @@ public class SkillCommand implements EvaluableToSkill {
 
     if (this.formalParameters != null) {
 
-      for (int i = 0; i < this.formalParameters.length; i++) {
+      for (EvaluableToSkill formalParameter : this.formalParameters) {
 
-        if (this.formalParameters[i] == null) {
+        if (formalParameter == null) {
           retval += " nil";
         } else {
-          retval += " " + this.formalParameters[i].toSkill();
+          retval += " " + formalParameter.toSkill();
         }
       }
     }
@@ -78,8 +78,8 @@ public class SkillCommand implements EvaluableToSkill {
   public boolean canBeUsedInSession(SkillSession session) {
 
     if (this.formalParameters != null) {
-      for (int i = 0; i < formalParameters.length; i++) {
-        if (!formalParameters[i].canBeUsedInSession(session)) {
+      for (EvaluableToSkill formalParameter : formalParameters) {
+        if (!formalParameter.canBeUsedInSession(session)) {
           return false;
         }
       }

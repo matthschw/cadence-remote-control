@@ -33,7 +33,7 @@ public class SkillSocketSession extends SkillSession {
     super();
     this.port = port;
 
-    this.keywords = new HashMap<String, EvaluableToSkill>();
+    this.keywords = new HashMap<>();
     this.keywords.put("returnType", new SkillString("string"));
   }
 

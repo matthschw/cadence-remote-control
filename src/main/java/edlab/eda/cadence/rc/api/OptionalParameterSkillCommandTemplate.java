@@ -39,7 +39,7 @@ public class OptionalParameterSkillCommandTemplate
 
   /**
    * Build a SKILL command template with optional parameters
-   * 
+   *
    * @param name               Name of the command
    * @param optionalParameters Number of optional parameters
    * @return SKILL-Command template
@@ -52,7 +52,7 @@ public class OptionalParameterSkillCommandTemplate
 
   /**
    * Build a SKILL command template with optional parameters
-   * 
+   *
    * @param name               Name of the command
    * @param formalParameters   Number of formal parameters
    * @param optionalParameters Number of optional parameters
@@ -75,7 +75,7 @@ public class OptionalParameterSkillCommandTemplate
 
   /**
    * Build a SKILL command template with optional parameters
-   * 
+   *
    * @param name               Name of the command
    * @param optionalParameters Number of optional parameters
    * @param canHaveRest        <code>true</code> when the command can have rest,
@@ -95,7 +95,7 @@ public class OptionalParameterSkillCommandTemplate
 
   /**
    * Build a SKILL command template with optional parameters
-   * 
+   *
    * @param name               canHaveRest
    * @param formalParameters   Number of formal parameters
    * @param optionalParameters Number of optional parameters

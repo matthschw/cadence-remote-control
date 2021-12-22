@@ -8,7 +8,7 @@ public class InvalidDataobjectReferenceExecption extends Exception {
 
   /**
    * Create Exception
-   * 
+   *
    * @param command Command which contains invalid data-object references
    * @param session Session where the command cannot be executed
    */

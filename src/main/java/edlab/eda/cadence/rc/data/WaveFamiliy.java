@@ -10,6 +10,7 @@ public class WaveFamiliy extends Wave {
     this.waves = waves;
   }
 
+  @Override
   public SkillDataobject toSkill() {
 
     SkillList retval = new SkillList();
