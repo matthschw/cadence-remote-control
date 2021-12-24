@@ -36,7 +36,6 @@ public class SkillInteractiveExample {
     // typecast result
     SkillFixnum num = (SkillFixnum) obj;
 
-    System.out.println(num.getFixnum());
 
     // close session
     session.stop();

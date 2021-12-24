@@ -12,6 +12,8 @@ import java.util.Set;
 public class GenericSkillCommandTemplates {
 
   public static final String PLUS = "plus";
+  public static final String SQRT = "sqrt";
+  public static final String TIMES = "times";
 
   public static final String SET = "set";
   public static final String GET = "get";
@@ -66,6 +68,12 @@ public class GenericSkillCommandTemplates {
 
     templates.put(GenericSkillCommandTemplates.PLUS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.PLUS, 2, true));
+
+    templates.put(GenericSkillCommandTemplates.SQRT,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.SQRT, 1));
+
+    templates.put(GenericSkillCommandTemplates.TIMES,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.TIMES, 2, true));
 
     templates.put(GenericSkillCommandTemplates.SET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET, 2));

@@ -120,9 +120,9 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
       doc.getDocumentElement().normalize();
 
-      Node node = doc.getDocumentElement();
+      Element element = doc.getDocumentElement();
 
-      return traverseNode(session, node);
+      return traverseNode(session, element);
 
     } catch (Exception e) {
       return new SkillList();
@@ -175,14 +175,17 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * {@link SkillDataobject}
    *
    * @param session Corresponding session
-   * @param node    Node in the XML
+   * @param element Node in the XML
    * @return SkillDataobject
    */
-  private static SkillDataobject traverseNode(SkillSession session, Node node) {
+  private static SkillDataobject traverseNode(SkillSession session,
+      Element element) {
 
     SkillDataobject skillDataobject;
-    NamedNodeMap nodeMap = node.getAttributes();
+    NamedNodeMap nodeMap = element.getAttributes();
     NodeList nodeList;
+
+    Element sub;
 
     switch (nodeMap.getNamedItem(TYPE_ID).getNodeValue()) {
 
@@ -190,14 +193,15 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
       SkillDisembodiedPropertyList dpl = new SkillDisembodiedPropertyList();
 
-      nodeList = node.getChildNodes();
+      nodeList = element.getChildNodes();
       Node next;
 
       for (int i = 0; i < nodeList.getLength(); i++) {
 
         next = nodeList.item(i);
-        if (isValidNode(nodeList.item(i))) {
-          dpl.put(next.getNodeName(), traverseNode(session, next));
+
+        if ((sub = getElement(next)) != null) {
+          dpl.put(next.getNodeName(), traverseNode(session, sub));
         }
       }
 
@@ -209,12 +213,12 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
       SkillList list = new SkillList();
 
-      nodeList = node.getChildNodes();
+      nodeList = element.getChildNodes();
 
       for (int i = 0; i < nodeList.getLength(); i++) {
 
-        if (isValidNode(nodeList.item(i))) {
-          list.append1(traverseNode(session, nodeList.item(i)));
+        if ((sub = getElement(nodeList.item(i))) != null) {
+          list.append1(traverseNode(session, sub));
         }
       }
 
@@ -224,32 +228,40 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
     case SkillString.TYPE_ID:
 
-      skillDataobject = new SkillString(node.getTextContent());
+      skillDataobject = new SkillString(element.getTextContent());
 
       break;
 
     case SkillFlonum.TYPE_ID:
 
-      skillDataobject = new SkillFlonum(new BigDecimal(node.getTextContent()));
+      skillDataobject = new SkillFlonum(
+          new BigDecimal(element.getTextContent()));
 
       break;
 
     case SkillFixnum.TYPE_ID:
 
       skillDataobject = new SkillFixnum(
-          Integer.parseInt(node.getTextContent()));
+          Integer.parseInt(element.getTextContent()));
 
       break;
 
     case SkillSymbol.TYPE_ID:
 
-      skillDataobject = new SkillSymbol(node.getTextContent());
+      skillDataobject = new SkillSymbol(element.getTextContent());
 
       break;
+
+    case SkillComplexNumber.TYPE_ID:
+
+      skillDataobject = SkillComplexNumber.build(element);
+
+      break;
+
     case SkillComplexDataobject.TYPE_ID:
 
       skillDataobject = new SkillComplexDataobject(session,
-          Integer.parseInt(node.getTextContent()));
+          Integer.parseInt(element.getTextContent()));
       break;
 
     default:
@@ -268,6 +280,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @return <code>true</true> when the node is valid, <code>false</true>
    *         otherwise
    */
+  @SuppressWarnings("unused")
   private static boolean isValidNode(Node node) {
 
     if (node.hasAttributes()) {
@@ -280,5 +293,20 @@ public abstract class SkillDataobject implements EvaluableToSkill {
       }
     } else
       return false;
+  }
+
+  /**
+   * Check whether a node is an element
+   * 
+   * @param node node to be checked
+   * @return reference to element, when it is an element, <code>null</code>
+   *         otherwise
+   */
+  private static Element getElement(Node node) {
+    if (node instanceof Element) {
+      return (Element) node;
+    } else {
+      return null;
+    }
   }
 }

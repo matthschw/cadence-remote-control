@@ -38,6 +38,8 @@ public class SkillInteractiveSessionTest {
 
     SkillSessionMethods.strcat(session);
 
+    SkillSessionMethods.complexNumber(session);
+
     session.stop();
   }
 }

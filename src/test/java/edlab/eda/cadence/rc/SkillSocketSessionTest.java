@@ -28,13 +28,12 @@ public class SkillSocketSessionTest {
     } catch (InterruptedException e) {
     }
 
-
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
       public void run() {
         process.destroy();
       }
-  });
+    });
     Scanner scanner = new Scanner(
         new File(CadenceSocket.SOCKET_PORT_FILE_NAME));
 
@@ -42,7 +41,6 @@ public class SkillSocketSessionTest {
     scanner.close();
 
     SkillSocketSession session = new SkillSocketSession(port);
-
 
     session.start();
 
@@ -61,6 +59,8 @@ public class SkillSocketSessionTest {
     session.start();
 
     SkillSessionMethods.strcat(session);
+
+    SkillSessionMethods.complexNumber(session);
 
     session.stop();
   }

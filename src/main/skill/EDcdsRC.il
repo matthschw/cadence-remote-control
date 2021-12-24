@@ -309,9 +309,8 @@
                 );lsprintf
               );tconc
             )
-
-            /*
-            ((complexp val)
+            
+            ((and (isCallable (quote complexp)) (complexp val))
 
               (tconc
                 lBuildList
@@ -321,7 +320,6 @@
                   (EDcdsRCescapeXML sRoot)
                 );lsprintf
               );tconc
-
 
               (funcall
                 fTraverseDataStructure
