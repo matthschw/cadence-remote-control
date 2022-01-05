@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edlab.eda</groupId>
 	<artifactId>cadence.rc</artifactId>
-	<version>0.0.1</version>
+	<version>draft</version>
 
 	<properties>
 		<context>EDcdsRC</context>
@@ -56,51 +56,8 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.8.2</version>
-				<configuration>
-					<skip>true</skip>
-					<skipDeploy>true</skipDeploy>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.3.0</version>
-				<configuration>
-					<outputDirectory>${project.build.directory}/apidocs</outputDirectory>
-					<reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-						<phase>site</phase>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-scm-publish-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<serverId>github</serverId>
-					<pubScmUrl>scm:git:https://github.com/electronics-and-drives/cadence-remote-control.git</pubScmUrl>
-					<scmBranch>gh-pages</scmBranch>
-					<checkinComment>Updated JavaDocs via Maven</checkinComment>
-					<content>${project.build.directory}/apidocs</content>
-					<siteOutputEncoding>UTF-8</siteOutputEncoding>
-					<tryUpdate>true</tryUpdate>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>publish-scm</goal>
-						</goals>
-						<phase>site</phase>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -111,7 +68,6 @@
 					<jvm>${env.JAVA_HOME}/bin/java</jvm>
 				</configuration>
 			</plugin>
-
 
 
 			<plugin>

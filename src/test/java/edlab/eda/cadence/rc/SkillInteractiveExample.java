@@ -34,8 +34,8 @@ public class SkillInteractiveExample {
     SkillDataobject obj = session.evaluate(command);
 
     // typecast result
+    @SuppressWarnings("unused")
     SkillFixnum num = (SkillFixnum) obj;
-
 
     // close session
     session.stop();

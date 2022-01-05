@@ -346,8 +346,8 @@
             )
               
             /*
-            ((drIsWaveform val)
-
+            ((and (isCallable (quote drIsWaveform)) (drIsWaveform val))
+            
               (tconc
                 lBuildList
                 (lsprintf
