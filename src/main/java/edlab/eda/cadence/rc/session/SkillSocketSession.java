@@ -18,6 +18,7 @@ import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
+import edlab.eda.cadence.rc.data.SkillSymbol;
 
 public class SkillSocketSession extends SkillSession {
 
@@ -85,7 +86,44 @@ public class SkillSocketSession extends SkillSession {
       }
     });
 
-    return this;
+    SkillCommand cmd = null;
+
+    try {
+      cmd = GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
+          .buildCommand(new SkillSymbol(
+              GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND));
+    } catch (IncorrectSyntaxException e) {
+      // cannot happen
+    }
+
+    String retval = this.communicate(cmd.toSkill(), 1);
+
+    if (retval != null) {
+
+      if (retval.equals("nil")) {
+
+        File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
+            SkillSession.TMP_SKILL_FILE_SUFFIX);
+
+        try {
+          cmd = GenericSkillCommandTemplates
+              .getTemplate(GenericSkillCommandTemplates.LOAD)
+              .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
+        } catch (IncorrectSyntaxException e) {
+          // cannot happen
+        }
+
+        this.communicate(cmd.toSkill(), 1);
+
+        skillControlApi.delete();
+      }
+
+      return this;
+
+    } else {
+      throw new UnableToStartSession(this.port);
+    }
   }
 
   @Override
@@ -105,7 +143,6 @@ public class SkillSocketSession extends SkillSession {
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
-    byte[] data = null;
     String xml;
 
     if (!command.canBeUsedInSession(this)) {
@@ -113,6 +150,7 @@ public class SkillSocketSession extends SkillSession {
     }
 
     SkillCommand outer = null;
+
     try {
       outer = GenericSkillCommandTemplates
           .getTemplate(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND)
@@ -125,31 +163,8 @@ public class SkillSocketSession extends SkillSession {
     }
 
     String inputString = outer.toSkill() + "\n";
-
-    try {
-      this.outputStream.write(inputString.getBytes());
-    } catch (IOException e) {
-    }
-
-    try {
-      while (this.inputStream.available() == 0) {
-        try {
-          Thread.sleep(10);
-        } catch (InterruptedException e) {
-        }
-      }
-    } catch (IOException e) {
-      throw new UnableToStartSession(this.port);
-    }
-
-    try {
-      data = new byte[this.inputStream.available()];
-      this.inputStream.read(data);
-    } catch (IOException e) {
-    }
-
-    xml = new String(data);
-    xml = xml.substring(2, xml.length() - 2);
+    
+    xml = this.communicate(inputString, 2);
 
     xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
 
@@ -220,5 +235,39 @@ public class SkillSocketSession extends SkillSession {
   @Override
   public String toString() {
     return "[PORT:" + this.port + "]";
+  }
+
+  private String communicate(String msg, int indent) {
+    
+    try {
+      this.outputStream.write(msg.getBytes());
+    } catch (IOException e) {
+      this.stop();
+      return null;
+    }
+
+    try {
+      while (this.inputStream.available() == 0) {
+        try {
+          Thread.sleep(10);
+        } catch (InterruptedException e) {
+        }
+      }
+    } catch (IOException e) {
+      return null;
+    }
+
+    byte[] data = null;
+
+    try {
+      data = new byte[this.inputStream.available()];
+      this.inputStream.read(data);
+    } catch (IOException e) {
+      return null;
+    }
+
+    String retval;
+    retval = new String(data);
+    return retval.substring(indent, retval.length() - indent);
   }
 }
