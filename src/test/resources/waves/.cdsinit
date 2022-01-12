@@ -1,0 +1,48 @@
+(defun getWaves ()
+  (let ((len 500) xvec yvec wave waves)
+
+    (setq waves (tconc nil nil))
+
+
+    (foreach xtype (list "double" "intlong" "string")
+
+      (foreach ytype (list "double" "intlong" "complex")
+
+        (setq xvec (drCreateVec (stringToSymbol xtype) len))
+        (setq yvec (drCreateVec (stringToSymbol ytype) len))
+
+        (for i 0 (sub1 len)
+
+          (case xtype
+            ("double"
+              (drSetElem xvec i 1.0*i/len)
+            );double
+            ("intlong"
+              (drSetElem xvec i i)
+            );
+            ("string"
+              (drSetElem xvec i intToChar(random(25)+65))
+            );
+          );case
+
+          (case ytype
+            ("double"
+              (drSetElem yvec i 1.0*random(100)/100)
+            );double
+            ("intlong"
+              (drSetElem yvec i random(100))
+            );
+            ("complex"
+              (drSetElem yvec i complex(1.0*random(100)/100 1.0*random(100)/100))
+            );double
+          );case
+        );for
+
+        (setq wave (drCreateWaveform xvec yvec))
+        (tconc waves wave)
+        (plot wave)
+      );foreach
+    );foreach
+    (setq waves (cdar waves))
+  );let
+);defun

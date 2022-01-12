@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Representation of a Skill list
@@ -360,4 +363,21 @@ public class SkillList extends SkillBoolean
     return list;
   }
 
+  static SkillList build(SkillSession session, Element element) {
+
+    SkillList list = new SkillList();
+
+    NodeList nodeList = element.getChildNodes();
+
+    for (int i = 0; i < nodeList.getLength(); i++) {
+
+      Element sub;
+
+      if ((sub = getElement(nodeList.item(i))) != null) {
+        list.append1(traverseNode(session, sub));
+      }
+    }
+
+    return list;
+  }
 }

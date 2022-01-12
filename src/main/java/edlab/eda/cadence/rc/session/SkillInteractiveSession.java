@@ -287,6 +287,7 @@ public class SkillInteractiveSession extends SkillSession {
       }
 
       String xml = this.communicate(skillCommand);
+      
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);

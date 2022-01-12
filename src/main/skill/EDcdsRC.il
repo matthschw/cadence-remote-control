@@ -190,13 +190,13 @@
 ;
 (defun EDcdsRCbuildXML (content @key (session "main") (bCiw "t"))
 
-  (let (fTraverseDataStructure lBuildList (sRoot "root"))
+  (let (fTraverseDataStructure lBuildList (sRoot "root") listAccu vec)
 
     (setq lBuildList (tconc nil nil))
     
-   (when bCiw
-    (tconc lBuildList "<<1")
-   );when
+    (when bCiw
+      (tconc lBuildList "<<1")
+    );when
    
     (tconc 
       lBuildList 
@@ -345,48 +345,46 @@
               );tconc
             )
               
-            /*
+   
             ((and (isCallable (quote drIsWaveform)) (drIsWaveform val))
             
               (tconc
                 lBuildList
                 (lsprintf
-                  "%s<%s type=\"wave\" x=\"%s\" y=\"%s\">\n"
+                  "%s<%s type=\"wave\">\n"
                   sIndentation
                   (EDcdsRCescapeXML sRoot)
-                  (drGetWaveformXType val)
-                  (drGetWaveformYType val)
                 );lsprintf
               );tconc
 
+              (setq listAccu (tconc nil nil))
+              (setq vec (drGetWaveformXVec val))
 
-              (setq xVec (drGetWaveformXVec val))
-              (setq yVec (drGetWaveformYVec val))
-
-              (for i 0 (drVectorLength xVec)
-
-                (tconc
-                  lBuildList
-                  (lsprintf
-                    "%s%s<%L>\n"
-                    sIndentation
-                    "\t"
-                    i
-                  );lsprintf
-
-                  (tconc
-                    lBuildList
-                    (lsprintf
-                      "%s%s</%s>\n"
-                      sIndentation
-                      "\t"
-                      i
-                    );lsprintf
-                  );tconc
-                );tconc
+              (for i 0 (sub1 (drVectorLength vec))
+                (tconc listAccu (drGetElem vec i))
               );for
 
-                  
+              (funcall
+                fTraverseDataStructure
+                (cdar listAccu)
+                "x"
+                (strcat sIndentation "\t")
+              );funcall
+
+              (setq listAccu (tconc nil nil))
+              (setq vec (drGetWaveformYVec val))
+
+              (for i 0 (sub1 (drVectorLength vec))
+                (tconc listAccu (drGetElem vec i))
+              );for
+
+              (funcall
+                fTraverseDataStructure
+                (cdar listAccu)
+                "y"
+                (strcat sIndentation "\t")
+              );funcall
+
               (tconc
                 lBuildList
                 (lsprintf
@@ -396,7 +394,6 @@
                 );lsprintf
               );tconc
             )
-            */
 
             /*
             ((famIsFamily val)

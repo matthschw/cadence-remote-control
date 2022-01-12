@@ -177,8 +177,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param element Node in the XML
    * @return SkillDataobject
    */
-  private static SkillDataobject traverseNode(SkillSession session,
-      Element element) {
+  static SkillDataobject traverseNode(SkillSession session, Element element) {
 
     SkillDataobject skillDataobject;
     NamedNodeMap nodeMap = element.getAttributes();
@@ -210,18 +209,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
     case SkillList.TYPE_ID:
 
-      SkillList list = new SkillList();
-
-      nodeList = element.getChildNodes();
-
-      for (int i = 0; i < nodeList.getLength(); i++) {
-
-        if ((sub = getElement(nodeList.item(i))) != null) {
-          list.append1(traverseNode(session, sub));
-        }
-      }
-
-      skillDataobject = list;
+      skillDataobject = SkillList.build(session, element);
 
       break;
 
@@ -254,6 +242,12 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     case SkillComplexNumber.TYPE_ID:
 
       skillDataobject = SkillComplexNumber.build(element);
+
+      break;
+
+    case SkillWave.TYPE_ID:
+
+      skillDataobject = SkillWave.build(session, element);
 
       break;
 
@@ -301,7 +295,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @return reference to element, when it is an element, <code>null</code>
    *         otherwise
    */
-  private static Element getElement(Node node) {
+  static Element getElement(Node node) {
     if (node instanceof Element) {
       return (Element) node;
     } else {
