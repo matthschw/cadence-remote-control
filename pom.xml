@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edlab.eda</groupId>
 	<artifactId>cadence.rc</artifactId>
-	<version>draft</version>
+	<version>0.0.3</version>
 
 	<properties>
 		<context>EDcdsRC</context>
