@@ -56,7 +56,27 @@ public abstract class SkillSession {
     if (content instanceof String) {
       this.prompt = content;
     }
+
     this.nextCommand = Matchers.regexp("\n" + this.prompt);
+  }
+
+  /**
+   * Specify the prompt for return value recognition. Can be done only, when the
+   * session is not active.
+   * 
+   * @param prompt Prompt to be used (when not specified ">" is used):
+   * @return <code>true</code> when change is valid, <code>false</code>
+   *         otherwise
+   */
+  public boolean setPrompt(String prompt) {
+
+    if (this.isActive()) {
+      return false;
+    } else {
+      this.prompt = prompt;
+      this.nextCommand = Matchers.regexp("\n" + this.prompt);
+      return true;
+    }
   }
 
   /**
