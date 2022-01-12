@@ -51,5 +51,9 @@ class WaveformTest {
     }
 
     session.stop();
+
+    if (TSTFILE.exists()) {
+      TSTFILE.delete();
+    }
   }
 }

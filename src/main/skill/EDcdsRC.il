@@ -396,11 +396,37 @@
             )
 
             /*
-            ((famIsFamily val)
-              nil
+            ((and (isCallable (quote famIsFamily)) (famIsFamily val))
+              
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s<%s type=\"fam\">\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
+
+              (foreach sweepValue (famGetSweepValues val) 
+                (funcall
+                  fTraverseDataStructure
+                  (list sweepValue (famValue val sweepValue))
+                  "entry"
+                  (strcat sIndentation "\t")
+                );funcall
+              );foreach
+
+              (tconc
+                lBuildList
+                (lsprintf
+                  "%s</%s>\n"
+                  sIndentation
+                  (EDcdsRCescapeXML sRoot)
+                );lsprintf
+              );tconc
             )
             */
-
+            
             ((symbolp val) 
 
               (tconc

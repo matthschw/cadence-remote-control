@@ -245,9 +245,9 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
       break;
 
-    case SkillWave.TYPE_ID:
+    case SkillSingleWave.TYPE_ID:
 
-      skillDataobject = SkillWave.build(session, element);
+      skillDataobject = SkillSingleWave.build(session, element);
 
       break;
 
