@@ -19,7 +19,7 @@ public class SkillString extends SkillBoolean {
 
   /**
    * Create a new SKILL representation of a String
-   * 
+   *
    * @param string String
    */
   public SkillString(String string) {
@@ -67,5 +67,7 @@ public class SkillString extends SkillBoolean {
       return false;
     }
   }
+
+
 
 }

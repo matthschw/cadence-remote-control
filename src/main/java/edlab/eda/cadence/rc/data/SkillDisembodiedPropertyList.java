@@ -27,12 +27,12 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
    */
   public SkillDisembodiedPropertyList() {
     super(true);
-    this.properties = new HashMap<String, SkillDataobject>();
+    this.properties = new HashMap<>();
   }
 
   /**
    * Create an empty disembodied property list from a map
-   * 
+   *
    * @param properties Map of key-value pairs
    */
   public SkillDisembodiedPropertyList(Map<String, SkillDataobject> properties) {
@@ -43,23 +43,23 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    String s;
+    StringBuilder builder = new StringBuilder();
 
     if (depth == 0) {
-      s = "'(nil";
-    } else {
-      s = "(nil";
+      builder.append("'");
     }
+
+    builder.append("(nil");
 
     for (Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {
-      s += " " + entry.getKey() + " "
-          + entry.getValue().toSkillHierarchical(++depth);
+      builder.append(" ").append(entry.getKey()).append(" ")
+          .append(entry.getValue().toSkillHierarchical(++depth));
     }
 
-    s += ")";
+    builder.append(")");
 
-    return s;
+    return builder.toString();
   }
 
   @Override
@@ -91,11 +91,8 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
 
       for (String key : this.properties.keySet()) {
 
-        if (!object.properties.containsKey(key)) {
-          return false;
-        }
-
-        if (!this.properties.get(key).equals(object.properties.get(key))) {
+        if (!object.properties.containsKey(key)
+            || !this.properties.get(key).equals(object.properties.get(key))) {
           return false;
         }
       }

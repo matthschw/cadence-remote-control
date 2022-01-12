@@ -22,7 +22,7 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
 
   /**
    * Get a Skill data-object that corresponds to <code>nil</code>
-   * 
+   *
    * @return Skill data-object
    */
   public static SkillDataobject getFalse() {
@@ -31,7 +31,7 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
 
   /**
    * Get a Skill data-object that corresponds to <code>'t</code>
-   * 
+   *
    * @return Skill data-object
    */
   public static SkillDataobject getTrue() {
@@ -40,7 +40,7 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
 
   /**
    * Create a Skill data-object that corresponds to a boolean value
-   * 
+   *
    * @param bool Boolean value
    * @return Skill data-object
    */

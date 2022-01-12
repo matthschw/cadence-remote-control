@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.Random;
@@ -11,8 +12,10 @@ import java.util.Random;
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
+import edlab.eda.cadence.rc.data.SkillComplexNumber;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
+import edlab.eda.cadence.rc.data.SkillFlonum;
 import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillNumber;
 import edlab.eda.cadence.rc.data.SkillString;
@@ -116,7 +119,7 @@ public class SkillSessionMethods {
       throws IncorrectSyntaxException, UnableToStartSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
-    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    LinkedList<EvaluableToSkill> rest = new LinkedList<>();
 
     rest.add(new SkillString(STR2));
     rest.add(new SkillString(STR3));
@@ -148,7 +151,7 @@ public class SkillSessionMethods {
 
     SkillDataobject port = session.evaluate(command);
 
-    LinkedList<EvaluableToSkill> rest = new LinkedList<EvaluableToSkill>();
+    LinkedList<EvaluableToSkill> rest = new LinkedList<>();
     rest.add(new SkillString(STR));
 
     command = GenericSkillCommandTemplates
@@ -238,6 +241,34 @@ public class SkillSessionMethods {
       }
     } else {
       fail("Incorrect return value");
+    }
+  }
+
+  static void complexNumber(SkillSession session)
+      throws IncorrectSyntaxException, UnableToStartSession,
+      EvaluationFailedException, InvalidDataobjectReferenceExecption {
+
+    SkillCommand command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.SQRT)
+        .buildCommand(new SkillFlonum(new BigDecimal("-1")));
+
+    SkillDataobject retval = session.evaluate(command);
+
+    if (!(retval instanceof SkillComplexNumber)) {
+      fail("No complex number returned, but" + retval);
+    }
+
+    SkillComplexNumber num1 = new SkillComplexNumber(1, 1);
+    SkillComplexNumber num2 = new SkillComplexNumber(1, -1);
+
+    command = GenericSkillCommandTemplates
+        .getTemplate(GenericSkillCommandTemplates.TIMES)
+        .buildCommand(new SkillDataobject[] { num1, num2 });
+
+    retval = session.evaluate(command);
+    
+    if (!(retval instanceof SkillComplexNumber)) {
+      fail("No complex number returned, but" + retval);
     }
   }
 }

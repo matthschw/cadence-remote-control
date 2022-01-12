@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Representation of a Skill list
@@ -32,19 +35,19 @@ public class SkillList extends SkillBoolean
    */
   public SkillList() {
     super(false);
-    this.list = new LinkedList<SkillDataobject>();
+    this.list = new LinkedList<>();
   }
 
   /**
    * Create a Skill list
-   * 
+   *
    * @param data list of Skill data-objects
    */
   public SkillList(List<SkillDataobject> data) {
 
     super(true);
 
-    this.list = new LinkedList<SkillDataobject>(data);
+    this.list = new LinkedList<>(data);
 
     if (this.list.isEmpty()) {
       super.bool = false;
@@ -53,13 +56,13 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list from a string array
-   * 
+   *
    * @param data array of {@link String}
    */
   public SkillList(String[] data) {
 
     super(true);
-    this.list = new LinkedList<SkillDataobject>();
+    this.list = new LinkedList<>();
 
     for (String string : data) {
       this.list.add(new SkillString(string));
@@ -72,16 +75,16 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list from an integer array
-   * 
+   *
    * @param data array of {@link Integer}
    */
   public SkillList(int[] data) {
 
     super(true);
-    this.list = new LinkedList<SkillDataobject>();
+    this.list = new LinkedList<>();
 
-    for (int i = 0; i < data.length; i++) {
-      this.list.add(new SkillFixnum(data[i]));
+    for (int element : data) {
+      this.list.add(new SkillFixnum(element));
     }
 
     if (this.list.isEmpty()) {
@@ -91,16 +94,16 @@ public class SkillList extends SkillBoolean
 
   /**
    * Create a Skill list from a {@link BigDecimal} array
-   * 
+   *
    * @param data array of {@link BigDecimal}
    */
   public SkillList(BigDecimal[] data) {
 
     super(false);
-    this.list = new LinkedList<SkillDataobject>();
+    this.list = new LinkedList<>();
 
-    for (int i = 0; i < data.length; i++) {
-      this.list.add(new SkillFlonum(data[i]));
+    for (BigDecimal element : data) {
+      this.list.add(new SkillFlonum(element));
     }
   }
 
@@ -119,7 +122,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a {@link SkillDataobject} as first list element
-   * 
+   *
    * @param skillDataobject Object to be added
    */
   @Deprecated
@@ -130,7 +133,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a {@link SkillDataobject} as first list element
-   * 
+   *
    * @param skillDataobject Object to be added
    */
   public void prepend(SkillDataobject skillDataobject) {
@@ -140,12 +143,12 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a list of {@link SkillDataobject} as first list elements
-   * 
+   *
    * @param skillDataobjects List of Skill data-objects
    */
   public void prepend(List<SkillDataobject> skillDataobjects) {
 
-    LinkedList<SkillDataobject> result = new LinkedList<SkillDataobject>();
+    LinkedList<SkillDataobject> result = new LinkedList<>();
 
     for (SkillDataobject skillDataobject : skillDataobjects) {
       result.add(skillDataobject);
@@ -162,7 +165,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a list of {@link SkillDataobject} as first list elements
-   * 
+   *
    * @param list to be added
    */
   public void prepend(SkillList list) {
@@ -171,7 +174,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a {@link SkillDataobject} as last list element
-   * 
+   *
    * @param skillDataobject Object to be added
    */
   @Deprecated
@@ -182,7 +185,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a {@link SkillDataobject} as last list element
-   * 
+   *
    * @param skillDataobject Object to be added
    */
   public void append(SkillDataobject skillDataobject) {
@@ -192,12 +195,12 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a list of {@link SkillDataobject} as last list elements
-   * 
+   *
    * @param skillDataobjects Objects to be added
    */
   public void append(List<SkillDataobject> skillDataobjects) {
 
-    LinkedList<SkillDataobject> result = new LinkedList<SkillDataobject>();
+    LinkedList<SkillDataobject> result = new LinkedList<>();
 
     for (SkillDataobject skillDataobject : this.list) {
       result.add(skillDataobject);
@@ -214,7 +217,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a list of {@link SkillDataobject} as last list elements
-   * 
+   *
    * @param list list to be appended
    */
   public void append(SkillList list) {
@@ -223,7 +226,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Add a list of {@link SkillDataobject} as last list elements
-   * 
+   *
    * @param skillDataobject Skill data-object to be appended at the end
    */
   public void append1(SkillDataobject skillDataobject) {
@@ -233,7 +236,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Remove of a {@link SkillDataobject} from a list
-   * 
+   *
    * @param skillDataobject Object to be removed
    * @return <code>true</code> when the object was removed successfully,
    *         <code>false</code> otherwise
@@ -248,7 +251,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Get a {@link SkillDataobject} from a list by index
-   * 
+   *
    * @param index Position in list
    * @return list element
    */
@@ -258,7 +261,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Get number of list elements
-   * 
+   *
    * @return number of list elements
    */
   public int getLength() {
@@ -270,30 +273,30 @@ public class SkillList extends SkillBoolean
 
     if (super.bool) {
 
-      String s;
-      Boolean firstIteration = true;
+      StringBuilder builder = new StringBuilder();
+
+      boolean firstIteration = true;
 
       if (depth == 0) {
-        s = "'(";
+        builder.append("'(");
       } else {
-        s = "(";
+        builder.append(")");
       }
 
       for (SkillDataobject skillDataobject : this.list) {
 
         if (!firstIteration) {
-          s += " ";
-
+          builder.append(" ");
         } else {
           firstIteration = false;
         }
 
-        s += skillDataobject.toSkillHierarchical(++depth);
+        builder.append(skillDataobject.toSkillHierarchical(++depth));
       }
 
-      s += ")";
+      builder.append(")");
 
-      return s;
+      return builder.toString();
 
     } else {
       return "nil";
@@ -345,7 +348,7 @@ public class SkillList extends SkillBoolean
 
   /**
    * Build a Skill list from an array of integers
-   * 
+   *
    * @param values Array of integers
    * @return Skill list
    */
@@ -353,11 +356,28 @@ public class SkillList extends SkillBoolean
 
     SkillList list = new SkillList();
 
-    for (int i = 0; i < values.length; i++) {
-      list.addAtLast(new SkillFixnum(values[i]));
+    for (int value : values) {
+      list.addAtLast(new SkillFixnum(value));
     }
 
     return list;
   }
 
+  static SkillList build(SkillSession session, Element element) {
+
+    SkillList list = new SkillList();
+
+    NodeList nodeList = element.getChildNodes();
+
+    for (int i = 0; i < nodeList.getLength(); i++) {
+
+      Element sub;
+
+      if ((sub = getElement(nodeList.item(i))) != null) {
+        list.append1(traverseNode(session, sub));
+      }
+    }
+
+    return list;
+  }
 }

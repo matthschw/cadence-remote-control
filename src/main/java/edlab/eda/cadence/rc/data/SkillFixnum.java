@@ -18,7 +18,7 @@ public class SkillFixnum extends SkillNumber {
 
   /**
    * Create a new Skill representation of a fixnum
-   * 
+   *
    * @param fixnum Fixnum
    */
   public SkillFixnum(int fixnum) {
@@ -29,7 +29,7 @@ public class SkillFixnum extends SkillNumber {
 
   /**
    * Get the fixnum value
-   * 
+   *
    * @return fixnum
    */
   public int getFixnum() {
@@ -38,7 +38,7 @@ public class SkillFixnum extends SkillNumber {
 
   /**
    * Set the fixnum value
-   * 
+   *
    * @param fixnum Value as integer
    * @return value
    */
@@ -58,7 +58,7 @@ public class SkillFixnum extends SkillNumber {
 
   @Override
   public boolean equals(Object o) {
-    
+
     if (o instanceof SkillFixnum) {
       SkillFixnum object = (SkillFixnum) o;
       return this.value == object.value;

@@ -2,6 +2,7 @@ package edlab.eda.cadence.rc.api;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.SkillSession;
@@ -30,28 +31,35 @@ public class SkillCommand implements EvaluableToSkill {
   @Override
   public String toSkill() {
 
-    String retval = "(" + this.template.getName();
+    StringBuilder builder = new StringBuilder();
+
+    builder.append("(").append(this.template.getName());
 
     if (this.formalParameters != null) {
 
-      for (int i = 0; i < this.formalParameters.length; i++) {
+      for (EvaluableToSkill formalParameter : this.formalParameters) {
 
-        if (this.formalParameters[i] == null) {
-          retval += " nil";
+        builder.append(" ");
+        if (formalParameter == null) {
+          builder.append("nil");
         } else {
-          retval += " " + this.formalParameters[i].toSkill();
+          builder.append(formalParameter.toSkill());
         }
       }
     }
 
     if (this.keywordParameters != null) {
 
-      for (String key : this.keywordParameters.keySet()) {
+      for (Entry<String, EvaluableToSkill> entry : this.keywordParameters
+          .entrySet()) {
 
-        if (this.keywordParameters.get(key) == null) {
-          retval += " nil";
+        builder.append(" ");
+
+        if (entry.getKey() == null) {
+          builder.append("nil");
         } else {
-          retval += " ?" + key + " " + this.keywordParameters.get(key).toSkill();
+          builder.append("?").append(entry.getKey()).append(" ")
+              .append(entry.getValue().toSkill());
         }
       }
     }
@@ -60,25 +68,27 @@ public class SkillCommand implements EvaluableToSkill {
 
       for (EvaluableToSkill evaluableToSkill : this.optionalAndRestParameters) {
 
+        builder.append(" ");
+
         if (evaluableToSkill == null) {
-          retval += " nil";
+          builder.append("nil");
         } else {
-          retval += " " + evaluableToSkill.toSkill();
+          builder.append(evaluableToSkill.toSkill());
         }
       }
     }
-
-    retval += ")";
-
-    return retval;
+    
+    builder.append(")");
+    
+    return builder.toString();
   }
 
   @Override
   public boolean canBeUsedInSession(SkillSession session) {
 
     if (this.formalParameters != null) {
-      for (int i = 0; i < formalParameters.length; i++) {
-        if (!formalParameters[i].canBeUsedInSession(session)) {
+      for (EvaluableToSkill formalParameter : formalParameters) {
+        if (!formalParameter.canBeUsedInSession(session)) {
           return false;
         }
       }

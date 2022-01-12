@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 
 import edlab.eda.cadence.rc.session.SkillSession;
@@ -24,7 +25,7 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
 
   /**
    * Create a XML of a {@link SkillNativeDataobject}
-   * 
+   *
    * @param path Path where the XML is created
    * @return <code>true</code> when the XML was created successfully,
    *         <code>false</code> otherwise

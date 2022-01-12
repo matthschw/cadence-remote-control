@@ -14,8 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Socket Server that is started in a Cadence tool and will create a socket
- *
+ * Socket Server that is started in a Cadence tool and will create a socket.
  */
 public class CadenceSocket {
 
@@ -95,7 +94,7 @@ public class CadenceSocket {
 
   /**
    * Wait for incoming connection
-   * 
+   *
    * @throws IOException (occurs never)
    */
   public void start() throws IOException {
@@ -135,7 +134,7 @@ public class CadenceSocket {
 
   /**
    * Read-Eval-Print-Loop
-   * 
+   *
    * @throws IOException (occurs never)
    */
   public void runRepl() throws IOException {
@@ -194,7 +193,7 @@ public class CadenceSocket {
 
   /**
    * Method which is invoked from a Cadence tool
-   * 
+   *
    * @param args Array of strings
    * @throws Exception Is thrown when the connection cannot be established
    */

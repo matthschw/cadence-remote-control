@@ -1,9 +1,14 @@
 package edlab.eda.cadence.rc;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+
+import org.junit.jupiter.api.Test;
+
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
-import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
 import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.EvaluationFailedException;
@@ -11,14 +16,15 @@ import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
 
-public class SkillInteractiveExample {
+class AlteringPromptSessionTest {
 
-  public static void main(String[] args)
-      throws UnableToStartSession, EvaluationFailedException,
+  @Test
+  void test() throws UnableToStartSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
+    SkillInteractiveSession session = new SkillInteractiveSession(
+        new File("./src/test/resources/alterPrompt"));
 
-    // Create an interactive session
-    SkillInteractiveSession session = new SkillInteractiveSession();
+    session.setPrompt("Ready >");
 
     // Start the session
     session.start();
@@ -31,13 +37,12 @@ public class SkillInteractiveExample {
         new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
 
     // evaluate the command in the session
-    SkillDataobject obj = session.evaluate(command);
+    SkillFixnum obj = (SkillFixnum) session.evaluate(command);
 
-    // typecast result
-    @SuppressWarnings("unused")
-    SkillFixnum num = (SkillFixnum) obj;
+    if (obj.getFixnum() != 42) {
+      fail("Evaluation failed");
+    }
 
-    // close session
     session.stop();
   }
 }
