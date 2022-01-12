@@ -14,8 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Socket Server that is started in a Cadence tool and will create a socket
- *
+ * Socket Server that is started in a Cadence tool and will create a socket.
  */
 public class CadenceSocket {
 

@@ -8,7 +8,6 @@ import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
  * Reference to an object in a {@link SkillInteractiveSession}
- *
  */
 public class SkillComplexDataobject extends SkillDataobject {
 
@@ -70,7 +69,6 @@ public class SkillComplexDataobject extends SkillDataobject {
 
       return this.session == object.session
           && this.identifier == object.identifier;
-
     } else {
       return false;
     }

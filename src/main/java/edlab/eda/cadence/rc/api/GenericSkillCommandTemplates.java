@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Container for generic SKILL command templates
- *
+ * Container for generic Skill command templates
  */
 public class GenericSkillCommandTemplates {
 
@@ -64,96 +63,99 @@ public class GenericSkillCommandTemplates {
 
     Set<String> keywordParameters;
 
-    templates = new HashMap<>();
+    this.templates = new HashMap<>();
 
-    templates.put(GenericSkillCommandTemplates.PLUS,
+    this.templates.put(GenericSkillCommandTemplates.PLUS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.PLUS, 2, true));
 
-    templates.put(GenericSkillCommandTemplates.SQRT,
+    this.templates.put(GenericSkillCommandTemplates.SQRT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SQRT, 1));
 
-    templates.put(GenericSkillCommandTemplates.TIMES,
+    this.templates.put(GenericSkillCommandTemplates.TIMES,
         new SkillCommandTemplate(GenericSkillCommandTemplates.TIMES, 2, true));
 
-    templates.put(GenericSkillCommandTemplates.SET,
+    this.templates.put(GenericSkillCommandTemplates.SET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET, 2));
 
-    templates.put(GenericSkillCommandTemplates.GET,
+    this.templates.put(GenericSkillCommandTemplates.GET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET, 2));
 
-    templates.put(GenericSkillCommandTemplates.GETQ,
+    this.templates.put(GenericSkillCommandTemplates.GETQ,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GETQ, 2));
 
-    templates.put(GenericSkillCommandTemplates.CAR,
+    this.templates.put(GenericSkillCommandTemplates.CAR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CAR, 1));
-    templates.put(GenericSkillCommandTemplates.CADR,
+
+    this.templates.put(GenericSkillCommandTemplates.CADR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CADR, 1));
-    templates.put(GenericSkillCommandTemplates.NTH,
+
+    this.templates.put(GenericSkillCommandTemplates.NTH,
         new SkillCommandTemplate(GenericSkillCommandTemplates.NTH, 2));
 
-    templates.put(GenericSkillCommandTemplates.LIST,
+    this.templates.put(GenericSkillCommandTemplates.LIST,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LIST, true));
 
-    templates.put(GenericSkillCommandTemplates.APPLY,
+    this.templates.put(GenericSkillCommandTemplates.APPLY,
         new SkillCommandTemplate(GenericSkillCommandTemplates.APPLY, 2));
 
-    templates.put(GenericSkillCommandTemplates.MAPCAR,
+    this.templates.put(GenericSkillCommandTemplates.MAPCAR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.MAPCAR, 2, true));
 
-    templates.put(GenericSkillCommandTemplates.FUNCALL,
+    this.templates.put(GenericSkillCommandTemplates.FUNCALL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.FUNCALL, true));
 
-    templates.put(GenericSkillCommandTemplates.EVAL,
+    this.templates.put(GenericSkillCommandTemplates.EVAL,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EVAL, 1));
-    templates.put(GenericSkillCommandTemplates.IS_CALLABLE,
+
+    this.templates.put(GenericSkillCommandTemplates.IS_CALLABLE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.IS_CALLABLE, 1));
 
-    templates.put(GenericSkillCommandTemplates.ARRAYREF,
+    this.templates.put(GenericSkillCommandTemplates.ARRAYREF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ARRAYREF, 2));
 
-    templates.put(GenericSkillCommandTemplates.OUTFILE,
+    this.templates.put(GenericSkillCommandTemplates.OUTFILE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.OUTFILE, 1));
 
-    templates.put(GenericSkillCommandTemplates.FPRINTF,
+    this.templates.put(GenericSkillCommandTemplates.FPRINTF,
         new SkillCommandTemplate(GenericSkillCommandTemplates.FPRINTF, 1,
             true));
 
-    templates.put(GenericSkillCommandTemplates.STRCAT,
+    this.templates.put(GenericSkillCommandTemplates.STRCAT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.STRCAT, 1, true));
 
-    templates.put(GenericSkillCommandTemplates.CLOSE,
+    this.templates.put(GenericSkillCommandTemplates.CLOSE,
         new SkillCommandTemplate(GenericSkillCommandTemplates.CLOSE, 1));
 
-    templates.put(GenericSkillCommandTemplates.PROGN,
+    this.templates.put(GenericSkillCommandTemplates.PROGN,
         new SkillCommandTemplate(GenericSkillCommandTemplates.PROGN, true));
 
-    templates.put(GenericSkillCommandTemplates.ERRSET,
+    this.templates.put(GenericSkillCommandTemplates.ERRSET,
         new SkillCommandTemplate(GenericSkillCommandTemplates.ERRSET, 1));
 
-    templates.put(GenericSkillCommandTemplates.EXIT,
+    this.templates.put(GenericSkillCommandTemplates.EXIT,
         new SkillCommandTemplate(GenericSkillCommandTemplates.EXIT, 0));
 
-    templates.put(GenericSkillCommandTemplates.LOAD,
+    this.templates.put(GenericSkillCommandTemplates.LOAD,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD, 1));
 
-    templates.put(GenericSkillCommandTemplates.LOADI,
+    this.templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));
 
-    templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
+    this.templates.put(GenericSkillCommandTemplates.LOAD_CONTEXT,
         OptionalParameterSkillCommandTemplate
             .build(GenericSkillCommandTemplates.LOAD_CONTEXT, 1, 1));
 
-    templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
+    this.templates.put(GenericSkillCommandTemplates.SET_PROMPTS,
         new SkillCommandTemplate(GenericSkillCommandTemplates.SET_PROMPTS, 2));
 
-    templates.put(GenericSkillCommandTemplates.GET_INSTALL_PATH,
+    this.templates.put(GenericSkillCommandTemplates.GET_INSTALL_PATH,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.GET_INSTALL_PATH));
-    templates.put(GenericSkillCommandTemplates.GET_WORKING_DIR,
+    this.templates.put(GenericSkillCommandTemplates.GET_WORKING_DIR,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET_WORKING_DIR));
-    templates.put(GenericSkillCommandTemplates.GET_LOGIN,
+    this.templates.put(GenericSkillCommandTemplates.GET_LOGIN,
         new SkillCommandTemplate(GenericSkillCommandTemplates.GET_LOGIN));
-    templates.put(GenericSkillCommandTemplates.GET_CURRENT_TIME,
+    this.templates.put(GenericSkillCommandTemplates.GET_CURRENT_TIME,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.GET_CURRENT_TIME));
 
@@ -161,23 +163,23 @@ public class GenericSkillCommandTemplates {
     keywordParameters.add("returnType");
     keywordParameters.add("session");
 
-    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND,
+    this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND,
         KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND, 1,
             keywordParameters));
 
-    templates.put(
+    this.templates.put(
         GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE,
         KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE, 1,
             keywordParameters));
 
-    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML,
+    this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML,
         KeywordParameterSkillCommandTemplate.build(
             GenericSkillCommandTemplates.ED_CDS_RC_BUILD_XML, 1,
             keywordParameters));
 
-    templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
+    this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML, 1));
 
@@ -187,14 +189,14 @@ public class GenericSkillCommandTemplates {
    * Get a {@link SkillCommandTemplate} by name
    *
    * @param name Name of the command
-   * @return template when existing,<code>null</code> otherwise
+   * @return template when existing, <code>null</code> otherwise
    */
   public static SkillCommandTemplate getTemplate(String name) {
 
-    if (commandTemplates == null) {
-      commandTemplates = new GenericSkillCommandTemplates();
+    if (GenericSkillCommandTemplates.commandTemplates == null) {
+      GenericSkillCommandTemplates.commandTemplates = new GenericSkillCommandTemplates();
     }
 
-    return commandTemplates.templates.get(name);
+    return GenericSkillCommandTemplates.commandTemplates.templates.get(name);
   }
 }

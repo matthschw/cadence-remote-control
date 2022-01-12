@@ -270,30 +270,30 @@ public class SkillList extends SkillBoolean
 
     if (super.bool) {
 
-      String s;
+      StringBuilder builder = new StringBuilder();
+
       boolean firstIteration = true;
 
       if (depth == 0) {
-        s = "'(";
+        builder.append("'(");
       } else {
-        s = "(";
+        builder.append(")");
       }
 
       for (SkillDataobject skillDataobject : this.list) {
 
         if (!firstIteration) {
-          s += " ";
-
+          builder.append(" ");
         } else {
           firstIteration = false;
         }
 
-        s += skillDataobject.toSkillHierarchical(++depth);
+        builder.append(skillDataobject.toSkillHierarchical(++depth));
       }
 
-      s += ")";
+      builder.append(")");
 
-      return s;
+      return builder.toString();
 
     } else {
       return "nil";

@@ -1,8 +1,7 @@
 package edlab.eda.cadence.rc.api;
 
 /**
- * Exception that is thrown when a
- *
+ * Exception that is thrown when the parameters that are provided to a command template
  */
 public class IncorrectSyntaxException extends Exception {
 

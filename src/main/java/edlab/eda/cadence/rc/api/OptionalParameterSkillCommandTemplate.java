@@ -2,7 +2,6 @@ package edlab.eda.cadence.rc.api;
 
 /**
  * Template of a SKILL-Command with optional parameters
- *
  */
 public class OptionalParameterSkillCommandTemplate
     extends SkillCommandTemplate {
@@ -107,7 +106,6 @@ public class OptionalParameterSkillCommandTemplate
       int formalParameters, int optionalParameters, boolean canHaveRest) {
 
     if (formalParameters < 0) {
-
       return null;
     } else {
       if (optionalParameters < 0) {

@@ -64,7 +64,7 @@ public class SkillComplexNumber extends SkillNumber {
   /**
    * Get the complex value
    * 
-   * @return 
+   * @return complex value
    */
   public Complex getComplex() {
     return this.value;
@@ -89,6 +89,10 @@ public class SkillComplexNumber extends SkillNumber {
     return element;
   }
 
+  /**
+   * @param element
+   * @return
+   */
   static SkillComplexNumber build(Element element) {
 
     double x, y;
