@@ -36,7 +36,7 @@ Add the dependency to your project
 <dependency>
   <groupId>edlab.eda</groupId>
   <artifactId>cadence.rc</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.3</version>
 </dependency>
 ```
 
