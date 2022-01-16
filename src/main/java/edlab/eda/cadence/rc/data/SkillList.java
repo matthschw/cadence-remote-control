@@ -278,10 +278,10 @@ public class SkillList extends SkillBoolean
       boolean firstIteration = true;
 
       if (depth == 0) {
-        builder.append("'(");
-      } else {
-        builder.append(")");
+        builder.append("'");
       }
+      
+      builder.append("(");
 
       for (SkillDataobject skillDataobject : this.list) {
 

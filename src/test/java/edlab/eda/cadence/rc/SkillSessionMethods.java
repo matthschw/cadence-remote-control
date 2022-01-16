@@ -14,6 +14,7 @@ import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillComplexNumber;
 import edlab.eda.cadence.rc.data.SkillDataobject;
+import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillFixnum;
 import edlab.eda.cadence.rc.data.SkillFlonum;
 import edlab.eda.cadence.rc.data.SkillList;
@@ -271,4 +272,7 @@ public class SkillSessionMethods {
       fail("No complex number returned, but" + retval);
     }
   }
+  
+
+  
 }
