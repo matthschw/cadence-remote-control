@@ -30,7 +30,7 @@ public class SkillSocketSession extends SkillSession {
 
   private Map<String, EvaluableToSkill> keywords;
 
-  public SkillSocketSession(int port) {
+  private SkillSocketSession(int port) {
     super();
     this.port = port;
 
@@ -41,94 +41,102 @@ public class SkillSocketSession extends SkillSession {
   @Override
   public SkillSession start() throws UnableToStartSession {
 
-    try {
-      this.socket = new Socket("0.0.0.0", this.port);
-    } catch (IOException e) {
-      throw new UnableToStartSession(this.port);
-    }
-
-    try {
-      this.inputStream = this.socket.getInputStream();
-    } catch (IOException e) {
+    if (!this.isActive()) {
       try {
-        this.socket.close();
-      } catch (IOException e1) {
+        this.socket = new Socket("0.0.0.0", this.port);
+      } catch (IOException e) {
+        throw new UnableToStartSession(this.port);
       }
-      throw new UnableToStartSession(this.port);
-    }
 
-    try {
-      this.outputStream = this.socket.getOutputStream();
-    } catch (IOException e) {
       try {
-        this.socket.close();
-      } catch (IOException e1) {
-      }
-      throw new UnableToStartSession(this.port);
-    }
-
-    // add shutdown hook for process
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-
-      @Override
-      public void run() {
+        this.inputStream = this.socket.getInputStream();
+      } catch (IOException e) {
         try {
-          outputStream.write(0);
-          outputStream.flush();
-
-          inputStream.close();
-          outputStream.close();
-          socket.shutdownInput();
-          socket.shutdownOutput();
-          socket.close();
-        } catch (Exception e) {
+          this.socket.close();
+        } catch (IOException e1) {
         }
+        throw new UnableToStartSession(this.port);
       }
-    });
 
-    SkillCommand cmd = null;
-
-    try {
-      cmd = GenericSkillCommandTemplates
-          .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
-          .buildCommand(new SkillSymbol(
-              GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND));
-    } catch (IncorrectSyntaxException e) {
-      // cannot happen
-    }
-
-    String retval = this.communicate(cmd.toSkill(), 1);
-
-    if (retval != null) {
-
-      if (retval.equals("nil")) {
-
-        File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
-            SkillSession.TMP_SKILL_FILE_SUFFIX);
-
+      try {
+        this.outputStream = this.socket.getOutputStream();
+      } catch (IOException e) {
         try {
-          cmd = GenericSkillCommandTemplates
-              .getTemplate(GenericSkillCommandTemplates.LOAD)
-              .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
-        } catch (IncorrectSyntaxException e) {
-          // cannot happen
+          this.socket.close();
+        } catch (IOException e1) {
         }
-
-        this.communicate(cmd.toSkill(), 1);
-
-        skillControlApi.delete();
+        throw new UnableToStartSession(this.port);
       }
 
-      return this;
+      // add shutdown hook for process
+      Runtime.getRuntime().addShutdownHook(new Thread() {
 
+        @Override
+        public void run() {
+          try {
+            outputStream.write(0);
+            outputStream.flush();
+
+            inputStream.close();
+            outputStream.close();
+            socket.shutdownInput();
+            socket.shutdownOutput();
+            socket.close();
+          } catch (Exception e) {
+          }
+        }
+      });
+
+      SkillCommand cmd = null;
+
+      try {
+        cmd = GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
+            .buildCommand(new SkillSymbol(
+                GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND));
+      } catch (IncorrectSyntaxException e) {
+        // cannot happen
+      }
+
+      String retval = this.communicate(cmd.toSkill(), 1);
+
+      if (retval != null) {
+
+        if (retval.equals("nil")) {
+
+          File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
+              SkillSession.TMP_SKILL_FILE_SUFFIX);
+
+          try {
+            cmd = GenericSkillCommandTemplates
+                .getTemplate(GenericSkillCommandTemplates.LOAD).buildCommand(
+                    new SkillString(skillControlApi.getAbsolutePath()));
+          } catch (IncorrectSyntaxException e) {
+            // cannot happen
+          }
+
+          this.communicate(cmd.toSkill(), 1);
+
+          skillControlApi.delete();
+        }
+
+        return this;
+
+      } else {
+        throw new UnableToStartSession(this.port);
+      }
     } else {
-      throw new UnableToStartSession(this.port);
+      return this;
     }
   }
 
   @Override
   public boolean isActive() {
-    return this.socket.isConnected();
+    if (this.socket == null) {
+      return false;
+    } else {
+      return this.socket.isConnected();
+    }
   }
 
   @Override
@@ -163,7 +171,7 @@ public class SkillSocketSession extends SkillSession {
     }
 
     String inputString = outer.toSkill() + "\n";
-    
+
     xml = this.communicate(inputString, 2);
 
     xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
@@ -237,8 +245,53 @@ public class SkillSocketSession extends SkillSession {
     return "[PORT:" + this.port + "]";
   }
 
+  /**
+   * Connect to a socket
+   * 
+   * @param dir Directory where the socket was started
+   * @return socket
+   * @throws UnableToStartSession
+   */
+  public static SkillSocketSession connect(File dir)
+      throws UnableToStartSession {
+
+    int port = -1;
+    SkillSocketSession session;
+
+    if (dir.isDirectory() && dir.canRead()) {
+
+      File socketFile = new File(dir, CadenceSocket.SOCKET_PORT_FILE_NAME);
+
+      if (socketFile.exists() && socketFile.canRead()) {
+
+        try {
+          port = Integer
+              .parseInt(Files.readAllLines(socketFile.toPath()).get(0));
+
+        } catch (Exception e) {
+        }
+
+        if (port > 0) {
+          session = new SkillSocketSession(port);
+          session.start();
+          return session;
+        } else {
+          throw new UnableToStartSession(
+              "File \"" + socketFile.getAbsolutePath()
+                  + "\" does not contain a valid port");
+        }
+      } else {
+        throw new UnableToStartSession("Cannot find port in file \""
+            + socketFile.getAbsolutePath() + "\"");
+      }
+    } else {
+      throw new UnableToStartSession(
+          "Cannot find directory \"" + dir.getAbsolutePath() + "\"");
+    }
+  }
+
   private String communicate(String msg, int indent) {
-    
+
     try {
       this.outputStream.write(msg.getBytes());
     } catch (IOException e) {

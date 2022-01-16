@@ -9,8 +9,8 @@ public class UnableToStartSession extends Exception {
 
   private static final long serialVersionUID = 5809804414514574838L;
 
-  public UnableToStartSession(String command) {
-    super("Unable to start session with command " + command);
+  public UnableToStartSession(String message) {
+    super(message);
   }
 
   public UnableToStartSession(String command, File workingDir) {

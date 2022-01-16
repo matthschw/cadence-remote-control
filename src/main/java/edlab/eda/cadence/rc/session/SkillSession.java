@@ -11,7 +11,7 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public abstract class SkillSession {
+public abstract class SkillSession implements CanExecuteSkillCommands {
 
   // Context file
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
@@ -96,23 +96,6 @@ public abstract class SkillSession {
    *         otherwise
    */
   public abstract boolean isActive();
-
-  /**
-   * Evaluate a Skill command in the session
-   *
-   * @param command Command to be evaluated
-   * @return Skill data-object that is returned from the session
-   * @throws UnableToStartSession                When the session could not be
-   *                                             started
-   * @throws EvaluationFailedException           When evaluation of the command
-   *                                             failed
-   * @throws InvalidDataobjectReferenceExecption When the command contains data
-   *                                             that is is not referenced in
-   *                                             this session
-   */
-  public abstract SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSession, EvaluationFailedException,
-      InvalidDataobjectReferenceExecption;
 
   /**
    * Evaluate a Skill command in the session
