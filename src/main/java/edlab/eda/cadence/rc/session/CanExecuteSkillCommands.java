@@ -1,5 +1,7 @@
 package edlab.eda.cadence.rc.session;
 
+import java.io.File;
+
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
@@ -18,7 +20,16 @@ public interface CanExecuteSkillCommands {
    *                                             that is is not referenced in
    *                                             this session
    */
-  public abstract SkillDataobject evaluate(SkillCommand command)
+  public SkillDataobject evaluate(SkillCommand command)
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption;
+
+  /**
+   * Get the path to a resource
+   *
+   * @param fileName File name of the resource
+   * @param suffix   Suffix of the file which will be generated
+   * @return Path to the resource
+   */
+  public File getResourcePath(String fileName, String suffix);
 }

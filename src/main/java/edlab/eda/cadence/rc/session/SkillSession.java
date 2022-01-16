@@ -126,13 +126,7 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
     this.stop();
   }
 
-  /**
-   * Get the path to a resource
-   *
-   * @param fileName File name of the resource
-   * @param suffix   Suffix of the file which will be generated
-   * @return Path to the resource
-   */
+  @Override
   public File getResourcePath(String fileName, String suffix) {
 
     InputStream stream = getClass().getClassLoader()
