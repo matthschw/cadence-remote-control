@@ -250,7 +250,13 @@
               );tconc
             )
 
-            ((and (listp val) (plusp (length val)) (null (car val)))
+            (
+              (and 
+                (listp val)
+                (plusp (length val))
+                (null (car val))
+                (apply (quote and) val->?)
+              )
 
               (tconc
                 lBuildList
