@@ -251,12 +251,12 @@
             )
 
             (
-              (and 
+              (and
                 (listp val)
                 (plusp (length val))
                 (null (car val))
-                (apply (quote and) val->?)
-              )
+                (apply (quote and) (foreach mapcar elem val->? (when elem t)))
+              );and
 
               (tconc
                 lBuildList
