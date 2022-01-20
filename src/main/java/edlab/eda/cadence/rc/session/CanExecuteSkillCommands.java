@@ -32,4 +32,23 @@ public interface CanExecuteSkillCommands {
    * @return Path to the resource
    */
   public File getResourcePath(String fileName, String suffix);
+
+  /**
+   * Get the path to a resource (ASCII)
+   *
+   * @param fileName File name of the resource
+   * @param suffix   Suffix of the file which will be generated
+   * @return Path to the resource
+   */
+  public File getResourcePathFromAscii(String fileName, String suffix);
+
+  /**
+   * Get the path to a resource (binary)
+   *
+   * @param fileName File name of the resource
+   * @param suffix   Suffix of the file which will be generated
+   * @return Path to the resource
+   */
+  public File getResourcePathFromBinary(String fileName, String suffix);
+
 }

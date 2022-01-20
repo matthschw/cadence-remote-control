@@ -1,9 +1,11 @@
 package edlab.eda.cadence.rc.session;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Scanner;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
@@ -128,6 +130,11 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   @Override
   public File getResourcePath(String fileName, String suffix) {
+    return this.getResourcePathFromAscii(fileName, suffix);
+  }
+
+  @Override
+  public File getResourcePathFromBinary(String fileName, String suffix) {
 
     InputStream stream = getClass().getClassLoader()
         .getResourceAsStream(fileName);
@@ -148,4 +155,29 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
     return file;
   }
 
+  @Override
+  public File getResourcePathFromAscii(String fileName, String suffix) {
+
+    InputStream stream = getClass().getClassLoader()
+        .getResourceAsStream(fileName);
+
+    Scanner scanner = new Scanner(stream);
+
+    FileWriter writer;
+
+    try {
+      File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
+      writer = new FileWriter(file);
+      while (scanner.hasNextLine()) {
+        writer.append(scanner.nextLine());
+      }
+      writer.close();
+      scanner.close();
+      return file;
+
+    } catch (IOException e1) {
+    }
+    scanner.close();
+    return null;
+  }
 }
