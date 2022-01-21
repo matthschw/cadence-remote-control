@@ -179,4 +179,15 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
   public Collection<SkillDataobject> values() {
     return this.properties.values();
   }
+  
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillDisembodiedPropertyList;
+  }
 }
