@@ -138,6 +138,23 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
     return this.properties.keySet();
   }
 
+  /**
+   * Get the keys in the dpl as array
+   * 
+   * @return keys as array
+   */
+  public String[] getKeysAsArray() {
+
+    String[] retval = new String[this.properties.size()];
+    int i = 0;
+
+    for (String key : this.properties.keySet()) {
+      retval[i++] = key;
+    }
+
+    return retval;
+  }
+
   @Override
   public SkillDataobject put(String arg0, SkillDataobject arg1) {
     return this.properties.put(arg0, arg1);
