@@ -45,6 +45,15 @@ public class SkillComplexVector extends SkillVector {
       return false;
     }
   }
+  
+  public Complex[] getValues() {
+    return this.values;
+  }
+  
+  @Override
+  public int getLength() {
+    return this.values.length;
+  }
 
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,

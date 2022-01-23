@@ -45,6 +45,15 @@ public class SkillStringVector extends SkillVector {
       return false;
     }
   }
+  
+  public String[] getValues() {
+    return this.values;
+  }
+  
+  @Override
+  public int getLength() {
+    return this.values.length;
+  }
 
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
@@ -71,4 +80,6 @@ public class SkillStringVector extends SkillVector {
   public static boolean isInstanceOf(final Object o) {
     return o instanceof SkillStringVector;
   }
+
+
 }

@@ -24,6 +24,14 @@ public class SkillSingleWave extends SkillDataobject {
     this.y = y;
   }
 
+  public SkillVector getX() {
+    return this.x;
+  }
+
+  public SkillVector getY() {
+    return this.y;
+  }
+
   public static SkillDataobject build(SkillSession session, Element element) {
 
     SkillList xList = (SkillList) SkillList.build(session,

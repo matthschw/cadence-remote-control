@@ -45,6 +45,15 @@ public class SkillIntegerVector extends SkillVector {
     }
   }
   
+  public int[] getValues() {
+    return this.values;
+  }
+  
+  @Override
+  public int getLength() {
+    return this.values.length;
+  }
+  
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
       Document document) {
