@@ -14,6 +14,7 @@ import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
+import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillString;
 import net.sf.expectit.Expect;
 import net.sf.expectit.ExpectBuilder;
@@ -287,7 +288,6 @@ public class SkillInteractiveSession extends SkillSession {
       }
 
       String xml = this.communicate(skillCommand);
-      
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
@@ -317,14 +317,38 @@ public class SkillInteractiveSession extends SkillSession {
 
         } else {
 
-          SkillString errorstring = (SkillString) top
-              .get(SkillSession.ID_ERROR);
+          SkillList errorList = (SkillList) top.get(SkillSession.ID_ERROR);
 
-          throw new EvaluationFailedException(skillCommand,
-              errorstring.getString());
+          SkillList messageList = (SkillList) errorList
+              .getByIndex(errorList.getLength() - 1);
+
+          SkillString errorMessage;
+
+          StringBuilder builder = new StringBuilder();
+
+          boolean first = true;
+
+          for (SkillDataobject messageObj : messageList) {
+
+            errorMessage = (SkillString) messageObj;
+
+            if (first) {
+              first = false;
+            } else {
+              builder.append("\n");
+            }
+
+            builder.append(errorMessage.getString());
+          }
+
+          throw new EvaluationFailedException(skillCommand, builder.toString());
         }
       } catch (Exception e) {
-        throw new EvaluationFailedException(skillCommand, xml);
+        if (e instanceof EvaluationFailedException) {
+          throw (EvaluationFailedException) e;
+        } else {
+          throw new EvaluationFailedException(skillCommand, xml);
+        }
       }
     } else {
       throw new UnableToStartSession(this.command, workingDir);

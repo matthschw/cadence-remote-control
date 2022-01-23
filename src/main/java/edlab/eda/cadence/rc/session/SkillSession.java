@@ -190,7 +190,16 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
     Scanner scanner = new Scanner(stream);
     StringBuilder builder = new StringBuilder();
 
+    boolean first = true;
+
     while (scanner.hasNext()) {
+
+      if (first) {
+        first = false;
+      } else {
+        builder.append("\n");
+      }
+
       builder.append(scanner.next());
     }
     scanner.close();
