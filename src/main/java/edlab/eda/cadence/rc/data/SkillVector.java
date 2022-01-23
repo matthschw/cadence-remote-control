@@ -33,8 +33,10 @@ public abstract class SkillVector extends SkillDataobject {
   String toSkillHierarchical(int depth) {
     return "nil";
   }
-  
+
   public abstract int getLength();
+
+  // public abstract Object[] getValues();
 
   /**
    * Identify whether an object is an instance of this class

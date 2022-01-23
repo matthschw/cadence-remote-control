@@ -44,16 +44,16 @@ public class SkillIntegerVector extends SkillVector {
       return false;
     }
   }
-  
+
   public int[] getValues() {
     return this.values;
   }
-  
+
   @Override
   public int getLength() {
     return this.values.length;
   }
-  
+
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
       Document document) {
@@ -68,7 +68,7 @@ public class SkillIntegerVector extends SkillVector {
 
     return element;
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *
