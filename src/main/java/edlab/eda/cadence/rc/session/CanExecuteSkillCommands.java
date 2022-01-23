@@ -55,9 +55,8 @@ public interface CanExecuteSkillCommands {
    * Get a resource (ASCII)
    *
    * @param fileName File name of the resource
-   * @param suffix   Suffix of the file which will be generated
    * @return Resource as string
    */
-  public String getResourceFromAscii(String fileName, String suffix);
+  public String getResourceFromAscii(String fileName);
 
 }

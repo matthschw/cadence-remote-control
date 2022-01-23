@@ -182,7 +182,7 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   }
 
   @Override
-  public String getResourceFromAscii(String fileName, String suffix) {
+  public String getResourceFromAscii(String fileName) {
 
     InputStream stream = getClass().getClassLoader()
         .getResourceAsStream(fileName);
