@@ -180,4 +180,21 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
     scanner.close();
     return null;
   }
+
+  @Override
+  public String getResourceFromAscii(String fileName, String suffix) {
+
+    InputStream stream = getClass().getClassLoader()
+        .getResourceAsStream(fileName);
+
+    Scanner scanner = new Scanner(stream);
+    StringBuilder builder = new StringBuilder();
+
+    while (scanner.hasNext()) {
+      builder.append(scanner.next());
+    }
+    scanner.close();
+
+    return builder.toString();
+  }
 }
