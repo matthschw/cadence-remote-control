@@ -268,6 +268,24 @@ public class SkillList extends SkillBoolean
     return this.list.size();
   }
 
+  /**
+   * Get an array representation of the {@link SkillList}
+   *
+   * @return array
+   */
+  public SkillDataobject[] getArray() {
+
+    SkillDataobject[] retval = new SkillDataobject[this.getLength()];
+
+    int i = 0;
+
+    for (SkillDataobject obj : this.list) {
+      retval[i++] = obj;
+    }
+
+    return retval;
+  }
+
   @Override
   public String toSkillHierarchical(int depth) {
 
@@ -280,7 +298,7 @@ public class SkillList extends SkillBoolean
       if (depth == 0) {
         builder.append("'");
       }
-      
+
       builder.append("(");
 
       for (SkillDataobject skillDataobject : this.list) {
@@ -346,23 +364,6 @@ public class SkillList extends SkillBoolean
     }
   }
 
-  /**
-   * Build a Skill list from an array of integers
-   *
-   * @param values Array of integers
-   * @return Skill list
-   */
-  public static SkillList get(int[] values) {
-
-    SkillList list = new SkillList();
-
-    for (int value : values) {
-      list.addAtLast(new SkillFixnum(value));
-    }
-
-    return list;
-  }
-
   static SkillList build(SkillSession session, Element element) {
 
     SkillList list = new SkillList();
@@ -380,7 +381,7 @@ public class SkillList extends SkillBoolean
 
     return list;
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *
