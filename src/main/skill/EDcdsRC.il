@@ -190,7 +190,7 @@
 ;
 (defun EDcdsRCbuildXML (content @key (session "main") (bCiw "t"))
 
-  (let (fTraverseDataStructure lBuildList (sRoot "root") listAccu vec)
+  (let (lBuildList (sRoot "root"))
 
     (setq lBuildList (tconc nil nil))
     
@@ -203,318 +203,332 @@
       "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
     );tconc
 
-    ;fTraverseDataStructure
-    (setq
-      fTraverseDataStructure
-      (lambda (val sRoot sIndentation)
-
-        (let (idx)
-          (cond
-            ((fixp val) 
-              (tconc 
-                lBuildList 
-                (lsprintf
-                  "%s<%s type=\"fixnum\">%L</%s>\n"
-                  sIndentation
-                  sRoot
-                  val
-                  sRoot
-                );lsprintf
-              );tconc
-            )
-            ((floatp val)
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"flonum\">%L</%s>\n"
-                  sIndentation
-                  sRoot
-                  val
-                  sRoot
-                );lsprintf
-              );tconc
-            )
-
-            ((stringp val) 
-
-              (tconc
-                lBuildList
-                (lsprintf 
-                  "%s<%s type=\"string\">%s</%s>\n"
-                  sIndentation
-                  sRoot
-                  (EDcdsRCescapeXML val)
-                  sRoot
-                );lsprintf
-              );tconc
-            )
-
-            (
-              (and
-                (listp val)
-                (plusp (length val))
-                (null (car val))
-                (apply (quote and) (foreach mapcar elem val->? (when elem t)))
-              );and
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"dpl\">\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-
-              (foreach item val->?
-                (funcall
-                  fTraverseDataStructure
-                  (get val item)
-                  item
-                  (strcat sIndentation "\t")
-                );funcall
-              );foreach
-
-              (tconc
-                lBuildList
-                (lsprintf 
-                  "%s</%s>\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-            )
-
-            ((listp val)
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"list\">\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-                  
-              (foreach item val
-                (funcall
-                  fTraverseDataStructure
-                  item
-                  "entry"
-                  (strcat sIndentation "\t")
-                );funcall
-              );foreach
-                  
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s</%s>\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-            )
-            
-            ((and (isCallable (quote complexp)) (complexp val))
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"doublecomplex\">\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-
-              (funcall
-                fTraverseDataStructure
-                (real val)
-                "real"
-                (strcat sIndentation "\t")
-              );funcall
-
-              (funcall
-                fTraverseDataStructure
-                (imag val)
-                "imag"
-                (strcat sIndentation "\t")
-              );funcall
-
-              (tconc
-                lBuildList
-                (lsprintf 
-                  "%s</%s>\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-            )
-              
-   
-            ((and (isCallable (quote drIsWaveform)) (drIsWaveform val))
-            
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"wave\">\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-
-              (setq listAccu (tconc nil nil))
-              (setq vec (drGetWaveformXVec val))
-
-              (for i 0 (sub1 (drVectorLength vec))
-                (tconc listAccu (drGetElem vec i))
-              );for
-
-              (funcall
-                fTraverseDataStructure
-                (cdar listAccu)
-                "x"
-                (strcat sIndentation "\t")
-              );funcall
-
-              (setq listAccu (tconc nil nil))
-              (setq vec (drGetWaveformYVec val))
-
-              (for i 0 (sub1 (drVectorLength vec))
-                (tconc listAccu (drGetElem vec i))
-              );for
-
-              (funcall
-                fTraverseDataStructure
-                (cdar listAccu)
-                "y"
-                (strcat sIndentation "\t")
-              );funcall
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s</%s>\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-            )
-
-            /*
-            ((and (isCallable (quote famIsFamily)) (famIsFamily val))
-              
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"fam\">\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-
-              (foreach sweepValue (famGetSweepValues val) 
-                (funcall
-                  fTraverseDataStructure
-                  (list sweepValue (famValue val sweepValue))
-                  "entry"
-                  (strcat sIndentation "\t")
-                );funcall
-              );foreach
-
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s</%s>\n"
-                  sIndentation
-                  (EDcdsRCescapeXML sRoot)
-                );lsprintf
-              );tconc
-            )
-            */
-            
-            ((symbolp val) 
-
-              (tconc
-                lBuildList
-                (lsprintf 
-                  "%s<%s type=\"symbol\">%s</%s>\n"
-                  sIndentation
-                  sRoot
-                  (EDcdsRCescapeXML (get_pname val))
-                  sRoot
-                );lsprintf
-              );tconc
-            )
-
-            (t 
-
-              (setq idx -1)
-            
-              (foreach
-                id 
-                (getq (arrayref EDcdsRC.session session) retVals)->?
-
-                (when
-                  (equal 
-                    (arrayref 
-                      (getq (arrayref EDcdsRC.session session) retVals)
-                      id
-                    );arrayref
-                    val
-                  );equal
-                  (setq idx id)
-                );when
-              );foreach
-
-              (when (equal idx -1)
-
-                (setq idx  (getq (arrayref EDcdsRC.session session) maxIndex))
-                (setarray
-                  (getq (arrayref EDcdsRC.session session) retVals)
-                  (getq (arrayref EDcdsRC.session session) maxIndex)
-                  val
-                );setarray
-
-                (putpropq
-                  (arrayref EDcdsRC.session session)
-                  (plus (getq (arrayref EDcdsRC.session session) maxIndex) 1)
-                  maxIndex
-                );putpropq
-              );when
-            
-              (tconc
-                lBuildList
-                (lsprintf
-                  "%s<%s type=\"complex\">%L</%s>\n"
-                  sIndentation
-                  sRoot
-                  idx
-                  sRoot
-                );lsprintf
-              );tconc
-            )
-          );cond
-        );let
-      );lambda
-    );setq
-
-    (funcall
-      fTraverseDataStructure 
-      content 
+    (EDcdsRCTraverse
+      content
       (if (or (stringp sRoot) (symbolp sRoot)) sRoot "root")
       ""
-    );funcall
+      lBuildList
+      session
+    );EDcdsRCTraverse
     
-  (when bCiw
-    (tconc  lBuildList "2>>")
-  );when
+    (when bCiw
+      (tconc  lBuildList "2>>")
+    );when
 
-  (apply 'strcat (cdar lBuildList))
-
-  ;(cdar lBuildList)
+    (apply 'strcat (cdar lBuildList))
   );let
-);defun
+);defun EDcdsRCbuildXML
+
+;FUNCTION
+; EDcdsRCTraverse
+;
+; Traverse a datastructure for XML generation
+;
+;Parameters:
+; val           value to be traversed
+; sRoot         root name  (string)
+; sIndentation  indentation (string)
+; lBuildList    accumulator list
+;
+;Return:
+; string            escaped string
+;
+(defun EDcdsRCTraverse (val sRoot sIndentation lBuildList session)
+  (let (idx vec listAccu)
+    (cond
+      ((fixp val) 
+        (tconc 
+          lBuildList 
+          (lsprintf
+            "%s<%s type=\"fixnum\">%L</%s>\n"
+            sIndentation
+            sRoot
+            val
+            sRoot
+          );lsprintf
+        );tconc
+      )
+      ((floatp val)
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"flonum\">%L</%s>\n"
+            sIndentation
+            sRoot
+            val
+            sRoot
+          );lsprintf
+        );tconc
+      )
+
+      ((stringp val) 
+
+        (tconc
+          lBuildList
+          (lsprintf 
+            "%s<%s type=\"string\">%s</%s>\n"
+            sIndentation
+            sRoot
+            (EDcdsRCescapeXML val)
+            sRoot
+          );lsprintf
+        );tconc
+      )
+
+      (
+        (and
+          (listp val)
+          (plusp (length val))
+          (null (car val))
+          (apply (quote and) (foreach mapcar elem val->? (when elem t)))
+        );and
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"dpl\">\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+
+        (foreach item val->?
+          (EDcdsRCTraverse
+            (get val item)
+            item
+            (strcat sIndentation "\t")
+            lBuildList
+            session
+          );EDcdsRCTraverse
+        );foreach
+
+        (tconc
+          lBuildList
+          (lsprintf 
+            "%s</%s>\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+      )
+
+      ((listp val)
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"list\">\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+            
+        (foreach item val
+          (EDcdsRCTraverse
+            item
+            "entry"
+            (strcat sIndentation "\t")
+            lBuildList
+            session
+          );EDcdsRCTraverse
+        );foreach
+            
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s</%s>\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+      )
+      
+      ((and (isCallable (quote complexp)) (complexp val))
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"doublecomplex\">\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+
+        (EDcdsRCTraverse
+          (real val)
+          "real"
+          (strcat sIndentation "\t")
+          lBuildList
+          session
+        );EDcdsRCTraverse
+
+        (EDcdsRCTraverse
+          (imag val)
+          "imag"
+          (strcat sIndentation "\t")
+          lBuildList
+          session
+        );EDcdsRCTraverse
+
+        (tconc
+          lBuildList
+          (lsprintf 
+            "%s</%s>\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+      )
+        
+
+      ((and (isCallable (quote drIsWaveform)) (drIsWaveform val))
+      
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"wave\">\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+
+        (setq listAccu (tconc nil nil))
+        (setq vec (drGetWaveformXVec val))
+
+        (for i 0 (sub1 (drVectorLength vec))
+          (tconc listAccu (drGetElem vec i))
+        );for
+
+        (EDcdsRCTraverse
+          (cdar listAccu)
+          "x"
+          (strcat sIndentation "\t")
+          lBuildList
+          session
+        );EDcdsRCTraverse
+
+        (setq listAccu (tconc nil nil))
+        (setq vec (drGetWaveformYVec val))
+
+        (for i 0 (sub1 (drVectorLength vec))
+          (tconc listAccu (drGetElem vec i))
+        );for
+
+        (EDcdsRCTraverse
+          (cdar listAccu)
+          "y"
+          (strcat sIndentation "\t")
+          lBuildList
+          session
+        );EDcdsRCTraverse
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s</%s>\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+      )
+
+      /*
+      ((and (isCallable (quote famIsFamily)) (famIsFamily val))
+        
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"fam\">\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+
+        (foreach sweepValue (famGetSweepValues val) 
+          (funcall
+            fTraverseDataStructure
+            (list sweepValue (famValue val sweepValue))
+            "entry"
+            (strcat sIndentation "\t")
+          );funcall
+        );foreach
+
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s</%s>\n"
+            sIndentation
+            (EDcdsRCescapeXML sRoot)
+          );lsprintf
+        );tconc
+      )
+      */
+      
+      ((symbolp val) 
+
+        (tconc
+          lBuildList
+          (lsprintf 
+            "%s<%s type=\"symbol\">%s</%s>\n"
+            sIndentation
+            sRoot
+            (EDcdsRCescapeXML (get_pname val))
+            sRoot
+          );lsprintf
+        );tconc
+      )
+
+      (t 
+
+        (setq idx -1)
+      
+        (foreach
+          id 
+          (getq (arrayref EDcdsRC.session session) retVals)->?
+
+          (when
+            (equal 
+              (arrayref 
+                (getq (arrayref EDcdsRC.session session) retVals)
+                id
+              );arrayref
+              val
+            );equal
+            (setq idx id)
+          );when
+        );foreach
+
+        (when (equal idx -1)
+
+          (setq idx  (getq (arrayref EDcdsRC.session session) maxIndex))
+          (setarray
+            (getq (arrayref EDcdsRC.session session) retVals)
+            (getq (arrayref EDcdsRC.session session) maxIndex)
+            val
+          );setarray
+
+          (putpropq
+            (arrayref EDcdsRC.session session)
+            (plus (getq (arrayref EDcdsRC.session session) maxIndex) 1)
+            maxIndex
+          );putpropq
+        );when
+      
+        (tconc
+          lBuildList
+          (lsprintf
+            "%s<%s type=\"complex\">%L</%s>\n"
+            sIndentation
+            sRoot
+            idx
+            sRoot
+          );lsprintf
+        );tconc
+      )
+    );cond
+  );let
+);defun EDcdsRCTraverse
 
 
 ;FUNCTION
