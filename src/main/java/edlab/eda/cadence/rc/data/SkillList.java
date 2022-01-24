@@ -99,11 +99,15 @@ public class SkillList extends SkillBoolean
    */
   public SkillList(BigDecimal[] data) {
 
-    super(false);
+    super(true);
     this.list = new LinkedList<>();
 
     for (BigDecimal element : data) {
       this.list.add(new SkillFlonum(element));
+    }
+    
+    if (this.list.isEmpty()) {
+      this.updateBool();
     }
   }
 
