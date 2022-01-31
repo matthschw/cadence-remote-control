@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
@@ -25,6 +26,10 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   // Prompt in Cadence Session
   protected static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
   protected static final String PROMPT_DEFAULT = ">";
+
+  // Timeout
+  protected long timeoutDuration = 1;
+  protected TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
 
   protected String prompt = PROMPT_DEFAULT;
   protected Matcher<Result> nextCommand;
@@ -66,7 +71,8 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
    * Specify the prompt for return value recognition. Can be done only, when the
    * session is not active.
    * 
-   * @param prompt Prompt to be used (when not specified ">" is used):
+   * @param prompt Prompt to be used (when not specified <code>&gt;</code> is
+   *               used).
    * @return <code>true</code> when change is valid, <code>false</code>
    *         otherwise
    */
@@ -79,6 +85,21 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
       this.nextCommand = Matchers.regexp("\n" + this.prompt);
       return true;
     }
+  }
+
+  /**
+   * Set the timeout for the session. The session will terminate when no action
+   * is performed (command is sent) or the session does not respond in the
+   * specified time.
+   *
+   * @param duration Timeout
+   * @param unit     Time Unit to be used
+   * @return this
+   */
+  public SkillSession setTimeout(long duration, TimeUnit unit) {
+    this.timeoutDuration = duration;
+    this.timeoutTimeUnit = unit;
+    return this;
   }
 
   /**

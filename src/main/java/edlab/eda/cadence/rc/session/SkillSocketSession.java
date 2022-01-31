@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -43,7 +44,8 @@ public class SkillSocketSession extends SkillSession {
 
     if (!this.isActive()) {
       try {
-        this.socket = new Socket("0.0.0.0", this.port);
+        this.socket = new Socket();
+        this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 10000);
       } catch (IOException e) {
         throw new UnableToStartSession(this.port);
       }
@@ -249,8 +251,8 @@ public class SkillSocketSession extends SkillSession {
    * Connect to a socket
    * 
    * @param dir Directory where the socket was started
-   * @return socket
-   * @throws UnableToStartSession
+   * @return session
+   * @throws UnableToStartSession when no connection can be established
    */
   public static SkillSocketSession connect(File dir)
       throws UnableToStartSession {

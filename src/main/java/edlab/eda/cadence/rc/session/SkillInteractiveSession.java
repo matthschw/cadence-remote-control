@@ -32,8 +32,6 @@ public class SkillInteractiveSession extends SkillSession {
   private String command;
   private File workingDir;
 
-  private long timeoutDuration = 1;
-  private TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
   private Date lastActivity = null;
 
   private SkillSessionWatchdog watchdog;
@@ -60,21 +58,6 @@ public class SkillInteractiveSession extends SkillSession {
     super();
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir.getAbsoluteFile();
-  }
-
-  /**
-   * Set the timeout for the session. The session will terminate when no action
-   * is performed (command is sent) or the session does not respond in the
-   * specified time.
-   *
-   * @param duration Timeout
-   * @param unit     Time Unit to be used
-   * @return this
-   */
-  public SkillInteractiveSession setTimeout(long duration, TimeUnit unit) {
-    this.timeoutDuration = duration;
-    this.timeoutTimeUnit = unit;
-    return this;
   }
 
   /**
