@@ -51,8 +51,8 @@ public class CadenceSocket {
 
     this.cadenceOutputStream = new FileOutputStream(fd);
 
-    this.serverSocket = new ServerSocket();
-    this.serverSocket.bind(null);
+    this.serverSocket = new ServerSocket(0, 1);
+    // this.serverSocket.bind(null);
 
     // add shutdown hook for server socket
     Runtime.getRuntime().addShutdownHook(new Thread() {

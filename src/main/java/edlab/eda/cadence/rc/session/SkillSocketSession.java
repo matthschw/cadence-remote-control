@@ -31,6 +31,9 @@ public class SkillSocketSession extends SkillSession {
 
   private Map<String, EvaluableToSkill> keywords;
 
+  private static final int WAIT = 10;
+  private int maxWaitSteps = 2000;
+
   private SkillSocketSession(int port) {
     super();
     this.port = port;
@@ -39,13 +42,17 @@ public class SkillSocketSession extends SkillSession {
     this.keywords.put("returnType", new SkillString("string"));
   }
 
+  public void setMaxWaitTime(int time) {
+    this.maxWaitSteps = time / WAIT;
+  }
+
   @Override
   public SkillSession start() throws UnableToStartSession {
 
     if (!this.isActive()) {
       try {
         this.socket = new Socket();
-        this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 10000);
+        this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 1000);
       } catch (IOException e) {
         throw new UnableToStartSession(this.port);
       }
@@ -301,14 +308,23 @@ public class SkillSocketSession extends SkillSession {
       return null;
     }
 
+    int n = 0;
+
     try {
-      while (this.inputStream.available() == 0) {
+      while (this.inputStream.available() == 0 && n < this.maxWaitSteps) {
+
         try {
-          Thread.sleep(10);
+          Thread.sleep(WAIT);
         } catch (InterruptedException e) {
         }
+
+        n++;
       }
     } catch (IOException e) {
+      return null;
+    }
+
+    if (n >= this.maxWaitSteps) {
       return null;
     }
 
