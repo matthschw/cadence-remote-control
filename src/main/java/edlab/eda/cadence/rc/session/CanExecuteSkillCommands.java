@@ -58,5 +58,4 @@ public interface CanExecuteSkillCommands {
    * @return Resource as string
    */
   public String getResourceFromAscii(String fileName);
-
 }

@@ -74,11 +74,11 @@
 				</executions>
 			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pdf-plugin</artifactId>
-        <version>1.5.1</version>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pdf-plugin</artifactId>
+				<version>1.5.1</version>
+			</plugin>
 
 		</plugins>
 	</build>
@@ -100,15 +100,15 @@
 			<version>5.3.1</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-			<version>1.9</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.10</version>
+		</dependency><dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.9</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -119,6 +119,6 @@
 
 	<organization>
 		<name>Electronics &amp; Drives</name>
-		<url>https://www.electronics-and-drives.de/</url>
+		<url>https://www.electronics-and-drives.de</url>
 	</organization>
 </project>
