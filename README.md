@@ -6,6 +6,29 @@ Remote Control for Cadence-Tools in Java
 This toolbox provides remote-control capabilities for Cadence-based
 tools in Java.
 
+# Installation
+
+Clone this repository:
+
+```bash
+$ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
+```
+
+`cd cadence-remote-control` into the directory and install it
+
+```bash
+mvn install
+```
+Make sure, that Virtuoso is available during the 
+installation process, i.e. the command
+```bash
+virtuoso -W
+```
+should return *sub-version  IC6.1.8-64b.500.20* or something similar.
+Please pay attention that Virtuoso is started in graphical mode while
+the project is installed.
+Do not interact with this CIW.
+
 
 ## Known Issues
 
