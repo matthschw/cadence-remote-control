@@ -213,6 +213,7 @@ public class SkillInteractiveSession extends SkillSession {
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
+
     if (!this.isActive()) {
       this.start(parent);
     }
@@ -269,7 +270,7 @@ public class SkillInteractiveSession extends SkillSession {
           // "/tmp" is always writable
         }
       }
-
+      
       String xml = this.communicate(skillCommand);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,

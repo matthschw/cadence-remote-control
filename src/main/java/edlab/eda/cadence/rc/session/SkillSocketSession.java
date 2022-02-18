@@ -160,6 +160,9 @@ public class SkillSocketSession extends SkillSession {
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
+    
+    System.out.println("XXX");
+    
     String xml;
 
     if (!command.canBeUsedInSession(this)) {
@@ -178,6 +181,7 @@ public class SkillSocketSession extends SkillSession {
     } catch (IncorrectSyntaxException e) {
       // cannot happen
     }
+
 
     String inputString = outer.toSkill() + "\n";
 

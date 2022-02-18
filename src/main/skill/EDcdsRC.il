@@ -11,7 +11,7 @@
 * Language: Cadence SKILL
 *
 * Lint: IQ score is 100 (best is 100)
-*       {sklint ?file "EDcdsRemoteControl.il"}
+*       {sklint ?file "EDcdsRC.il"}
 *
 * Globals:
 * - Symbols:
@@ -280,8 +280,21 @@
         (and
           (listp val)
           (plusp (length val))
+          (oddp (length val))
           (null (car val))
-          (apply (quote and) (foreach mapcar elem val->? (when elem t)))
+          (let ((even t))
+            (apply
+              (quote and)
+              (foreach mapcar elem (cdr val)
+                (if even then
+                  (setq even nil)
+                  (symbolp elem)  
+                else
+                  (setq even t)
+                );if
+              );foreach
+            );apply
+          );let
         );and
 
         (tconc
@@ -294,6 +307,7 @@
         );tconc
 
         (foreach item val->?
+
           (EDcdsRCTraverse
             (get val item)
             item
