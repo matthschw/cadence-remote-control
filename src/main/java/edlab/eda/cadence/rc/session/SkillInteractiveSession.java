@@ -14,6 +14,7 @@ import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
+import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillString;
 import net.sf.expectit.Expect;
 import net.sf.expectit.ExpectBuilder;
@@ -31,8 +32,6 @@ public class SkillInteractiveSession extends SkillSession {
   private String command;
   private File workingDir;
 
-  private long timeoutDuration = 1;
-  private TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
   private Date lastActivity = null;
 
   private SkillSessionWatchdog watchdog;
@@ -59,21 +58,6 @@ public class SkillInteractiveSession extends SkillSession {
     super();
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir.getAbsoluteFile();
-  }
-
-  /**
-   * Set the timeout for the session. The session will terminate when no action
-   * is performed (command is sent) or the session does not respond in the
-   * specified time.
-   *
-   * @param duration Timeout
-   * @param unit     Time Unit to be used
-   * @return this
-   */
-  public SkillInteractiveSession setTimeout(long duration, TimeUnit unit) {
-    this.timeoutDuration = duration;
-    this.timeoutTimeUnit = unit;
-    return this;
   }
 
   /**
@@ -229,6 +213,7 @@ public class SkillInteractiveSession extends SkillSession {
       throws UnableToStartSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
+
     if (!this.isActive()) {
       this.start(parent);
     }
@@ -285,9 +270,8 @@ public class SkillInteractiveSession extends SkillSession {
           // "/tmp" is always writable
         }
       }
-
-      String xml = this.communicate(skillCommand);
       
+      String xml = this.communicate(skillCommand);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
@@ -317,14 +301,38 @@ public class SkillInteractiveSession extends SkillSession {
 
         } else {
 
-          SkillString errorstring = (SkillString) top
-              .get(SkillSession.ID_ERROR);
+          SkillList errorList = (SkillList) top.get(SkillSession.ID_ERROR);
 
-          throw new EvaluationFailedException(skillCommand,
-              errorstring.getString());
+          SkillList messageList = (SkillList) errorList
+              .getByIndex(errorList.getLength() - 1);
+
+          SkillString errorMessage;
+
+          StringBuilder builder = new StringBuilder();
+
+          boolean first = true;
+
+          for (SkillDataobject messageObj : messageList) {
+
+            errorMessage = (SkillString) messageObj;
+
+            if (first) {
+              first = false;
+            } else {
+              builder.append("\n");
+            }
+
+            builder.append(errorMessage.getString());
+          }
+
+          throw new EvaluationFailedException(skillCommand, builder.toString());
         }
       } catch (Exception e) {
-        throw new EvaluationFailedException(skillCommand, xml);
+        if (e instanceof EvaluationFailedException) {
+          throw (EvaluationFailedException) e;
+        } else {
+          throw new EvaluationFailedException(skillCommand, xml);
+        }
       }
     } else {
       throw new UnableToStartSession(this.command, workingDir);

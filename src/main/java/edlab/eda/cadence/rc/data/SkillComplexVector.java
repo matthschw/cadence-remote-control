@@ -45,6 +45,15 @@ public class SkillComplexVector extends SkillVector {
       return false;
     }
   }
+  
+  public Complex[] getValues() {
+    return this.values;
+  }
+  
+  @Override
+  public int getLength() {
+    return this.values.length;
+  }
 
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(String name,
@@ -59,5 +68,16 @@ public class SkillComplexVector extends SkillVector {
     }
 
     return element;
+  }
+  
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillComplexNumber;
   }
 }

@@ -27,8 +27,12 @@ public class SkillInteractiveExample {
     SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
 
     // create the command "(plus 1 41)"
+
+    // SkillCommand command = template.buildCommand(
+    // new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+
     SkillCommand command = template.buildCommand(
-        new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+        new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(42) });
 
     // evaluate the command in the session
     SkillDataobject obj = session.evaluate(command);

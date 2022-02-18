@@ -138,6 +138,23 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
     return this.properties.keySet();
   }
 
+  /**
+   * Get the keys in the dpl as array
+   * 
+   * @return keys as array
+   */
+  public String[] getKeysAsArray() {
+
+    String[] retval = new String[this.properties.size()];
+    int i = 0;
+
+    for (String key : this.properties.keySet()) {
+      retval[i++] = key;
+    }
+
+    return retval;
+  }
+
   @Override
   public SkillDataobject put(String arg0, SkillDataobject arg1) {
     return this.properties.put(arg0, arg1);
@@ -161,5 +178,16 @@ public class SkillDisembodiedPropertyList extends SkillBoolean
   @Override
   public Collection<SkillDataobject> values() {
     return this.properties.values();
+  }
+  
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillDisembodiedPropertyList;
   }
 }

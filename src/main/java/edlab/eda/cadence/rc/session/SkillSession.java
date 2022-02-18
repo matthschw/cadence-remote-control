@@ -1,9 +1,12 @@
 package edlab.eda.cadence.rc.session;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
@@ -11,7 +14,7 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public abstract class SkillSession {
+public abstract class SkillSession implements CanExecuteSkillCommands {
 
   // Context file
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
@@ -23,6 +26,10 @@ public abstract class SkillSession {
   // Prompt in Cadence Session
   protected static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
   protected static final String PROMPT_DEFAULT = ">";
+
+  // Timeout
+  protected long timeoutDuration = 1;
+  protected TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
 
   protected String prompt = PROMPT_DEFAULT;
   protected Matcher<Result> nextCommand;
@@ -64,7 +71,8 @@ public abstract class SkillSession {
    * Specify the prompt for return value recognition. Can be done only, when the
    * session is not active.
    * 
-   * @param prompt Prompt to be used (when not specified ">" is used):
+   * @param prompt Prompt to be used (when not specified <code>&gt;</code> is
+   *               used).
    * @return <code>true</code> when change is valid, <code>false</code>
    *         otherwise
    */
@@ -77,6 +85,21 @@ public abstract class SkillSession {
       this.nextCommand = Matchers.regexp("\n" + this.prompt);
       return true;
     }
+  }
+
+  /**
+   * Set the timeout for the session. The session will terminate when no action
+   * is performed (command is sent) or the session does not respond in the
+   * specified time.
+   *
+   * @param duration Timeout
+   * @param unit     Time Unit to be used
+   * @return this
+   */
+  public SkillSession setTimeout(long duration, TimeUnit unit) {
+    this.timeoutDuration = duration;
+    this.timeoutTimeUnit = unit;
+    return this;
   }
 
   /**
@@ -96,23 +119,6 @@ public abstract class SkillSession {
    *         otherwise
    */
   public abstract boolean isActive();
-
-  /**
-   * Evaluate a Skill command in the session
-   *
-   * @param command Command to be evaluated
-   * @return Skill data-object that is returned from the session
-   * @throws UnableToStartSession                When the session could not be
-   *                                             started
-   * @throws EvaluationFailedException           When evaluation of the command
-   *                                             failed
-   * @throws InvalidDataobjectReferenceExecption When the command contains data
-   *                                             that is is not referenced in
-   *                                             this session
-   */
-  public abstract SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSession, EvaluationFailedException,
-      InvalidDataobjectReferenceExecption;
 
   /**
    * Evaluate a Skill command in the session
@@ -143,14 +149,13 @@ public abstract class SkillSession {
     this.stop();
   }
 
-  /**
-   * Get the path to a resource
-   *
-   * @param fileName File name of the resource
-   * @param suffix   Suffix of the file which will be generated
-   * @return Path to the resource
-   */
+  @Override
   public File getResourcePath(String fileName, String suffix) {
+    return this.getResourcePathFromAscii(fileName, suffix);
+  }
+
+  @Override
+  public File getResourcePathFromBinary(String fileName, String suffix) {
 
     InputStream stream = getClass().getClassLoader()
         .getResourceAsStream(fileName);
@@ -171,4 +176,55 @@ public abstract class SkillSession {
     return file;
   }
 
+  @Override
+  public File getResourcePathFromAscii(String fileName, String suffix) {
+
+    InputStream stream = getClass().getClassLoader()
+        .getResourceAsStream(fileName);
+
+    Scanner scanner = new Scanner(stream);
+
+    FileWriter writer;
+
+    try {
+      File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
+      writer = new FileWriter(file);
+      while (scanner.hasNextLine()) {
+        writer.append(scanner.nextLine());
+      }
+      writer.close();
+      scanner.close();
+      return file;
+
+    } catch (IOException e1) {
+    }
+    scanner.close();
+    return null;
+  }
+
+  @Override
+  public String getResourceFromAscii(String fileName) {
+
+    InputStream stream = getClass().getClassLoader()
+        .getResourceAsStream(fileName);
+
+    Scanner scanner = new Scanner(stream);
+    StringBuilder builder = new StringBuilder();
+
+    boolean first = true;
+
+    while (scanner.hasNext()) {
+
+      if (first) {
+        first = false;
+      } else {
+        builder.append("\n");
+      }
+
+      builder.append(scanner.next());
+    }
+    scanner.close();
+
+    return builder.toString();
+  }
 }

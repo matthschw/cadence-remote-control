@@ -8,12 +8,20 @@ public class EvaluationFailedException extends Exception {
 
   private static final long serialVersionUID = -1887101604969243884L;
 
-  public EvaluationFailedException(String command, String retval) {
+  private final String errorMessage;
+
+  public EvaluationFailedException(String command, String errorMessage) {
     super("Evaluation of command : " + command + " failed with exception "
-        + retval);
+        + errorMessage);
+    this.errorMessage = errorMessage;
   }
 
   public EvaluationFailedException(String command) {
     super("Evaluation of command : " + command + " failed");
+    this.errorMessage = "";
+  }
+
+  public String getErrorMessage() {
+    return this.errorMessage;
   }
 }

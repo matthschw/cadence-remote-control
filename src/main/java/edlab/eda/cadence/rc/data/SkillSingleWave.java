@@ -24,6 +24,14 @@ public class SkillSingleWave extends SkillDataobject {
     this.y = y;
   }
 
+  public SkillVector getX() {
+    return this.x;
+  }
+
+  public SkillVector getY() {
+    return this.y;
+  }
+
   public static SkillDataobject build(SkillSession session, Element element) {
 
     SkillList xList = (SkillList) SkillList.build(session,
@@ -31,7 +39,7 @@ public class SkillSingleWave extends SkillDataobject {
 
     SkillList yList = (SkillList) SkillList.build(session,
         (Element) element.getElementsByTagName("y").item(0));
-    
+
     return new SkillSingleWave(SkillVector.getVectorFromList(xList),
         SkillVector.getVectorFromList(yList));
   }
@@ -74,5 +82,16 @@ public class SkillSingleWave extends SkillDataobject {
         this.y.traverseSkillDataobjectForXMLGeneration("y", document));
 
     return element;
+  }
+
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillSingleWave;
   }
 }

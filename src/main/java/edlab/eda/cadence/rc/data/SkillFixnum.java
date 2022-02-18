@@ -71,4 +71,15 @@ public class SkillFixnum extends SkillNumber {
   protected String toSkillHierarchical(int depth) {
     return String.valueOf(this.value);
   }
+  
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillFixnum;
+  }
 }

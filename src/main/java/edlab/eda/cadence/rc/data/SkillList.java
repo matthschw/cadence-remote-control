@@ -99,11 +99,15 @@ public class SkillList extends SkillBoolean
    */
   public SkillList(BigDecimal[] data) {
 
-    super(false);
+    super(true);
     this.list = new LinkedList<>();
 
     for (BigDecimal element : data) {
       this.list.add(new SkillFlonum(element));
+    }
+    
+    if (this.list.isEmpty()) {
+      this.updateBool();
     }
   }
 
@@ -268,6 +272,24 @@ public class SkillList extends SkillBoolean
     return this.list.size();
   }
 
+  /**
+   * Get an array representation of the {@link SkillList}
+   *
+   * @return array
+   */
+  public SkillDataobject[] getArray() {
+
+    SkillDataobject[] retval = new SkillDataobject[this.getLength()];
+
+    int i = 0;
+
+    for (SkillDataobject obj : this.list) {
+      retval[i++] = obj;
+    }
+
+    return retval;
+  }
+
   @Override
   public String toSkillHierarchical(int depth) {
 
@@ -278,10 +300,10 @@ public class SkillList extends SkillBoolean
       boolean firstIteration = true;
 
       if (depth == 0) {
-        builder.append("'(");
-      } else {
-        builder.append(")");
+        builder.append("'");
       }
+
+      builder.append("(");
 
       for (SkillDataobject skillDataobject : this.list) {
 
@@ -346,23 +368,6 @@ public class SkillList extends SkillBoolean
     }
   }
 
-  /**
-   * Build a Skill list from an array of integers
-   *
-   * @param values Array of integers
-   * @return Skill list
-   */
-  public static SkillList get(int[] values) {
-
-    SkillList list = new SkillList();
-
-    for (int value : values) {
-      list.addAtLast(new SkillFixnum(value));
-    }
-
-    return list;
-  }
-
   static SkillList build(SkillSession session, Element element) {
 
     SkillList list = new SkillList();
@@ -379,5 +384,16 @@ public class SkillList extends SkillBoolean
     }
 
     return list;
+  }
+
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillList;
   }
 }

@@ -39,11 +39,20 @@ public class SkillStringVector extends SkillVector {
           return false;
         }
       }
-      
+
       return true;
     } else {
       return false;
     }
+  }
+  
+  public String[] getValues() {
+    return this.values;
+  }
+  
+  @Override
+  public int getLength() {
+    return this.values.length;
   }
 
   @Override
@@ -60,4 +69,17 @@ public class SkillStringVector extends SkillVector {
 
     return element;
   }
+
+  /**
+   * Identify whether an object is an instance of this class
+   *
+   * @param o Object to be checked
+   * @return <code>true</code> when the object is an instance of this class,
+   *         <code>false</code> otherwise
+   */
+  public static boolean isInstanceOf(final Object o) {
+    return o instanceof SkillStringVector;
+  }
+
+
 }
