@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  * Representation of a Skill flonum
  *
  */
-public class SkillFlonum extends SkillNumber {
+public final class SkillFlonum extends SkillNumber {
 
   private BigDecimal value;
 
@@ -23,7 +23,7 @@ public class SkillFlonum extends SkillNumber {
    *
    * @param flonum Flonum
    */
-  public SkillFlonum(BigDecimal flonum) {
+  SkillFlonum(BigDecimal flonum) {
     super();
     this.value = flonum;
   }

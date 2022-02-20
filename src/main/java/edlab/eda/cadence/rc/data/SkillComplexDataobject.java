@@ -9,7 +9,7 @@ import edlab.eda.cadence.rc.session.SkillSession;
 /**
  * Reference to an object in a {@link SkillInteractiveSession}
  */
-public class SkillComplexDataobject extends SkillDataobject {
+public final class SkillComplexDataobject extends SkillDataobject {
 
   private SkillSession session;
   private int identifier;

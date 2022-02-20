@@ -350,7 +350,7 @@ public class SkillInteractiveSession extends SkillSession {
   }
 
   @Override
-  public void stop() {
+  public SkillInteractiveSession stop() {
 
     if (watchdog instanceof SkillSessionWatchdog) {
       this.watchdog.kill();
@@ -375,6 +375,7 @@ public class SkillInteractiveSession extends SkillSession {
 
     this.process = null;
 
+    return this;
   }
 
   /**

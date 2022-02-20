@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 
 import edlab.eda.cadence.rc.session.SkillSession;
 
-public class SkillSingleWave extends SkillDataobject {
+public final class SkillSingleWave extends SkillDataobject {
 
   /**
    * Type-Identifier in XML

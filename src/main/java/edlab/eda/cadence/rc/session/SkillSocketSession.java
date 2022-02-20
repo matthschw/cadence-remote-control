@@ -227,7 +227,7 @@ public class SkillSocketSession extends SkillSession {
   }
 
   @Override
-  public void stop() {
+  public SkillSocketSession stop() {
 
     try {
       this.outputStream.write(0);
@@ -247,6 +247,8 @@ public class SkillSocketSession extends SkillSession {
     this.socket = null;
     this.outputStream = null;
     this.inputStream = null;
+
+    return this;
   }
 
   @Override
@@ -299,6 +301,13 @@ public class SkillSocketSession extends SkillSession {
     }
   }
 
+  /**
+   * Internal function
+   * 
+   * @param msg    Message to be
+   * @param indent
+   * @return
+   */
   private String communicate(String msg, int indent) {
 
     try {

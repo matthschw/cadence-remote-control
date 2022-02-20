@@ -15,7 +15,7 @@ import edlab.eda.cadence.rc.session.SkillSession;
  * Representation of a Skill list
  *
  */
-public class SkillList extends SkillBoolean
+public final class SkillList extends SkillBoolean
     implements Iterable<SkillDataobject> {
 
   /**

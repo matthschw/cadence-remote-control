@@ -3,11 +3,11 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillStringVector extends SkillVector {
+public final class SkillStringVector extends SkillVector {
 
   private String[] values;
 
-  public SkillStringVector(String[] values) {
+  SkillStringVector(String[] values) {
     this.values = values;
   }
 
@@ -45,11 +45,11 @@ public class SkillStringVector extends SkillVector {
       return false;
     }
   }
-  
+
   public String[] getValues() {
     return this.values;
   }
-  
+
   @Override
   public int getLength() {
     return this.values.length;
@@ -80,6 +80,5 @@ public class SkillStringVector extends SkillVector {
   public static boolean isInstanceOf(final Object o) {
     return o instanceof SkillStringVector;
   }
-
 
 }

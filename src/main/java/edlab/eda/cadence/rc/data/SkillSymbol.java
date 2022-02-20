@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
  * Representation of a SKILL-Symbol
  *
  */
-public class SkillSymbol extends SkillBoolean {
+public final class SkillSymbol extends SkillBoolean {
 
   /**
    * Type-Identifier in XML

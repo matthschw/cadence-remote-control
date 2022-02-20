@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillDoubleVector extends SkillVector {
+public final class SkillDoubleVector extends SkillVector {
 
   private BigDecimal[] values;
 
-  public SkillDoubleVector(BigDecimal[] values) {
+   SkillDoubleVector(BigDecimal[] values) {
     this.values = values;
   }
 

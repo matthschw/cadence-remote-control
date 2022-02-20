@@ -4,10 +4,10 @@ import org.apache.commons.math3.complex.Complex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillComplexVector extends SkillVector {
+public final class SkillComplexVector extends SkillVector {
   private Complex[] values;
 
-  public SkillComplexVector(Complex[] values) {
+  SkillComplexVector(Complex[] values) {
     this.values = values;
   }
 
@@ -45,11 +45,11 @@ public class SkillComplexVector extends SkillVector {
       return false;
     }
   }
-  
+
   public Complex[] getValues() {
     return this.values;
   }
-  
+
   @Override
   public int getLength() {
     return this.values.length;
@@ -69,7 +69,7 @@ public class SkillComplexVector extends SkillVector {
 
     return element;
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

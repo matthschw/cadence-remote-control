@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
  * Representation of a native SKILL disembodied property list
  *
  */
-public class SkillDisembodiedPropertyList extends SkillBoolean
+public final class SkillDisembodiedPropertyList extends SkillBoolean
     implements Map<String, SkillDataobject> {
 
   /**

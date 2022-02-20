@@ -3,10 +3,10 @@ package edlab.eda.cadence.rc.data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillIntegerVector extends SkillVector {
+public final class SkillIntegerVector extends SkillVector {
   private int[] values;
 
-  public SkillIntegerVector(int[] values) {
+  SkillIntegerVector(int[] values) {
     this.values = values;
   }
 

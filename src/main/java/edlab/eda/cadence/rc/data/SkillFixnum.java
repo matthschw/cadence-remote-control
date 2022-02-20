@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
  * Representation of a Skill fixnum
  *
  */
-public class SkillFixnum extends SkillNumber {
+public final class SkillFixnum extends SkillNumber {
 
   private int value;
 
