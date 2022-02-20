@@ -30,6 +30,11 @@ public class CadenceSocket {
   private FileInputStream cadenceInputStream;
   private FileOutputStream cadenceOutputStream;
 
+  /**
+   * Create a new Socket
+   * 
+   * @throws Exception when creating of the socket failed
+   */
   private CadenceSocket() throws Exception {
 
     Constructor<FileDescriptor> ctor;
@@ -88,28 +93,38 @@ public class CadenceSocket {
     });
   }
 
+  /**
+   * Get the port of the socket
+   * 
+   * @return port
+   */
   private int getPort() {
     return this.serverSocket.getLocalPort();
   }
 
   /**
    * Wait for incoming connection
-   *
+   * 
+   * @return this
    * @throws IOException (occurs never)
    */
-  public void start() throws IOException {
+  public CadenceSocket start() throws IOException {
 
     this.socket = this.serverSocket.accept();
 
     this.frameworkInputStream = this.socket.getInputStream();
 
     this.frameworkOutputStream = this.socket.getOutputStream();
+
+    return this;
   }
 
   /**
    * Clear the socket
+   * 
+   * @return this
    */
-  private void clear() {
+  private CadenceSocket clear() {
 
     try {
       this.frameworkInputStream.close();
@@ -130,14 +145,17 @@ public class CadenceSocket {
 
     this.frameworkInputStream = null;
     this.frameworkOutputStream = null;
+
+    return this;
   }
 
   /**
    * Read-Eval-Print-Loop
-   *
+   * 
+   * @return this
    * @throws IOException (occurs never)
    */
-  public void runRepl() throws IOException {
+  public CadenceSocket runRepl() throws IOException {
 
     byte[] data;
 
@@ -188,7 +206,7 @@ public class CadenceSocket {
       }
     }
 
-    this.clear();
+    return this.clear();
   }
 
   /**
@@ -201,11 +219,9 @@ public class CadenceSocket {
 
     CadenceSocket socket = new CadenceSocket();
 
-    System.out.print(socket.getPort());
-
     while (true) {
-      socket.start();
-      socket.runRepl();
+      System.out.print(socket.getPort());
+      socket.start().runRepl();
     }
   }
 }
