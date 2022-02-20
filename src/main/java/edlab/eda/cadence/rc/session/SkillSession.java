@@ -14,7 +14,10 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public abstract class SkillSession implements CanExecuteSkillCommands {
+/**
+ * A session which is capable of executing SKill commands
+ */
+public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   // Context file
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
@@ -69,7 +72,9 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   /**
    * Specify the prompt for return value recognition. Can be done only, when the
-   * session is not active.
+   * session is not active. When this method is not used, the prompt is
+   * extracted of <code>ED_CDS_INIT_PROMPT</code>. When this environment
+   * variable is not set, <code>&gt;</code> is used.
    * 
    * @param prompt Prompt to be used (when not specified <code>&gt;</code> is
    *               used).
@@ -141,8 +146,10 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   /**
    * Stop the session
+   * 
+   * @return this
    */
-  public abstract void stop();
+  public abstract SkillSession stop();
 
   @Override
   protected void finalize() {

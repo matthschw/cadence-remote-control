@@ -5,7 +5,10 @@ import java.io.File;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
-public interface CanExecuteSkillCommands {
+/**
+ * Environment that is capable for executing Skill commands
+ */
+public interface SkillEvaluationEnvironment {
 
   /**
    * Evaluate a Skill command in the session
