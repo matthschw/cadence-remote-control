@@ -23,7 +23,7 @@ public final class SkillFlonum extends SkillNumber {
    *
    * @param flonum Flonum
    */
-  SkillFlonum(BigDecimal flonum) {
+  public SkillFlonum(BigDecimal flonum) {
     super();
     this.value = flonum;
   }
