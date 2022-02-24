@@ -203,14 +203,14 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSession, EvaluationFailedException,
+      throws UnableToStartInteractiveSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
     return this.evaluate(command, Thread.currentThread());
   }
 
   @Override
   public SkillDataobject evaluate(SkillCommand command, Thread parent)
-      throws UnableToStartSession, EvaluationFailedException,
+      throws UnableToStartInteractiveSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
 
@@ -335,7 +335,7 @@ public class SkillInteractiveSession extends SkillSession {
         }
       }
     } else {
-      throw new UnableToStartSession(this.command, workingDir);
+      throw new UnableToStartInteractiveSession(this.command, workingDir);
     }
 
     this.lastActivity = new Date();
