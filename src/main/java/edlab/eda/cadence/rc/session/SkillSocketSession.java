@@ -47,14 +47,14 @@ public class SkillSocketSession extends SkillSession {
   }
 
   @Override
-  public SkillSession start() throws UnableToStartSession {
+  public SkillSession start() throws UnableToStartSocketSession {
 
     if (!this.isActive()) {
       try {
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 1000);
       } catch (IOException e) {
-        throw new UnableToStartSession(this.port);
+        throw new UnableToStartSocketSession(this.port);
       }
 
       try {
@@ -64,7 +64,7 @@ public class SkillSocketSession extends SkillSession {
           this.socket.close();
         } catch (IOException e1) {
         }
-        throw new UnableToStartSession(this.port);
+        throw new UnableToStartSocketSession(this.port);
       }
 
       try {
@@ -74,7 +74,7 @@ public class SkillSocketSession extends SkillSession {
           this.socket.close();
         } catch (IOException e1) {
         }
-        throw new UnableToStartSession(this.port);
+        throw new UnableToStartSocketSession(this.port);
       }
 
       // add shutdown hook for process
@@ -132,7 +132,7 @@ public class SkillSocketSession extends SkillSession {
         return this;
 
       } else {
-        throw new UnableToStartSession(this.port);
+        throw new UnableToStartSocketSession(this.port);
       }
     } else {
       return this;
@@ -150,14 +150,14 @@ public class SkillSocketSession extends SkillSession {
 
   @Override
   public SkillDataobject evaluate(SkillCommand command, Thread parent)
-      throws UnableToStartSession, EvaluationFailedException,
+      throws UnableToStartSocketSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
     return this.evaluate(command);
   }
 
   @Override
   public SkillDataobject evaluate(SkillCommand command)
-      throws UnableToStartSession, EvaluationFailedException,
+      throws UnableToStartSocketSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
     String xml;
@@ -264,7 +264,7 @@ public class SkillSocketSession extends SkillSession {
    * @throws UnableToStartSession when no connection can be established
    */
   public static SkillSocketSession connect(File dir)
-      throws UnableToStartSession {
+      throws UnableToStartSocketSession {
 
     int port = -1;
     SkillSocketSession session;
@@ -284,20 +284,18 @@ public class SkillSocketSession extends SkillSession {
 
         if (port > 0) {
           session = new SkillSocketSession(port);
+
           session.start();
+
           return session;
         } else {
-          throw new UnableToStartSession(
-              "File \"" + socketFile.getAbsolutePath()
-                  + "\" does not contain a valid port");
+          throw new UnableToStartSocketSession(port, dir);
         }
       } else {
-        throw new UnableToStartSession("Cannot find port in file \""
-            + socketFile.getAbsolutePath() + "\"");
+        throw new UnableToStartSocketSession(dir);
       }
     } else {
-      throw new UnableToStartSession(
-          "Cannot find directory \"" + dir.getAbsolutePath() + "\"");
+      throw new UnableToStartSocketSession(dir);
     }
   }
 

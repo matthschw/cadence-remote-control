@@ -74,12 +74,12 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public SkillInteractiveSession start()
-      throws UnableToStartSession, EvaluationFailedException {
+      throws UnableToStartInteractiveSession, EvaluationFailedException {
     return this.start(Thread.currentThread());
   }
 
   public SkillInteractiveSession start(Thread parent)
-      throws UnableToStartSession, EvaluationFailedException {
+      throws UnableToStartInteractiveSession, EvaluationFailedException {
 
     if (!this.isActive()) {
 
@@ -90,7 +90,7 @@ public class SkillInteractiveSession extends SkillSession {
 
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
 
       // add shutdown hook for process
@@ -110,14 +110,14 @@ public class SkillInteractiveSession extends SkillSession {
             .build().withTimeout(10, TimeUnit.DAYS);
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
 
       try {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
 
       SkillCommand skillPromptsCommand = null;
@@ -138,13 +138,13 @@ public class SkillInteractiveSession extends SkillSession {
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
       try {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
 
       File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
@@ -171,7 +171,7 @@ public class SkillInteractiveSession extends SkillSession {
         expect.expect(this.nextCommand);
       } catch (IOException e) {
         this.stop();
-        throw new UnableToStartSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
 
       skillControlApi.delete();
