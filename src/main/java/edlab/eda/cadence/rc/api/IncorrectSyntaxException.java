@@ -52,5 +52,4 @@ public final class IncorrectSyntaxException extends Exception {
     return new IncorrectSyntaxException("Cannot provide more than "
         + maxParameters + " optional parameters to function \"" + name + "\"");
   }
-
 }
