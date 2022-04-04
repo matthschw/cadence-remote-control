@@ -23,22 +23,22 @@ import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
 
-public class SkillSocketSession extends SkillSession {
+public final class SkillSocketSession extends SkillSession {
 
-  private int port;
+  private final int port;
   private Socket socket;
 
   private InputStream inputStream;
   private OutputStream outputStream;
 
-  private Map<String, EvaluableToSkill> keywords;
+  private final Map<String, EvaluableToSkill> keywords;
 
   private static final int WAIT_PERIOD_MS = 10;
 
   private static final long INIT_TIMEOUT_DURATION = 10;
   private static final TimeUnit INIT_TIMEOUT_TIME_UNIT = TimeUnit.SECONDS;
 
-  private SkillSocketSession(int port) {
+  private SkillSocketSession(final int port) {
     super();
     this.port = port;
 
@@ -54,26 +54,26 @@ public class SkillSocketSession extends SkillSession {
       try {
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 1000);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         throw new UnableToStartSocketSession(this.port);
       }
 
       try {
         this.inputStream = this.socket.getInputStream();
-      } catch (IOException e) {
+      } catch (final IOException e) {
         try {
           this.socket.close();
-        } catch (IOException e1) {
+        } catch (final IOException e1) {
         }
         throw new UnableToStartSocketSession(this.port);
       }
 
       try {
         this.outputStream = this.socket.getOutputStream();
-      } catch (IOException e) {
+      } catch (final IOException e) {
         try {
           this.socket.close();
-        } catch (IOException e1) {
+        } catch (final IOException e1) {
         }
         throw new UnableToStartSocketSession(this.port);
       }
@@ -84,15 +84,15 @@ public class SkillSocketSession extends SkillSession {
         @Override
         public void run() {
           try {
-            outputStream.write(0);
-            outputStream.flush();
+            SkillSocketSession.this.outputStream.write(0);
+            SkillSocketSession.this.outputStream.flush();
 
-            inputStream.close();
-            outputStream.close();
-            socket.shutdownInput();
-            socket.shutdownOutput();
-            socket.close();
-          } catch (Exception e) {
+            SkillSocketSession.this.inputStream.close();
+            SkillSocketSession.this.outputStream.close();
+            SkillSocketSession.this.socket.shutdownInput();
+            SkillSocketSession.this.socket.shutdownOutput();
+            SkillSocketSession.this.socket.close();
+          } catch (final Exception e) {
           }
         }
       });
@@ -104,24 +104,24 @@ public class SkillSocketSession extends SkillSession {
             .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
             .buildCommand(new SkillSymbol(
                 GenericSkillCommandTemplates.ED_CDS_RC_FOMAT_COMMAND));
-      } catch (IncorrectSyntaxException e) {
+      } catch (final IncorrectSyntaxException e) {
         // cannot happen
       }
 
-      String retval = this.communicate(cmd.toSkill(), 1);
+      final String retval = this.communicate(cmd.toSkill(), 1);
 
       if (retval != null) {
 
         if (retval.equals("nil")) {
 
-          File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
+          final File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
               SkillSession.TMP_SKILL_FILE_SUFFIX);
 
           try {
             cmd = GenericSkillCommandTemplates
                 .getTemplate(GenericSkillCommandTemplates.LOAD).buildCommand(
                     new SkillString(skillControlApi.getAbsolutePath()));
-          } catch (IncorrectSyntaxException e) {
+          } catch (final IncorrectSyntaxException e) {
             // cannot happen
           }
 
@@ -150,14 +150,14 @@ public class SkillSocketSession extends SkillSession {
   }
 
   @Override
-  public SkillDataobject evaluate(SkillCommand command, Thread parent)
+  public SkillDataobject evaluate(final SkillCommand command, final Thread parent)
       throws UnableToStartSocketSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
     return this.evaluate(command);
   }
 
   @Override
-  public SkillDataobject evaluate(SkillCommand command)
+  public SkillDataobject evaluate(final SkillCommand command)
       throws UnableToStartSocketSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
@@ -176,17 +176,17 @@ public class SkillSocketSession extends SkillSession {
               .getTemplate(GenericSkillCommandTemplates.ERRSET)
               .buildCommand(command), this.keywords);
 
-    } catch (IncorrectSyntaxException e) {
+    } catch (final IncorrectSyntaxException e) {
       // cannot happen
     }
 
-    String inputString = outer.toSkill() + "\n";
+    final String inputString = outer.toSkill() + "\n";
 
     xml = this.communicate(inputString, 2);
 
     xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
 
-    SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
+    final SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
 
     SkillDataobject content;
 
@@ -198,9 +198,9 @@ public class SkillSocketSession extends SkillSession {
 
         if (top.containsKey(SkillSession.ID_FILE)) {
 
-          SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
+          final SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
 
-          File dataFile = new File(filePath.getString());
+          final File dataFile = new File(filePath.getString());
 
           xml = new String(Files.readAllBytes(dataFile.toPath()),
               StandardCharsets.US_ASCII);
@@ -215,12 +215,12 @@ public class SkillSocketSession extends SkillSession {
 
       } else {
 
-        SkillString errorstring = (SkillString) top.get(SkillSession.ID_ERROR);
+        final SkillString errorstring = (SkillString) top.get(SkillSession.ID_ERROR);
 
         throw new EvaluationFailedException(inputString,
             errorstring.getString());
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new EvaluationFailedException(inputString, xml);
     }
 
@@ -233,7 +233,7 @@ public class SkillSocketSession extends SkillSession {
     try {
       this.outputStream.write(0);
       this.outputStream.flush();
-    } catch (IOException e) {
+    } catch (final IOException e) {
     }
 
     try {
@@ -243,7 +243,7 @@ public class SkillSocketSession extends SkillSession {
       this.socket.shutdownOutput();
       this.socket.close();
 
-    } catch (IOException e) {
+    } catch (final IOException e) {
     }
 
     this.socket = null;
@@ -265,7 +265,7 @@ public class SkillSocketSession extends SkillSession {
    * @return session
    * @throws UnableToStartSession when no connection can be established
    */
-  public static SkillSocketSession connect(File dir)
+  public static SkillSocketSession connect(final File dir)
       throws UnableToStartSocketSession {
 
     int port = -1;
@@ -273,7 +273,7 @@ public class SkillSocketSession extends SkillSession {
 
     if (dir.isDirectory() && dir.canRead()) {
 
-      File socketFile = new File(dir, CadenceSocket.SOCKET_PORT_FILE_NAME);
+      final File socketFile = new File(dir, CadenceSocket.SOCKET_PORT_FILE_NAME);
 
       if (socketFile.exists() && socketFile.canRead()) {
 
@@ -281,15 +281,15 @@ public class SkillSocketSession extends SkillSession {
           port = Integer
               .parseInt(Files.readAllLines(socketFile.toPath()).get(0));
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
 
         if (port > 0) {
 
           session = new SkillSocketSession(port);
 
-          long timeoutDuration = session.getTimeoutDuration();
-          TimeUnit timeoutTimeUnit = session.getTimeUnit();
+          final long timeoutDuration = session.getTimeoutDuration();
+          final TimeUnit timeoutTimeUnit = session.getTimeUnit();
 
           session.setTimeout(INIT_TIMEOUT_DURATION, INIT_TIMEOUT_TIME_UNIT);
 
@@ -317,43 +317,43 @@ public class SkillSocketSession extends SkillSession {
    * @param indent Intedation of the command
    * @return Return string
    */
-  private String communicate(String msg, int indent) {
+  private String communicate(final String msg, final int indent) {
 
     try {
       this.outputStream.write(msg.getBytes());
-    } catch (IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
       this.stop();
       return null;
     }
 
-    Date lastActivity = new Date();
+    final Date lastActivity = new Date();
 
     try {
       Thread.sleep(WAIT_PERIOD_MS);
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
     }
 
     Date now = new Date();
     
     try {
 
-      while (this.inputStream.available() == 0
-          && now.getTime() - lastActivity.getTime() < this.timeout_ms) {
+      while ((this.inputStream.available() == 0)
+          && ((now.getTime() - lastActivity.getTime()) < this.timeout_ms)) {
 
         try {
           Thread.sleep(WAIT_PERIOD_MS);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
         }
         
         now = new Date();
       }
 
-    } catch (IOException e) {
+    } catch (final IOException e) {
       return null;
     }
 
-    if (now.getTime() - lastActivity.getTime() >= this.timeout_ms) {
+    if ((now.getTime() - lastActivity.getTime()) >= this.timeout_ms) {
       return null;
     }
 
@@ -362,7 +362,7 @@ public class SkillSocketSession extends SkillSession {
     try {
       data = new byte[this.inputStream.available()];
       this.inputStream.read(data);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       e.printStackTrace();
       return null;
     }

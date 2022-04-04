@@ -12,8 +12,8 @@ public class InvalidDataobjectReferenceExecption extends Exception {
    * @param command Command which contains invalid data-object references
    * @param session Session where the command cannot be executed
    */
-  public InvalidDataobjectReferenceExecption(SkillCommand command,
-      SkillSession session) {
+  public InvalidDataobjectReferenceExecption(final SkillCommand command,
+      final SkillSession session) {
 
     super("The command " + command.toSkill()
         + " contains references that are not defined in session= "

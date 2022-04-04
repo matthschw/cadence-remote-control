@@ -10,14 +10,14 @@ public class EvaluationFailedException extends Exception {
   private final String command;
   private final String errorMessage;
 
-  public EvaluationFailedException(String command, String errorMessage) {
+  public EvaluationFailedException(final String command, final String errorMessage) {
     super("Evaluation of command : " + command + " failed with exception "
         + errorMessage);
     this.errorMessage = errorMessage;
     this.command = command;
   }
 
-  public EvaluationFailedException(String command) {
+  public EvaluationFailedException(final String command) {
     super("Evaluation of command : " + command + " failed");
     this.errorMessage = "";
     this.command = command;

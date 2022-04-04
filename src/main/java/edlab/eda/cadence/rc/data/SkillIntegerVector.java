@@ -4,15 +4,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public final class SkillIntegerVector extends SkillVector {
-  private int[] values;
+  private final int[] values;
 
-  SkillIntegerVector(int[] values) {
+  SkillIntegerVector(final int[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  static SkillVector getVectorFromList(final SkillList list) {
 
-    int[] values = new int[list.getLength()];
+    final int[] values = new int[list.getLength()];
 
     SkillFixnum fixnum;
 
@@ -25,15 +25,15 @@ public final class SkillIntegerVector extends SkillVector {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillIntegerVector) {
-      SkillIntegerVector vector = (SkillIntegerVector) o;
+      final SkillIntegerVector vector = (SkillIntegerVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
+      for (int i = 0; i < this.values.length; i++) {
         if (this.values[i] != vector.values[i]) {
           return false;
         }
@@ -55,13 +55,13 @@ public final class SkillIntegerVector extends SkillVector {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
-    for (int value : this.values) {
+    for (final int value : this.values) {
       element.appendChild(new SkillFixnum(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }

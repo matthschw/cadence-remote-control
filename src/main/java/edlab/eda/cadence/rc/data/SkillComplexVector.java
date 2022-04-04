@@ -5,15 +5,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public final class SkillComplexVector extends SkillVector {
-  private Complex[] values;
+  private final Complex[] values;
 
-  SkillComplexVector(Complex[] values) {
+  SkillComplexVector(final Complex[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  static SkillVector getVectorFromList(final SkillList list) {
 
-    Complex[] values = new Complex[list.getLength()];
+    final Complex[] values = new Complex[list.getLength()];
 
     SkillComplexNumber complex;
 
@@ -26,16 +26,16 @@ public final class SkillComplexVector extends SkillVector {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillComplexVector) {
-      SkillComplexVector vector = (SkillComplexVector) o;
+      final SkillComplexVector vector = (SkillComplexVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
-        if (!this.values[i].equals(values[i])) {
+      for (final Complex value : this.values) {
+        if (!value.equals(value)) {
           return false;
         }
       }
@@ -56,13 +56,13 @@ public final class SkillComplexVector extends SkillVector {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
-    for (Complex value : this.values) {
+    for (final Complex value : this.values) {
       element.appendChild(new SkillComplexNumber(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }

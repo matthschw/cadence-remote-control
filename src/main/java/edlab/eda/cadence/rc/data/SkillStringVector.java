@@ -5,15 +5,15 @@ import org.w3c.dom.Element;
 
 public final class SkillStringVector extends SkillVector {
 
-  private String[] values;
+  private final String[] values;
 
-  SkillStringVector(String[] values) {
+  SkillStringVector(final String[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  static SkillVector getVectorFromList(final SkillList list) {
 
-    String[] values = new String[list.getLength()];
+    final String[] values = new String[list.getLength()];
 
     SkillString str;
 
@@ -26,15 +26,15 @@ public final class SkillStringVector extends SkillVector {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillStringVector) {
-      SkillStringVector vector = (SkillStringVector) o;
+      final SkillStringVector vector = (SkillStringVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
+      for (int i = 0; i < this.values.length; i++) {
         if (!this.values[i].equals(vector.values[i])) {
           return false;
         }
@@ -56,13 +56,13 @@ public final class SkillStringVector extends SkillVector {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
-    for (String value : this.values) {
+    for (final String value : this.values) {
       element.appendChild(new SkillString(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }

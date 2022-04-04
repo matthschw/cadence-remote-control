@@ -20,7 +20,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
    */
   public static final String TYPE_ID = "dpl";
 
-  private Map<String, SkillDataobject> properties;
+  private final Map<String, SkillDataobject> properties;
 
   /**
    * Create an empty disembodied property list
@@ -35,7 +35,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
    *
    * @param properties Map of key-value pairs
    */
-  public SkillDisembodiedPropertyList(Map<String, SkillDataobject> properties) {
+  public SkillDisembodiedPropertyList(final Map<String, SkillDataobject> properties) {
     super(true);
     this.properties = properties;
   }
@@ -43,7 +43,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   @Override
   protected String toSkillHierarchical(int depth) {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
 
     if (depth == 0) {
       builder.append("'");
@@ -51,7 +51,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
 
     builder.append("(nil");
 
-    for (Map.Entry<String, SkillDataobject> entry : this.properties
+    for (final Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {
       builder.append(" ").append(entry.getKey()).append(" ")
           .append(entry.getValue().toSkillHierarchical(++depth));
@@ -63,13 +63,13 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
-    for (Map.Entry<String, SkillDataobject> entry : this.properties
+    for (final Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {
       element.appendChild(entry.getValue()
           .traverseSkillDataobjectForXMLGeneration(entry.getKey(), document));
@@ -79,17 +79,17 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     if (o instanceof SkillDisembodiedPropertyList) {
 
-      SkillDisembodiedPropertyList object = (SkillDisembodiedPropertyList) o;
+      final SkillDisembodiedPropertyList object = (SkillDisembodiedPropertyList) o;
 
       if (this.properties.size() != object.properties.size()) {
         return false;
       }
 
-      for (String key : this.properties.keySet()) {
+      for (final String key : this.properties.keySet()) {
 
         if (!object.properties.containsKey(key)
             || !this.properties.get(key).equals(object.properties.get(key))) {
@@ -109,12 +109,12 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  public boolean containsKey(Object arg0) {
+  public boolean containsKey(final Object arg0) {
     return this.properties.containsKey(arg0);
   }
 
   @Override
-  public boolean containsValue(Object arg0) {
+  public boolean containsValue(final Object arg0) {
     return this.properties.containsValue(arg0);
   }
 
@@ -124,7 +124,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  public SkillDataobject get(Object arg0) {
+  public SkillDataobject get(final Object arg0) {
     return this.properties.get(arg0);
   }
 
@@ -145,10 +145,10 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
    */
   public String[] getKeysAsArray() {
 
-    String[] retval = new String[this.properties.size()];
+    final String[] retval = new String[this.properties.size()];
     int i = 0;
 
-    for (String key : this.properties.keySet()) {
+    for (final String key : this.properties.keySet()) {
       retval[i++] = key;
     }
 
@@ -156,17 +156,17 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  public SkillDataobject put(String arg0, SkillDataobject arg1) {
+  public SkillDataobject put(final String arg0, final SkillDataobject arg1) {
     return this.properties.put(arg0, arg1);
   }
 
   @Override
-  public void putAll(Map<? extends String, ? extends SkillDataobject> arg0) {
+  public void putAll(final Map<? extends String, ? extends SkillDataobject> arg0) {
     this.putAll(arg0);
   }
 
   @Override
-  public SkillDataobject remove(Object arg0) {
+  public SkillDataobject remove(final Object arg0) {
     return this.properties.remove(arg0);
   }
 

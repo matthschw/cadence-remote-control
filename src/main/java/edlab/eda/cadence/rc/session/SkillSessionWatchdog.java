@@ -8,16 +8,16 @@ import java.util.concurrent.TimeUnit;
  * the specified timeout is exceeded
  *
  */
-class SkillSessionWatchdog extends Thread {
+final class SkillSessionWatchdog extends Thread {
 
-  private SkillInteractiveSession session;
+  private final SkillInteractiveSession session;
 
   private static final long WATCHDOG_INIT_WAIT_TIME_MS = 1000;
   private static final long WATCHDOG_CHECK_INTERVAL_MS = 500;
 
-  private long duration_ms;
+  private final long duration_ms;
   private boolean killed = false;
-  private Thread parent;
+  private final Thread parent;
 
   /**
    * Create a Watchdog for a {@link SkillInteractiveSession}
@@ -26,8 +26,8 @@ class SkillSessionWatchdog extends Thread {
    * @param duration Timeout duration
    * @param unit     Timeout unit
    */
-  SkillSessionWatchdog(SkillInteractiveSession session, long duration,
-      TimeUnit unit, Thread thread) {
+  SkillSessionWatchdog(final SkillInteractiveSession session, final long duration,
+      final TimeUnit unit, final Thread thread) {
 
     this.duration_ms = unit.toMillis(duration);
     this.parent = thread;
@@ -38,8 +38,8 @@ class SkillSessionWatchdog extends Thread {
       @Override
       public void run() {
         try {
-          killed = true;
-        } catch (Exception e) {
+          SkillSessionWatchdog.this.killed = true;
+        } catch (final Exception e) {
         }
       }
     });
@@ -54,14 +54,14 @@ class SkillSessionWatchdog extends Thread {
 
     try {
       Thread.sleep(SkillSessionWatchdog.WATCHDOG_INIT_WAIT_TIME_MS);
-    } catch (InterruptedException e) {
+    } catch (final InterruptedException e) {
     }
 
     while (contineWatching) {
 
       try {
         Thread.sleep(SkillSessionWatchdog.WATCHDOG_CHECK_INTERVAL_MS);
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
       }
 
       if (this.killed) {
@@ -71,8 +71,8 @@ class SkillSessionWatchdog extends Thread {
         now = new Date();
         lastActivity = this.session.getLastActivity();
 
-        if ((lastActivity == null
-            || now.getTime() - lastActivity.getTime() > this.duration_ms)) {
+        if (((lastActivity == null)
+            || ((now.getTime() - lastActivity.getTime()) > this.duration_ms))) {
 
           if (!this.killed) {
             this.session.stop();
@@ -81,7 +81,7 @@ class SkillSessionWatchdog extends Thread {
         }
       }
 
-      if (this.parent != null && !this.parent.isAlive() & !this.killed) {
+      if ((this.parent != null) && (!this.parent.isAlive() & !this.killed)) {
         this.session.stop();
         contineWatching = false;
       }

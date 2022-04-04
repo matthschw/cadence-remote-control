@@ -4,7 +4,7 @@ import edlab.eda.cadence.rc.session.SkillSession;
 
 public abstract class SkillVector extends SkillDataobject {
 
-  static SkillVector getVectorFromList(SkillList list) {
+  static SkillVector getVectorFromList(final SkillList list) {
 
     if (list.getByIndex(0) instanceof SkillString) {
       return SkillStringVector.getVectorFromList(list);
@@ -20,7 +20,7 @@ public abstract class SkillVector extends SkillDataobject {
   }
 
   @Override
-  public boolean canBeUsedInSession(SkillSession session) {
+  public boolean canBeUsedInSession(final SkillSession session) {
     return false;
   }
 
@@ -30,7 +30,7 @@ public abstract class SkillVector extends SkillDataobject {
   }
 
   @Override
-  String toSkillHierarchical(int depth) {
+  String toSkillHierarchical(final int depth) {
     return "nil";
   }
 

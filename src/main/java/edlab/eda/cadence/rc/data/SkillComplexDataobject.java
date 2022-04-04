@@ -11,8 +11,8 @@ import edlab.eda.cadence.rc.session.SkillSession;
  */
 public final class SkillComplexDataobject extends SkillDataobject {
 
-  private SkillSession session;
-  private int identifier;
+  private final SkillSession session;
+  private final int identifier;
 
   /**
    * Type-Identifier in XML
@@ -26,7 +26,7 @@ public final class SkillComplexDataobject extends SkillDataobject {
    *                   {@link SkillComplexDataobject} is referenced
    * @param identifier Identifier of the {@link SkillComplexDataobject}
    */
-  SkillComplexDataobject(SkillSession session, int identifier) {
+  SkillComplexDataobject(final SkillSession session, final int identifier) {
     this.session = session;
     this.identifier = identifier;
   }
@@ -46,7 +46,7 @@ public final class SkillComplexDataobject extends SkillDataobject {
   }
 
   @Override
-  protected String toSkillHierarchical(int depth) {
+  protected String toSkillHierarchical(final int depth) {
 
     return "(arrayref (arrayref " + SkillSession.CDS_RC_GLOBAL + "."
         + SkillSession.CDS_RC_SESSIONS + " \""
@@ -56,27 +56,27 @@ public final class SkillComplexDataobject extends SkillDataobject {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
     return null;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     if (o instanceof SkillComplexDataobject) {
-      SkillComplexDataobject object = (SkillComplexDataobject) o;
+      final SkillComplexDataobject object = (SkillComplexDataobject) o;
 
-      return this.session == object.session
-          && this.identifier == object.identifier;
+      return (this.session == object.session)
+          && (this.identifier == object.identifier);
     } else {
       return false;
     }
   }
 
   @Override
-  public boolean canBeUsedInSession(SkillSession session) {
-    return session != null && this.session != null
+  public boolean canBeUsedInSession(final SkillSession session) {
+    return (session != null) && (this.session != null)
         && session.equals(this.session);
   }
   

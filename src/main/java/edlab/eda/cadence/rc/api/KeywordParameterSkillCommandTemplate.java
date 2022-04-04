@@ -6,31 +6,31 @@ import java.util.Set;
  * Template of a SKILL-Command with keyword parameters
  *
  */
-public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
+public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
 
-  private Set<String> keywordParameters;
+  private final Set<String> keywordParameters;
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      Set<String> keywordParameters) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final Set<String> keywordParameters) {
     super(name);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      int numberOfFormalParameters, Set<String> keywordParameters) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final int numberOfFormalParameters, final Set<String> keywordParameters) {
     super(name, numberOfFormalParameters);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      Set<String> keywordParameters, boolean canHaveRest) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final Set<String> keywordParameters, final boolean canHaveRest) {
     super(name, canHaveRest);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      int numberOfFormalParameters, Set<String> keywordParameters,
-      boolean canHaveRest) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final int numberOfFormalParameters, final Set<String> keywordParameters,
+      final boolean canHaveRest) {
     super(name, numberOfFormalParameters, canHaveRest);
     this.keywordParameters = keywordParameters;
   }
@@ -41,7 +41,7 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
    * @return Names of keyword-parameters
    */
   public Set<String> getKeywordParameters() {
-    return keywordParameters;
+    return this.keywordParameters;
   }
 
   /**
@@ -51,8 +51,8 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
    * @param keywordParameters Keyword parameters
    * @return SKILL-Command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      Set<String> keywordParameters) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final Set<String> keywordParameters) {
     return new KeywordParameterSkillCommandTemplate(name, keywordParameters);
   }
 
@@ -64,8 +64,8 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
    * @param keywordParameters Keyword parameters
    * @return SKILL-Command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      int formalParameters, Set<String> keywordParameters) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final Set<String> keywordParameters) {
 
     if (formalParameters < 0) {
       return null;
@@ -84,8 +84,8 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
    *                          <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      Set<String> keywordParameters, boolean canHaveRest) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final Set<String> keywordParameters, final boolean canHaveRest) {
     return new KeywordParameterSkillCommandTemplate(name, keywordParameters,
         canHaveRest);
   }
@@ -100,9 +100,9 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
    *                          <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      int formalParameters, Set<String> keywordParameters,
-      boolean canHaveRest) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final Set<String> keywordParameters,
+      final boolean canHaveRest) {
 
     if (formalParameters < 0) {
       return null;

@@ -63,7 +63,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   protected SkillSession() {
 
-    String content = System.getenv(PROMPT_ENV_VAR);
+    final String content = System.getenv(PROMPT_ENV_VAR);
 
     if (content instanceof String) {
       this.prompt = content;
@@ -83,7 +83,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
    * @return <code>true</code> when change is valid, <code>false</code>
    *         otherwise
    */
-  public boolean setPrompt(String prompt) {
+  public boolean setPrompt(final String prompt) {
 
     if (this.isActive()) {
       return false;
@@ -102,10 +102,10 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
    * @param timeoutTimeUnit Time Unit to be used
    * @return this when chanhing was valid, <code>null</code> otherwise
    */
-  public SkillSession setTimeout(long timeoutDuration,
-      TimeUnit timeoutTimeUnit) {
+  public SkillSession setTimeout(final long timeoutDuration,
+      final TimeUnit timeoutTimeUnit) {
 
-    if (timeoutDuration > 0 && timeoutTimeUnit instanceof TimeUnit) {
+    if ((timeoutDuration > 0) && (timeoutTimeUnit instanceof TimeUnit)) {
       this.timeoutDuration = timeoutDuration;
       this.timeoutTimeUnit = timeoutTimeUnit;
       this.timeout_ms = this.timeoutTimeUnit.toMillis(this.timeoutDuration);
@@ -183,14 +183,14 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   }
 
   @Override
-  public File getResourcePath(String fileName, String suffix) {
+  public File getResourcePath(final String fileName, final String suffix) {
     return this.getResourcePathFromAscii(fileName, suffix);
   }
 
   @Override
-  public File getResourcePathFromBinary(String fileName, String suffix) {
+  public File getResourcePathFromBinary(final String fileName, final String suffix) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
     byte[] data;
@@ -202,7 +202,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
       file.deleteOnExit();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       file = null;
     }
 
@@ -210,17 +210,17 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   }
 
   @Override
-  public File getResourcePathFromAscii(String fileName, String suffix) {
+  public File getResourcePathFromAscii(final String fileName, final String suffix) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
-    Scanner scanner = new Scanner(stream);
+    final Scanner scanner = new Scanner(stream);
 
     FileWriter writer;
 
     try {
-      File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
+      final File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       writer = new FileWriter(file);
       while (scanner.hasNextLine()) {
         writer.append(scanner.nextLine());
@@ -229,20 +229,20 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       scanner.close();
       return file;
 
-    } catch (IOException e1) {
+    } catch (final IOException e1) {
     }
     scanner.close();
     return null;
   }
 
   @Override
-  public String getResourceFromAscii(String fileName) {
+  public String getResourceFromAscii(final String fileName) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
-    Scanner scanner = new Scanner(stream);
-    StringBuilder builder = new StringBuilder();
+    final Scanner scanner = new Scanner(stream);
+    final StringBuilder builder = new StringBuilder();
 
     boolean first = true;
 

@@ -3,35 +3,41 @@ package edlab.eda.cadence.rc.api;
 /**
  * Template of a SKILL-Command with optional parameters
  */
-public class OptionalParameterSkillCommandTemplate
+public final class OptionalParameterSkillCommandTemplate
     extends SkillCommandTemplate {
 
-  private int optionalParameters;
+  private final int optionalParameters;
 
-  private OptionalParameterSkillCommandTemplate(String name,
-      int optionalParameters) {
+  private OptionalParameterSkillCommandTemplate(final String name,
+      final int optionalParameters) {
     super(name);
     this.optionalParameters = optionalParameters;
   }
 
-  private OptionalParameterSkillCommandTemplate(String name,
-      int formalParameters, int optionalParameters) {
+  private OptionalParameterSkillCommandTemplate(final String name,
+      final int formalParameters, final int optionalParameters) {
     super(name, formalParameters);
     this.optionalParameters = optionalParameters;
   }
 
-  private OptionalParameterSkillCommandTemplate(String name,
-      int optionalParameters, boolean canHaveRest) {
+  private OptionalParameterSkillCommandTemplate(final String name,
+      final int optionalParameters, final boolean canHaveRest) {
     super(name, canHaveRest);
     this.optionalParameters = optionalParameters;
   }
 
-  private OptionalParameterSkillCommandTemplate(String name,
-      int formalParameters, int optionalParameters, boolean canHaveRest) {
+  private OptionalParameterSkillCommandTemplate(final String name,
+      final int formalParameters, final int optionalParameters,
+      final boolean canHaveRest) {
     super(name, formalParameters, canHaveRest);
     this.optionalParameters = optionalParameters;
   }
 
+  /**
+   * Get maximum number of optional parameters
+   * 
+   * @return number of optional parameters
+   */
   public int getOptionalParameters() {
     return this.optionalParameters;
   }
@@ -43,8 +49,8 @@ public class OptionalParameterSkillCommandTemplate
    * @param optionalParameters Number of optional parameters
    * @return SKILL-Command template
    */
-  public static OptionalParameterSkillCommandTemplate build(String name,
-      int optionalParameters) {
+  public static OptionalParameterSkillCommandTemplate build(final String name,
+      final int optionalParameters) {
 
     return new OptionalParameterSkillCommandTemplate(name, optionalParameters);
   }
@@ -57,18 +63,16 @@ public class OptionalParameterSkillCommandTemplate
    * @param optionalParameters Number of optional parameters
    * @return SKILL-Command template
    */
-  public static OptionalParameterSkillCommandTemplate build(String name,
-      int formalParameters, int optionalParameters) {
+  public static OptionalParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final int optionalParameters) {
 
     if (formalParameters < 0) {
       return null;
+    } else if (optionalParameters < 0) {
+      return null;
     } else {
-      if (optionalParameters < 0) {
-        return null;
-      } else {
-        return new OptionalParameterSkillCommandTemplate(name, formalParameters,
-            optionalParameters);
-      }
+      return new OptionalParameterSkillCommandTemplate(name, formalParameters,
+          optionalParameters);
     }
   }
 
@@ -81,8 +85,8 @@ public class OptionalParameterSkillCommandTemplate
    *                           <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static OptionalParameterSkillCommandTemplate build(String name,
-      int optionalParameters, boolean canHaveRest) {
+  public static OptionalParameterSkillCommandTemplate build(final String name,
+      final int optionalParameters, final boolean canHaveRest) {
 
     if (optionalParameters < 0) {
       return null;
@@ -102,18 +106,17 @@ public class OptionalParameterSkillCommandTemplate
    *                           <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static OptionalParameterSkillCommandTemplate build(String name,
-      int formalParameters, int optionalParameters, boolean canHaveRest) {
+  public static OptionalParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final int optionalParameters,
+      final boolean canHaveRest) {
 
     if (formalParameters < 0) {
       return null;
+    } else if (optionalParameters < 0) {
+      return null;
     } else {
-      if (optionalParameters < 0) {
-        return null;
-      } else {
-        return new OptionalParameterSkillCommandTemplate(name, formalParameters,
-            optionalParameters, canHaveRest);
-      }
+      return new OptionalParameterSkillCommandTemplate(name, formalParameters,
+          optionalParameters, canHaveRest);
     }
   }
 }

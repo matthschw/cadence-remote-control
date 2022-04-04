@@ -7,15 +7,15 @@ import org.w3c.dom.Element;
 
 public final class SkillDoubleVector extends SkillVector {
 
-  private BigDecimal[] values;
+  private final BigDecimal[] values;
 
-   SkillDoubleVector(BigDecimal[] values) {
+   SkillDoubleVector(final BigDecimal[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  static SkillVector getVectorFromList(final SkillList list) {
 
-    BigDecimal[] values = new BigDecimal[list.getLength()];
+    final BigDecimal[] values = new BigDecimal[list.getLength()];
 
     SkillFlonum flonum;
 
@@ -28,16 +28,16 @@ public final class SkillDoubleVector extends SkillVector {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillDoubleVector) {
-      SkillDoubleVector vector = (SkillDoubleVector) o;
+      final SkillDoubleVector vector = (SkillDoubleVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
-        if (!this.values[i].equals(values[i])) {
+      for (final BigDecimal value : this.values) {
+        if (!value.equals(value)) {
           
           //System.err.println("VEC " + i + "|"  this.values[i] +"!=" + values[i]);
           return false;
@@ -60,13 +60,13 @@ public final class SkillDoubleVector extends SkillVector {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
 
-    for (BigDecimal value : this.values) {
+    for (final BigDecimal value : this.values) {
       element.appendChild(new SkillFlonum(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }

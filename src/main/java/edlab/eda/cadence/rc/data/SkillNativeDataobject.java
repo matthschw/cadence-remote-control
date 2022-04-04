@@ -30,39 +30,39 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
    * @return <code>true</code> when the XML was created successfully,
    *         <code>false</code> otherwise
    */
-  public boolean writeSkillDataobjectToXML(String path) {
+  public boolean writeSkillDataobjectToXML(final String path) {
 
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder;
     try {
       dBuilder = dbFactory.newDocumentBuilder();
-      Document document = dBuilder.newDocument();
+      final Document document = dBuilder.newDocument();
 
       document.appendChild(
           this.traverseSkillDataobjectForXMLGeneration("root", document));
 
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      Transformer transformer = transformerFactory.newTransformer();
+      final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      final Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-      DOMSource domSource = new DOMSource(document);
-      StreamResult streamResult = new StreamResult(new File(path));
+      final DOMSource domSource = new DOMSource(document);
+      final StreamResult streamResult = new StreamResult(new File(path));
 
       transformer.transform(domSource, streamResult);
 
       return true;
 
-    } catch (ParserConfigurationException e) {
+    } catch (final ParserConfigurationException e) {
       return false;
-    } catch (TransformerConfigurationException e) {
+    } catch (final TransformerConfigurationException e) {
       return false;
-    } catch (TransformerException e) {
+    } catch (final TransformerException e) {
       return false;
     }
   }
 
   @Override
-  public boolean canBeUsedInSession(SkillSession session) {
+  public boolean canBeUsedInSession(final SkillSession session) {
     return true;
   }
 

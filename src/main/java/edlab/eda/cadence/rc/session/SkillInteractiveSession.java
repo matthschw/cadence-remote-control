@@ -24,13 +24,13 @@ import net.sf.expectit.matcher.Matchers;
  * Session for communication with an interactive session using Cadence Skill
  * syntax
  */
-public class SkillInteractiveSession extends SkillSession {
+public final class SkillInteractiveSession extends SkillSession {
 
   private Process process = null;
   private Expect expect = null;
 
   private String command;
-  private File workingDir;
+  private final File workingDir;
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
 
@@ -56,7 +56,7 @@ public class SkillInteractiveSession extends SkillSession {
    *
    * @param workingDir directory where the session is started
    */
-  public SkillInteractiveSession(File workingDir) {
+  public SkillInteractiveSession(final File workingDir) {
     super();
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir.getAbsoluteFile();
@@ -69,7 +69,7 @@ public class SkillInteractiveSession extends SkillSession {
    *
    * @return this
    */
-  public SkillInteractiveSession setCommand(String command) {
+  public SkillInteractiveSession setCommand(final String command) {
     this.command = command;
     return this;
   }
@@ -129,7 +129,7 @@ public class SkillInteractiveSession extends SkillSession {
    * @throws EvaluationFailedException       when the initalization of the
    *                                         session failed
    */
-  public SkillInteractiveSession start(Thread parent)
+  public SkillInteractiveSession start(final Thread parent)
       throws UnableToStartInteractiveSession, EvaluationFailedException {
 
     if (!this.isActive()) {
@@ -139,9 +139,9 @@ public class SkillInteractiveSession extends SkillSession {
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
             this.workingDir);
 
-      } catch (IOException e) {
+      } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
 
       // add shutdown hook for process
@@ -149,28 +149,28 @@ public class SkillInteractiveSession extends SkillSession {
         @Override
         public void run() {
           try {
-            process.destroyForcibly();
-          } catch (Exception e) {
+            SkillInteractiveSession.this.process.destroyForcibly();
+          } catch (final Exception e) {
           }
         }
       });
 
       try {
-        expect = new ExpectBuilder().withInputs(this.process.getInputStream())
+        this.expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
 
-      } catch (IOException e) {
+      } catch (final IOException e) {
 
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
 
       try {
-        expect.expect(this.nextCommand);
-      } catch (IOException e) {
+        this.expect.expect(this.nextCommand);
+      } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
 
       SkillCommand skillPromptsCommand = null;
@@ -180,7 +180,7 @@ public class SkillInteractiveSession extends SkillSession {
             .getTemplate(GenericSkillCommandTemplates.SET_PROMPTS).buildCommand(
                 new EvaluableToSkill[] { new SkillString(PROMPT_DEFAULT),
                     new SkillString(PROMPT_DEFAULT) });
-      } catch (IncorrectSyntaxException e) {
+      } catch (final IncorrectSyntaxException e) {
         // cannot happen
       }
 
@@ -189,18 +189,18 @@ public class SkillInteractiveSession extends SkillSession {
 
       try {
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
-      } catch (IOException e) {
+      } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
       try {
-        expect.expect(this.nextCommand);
-      } catch (IOException e) {
+        this.expect.expect(this.nextCommand);
+      } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
 
-      File skillControlApi = getResourcePath(SkillSession.SKILL_RESOURCE,
+      final File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
           SkillSession.TMP_SKILL_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
@@ -209,22 +209,22 @@ public class SkillInteractiveSession extends SkillSession {
         skillLoadCommand = GenericSkillCommandTemplates
             .getTemplate(GenericSkillCommandTemplates.LOAD)
             .buildCommand(new SkillString(skillControlApi.getAbsolutePath()));
-      } catch (IncorrectSyntaxException e) {
+      } catch (final IncorrectSyntaxException e) {
         // cannot happen
       }
 
       try {
         this.expect.send(skillLoadCommand.toSkill() + "\n");
-      } catch (IOException e) {
+      } catch (final IOException e) {
         this.stop();
         throw new EvaluationFailedException(skillLoadCommand.toSkill());
       }
 
       try {
-        expect.expect(this.nextCommand);
-      } catch (IOException e) {
+        this.expect.expect(this.nextCommand);
+      } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, workingDir);
+        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
       }
 
       skillControlApi.delete();
@@ -249,7 +249,7 @@ public class SkillInteractiveSession extends SkillSession {
 
   @Override
   public boolean isActive() {
-    if (this.process == null || !this.process.isAlive()) {
+    if ((this.process == null) || !this.process.isAlive()) {
       return false;
     } else {
       return true;
@@ -257,14 +257,14 @@ public class SkillInteractiveSession extends SkillSession {
   }
 
   @Override
-  public SkillDataobject evaluate(SkillCommand command)
+  public SkillDataobject evaluate(final SkillCommand command)
       throws UnableToStartInteractiveSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
     return this.evaluate(command, Thread.currentThread());
   }
 
   @Override
-  public SkillDataobject evaluate(SkillCommand command, Thread parent)
+  public SkillDataobject evaluate(final SkillCommand command, final Thread parent)
       throws UnableToStartInteractiveSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
 
@@ -293,7 +293,7 @@ public class SkillInteractiveSession extends SkillSession {
             .buildCommand(GenericSkillCommandTemplates
                 .getTemplate(GenericSkillCommandTemplates.ERRSET)
                 .buildCommand(command));
-      } catch (IncorrectSyntaxException e) {
+      } catch (final IncorrectSyntaxException e) {
         // cannot occur
       }
 
@@ -304,10 +304,10 @@ public class SkillInteractiveSession extends SkillSession {
 
         try {
 
-          File file = File.createTempFile(SkillSession.TMP_FILE_PREFIX,
+          final File file = File.createTempFile(SkillSession.TMP_FILE_PREFIX,
               SkillSession.TMP_SKILL_FILE_SUFFIX);
 
-          FileWriter writer = new FileWriter(file);
+          final FileWriter writer = new FileWriter(file);
           writer.write(command.toSkill());
           writer.close();
 
@@ -317,17 +317,17 @@ public class SkillInteractiveSession extends SkillSession {
                 GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE)
                 .buildCommand(new SkillString(file.getAbsolutePath()));
             skillCommand = outer.toSkill();
-          } catch (IncorrectSyntaxException e) {
+          } catch (final IncorrectSyntaxException e) {
             // cannot occur
           }
-        } catch (IOException e) {
+        } catch (final IOException e) {
           // "/tmp" is always writable
         }
       }
 
       String xml = this.communicate(skillCommand);
 
-      SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
+      final SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
           xml);
 
       try {
@@ -338,9 +338,9 @@ public class SkillInteractiveSession extends SkillSession {
 
           if (top.containsKey(SkillSession.ID_FILE)) {
 
-            SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
+            final SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
 
-            File dataFile = new File(filePath.getString());
+            final File dataFile = new File(filePath.getString());
 
             xml = new String(Files.readAllBytes(dataFile.toPath()),
                 StandardCharsets.US_ASCII);
@@ -355,18 +355,18 @@ public class SkillInteractiveSession extends SkillSession {
 
         } else {
 
-          SkillList errorList = (SkillList) top.get(SkillSession.ID_ERROR);
+          final SkillList errorList = (SkillList) top.get(SkillSession.ID_ERROR);
 
-          SkillList messageList = (SkillList) errorList
+          final SkillList messageList = (SkillList) errorList
               .getByIndex(errorList.getLength() - 1);
 
           SkillString errorMessage;
 
-          StringBuilder builder = new StringBuilder();
+          final StringBuilder builder = new StringBuilder();
 
           boolean first = true;
 
-          for (SkillDataobject messageObj : messageList) {
+          for (final SkillDataobject messageObj : messageList) {
 
             errorMessage = (SkillString) messageObj;
 
@@ -381,7 +381,7 @@ public class SkillInteractiveSession extends SkillSession {
 
           throw new EvaluationFailedException(skillCommand, builder.toString());
         }
-      } catch (Exception e) {
+      } catch (final Exception e) {
         if (e instanceof EvaluationFailedException) {
           throw (EvaluationFailedException) e;
         } else {
@@ -389,7 +389,7 @@ public class SkillInteractiveSession extends SkillSession {
         }
       }
     } else {
-      throw new UnableToStartInteractiveSession(this.command, workingDir);
+      throw new UnableToStartInteractiveSession(this.command, this.workingDir);
     }
 
     this.lastActivity = new Date();
@@ -406,7 +406,7 @@ public class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession stop() {
 
-    if (watchdog instanceof SkillSessionWatchdog) {
+    if (this.watchdog instanceof SkillSessionWatchdog) {
       this.watchdog.kill();
       this.watchdog = null;
     }
@@ -415,12 +415,12 @@ public class SkillInteractiveSession extends SkillSession {
       this.communicate(GenericSkillCommandTemplates
           .getTemplate(GenericSkillCommandTemplates.EXIT).buildCommand()
           .toSkill());
-    } catch (IncorrectSyntaxException e) {
+    } catch (final IncorrectSyntaxException e) {
     }
 
     try {
       this.expect.close();
-    } catch (IOException e) {
+    } catch (final IOException e) {
     }
 
     if (this.process != null) {
@@ -438,15 +438,15 @@ public class SkillInteractiveSession extends SkillSession {
    * @param cmd Skill command to be executed
    * @return XML from Skill session
    */
-  private String communicate(String cmd) {
+  private String communicate(final String cmd) {
 
     String retval = null;
 
     try {
       this.expect.send(cmd + "\n");
-      retval = expect.expect(SkillSession.XML_MATCH).group(1);
+      retval = this.expect.expect(SkillSession.XML_MATCH).group(1);
 
-    } catch (Exception e) {
+    } catch (final Exception e) {
     }
 
     return retval;
@@ -478,12 +478,12 @@ public class SkillInteractiveSession extends SkillSession {
 
     try {
       if (this.process.getClass().getName().equals("java.lang.UNIXProcess")) {
-        Field f = this.process.getClass().getDeclaredField("pid");
+        final Field f = this.process.getClass().getDeclaredField("pid");
         f.setAccessible(true);
         pid = f.getLong(this.process);
         f.setAccessible(false);
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       pid = -1;
     }
 

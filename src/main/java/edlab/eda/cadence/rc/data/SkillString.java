@@ -15,14 +15,14 @@ public class SkillString extends SkillBoolean {
    */
   public static final String TYPE_ID = "string";
 
-  private String string;
+  private final String string;
 
   /**
    * Create a new SKILL representation of a String
    *
    * @param string String
    */
-  public SkillString(String string) {
+  public SkillString(final String string) {
     super(true);
     this.string = string;
   }
@@ -37,21 +37,21 @@ public class SkillString extends SkillBoolean {
   }
 
   @Override
-  protected String toSkillHierarchical(int depth) {
+  protected String toSkillHierarchical(final int depth) {
     return "\"" + StringEscapeUtils.ESCAPE_JAVA.translate(this.string) + "\"";
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
-    Element element = document.createElement(name);
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
+    final Element element = document.createElement(name);
     element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
     element.setTextContent(this.string);
     return element;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     String str = null;
 

@@ -2,14 +2,14 @@ package edlab.eda.cadence.rc.session;
 
 import java.io.File;
 
-public class UnableToStartInteractiveSession extends UnableToStartSession {
+public final class UnableToStartInteractiveSession extends UnableToStartSession {
 
   private static final long serialVersionUID = 6251560870791473512L;
 
-  private String command;
-  private File workingDir;
+  private final String command;
+  private final File workingDir;
 
-  public UnableToStartInteractiveSession(String command, File workingDir) {
+  public UnableToStartInteractiveSession(final String command, final File workingDir) {
 
     super("Unable to start session with command \"" + command
         + "\" in directory " + workingDir.getAbsolutePath());
@@ -19,10 +19,10 @@ public class UnableToStartInteractiveSession extends UnableToStartSession {
   }
 
   public String getCommand() {
-    return command;
+    return this.command;
   }
 
   public File getWorkingDir() {
-    return workingDir;
+    return this.workingDir;
   }
 }
