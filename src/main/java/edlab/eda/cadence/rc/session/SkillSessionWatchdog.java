@@ -74,7 +74,7 @@ class SkillSessionWatchdog extends Thread {
         if ((lastActivity == null
             || now.getTime() - lastActivity.getTime() > this.duration_ms)) {
 
-          if (!killed) {
+          if (!this.killed) {
             this.session.stop();
             contineWatching = false;
           }

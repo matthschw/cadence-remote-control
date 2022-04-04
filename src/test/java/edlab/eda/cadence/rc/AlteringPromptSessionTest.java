@@ -21,6 +21,7 @@ class AlteringPromptSessionTest {
   @Test
   void test() throws UnableToStartSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
+    
     SkillInteractiveSession session = new SkillInteractiveSession(
         new File("./src/test/resources/alterPrompt"));
 

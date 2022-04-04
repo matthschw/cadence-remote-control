@@ -33,6 +33,8 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   // Timeout
   protected long timeoutDuration = 1;
   protected TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
+  protected long timeout_ms = this.timeoutTimeUnit
+      .toMillis(this.timeoutDuration);
 
   protected String prompt = PROMPT_DEFAULT;
   protected Matcher<Result> nextCommand;
@@ -93,18 +95,42 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   }
 
   /**
-   * Set the timeout for the session. The session will terminate when no action
-   * is performed (command is sent) or the session does not respond in the
-   * specified time.
+   * Set the timeout for the session. The session will wait the here provided
+   * amount of time until the evaluation of a command is finished
    *
-   * @param duration Timeout
-   * @param unit     Time Unit to be used
-   * @return this
+   * @param timeoutDuration duration
+   * @param timeoutTimeUnit Time Unit to be used
+   * @return this when chanhing was valid, <code>null</code> otherwise
    */
-  public SkillSession setTimeout(long duration, TimeUnit unit) {
-    this.timeoutDuration = duration;
-    this.timeoutTimeUnit = unit;
-    return this;
+  public SkillSession setTimeout(long timeoutDuration,
+      TimeUnit timeoutTimeUnit) {
+
+    if (timeoutDuration > 0 && timeoutTimeUnit instanceof TimeUnit) {
+      this.timeoutDuration = timeoutDuration;
+      this.timeoutTimeUnit = timeoutTimeUnit;
+      this.timeout_ms = this.timeoutTimeUnit.toMillis(this.timeoutDuration);
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Get the timeout duration
+   * 
+   * @return watchdogTimeoutDuration
+   */
+  public long getTimeoutDuration() {
+    return this.timeoutDuration;
+  }
+
+  /**
+   * Get the timeout time unit
+   * 
+   * @return timeoutTimeUnit
+   */
+  public TimeUnit getTimeUnit() {
+    return this.timeoutTimeUnit;
   }
 
   /**

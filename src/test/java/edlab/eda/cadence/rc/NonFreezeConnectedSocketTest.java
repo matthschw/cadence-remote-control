@@ -14,6 +14,7 @@ class NonFreezeConnectedSocketTest {
   
   @Test
   void test() throws UnableToStartSession, IOException {
+    
     Process process = Runtime.getRuntime()
         .exec("virtuoso -replay ./src/test/resources/replay.il");
 
@@ -36,6 +37,13 @@ class NonFreezeConnectedSocketTest {
       @SuppressWarnings("unused")
       SkillSocketSession session2 = SkillSocketSession.connect(TST_DIR);
     } catch (Exception e) {
+    }
+    
+    process.destroy();
+    
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
     }
   }
 }

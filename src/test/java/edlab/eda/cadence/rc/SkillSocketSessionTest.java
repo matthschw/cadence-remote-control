@@ -10,49 +10,69 @@ import edlab.eda.cadence.rc.session.EvaluationFailedException;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillSocketSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
+import edlab.eda.cadence.rc.session.UnableToStartSocketSession;
 
 public class SkillSocketSessionTest {
 
   public static final File TST_DIR = new File("./");
 
   @Test
-  void test() throws EvaluationFailedException, UnableToStartSession,
-      IncorrectSyntaxException, IOException,
-      InvalidDataobjectReferenceExecption {
+  void test() throws IOException, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption, UnableToStartSession,
+      IncorrectSyntaxException {
 
-    Process process = Runtime.getRuntime()
-        .exec("virtuoso -replay ./src/test/resources/replay.il");
+    Process process = null;
 
     try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-    }
 
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        process.destroy();
+      process = Runtime.getRuntime()
+          .exec("virtuoso -replay ./src/test/resources/replay.il");
+
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
       }
-    });
 
-    SkillSocketSession session = SkillSocketSession.connect(TST_DIR);
+      SkillSocketSession session = SkillSocketSession.connect(TST_DIR);
 
-    SkillSessionMethods.writeFile(session);
-    session.stop();
-    
-    session = SkillSocketSession.connect(TST_DIR);
+      SkillSessionMethods.writeFile(session);
+      session.stop();
 
-    for (int i = 0; i < 100; i++) {
-      SkillSessionMethods.addUpValuesInList(session);
+      session = SkillSocketSession.connect(TST_DIR);
+
+      for (int i = 0; i < 100; i++) {
+        SkillSessionMethods.addUpValuesInList(session);
+      }
+
+      session.stop();
+      session = SkillSocketSession.connect(TST_DIR);
+
+      SkillSessionMethods.strcat(session);
+
+      SkillSessionMethods.complexNumber(session);
+
+      session.stop();
+
+    } catch (IOException e) {
+      process.destroyForcibly();
+      throw e;
+    } catch (UnableToStartSocketSession e) {
+      process.destroyForcibly();
+      throw e;
+    } catch (UnableToStartSession e) {
+      process.destroyForcibly();
+      throw e;
+    } catch (EvaluationFailedException e) {
+      process.destroyForcibly();
+      throw e;
+    } catch (IncorrectSyntaxException e) {
+      process.destroyForcibly();
+      throw e;
+    } catch (InvalidDataobjectReferenceExecption e) {
+      process.destroyForcibly();
+      throw e;
     }
 
-    session.stop();
-    session = SkillSocketSession.connect(TST_DIR);
-
-    SkillSessionMethods.strcat(session);
-
-    SkillSessionMethods.complexNumber(session);
-
-    session.stop();
+    process.destroyForcibly();
   }
 }

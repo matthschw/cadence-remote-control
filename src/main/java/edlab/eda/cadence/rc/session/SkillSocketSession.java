@@ -8,8 +8,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -31,8 +33,10 @@ public class SkillSocketSession extends SkillSession {
 
   private Map<String, EvaluableToSkill> keywords;
 
-  private static final int WAIT = 10;
-  private int maxWaitSteps = 2000;
+  private static final int WAIT_PERIOD_MS = 10;
+
+  private static final long INIT_TIMEOUT_DURATION = 10;
+  private static final TimeUnit INIT_TIMEOUT_TIME_UNIT = TimeUnit.SECONDS;
 
   private SkillSocketSession(int port) {
     super();
@@ -42,14 +46,11 @@ public class SkillSocketSession extends SkillSession {
     this.keywords.put("returnType", new SkillString("string"));
   }
 
-  public void setMaxWaitTime(int time) {
-    this.maxWaitSteps = time / WAIT;
-  }
-
   @Override
   public SkillSession start() throws UnableToStartSocketSession {
 
     if (!this.isActive()) {
+
       try {
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 1000);
@@ -241,6 +242,7 @@ public class SkillSocketSession extends SkillSession {
       this.socket.shutdownInput();
       this.socket.shutdownOutput();
       this.socket.close();
+
     } catch (IOException e) {
     }
 
@@ -283,11 +285,20 @@ public class SkillSocketSession extends SkillSession {
         }
 
         if (port > 0) {
+
           session = new SkillSocketSession(port);
+
+          long timeoutDuration = session.getTimeoutDuration();
+          TimeUnit timeoutTimeUnit = session.getTimeUnit();
+
+          session.setTimeout(INIT_TIMEOUT_DURATION, INIT_TIMEOUT_TIME_UNIT);
 
           session.start();
 
+          session.setTimeout(timeoutDuration, timeoutTimeUnit);
+
           return session;
+
         } else {
           throw new UnableToStartSocketSession(port, dir);
         }
@@ -300,38 +311,49 @@ public class SkillSocketSession extends SkillSession {
   }
 
   /**
-   * Internal function
+   * Internal function for communicaton with the Cadence tool
    * 
-   * @param msg    Message to be
-   * @param indent
-   * @return
+   * @param msg    Message to be transferred
+   * @param indent Intedation of the command
+   * @return Return string
    */
   private String communicate(String msg, int indent) {
 
     try {
       this.outputStream.write(msg.getBytes());
     } catch (IOException e) {
+      e.printStackTrace();
       this.stop();
       return null;
     }
 
-    int n = 0;
+    Date lastActivity = new Date();
 
     try {
-      while (this.inputStream.available() == 0 && n < this.maxWaitSteps) {
+      Thread.sleep(WAIT_PERIOD_MS);
+    } catch (InterruptedException e) {
+    }
+
+    Date now = new Date();
+    
+    try {
+
+      while (this.inputStream.available() == 0
+          && now.getTime() - lastActivity.getTime() < this.timeout_ms) {
 
         try {
-          Thread.sleep(WAIT);
+          Thread.sleep(WAIT_PERIOD_MS);
         } catch (InterruptedException e) {
         }
-
-        n++;
+        
+        now = new Date();
       }
+
     } catch (IOException e) {
       return null;
     }
 
-    if (n >= this.maxWaitSteps) {
+    if (now.getTime() - lastActivity.getTime() >= this.timeout_ms) {
       return null;
     }
 
@@ -341,11 +363,13 @@ public class SkillSocketSession extends SkillSession {
       data = new byte[this.inputStream.available()];
       this.inputStream.read(data);
     } catch (IOException e) {
+      e.printStackTrace();
       return null;
     }
 
     String retval;
     retval = new String(data);
+
     return retval.substring(indent, retval.length() - indent);
   }
 }

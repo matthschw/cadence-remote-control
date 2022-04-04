@@ -32,13 +32,15 @@ public class SkillInteractiveSession extends SkillSession {
   private String command;
   private File workingDir;
 
-  private Date lastActivity = null;
-
-  private SkillSessionWatchdog watchdog;
-
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
 
   private static final File DEFAULT_WORKING_DIR = new File("");
+
+  // Watchdog
+  private SkillSessionWatchdog watchdog;
+  private Date lastActivity = null;
+  private long watchdogTimeoutDuration = 10;
+  private TimeUnit watchdogTimeoutTimeUnit = TimeUnit.HOURS;
 
   /**
    * Create a Session
@@ -72,12 +74,61 @@ public class SkillInteractiveSession extends SkillSession {
     return this;
   }
 
+  /**
+   * Set the timeout of the watchdog. The watchdog will close the
+   * {@link SkillInteractiveSession} when the timeout expires. When a
+   * timeoutDuration < 0 is provided, no watchdog is created
+   * 
+   * @param timeoutDuration duration if the watchdog timeout
+   * @param timeoutTimeUnit unit of the watchog tomeout
+   * @return this when the parameters are valid, <code>null</code> otherwise
+   */
+  public SkillInteractiveSession setWatchdogTimeout(final long timeoutDuration,
+      final TimeUnit timeoutTimeUnit) {
+
+    if (timeoutTimeUnit instanceof TimeUnit) {
+      this.watchdogTimeoutDuration = timeoutDuration;
+      this.watchdogTimeoutTimeUnit = timeoutTimeUnit;
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Get the watchdog timeout duration
+   * 
+   * @return watchdogTimeoutDuration
+   */
+  public long getWatchdogTimeoutDuration() {
+    return this.watchdogTimeoutDuration;
+  }
+
+  /**
+   * Get the watchdog timeout time unit
+   * 
+   * @return timeoutTimeUnit
+   */
+  public TimeUnit getWatchdogTimeUnit() {
+    return this.watchdogTimeoutTimeUnit;
+  }
+
   @Override
   public SkillInteractiveSession start()
       throws UnableToStartInteractiveSession, EvaluationFailedException {
     return this.start(Thread.currentThread());
   }
 
+  /**
+   * Start the session
+   * 
+   * @param parent Parent thread that is used as reference for the watchdog
+   * @return this when starting of the session was successfully,
+   *         <code>null</code> otherwise
+   * @throws UnableToStartInteractiveSession when starting of the session failed
+   * @throws EvaluationFailedException       when the initalization of the
+   *                                         session failed
+   */
   public SkillInteractiveSession start(Thread parent)
       throws UnableToStartInteractiveSession, EvaluationFailedException {
 
@@ -107,8 +158,10 @@ public class SkillInteractiveSession extends SkillSession {
       try {
         expect = new ExpectBuilder().withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
-            .build().withTimeout(10, TimeUnit.DAYS);
+            .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
+
       } catch (IOException e) {
+
         this.stop();
         throw new UnableToStartInteractiveSession(this.command, workingDir);
       }
@@ -178,9 +231,11 @@ public class SkillInteractiveSession extends SkillSession {
 
       this.lastActivity = new Date();
 
-      if (this.timeoutDuration > 0) {
-        this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-            this.timeoutTimeUnit, parent);
+      if (this.watchdogTimeoutDuration > 0) {
+
+        this.watchdog = new SkillSessionWatchdog(this,
+            this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
+
         this.watchdog.start();
       }
 
@@ -212,7 +267,6 @@ public class SkillInteractiveSession extends SkillSession {
   public SkillDataobject evaluate(SkillCommand command, Thread parent)
       throws UnableToStartInteractiveSession, EvaluationFailedException,
       InvalidDataobjectReferenceExecption {
-
 
     if (!this.isActive()) {
       this.start(parent);
@@ -270,7 +324,7 @@ public class SkillInteractiveSession extends SkillSession {
           // "/tmp" is always writable
         }
       }
-      
+
       String xml = this.communicate(skillCommand);
 
       SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
