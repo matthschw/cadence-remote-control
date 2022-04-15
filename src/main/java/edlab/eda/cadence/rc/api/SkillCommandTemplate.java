@@ -47,7 +47,8 @@ public class SkillCommandTemplate {
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
    */
-  protected SkillCommandTemplate(final String name, final int numOfFormalParameters) {
+  protected SkillCommandTemplate(final String name,
+      final int numOfFormalParameters) {
     this.name = name;
     this.formalParameters = numOfFormalParameters;
     this.canHaveRest = false;
@@ -61,8 +62,8 @@ public class SkillCommandTemplate {
    * @param canHaveRest           <code>true</code> when the command can have
    *                              rest, <code>false</code> otherwise
    */
-  protected SkillCommandTemplate(final String name, final int numOfFormalParameters,
-      final boolean canHaveRest) {
+  protected SkillCommandTemplate(final String name,
+      final int numOfFormalParameters, final boolean canHaveRest) {
     this.name = name;
     this.formalParameters = numOfFormalParameters;
     this.canHaveRest = canHaveRest;
@@ -114,7 +115,8 @@ public class SkillCommandTemplate {
    *                    <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static SkillCommandTemplate build(final String name, final boolean canHaveRest) {
+  public static SkillCommandTemplate build(final String name,
+      final boolean canHaveRest) {
     return new SkillCommandTemplate(name, canHaveRest);
   }
 
@@ -125,7 +127,8 @@ public class SkillCommandTemplate {
    * @param formalParameters Number of formal parameters
    * @return SKILL-Command template
    */
-  public static SkillCommandTemplate build(final String name, final int formalParameters) {
+  public static SkillCommandTemplate build(final String name,
+      final int formalParameters) {
     return new SkillCommandTemplate(name, formalParameters);
   }
 
@@ -138,8 +141,8 @@ public class SkillCommandTemplate {
    *                         <code>false</code> otherwise
    * @return SKILL-Command template
    */
-  public static SkillCommandTemplate build(final String name, final int formalParameters,
-      final boolean canHaveRest) {
+  public static SkillCommandTemplate build(final String name,
+      final int formalParameters, final boolean canHaveRest) {
     return new SkillCommandTemplate(name, formalParameters, canHaveRest);
   }
 
@@ -335,7 +338,8 @@ public class SkillCommandTemplate {
    */
   public SkillCommand buildCommand(
       final Map<String, EvaluableToSkill> keywordParameters,
-      final List<EvaluableToSkill> restParameters) throws IncorrectSyntaxException {
+      final List<EvaluableToSkill> restParameters)
+      throws IncorrectSyntaxException {
 
     this.checkFormalParameters(0);
 
@@ -380,7 +384,8 @@ public class SkillCommandTemplate {
    */
   public SkillCommand buildCommand(final EvaluableToSkill formalParamater,
       final Map<String, EvaluableToSkill> keywordParameters,
-      final List<EvaluableToSkill> restParameters) throws IncorrectSyntaxException {
+      final List<EvaluableToSkill> restParameters)
+      throws IncorrectSyntaxException {
 
     this.checkFormalParameters(1);
 
@@ -425,7 +430,8 @@ public class SkillCommandTemplate {
    */
   public SkillCommand buildCommand(final EvaluableToSkill[] formalParamaters,
       final Map<String, EvaluableToSkill> keywordParameters,
-      final List<EvaluableToSkill> restParameters) throws IncorrectSyntaxException {
+      final List<EvaluableToSkill> restParameters)
+      throws IncorrectSyntaxException {
 
     this.checkFormalParameters(formalParamaters.length);
 
@@ -448,9 +454,9 @@ public class SkillCommandTemplate {
    */
   private void checkFormalParameters(final int formalParameters)
       throws IncorrectSyntaxException {
-
+    
     if (this.formalParameters != formalParameters) {
-      throw new IncorrectSyntaxException(formalParameters,
+      throw new IncorrectSyntaxException(this.name, formalParameters,
           this.formalParameters);
     }
   }

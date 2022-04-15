@@ -1,7 +1,7 @@
 package edlab.eda.cadence.rc.api;
 
 /**
- * Template of a SKILL-Command with optional parameters
+ * Template of a Skill-Command with optional parameters
  */
 public final class OptionalParameterSkillCommandTemplate
     extends SkillCommandTemplate {
@@ -43,11 +43,11 @@ public final class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * Build a SKILL command template with optional parameters
+   * Build a Skill command template with optional parameters
    *
    * @param name               Name of the command
    * @param optionalParameters Number of optional parameters
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(final String name,
       final int optionalParameters) {
@@ -56,12 +56,12 @@ public final class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * Build a SKILL command template with optional parameters
+   * Build a Skill command template with optional parameters
    *
    * @param name               Name of the command
    * @param formalParameters   Number of formal parameters
    * @param optionalParameters Number of optional parameters
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final int optionalParameters) {
@@ -77,13 +77,13 @@ public final class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * Build a SKILL command template with optional parameters
+   * Build a Skill command template with optional parameters
    *
    * @param name               Name of the command
    * @param optionalParameters Number of optional parameters
    * @param canHaveRest        <code>true</code> when the command can have rest,
    *                           <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(final String name,
       final int optionalParameters, final boolean canHaveRest) {
@@ -97,14 +97,14 @@ public final class OptionalParameterSkillCommandTemplate
   }
 
   /**
-   * Build a SKILL command template with optional parameters
+   * Build a Skill command template with optional parameters
    *
    * @param name               canHaveRest
    * @param formalParameters   Number of formal parameters
    * @param optionalParameters Number of optional parameters
    * @param canHaveRest        <code>true</code> when the command can have rest,
    *                           <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static OptionalParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final int optionalParameters,

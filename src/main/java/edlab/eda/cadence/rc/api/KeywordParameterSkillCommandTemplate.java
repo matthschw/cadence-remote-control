@@ -3,10 +3,11 @@ package edlab.eda.cadence.rc.api;
 import java.util.Set;
 
 /**
- * Template of a SKILL-Command with keyword parameters
+ * Template of a Skill-Command with keyword parameters
  *
  */
-public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
+public final class KeywordParameterSkillCommandTemplate
+    extends SkillCommandTemplate {
 
   private final Set<String> keywordParameters;
 
@@ -36,7 +37,7 @@ public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemp
   }
 
   /**
-   * Get keyword parameters of the SKILL-Command template
+   * Get keyword parameters of the Skill-Command template
    *
    * @return Names of keyword-parameters
    */
@@ -45,11 +46,11 @@ public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemp
   }
 
   /**
-   * Build a SKILL command template with keyword parameters
+   * Build a Skill command template with keyword parameters
    *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final Set<String> keywordParameters) {
@@ -57,12 +58,12 @@ public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemp
   }
 
   /**
-   * Build a SKILL command template with formal and keyword parameters
+   * Build a Skill command template with formal and keyword parameters
    *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final Set<String> keywordParameters) {
@@ -76,13 +77,13 @@ public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemp
   }
 
   /**
-   * Build a SKILL command template with keyword parameters and rest
+   * Build a Skill command template with keyword parameters and rest
    *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final Set<String> keywordParameters, final boolean canHaveRest) {
@@ -91,14 +92,14 @@ public final class KeywordParameterSkillCommandTemplate extends SkillCommandTemp
   }
 
   /**
-   * Build a SKILL command template with formal and keyword parameters and rest
+   * Build a Skill command template with formal and keyword parameters and rest
    *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill-Command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final Set<String> keywordParameters,
