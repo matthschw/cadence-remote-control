@@ -41,13 +41,40 @@ public final class SkillList extends SkillBoolean
   /**
    * Create a Skill list
    *
-   * @param data list of Skill data-objects
+   * @param list of Skill objects
    */
   public SkillList(final List<SkillDataobject> data) {
 
     super(true);
 
-    this.list = new LinkedList<>(data);
+    if (data == null) {
+      this.list = new LinkedList<>();
+    } else {
+      this.list = new LinkedList<>(data);
+    }
+
+    if (this.list.isEmpty()) {
+      super.bool = false;
+    }
+  }
+
+  /**
+   * Create a Skill list
+   *
+   * @param array of Skill objects
+   */
+  public SkillList(final SkillDataobject[] data) {
+
+    super(true);
+
+    this.list = new LinkedList<>();
+
+    if (data != null) {
+
+      for (SkillDataobject obj : data) {
+        this.list.addLast(obj);
+      }
+    }
 
     if (this.list.isEmpty()) {
       super.bool = false;
@@ -100,18 +127,20 @@ public final class SkillList extends SkillBoolean
   public SkillList(final BigDecimal[] data) {
 
     super(true);
+
     this.list = new LinkedList<>();
 
     for (final BigDecimal element : data) {
       this.list.add(new SkillFlonum(element));
     }
-    
+
     if (this.list.isEmpty()) {
       this.updateBool();
     }
   }
 
   private void updateBool() {
+    
     if (this.list != null) {
 
       if (this.list.isEmpty()) {
