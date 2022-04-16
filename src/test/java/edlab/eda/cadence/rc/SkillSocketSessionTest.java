@@ -51,6 +51,8 @@ public class SkillSocketSessionTest {
 
       SkillSessionMethods.complexNumber(session);
 
+      SkillSessionMethods.detectFailingCommand(session);
+
       session.stop();
 
     } catch (IOException e) {

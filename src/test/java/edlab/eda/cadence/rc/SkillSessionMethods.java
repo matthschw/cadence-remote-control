@@ -12,6 +12,7 @@ import java.util.Random;
 import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
 import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
+import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillComplexNumber;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillFixnum;
@@ -266,12 +267,26 @@ public class SkillSessionMethods {
         .buildCommand(new SkillDataobject[] { num1, num2 });
 
     retval = session.evaluate(command);
-    
+
     if (!(retval instanceof SkillComplexNumber)) {
       fail("No complex number returned, but" + retval);
     }
   }
-  
 
-  
+  static void detectFailingCommand(SkillSession session)
+      throws UnableToStartSession, InvalidDataobjectReferenceExecption,
+      IncorrectSyntaxException {
+
+    SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
+
+    SkillCommand command = template.buildCommand(new EvaluableToSkill[] {
+        new SkillFixnum(1), new SkillString("banane") });
+
+    try {
+      @SuppressWarnings("unused")
+      SkillDataobject obj = session.evaluate(command);
+      fail("Invalid command not detected");
+    } catch (EvaluationFailedException e) {
+    }
+  }
 }

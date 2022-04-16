@@ -379,7 +379,7 @@ public final class SkillInteractiveSession extends SkillSession {
             builder.append(errorMessage.getString());
           }
 
-          throw new EvaluationFailedException(skillCommand, builder.toString());
+          throw new EvaluationFailedException(command.toSkill(), builder.toString());
         }
       } catch (final Exception e) {
         if (e instanceof EvaluationFailedException) {
