@@ -141,7 +141,8 @@ public final class SkillInteractiveSession extends SkillSession {
 
       } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
 
       // add shutdown hook for process
@@ -156,21 +157,24 @@ public final class SkillInteractiveSession extends SkillSession {
       });
 
       try {
-        this.expect = new ExpectBuilder().withInputs(this.process.getInputStream())
+        this.expect = new ExpectBuilder()
+            .withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
 
       } catch (final IOException e) {
 
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
 
       try {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
 
       SkillCommand skillPromptsCommand = null;
@@ -191,17 +195,19 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
       } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
       try {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
 
-      final File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
-          SkillSession.TMP_SKILL_FILE_SUFFIX);
+      final File skillControlApi = this.getResourcePath(
+          SkillSession.SKILL_RESOURCE, SkillSession.TMP_SKILL_FILE_SUFFIX);
 
       SkillCommand skillLoadCommand = null;
 
@@ -217,6 +223,7 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.send(skillLoadCommand.toSkill() + "\n");
       } catch (final IOException e) {
         this.stop();
+        skillControlApi.delete();
         throw new EvaluationFailedException(skillLoadCommand.toSkill());
       }
 
@@ -224,7 +231,9 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {
         this.stop();
-        throw new UnableToStartInteractiveSession(this.command, this.workingDir);
+        skillControlApi.delete();
+        throw new UnableToStartInteractiveSession(this.command,
+            this.workingDir);
       }
 
       skillControlApi.delete();
@@ -264,9 +273,9 @@ public final class SkillInteractiveSession extends SkillSession {
   }
 
   @Override
-  public SkillDataobject evaluate(final SkillCommand command, final Thread parent)
-      throws UnableToStartInteractiveSession, EvaluationFailedException,
-      InvalidDataobjectReferenceExecption {
+  public SkillDataobject evaluate(final SkillCommand command,
+      final Thread parent) throws UnableToStartInteractiveSession,
+      EvaluationFailedException, InvalidDataobjectReferenceExecption {
 
     if (!this.isActive()) {
       this.start(parent);
@@ -275,12 +284,15 @@ public final class SkillInteractiveSession extends SkillSession {
     SkillDataobject data = null;
 
     if (this.watchdog instanceof SkillSessionWatchdog) {
+      // kill watchdog when available
       this.watchdog.kill();
       this.watchdog = null;
     }
 
     if (this.isActive()) {
 
+      // identify if command contains invalid complex dataobejcts that are not
+      // available in the session
       if (!command.canBeUsedInSession(this)) {
         throw new InvalidDataobjectReferenceExecption(command, this);
       }
@@ -304,18 +316,21 @@ public final class SkillInteractiveSession extends SkillSession {
 
         try {
 
-          final File file = File.createTempFile(SkillSession.TMP_FILE_PREFIX,
-              SkillSession.TMP_SKILL_FILE_SUFFIX);
+          final File skillCommandFile = File.createTempFile(
+              SkillSession.TMP_FILE_PREFIX, SkillSession.TMP_SKILL_FILE_SUFFIX);
 
-          final FileWriter writer = new FileWriter(file);
+          final FileWriter writer = new FileWriter(skillCommandFile);
           writer.write(command.toSkill());
           writer.close();
+
+          skillCommandFile.deleteOnExit();
 
           try {
 
             outer = GenericSkillCommandTemplates.getTemplate(
                 GenericSkillCommandTemplates.ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE)
-                .buildCommand(new SkillString(file.getAbsolutePath()));
+                .buildCommand(
+                    new SkillString(skillCommandFile.getAbsolutePath()));
             skillCommand = outer.toSkill();
           } catch (final IncorrectSyntaxException e) {
             // cannot occur
@@ -327,8 +342,8 @@ public final class SkillInteractiveSession extends SkillSession {
 
       String xml = this.communicate(skillCommand);
 
-      final SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
-          xml);
+      final SkillDataobject obj = SkillDataobject
+          .getSkillDataobjectFromXML(this, xml);
 
       try {
 
@@ -338,7 +353,8 @@ public final class SkillInteractiveSession extends SkillSession {
 
           if (top.containsKey(SkillSession.ID_FILE)) {
 
-            final SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
+            final SkillString filePath = (SkillString) top
+                .get(SkillSession.ID_FILE);
 
             final File dataFile = new File(filePath.getString());
 
@@ -355,7 +371,8 @@ public final class SkillInteractiveSession extends SkillSession {
 
         } else {
 
-          final SkillList errorList = (SkillList) top.get(SkillSession.ID_ERROR);
+          final SkillList errorList = (SkillList) top
+              .get(SkillSession.ID_ERROR);
 
           final SkillList messageList = (SkillList) errorList
               .getByIndex(errorList.getLength() - 1);
@@ -379,7 +396,8 @@ public final class SkillInteractiveSession extends SkillSession {
             builder.append(errorMessage.getString());
           }
 
-          throw new EvaluationFailedException(command.toSkill(), builder.toString());
+          throw new EvaluationFailedException(command.toSkill(),
+              builder.toString());
         }
       } catch (final Exception e) {
         if (e instanceof EvaluationFailedException) {
@@ -394,9 +412,11 @@ public final class SkillInteractiveSession extends SkillSession {
 
     this.lastActivity = new Date();
 
-    if (this.timeoutDuration > 0) {
-      this.watchdog = new SkillSessionWatchdog(this, this.timeoutDuration,
-          this.timeoutTimeUnit, parent);
+    if (this.watchdogTimeoutDuration > 0) {
+
+      this.watchdog = new SkillSessionWatchdog(this,
+          this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
+
       this.watchdog.start();
     }
 

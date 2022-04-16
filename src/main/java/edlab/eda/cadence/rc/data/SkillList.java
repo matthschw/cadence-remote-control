@@ -71,7 +71,7 @@ public final class SkillList extends SkillBoolean
 
     if (data != null) {
 
-      for (SkillDataobject obj : data) {
+      for (final SkillDataobject obj : data) {
         this.list.addLast(obj);
       }
     }

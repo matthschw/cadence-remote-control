@@ -32,7 +32,7 @@ public final class IncorrectSyntaxException extends Exception {
    * @param providedFormalParamaters Number of provided formal parameter
    * @param neededFormalParameters   Number of needed formal parameter
    */
-  public IncorrectSyntaxException(String name,
+  public IncorrectSyntaxException(final String name,
       final int providedFormalParamaters, final int neededFormalParameters) {
     super("Function \"" + name + "\" requires " + neededFormalParameters
         + " formal parameters are provided, but " + providedFormalParamaters

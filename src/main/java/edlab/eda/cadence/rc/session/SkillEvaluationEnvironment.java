@@ -3,6 +3,7 @@ package edlab.eda.cadence.rc.session;
 import java.io.File;
 
 import edlab.eda.cadence.rc.api.SkillCommand;
+import edlab.eda.cadence.rc.data.SkillComplexDataobject;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 
 /**
@@ -20,6 +21,7 @@ public interface SkillEvaluationEnvironment {
    * @throws EvaluationFailedException           When evaluation of the command
    *                                             failed
    * @throws InvalidDataobjectReferenceExecption When the command contains data
+   *                                             ({@link SkillComplexDataobject})
    *                                             that is is not referenced in
    *                                             this session
    */
