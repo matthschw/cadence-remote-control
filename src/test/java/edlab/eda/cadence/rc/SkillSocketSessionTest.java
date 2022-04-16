@@ -10,7 +10,6 @@ import edlab.eda.cadence.rc.session.EvaluationFailedException;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillSocketSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
-import edlab.eda.cadence.rc.session.UnableToStartSocketSession;
 
 public class SkillSocketSessionTest {
 
@@ -55,25 +54,10 @@ public class SkillSocketSessionTest {
 
       session.stop();
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       process.destroyForcibly();
       throw e;
-    } catch (UnableToStartSocketSession e) {
-      process.destroyForcibly();
-      throw e;
-    } catch (UnableToStartSession e) {
-      process.destroyForcibly();
-      throw e;
-    } catch (EvaluationFailedException e) {
-      process.destroyForcibly();
-      throw e;
-    } catch (IncorrectSyntaxException e) {
-      process.destroyForcibly();
-      throw e;
-    } catch (InvalidDataobjectReferenceExecption e) {
-      process.destroyForcibly();
-      throw e;
-    }
+    } 
 
     process.destroyForcibly();
   }

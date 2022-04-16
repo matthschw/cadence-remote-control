@@ -42,7 +42,14 @@ class NonFreezeConnectedSocketTest {
       } catch (InterruptedException e) {
       }
     } catch (Exception e) {
-      process.destroy();
+      
+      process.destroyForcibly();
+      
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e2) {
+      }
+      
       throw e;
     }
   }

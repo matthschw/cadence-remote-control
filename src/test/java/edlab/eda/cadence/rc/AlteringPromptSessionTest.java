@@ -51,6 +51,12 @@ class AlteringPromptSessionTest {
     } catch (Exception e) {
       
       session.stop();
+      
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e2) {
+      }
+      
       throw e;
     }
   }
