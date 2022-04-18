@@ -65,7 +65,7 @@ public final class SkillInteractiveSession extends SkillSession {
   /**
    * Specify the command to be used to invoke the session
    *
-   * @param command Start-command of the Cadence Tool
+   * @param command Start command of the Cadence tool
    *
    * @return this
    */
@@ -77,7 +77,7 @@ public final class SkillInteractiveSession extends SkillSession {
   /**
    * Set the timeout of the watchdog. The watchdog will close the
    * {@link SkillInteractiveSession} when the timeout expires. When a
-   * timeoutDuration < 0 is provided, no watchdog is created
+   * timeoutDuration less than 0 is provided, no watchdog is created
    * 
    * @param timeoutDuration duration if the watchdog timeout
    * @param timeoutTimeUnit unit of the watchog tomeout

@@ -4,20 +4,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a SKILL-Symbol
+ * Representation of a Skill Symbol
  *
  */
 public final class SkillSymbol extends SkillBoolean {
 
   /**
-   * Type-Identifier in XML
+   * Type identifier in XML
    */
   public static final String TYPE_ID = "symbol";
 
   private final String printName;
 
   /**
-   * Create a SkillSymbol from a given print name
+   * Create a Skill Symbol from a given print name
    *
    * @param printName Symbol name
    */

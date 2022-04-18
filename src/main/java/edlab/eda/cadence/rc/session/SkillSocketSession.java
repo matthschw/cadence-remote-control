@@ -23,6 +23,9 @@ import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
 
+/**
+ * Session to a Skill socket
+ */
 public final class SkillSocketSession extends SkillSession {
 
   private final int port;
@@ -114,8 +117,8 @@ public final class SkillSocketSession extends SkillSession {
 
         if (retval.equals("nil")) {
 
-          final File skillControlApi = this.getResourcePath(SkillSession.SKILL_RESOURCE,
-              SkillSession.TMP_SKILL_FILE_SUFFIX);
+          final File skillControlApi = this.getResourcePath(
+              SkillSession.SKILL_RESOURCE, SkillSession.TMP_SKILL_FILE_SUFFIX);
 
           try {
             cmd = GenericSkillCommandTemplates
@@ -150,9 +153,9 @@ public final class SkillSocketSession extends SkillSession {
   }
 
   @Override
-  public SkillDataobject evaluate(final SkillCommand command, final Thread parent)
-      throws UnableToStartSocketSession, EvaluationFailedException,
-      InvalidDataobjectReferenceExecption {
+  public SkillDataobject evaluate(final SkillCommand command,
+      final Thread parent) throws UnableToStartSocketSession,
+      EvaluationFailedException, InvalidDataobjectReferenceExecption {
     return this.evaluate(command);
   }
 
@@ -186,7 +189,8 @@ public final class SkillSocketSession extends SkillSession {
 
     xml = StringEscapeUtils.UNESCAPE_JAVA.translate(xml);
 
-    final SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this, xml);
+    final SkillDataobject obj = SkillDataobject.getSkillDataobjectFromXML(this,
+        xml);
 
     SkillDataobject content;
 
@@ -198,7 +202,8 @@ public final class SkillSocketSession extends SkillSession {
 
         if (top.containsKey(SkillSession.ID_FILE)) {
 
-          final SkillString filePath = (SkillString) top.get(SkillSession.ID_FILE);
+          final SkillString filePath = (SkillString) top
+              .get(SkillSession.ID_FILE);
 
           final File dataFile = new File(filePath.getString());
 
@@ -215,7 +220,8 @@ public final class SkillSocketSession extends SkillSession {
 
       } else {
 
-        final SkillString errorstring = (SkillString) top.get(SkillSession.ID_ERROR);
+        final SkillString errorstring = (SkillString) top
+            .get(SkillSession.ID_ERROR);
 
         throw new EvaluationFailedException(inputString,
             errorstring.getString());
@@ -263,7 +269,7 @@ public final class SkillSocketSession extends SkillSession {
    * 
    * @param dir Directory where the socket was started
    * @return session
-   * @throws UnableToStartSession when no connection can be established
+   * @throws UnableToStartSocketSession when no connection can be established
    */
   public static SkillSocketSession connect(final File dir)
       throws UnableToStartSocketSession {
@@ -273,7 +279,8 @@ public final class SkillSocketSession extends SkillSession {
 
     if (dir.isDirectory() && dir.canRead()) {
 
-      final File socketFile = new File(dir, CadenceSocket.SOCKET_PORT_FILE_NAME);
+      final File socketFile = new File(dir,
+          CadenceSocket.SOCKET_PORT_FILE_NAME);
 
       if (socketFile.exists() && socketFile.canRead()) {
 
@@ -335,7 +342,7 @@ public final class SkillSocketSession extends SkillSession {
     }
 
     Date now = new Date();
-    
+
     try {
 
       while ((this.inputStream.available() == 0)
@@ -345,7 +352,7 @@ public final class SkillSocketSession extends SkillSession {
           Thread.sleep(WAIT_PERIOD_MS);
         } catch (final InterruptedException e) {
         }
-        
+
         now = new Date();
       }
 

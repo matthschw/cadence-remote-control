@@ -15,7 +15,7 @@ import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
 /**
- * A session which is capable of executing SKill commands
+ * A session which is capable of executing Skill commands
  */
 public abstract class SkillSession implements SkillEvaluationEnvironment {
 

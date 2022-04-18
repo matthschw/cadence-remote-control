@@ -19,12 +19,12 @@ public final class SkillList extends SkillBoolean
     implements Iterable<SkillDataobject> {
 
   /**
-   * Type-Identifier in XML
+   * Type identifier in XML
    */
   public static final String TYPE_ID = "list";
 
   /**
-   * Name-Identifier in XML
+   * Name identifier in XML
    */
   public static final String NAME_ID = "name";
 
@@ -41,16 +41,16 @@ public final class SkillList extends SkillBoolean
   /**
    * Create a Skill list
    *
-   * @param list of Skill objects
+   * @param list list of Skill objects
    */
-  public SkillList(final List<SkillDataobject> data) {
+  public SkillList(final List<SkillDataobject> list) {
 
     super(true);
 
-    if (data == null) {
+    if (list == null) {
       this.list = new LinkedList<>();
     } else {
-      this.list = new LinkedList<>(data);
+      this.list = new LinkedList<>(list);
     }
 
     if (this.list.isEmpty()) {
@@ -61,17 +61,17 @@ public final class SkillList extends SkillBoolean
   /**
    * Create a Skill list
    *
-   * @param array of Skill objects
+   * @param array array of Skill objects
    */
-  public SkillList(final SkillDataobject[] data) {
+  public SkillList(final SkillDataobject[] array) {
 
     super(true);
 
     this.list = new LinkedList<>();
 
-    if (data != null) {
+    if (array != null) {
 
-      for (final SkillDataobject obj : data) {
+      for (final SkillDataobject obj : array) {
         this.list.addLast(obj);
       }
     }
@@ -140,7 +140,7 @@ public final class SkillList extends SkillBoolean
   }
 
   private void updateBool() {
-    
+
     if (this.list != null) {
 
       if (this.list.isEmpty()) {
