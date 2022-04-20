@@ -105,12 +105,12 @@ public final class SkillComplexNumber extends SkillNumber {
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillComplexNumber.TYPE_ID);
 
-    final Element real = document.createElement(REAL_ID);
+    final Element real = document.createElement(SkillComplexNumber.REAL_ID);
     real.setTextContent(String.valueOf(this.value.getReal()));
 
-    final Element imag = document.createElement(IMAG_ID);
+    final Element imag = document.createElement(SkillComplexNumber.IMAG_ID);
     imag.setTextContent(String.valueOf(this.value.getImaginary()));
 
     element.appendChild(real);
@@ -131,7 +131,7 @@ public final class SkillComplexNumber extends SkillNumber {
     NodeList nodeList;
     Node node;
 
-    nodeList = element.getElementsByTagName(REAL_ID);
+    nodeList = element.getElementsByTagName(SkillComplexNumber.REAL_ID);
 
     if (nodeList.getLength() > 0) {
       node = nodeList.item(0);
@@ -140,7 +140,7 @@ public final class SkillComplexNumber extends SkillNumber {
       return null;
     }
 
-    nodeList = element.getElementsByTagName(IMAG_ID);
+    nodeList = element.getElementsByTagName(SkillComplexNumber.IMAG_ID);
 
     if (nodeList.getLength() > 0) {
       node = nodeList.item(0);

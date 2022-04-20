@@ -51,7 +51,7 @@ public final class SkillFixnum extends SkillNumber {
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
       final Document document) {
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillFixnum.TYPE_ID);
     element.setTextContent(String.valueOf(this.value));
     return element;
   }

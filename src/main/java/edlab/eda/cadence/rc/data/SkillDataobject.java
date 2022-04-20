@@ -80,7 +80,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    */
   public static SkillDataobject getSkillDataobjectFromXML(final File xml) {
     try {
-      return getSkillDataobjectFromXML(null,
+      return SkillDataobject.getSkillDataobjectFromXML(null,
           FileUtils.readFileToByteArray(xml));
     } catch (final IOException e) {
       return new SkillList();
@@ -96,7 +96,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    */
   public static SkillDataobject getSkillDataobjectFromXML(final SkillSession session,
       final String xml) {
-    return getSkillDataobjectFromXML(session, xml.getBytes());
+    return SkillDataobject.getSkillDataobjectFromXML(session, xml.getBytes());
   }
 
   /**
@@ -121,7 +121,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
       final Element element = doc.getDocumentElement();
 
-      return traverseNode(session, element);
+      return SkillDataobject.traverseNode(session, element);
 
     } catch (final Exception e) {
       return new SkillList();
@@ -185,7 +185,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
     Element sub;
 
-    switch (nodeMap.getNamedItem(TYPE_ID).getNodeValue()) {
+    switch (nodeMap.getNamedItem(SkillDataobject.TYPE_ID).getNodeValue()) {
 
     case SkillDisembodiedPropertyList.TYPE_ID:
 
@@ -198,8 +198,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
         next = nodeList.item(i);
 
-        if ((sub = getElement(next)) != null) {
-          dpl.put(next.getNodeName(), traverseNode(session, sub));
+        if ((sub = SkillDataobject.getElement(next)) != null) {
+          dpl.put(next.getNodeName(), SkillDataobject.traverseNode(session, sub));
         }
       }
 
@@ -279,7 +279,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
     if (node.hasAttributes()) {
       final NamedNodeMap nodeMap = node.getAttributes();
 
-      if (nodeMap.getNamedItem(TYPE_ID) != null) {
+      if (nodeMap.getNamedItem(SkillDataobject.TYPE_ID) != null) {
         return true;
       } else {
         return false;

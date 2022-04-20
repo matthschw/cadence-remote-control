@@ -104,7 +104,7 @@ public final class SkillComplexVector extends SkillVector {
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDataobject.TYPE_ID);
 
     for (final Complex value : this.values) {
       element.appendChild(new SkillComplexNumber(value)

@@ -105,7 +105,7 @@ public final class SkillIntegerVector extends SkillVector {
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDataobject.TYPE_ID);
 
     for (final int value : this.values) {
       element.appendChild(new SkillFixnum(value)

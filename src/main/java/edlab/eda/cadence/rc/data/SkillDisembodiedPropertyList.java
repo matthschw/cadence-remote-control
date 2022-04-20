@@ -67,7 +67,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDisembodiedPropertyList.TYPE_ID);
 
     for (final Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {

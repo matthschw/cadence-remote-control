@@ -356,7 +356,7 @@ public final class SkillList extends SkillBoolean
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillList.TYPE_ID);
 
     for (final SkillDataobject skillDataobject : this.list) {
       element.appendChild(skillDataobject
@@ -399,8 +399,8 @@ public final class SkillList extends SkillBoolean
 
       Element sub;
 
-      if ((sub = getElement(nodeList.item(i))) != null) {
-        list.append1(traverseNode(session, sub));
+      if ((sub = SkillDataobject.getElement(nodeList.item(i))) != null) {
+        list.append1(SkillDataobject.traverseNode(session, sub));
       }
     }
 

@@ -41,7 +41,7 @@ public final class SkillFlonum extends SkillNumber {
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
       final Document document) {
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillFlonum.TYPE_ID);
     element.setTextContent(this.value.toString());
     return element;
   }

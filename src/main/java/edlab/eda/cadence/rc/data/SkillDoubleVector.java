@@ -120,7 +120,7 @@ public final class SkillDoubleVector extends SkillVector {
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDataobject.TYPE_ID);
 
     for (final BigDecimal value : this.values) {
       element.appendChild(new SkillFlonum(value)

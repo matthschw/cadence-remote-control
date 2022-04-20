@@ -45,7 +45,7 @@ public class SkillString extends SkillBoolean {
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
       final Document document) {
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillString.TYPE_ID);
     element.setTextContent(this.string);
     return element;
   }

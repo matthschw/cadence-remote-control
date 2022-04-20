@@ -35,7 +35,7 @@ public final class SkillSymbol extends SkillBoolean {
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
       final Document document) {
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillSymbol.TYPE_ID);
     element.setTextContent(this.printName);
     return element;
   }

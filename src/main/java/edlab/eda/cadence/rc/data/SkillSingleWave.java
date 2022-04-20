@@ -103,7 +103,7 @@ public final class SkillSingleWave extends SkillDataobject {
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillSingleWave.TYPE_ID);
 
     element.appendChild(
         this.x.traverseSkillDataobjectForXMLGeneration("x", document));

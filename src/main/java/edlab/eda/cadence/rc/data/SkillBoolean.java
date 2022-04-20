@@ -44,7 +44,7 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
    * @return Skill data-object
    */
   public static SkillDataobject getTrue() {
-    return new SkillSymbol(TRUE);
+    return new SkillSymbol(SkillBoolean.TRUE);
   }
 
   /**
