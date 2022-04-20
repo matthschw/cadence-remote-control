@@ -33,7 +33,7 @@ public final class SkillStringVector extends SkillVector {
 
     int i = 0;
 
-    for (String string : values) {
+    for (final String string : values) {
       this.values[i++] = string;
     }
   }
@@ -52,20 +52,20 @@ public final class SkillStringVector extends SkillVector {
    * @return vector when the list consists uniquely of strings. Non string
    *         elements are omitted
    */
-  static SkillVector getVectorFromList(final SkillList list) {
+  static SkillStringVector getVectorFromList(final SkillList list) {
 
-    List<String> values = new ArrayList<String>();
+    final List<String> values = new ArrayList<>();
 
     SkillString skillString;
 
-    for (SkillDataobject string : list) {
+    for (final SkillDataobject string : list) {
 
       try {
 
         skillString = (SkillString) string;
         values.add(skillString.getString());
 
-      } catch (Exception e) {
+      } catch (final Exception e) {
       }
     }
 

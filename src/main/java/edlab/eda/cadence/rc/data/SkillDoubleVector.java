@@ -47,7 +47,7 @@ public final class SkillDoubleVector extends SkillVector {
 
     int i = 0;
 
-    for (BigDecimal value : values) {
+    for (final BigDecimal value : values) {
       this.values[i++] = value;
     }
   }
@@ -59,14 +59,14 @@ public final class SkillDoubleVector extends SkillVector {
    * @return vector when the list consists uniquely of double. Non double
    *         elements are omitted
    */
-  static SkillVector getVectorFromList(final SkillList list) {
+  static SkillDoubleVector getVectorFromList(final SkillList list) {
 
-    List<BigDecimal> values = new ArrayList<BigDecimal>();
+    final List<BigDecimal> values = new ArrayList<>();
 
     SkillFlonum flonum;
     SkillFixnum fixnum;
 
-    for (SkillDataobject obj : list) {
+    for (final SkillDataobject obj : list) {
 
       if (obj instanceof SkillFlonum) {
         flonum = (SkillFlonum) obj;

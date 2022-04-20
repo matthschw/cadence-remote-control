@@ -32,7 +32,7 @@ public final class SkillComplexVector extends SkillVector {
 
     int i = 0;
 
-    for (Complex value : values) {
+    for (final Complex value : values) {
       this.values[i++] = value;
     }
   }
@@ -46,18 +46,18 @@ public final class SkillComplexVector extends SkillVector {
    */
   static SkillComplexVector getVectorFromList(final SkillList list) {
 
-    List<Complex> values = new ArrayList<Complex>();
+    final List<Complex> values = new ArrayList<>();
 
     SkillComplexNumber complexNumber;
 
-    for (SkillDataobject obj : list) {
+    for (final SkillDataobject obj : list) {
 
       try {
 
         complexNumber = (SkillComplexNumber) obj;
         values.add(complexNumber.getComplex());
 
-      } catch (Exception e) {
+      } catch (final Exception e) {
       }
     }
 

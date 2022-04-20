@@ -33,7 +33,7 @@ public final class SkillIntegerVector extends SkillVector {
 
     int i = 0;
 
-    for (Integer integer : values) {
+    for (final Integer integer : values) {
       this.values[i++] = integer;
     }
   }
@@ -47,18 +47,18 @@ public final class SkillIntegerVector extends SkillVector {
    */
   static SkillIntegerVector getVectorFromList(final SkillList list) {
 
-    List<Integer> values = new ArrayList<Integer>();
+    final List<Integer> values = new ArrayList<>();
 
     SkillFixnum fixnum;
 
-    for (SkillDataobject obj : list) {
+    for (final SkillDataobject obj : list) {
 
       try {
 
         fixnum = (SkillFixnum) obj;
         values.add(fixnum.getFixnum());
 
-      } catch (Exception e) {
+      } catch (final Exception e) {
       }
     }
 

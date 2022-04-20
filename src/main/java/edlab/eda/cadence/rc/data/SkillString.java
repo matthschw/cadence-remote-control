@@ -5,7 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a Skill String
+ * Representation of a Skill string
  *
  */
 public class SkillString extends SkillBoolean {
