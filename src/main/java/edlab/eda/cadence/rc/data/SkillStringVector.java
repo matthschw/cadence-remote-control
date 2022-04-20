@@ -1,25 +1,72 @@
 package edlab.eda.cadence.rc.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Skill vector of strings
+ */
 public final class SkillStringVector extends SkillVector {
 
   private final String[] values;
 
+  /**
+   * Create vector of strings
+   * 
+   * @param values
+   */
   SkillStringVector(final String[] values) {
     this.values = values;
   }
 
+  /**
+   * Create vector of strings
+   * 
+   * @param values
+   */
+  SkillStringVector(final List<String> values) {
+
+    this.values = new String[values.size()];
+
+    int i = 0;
+
+    for (String string : values) {
+      this.values[i++] = string;
+    }
+  }
+
+  /**
+   * Create an empty vector
+   */
+  SkillStringVector() {
+    this.values = new String[0];
+  }
+
+  /**
+   * Create a {@link SkillStringVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when the list consists uniquely of strings. Non string
+   *         elements are omitted
+   */
   static SkillVector getVectorFromList(final SkillList list) {
 
-    final String[] values = new String[list.getLength()];
+    List<String> values = new ArrayList<String>();
 
-    SkillString str;
+    SkillString skillString;
 
-    for (int i = 0; i < values.length; i++) {
-      str = (SkillString) list.getByIndex(i);
-      values[i] = str.getString();
+    for (SkillDataobject string : list) {
+
+      try {
+
+        skillString = (SkillString) string;
+        values.add(skillString.getString());
+
+      } catch (Exception e) {
+      }
     }
 
     return new SkillStringVector(values);
@@ -46,6 +93,11 @@ public final class SkillStringVector extends SkillVector {
     }
   }
 
+  /**
+   * Get all values in the vector as array
+   * 
+   * @return array
+   */
   public String[] getValues() {
     return this.values;
   }
@@ -80,5 +132,4 @@ public final class SkillStringVector extends SkillVector {
   public static boolean isInstanceOf(final Object o) {
     return o instanceof SkillStringVector;
   }
-
 }

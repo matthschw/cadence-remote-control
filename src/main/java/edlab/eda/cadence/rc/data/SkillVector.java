@@ -2,8 +2,17 @@ package edlab.eda.cadence.rc.data;
 
 import edlab.eda.cadence.rc.session.SkillSession;
 
+/**
+ * Skill vector. Consists of object of same type
+ */
 public abstract class SkillVector extends SkillDataobject {
 
+  /**
+   * Create a {@link SkillVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when valid, <code>null</code> otherwise
+   */
   static SkillVector getVectorFromList(final SkillList list) {
 
     if (list.getByIndex(0) instanceof SkillString) {
@@ -31,12 +40,15 @@ public abstract class SkillVector extends SkillDataobject {
 
   @Override
   String toSkillHierarchical(final int depth) {
-    return "nil";
+    return SkillBoolean.getFalse().toSkill();
   }
 
+  /**
+   * Get the length of the vecor
+   * 
+   * @return length
+   */
   public abstract int getLength();
-
-  // public abstract Object[] getValues();
 
   /**
    * Identify whether an object is an instance of this class

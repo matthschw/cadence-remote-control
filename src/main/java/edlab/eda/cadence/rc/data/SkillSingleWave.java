@@ -5,6 +5,9 @@ import org.w3c.dom.Element;
 
 import edlab.eda.cadence.rc.session.SkillSession;
 
+/**
+ * Waveform with single axis
+ */
 public final class SkillSingleWave extends SkillDataobject {
 
   /**
@@ -17,23 +20,47 @@ public final class SkillSingleWave extends SkillDataobject {
 
   @Override
   public String toSkill() {
-    return "nil";
+    return SkillBoolean.getFalse().toSkill();
   }
 
-  public SkillSingleWave(final SkillVector x, final SkillVector y) {
+  /**
+   * Create a wave
+   * 
+   * @param x Vector of X values
+   * @param y Vector of Y values
+   */
+  SkillSingleWave(final SkillVector x, final SkillVector y) {
     this.x = x;
     this.y = y;
   }
 
+  /**
+   * Get the X values in the waveform
+   * 
+   * @return x vector
+   */
   public SkillVector getX() {
     return this.x;
   }
 
+  /**
+   * Get the Y values in the waveform
+   * 
+   * @return y vector
+   */
   public SkillVector getY() {
     return this.y;
   }
 
-  public static SkillDataobject build(final SkillSession session, final Element element) {
+  /**
+   * Build a {@link SkillSingleWave} from a XML representaion
+   * 
+   * @param session Session
+   * @param element XML element
+   * @return wave when valid, <code>null</code> otherwise
+   */
+  public static SkillDataobject build(final SkillSession session,
+      final Element element) {
 
     final SkillList xList = SkillList.build(session,
         (Element) element.getElementsByTagName("x").item(0));
@@ -47,6 +74,7 @@ public final class SkillSingleWave extends SkillDataobject {
 
   @Override
   public boolean canBeUsedInSession(final SkillSession session) {
+    // waveform cannot be backannotated to Virtuoso
     return false;
   }
 

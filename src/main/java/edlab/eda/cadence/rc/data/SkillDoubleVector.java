@@ -1,27 +1,80 @@
 package edlab.eda.cadence.rc.data;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Skill vector of doubles (BigDecimal)
+ */
 public final class SkillDoubleVector extends SkillVector {
 
   private final BigDecimal[] values;
 
-   SkillDoubleVector(final BigDecimal[] values) {
+  /**
+   * 
+   * @param values
+   */
+  SkillDoubleVector(final BigDecimal[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(final SkillList list) {
-
-    final BigDecimal[] values = new BigDecimal[list.getLength()];
-
-    SkillFlonum flonum;
+  /**
+   * Create vector of doubles
+   * 
+   * @param values
+   */
+  SkillDoubleVector(final double[] values) {
+    this.values = new BigDecimal[values.length];
 
     for (int i = 0; i < values.length; i++) {
-      flonum = (SkillFlonum) list.getByIndex(i);
-      values[i] = flonum.getFlonum();
+      this.values[i] = new BigDecimal(values[i]).round(MathContext.DECIMAL64);
+    }
+  }
+
+  /**
+   * Create vector of doubles
+   * 
+   * @param values
+   */
+  SkillDoubleVector(final List<BigDecimal> values) {
+
+    this.values = new BigDecimal[values.size()];
+
+    int i = 0;
+
+    for (BigDecimal value : values) {
+      this.values[i++] = value;
+    }
+  }
+
+  /**
+   * Create a {@link SkillDoubleVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when the list consists uniquely of double. Non double
+   *         elements are omitted
+   */
+  static SkillVector getVectorFromList(final SkillList list) {
+
+    List<BigDecimal> values = new ArrayList<BigDecimal>();
+
+    SkillFlonum flonum;
+    SkillFixnum fixnum;
+
+    for (SkillDataobject obj : list) {
+
+      if (obj instanceof SkillFlonum) {
+        flonum = (SkillFlonum) obj;
+        values.add(flonum.getFlonum());
+      } else if (obj instanceof SkillFixnum) {
+        fixnum = (SkillFixnum) obj;
+        values.add(new BigDecimal(fixnum.getFixnum()));
+      }
     }
 
     return new SkillDoubleVector(values);
@@ -38,8 +91,6 @@ public final class SkillDoubleVector extends SkillVector {
 
       for (final BigDecimal value : this.values) {
         if (!value.equals(value)) {
-          
-          //System.err.println("VEC " + i + "|"  this.values[i] +"!=" + values[i]);
           return false;
         }
       }
@@ -49,11 +100,16 @@ public final class SkillDoubleVector extends SkillVector {
       return false;
     }
   }
-  
+
+  /**
+   * Get all values in the vector as array
+   * 
+   * @return array
+   */
   public BigDecimal[] getValues() {
     return this.values;
   }
-  
+
   @Override
   public int getLength() {
     return this.values.length;
@@ -73,7 +129,7 @@ public final class SkillDoubleVector extends SkillVector {
 
     return element;
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

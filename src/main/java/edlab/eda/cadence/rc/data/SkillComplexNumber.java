@@ -8,6 +8,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Complex number in Skill
+ */
 public final class SkillComplexNumber extends SkillNumber {
 
   private final Complex value;
@@ -20,26 +23,53 @@ public final class SkillComplexNumber extends SkillNumber {
   public static final String REAL_ID = "real";
   public static final String IMAG_ID = "imag";
 
+  /**
+   * Create a {@link SkillComplexNumber}
+   * 
+   * @param real Real value
+   */
   public SkillComplexNumber(final BigDecimal real) {
     super();
     this.value = new Complex(real.doubleValue());
   }
 
+  /**
+   * Create a {@link SkillComplexNumber}
+   * 
+   * @param real Real value
+   * @param imag Imaginary value
+   */
   public SkillComplexNumber(final BigDecimal real, final BigDecimal imag) {
     super();
     this.value = new Complex(real.doubleValue(), imag.doubleValue());
   }
 
+  /**
+   * Create a {@link SkillComplexNumber}
+   * 
+   * @param real Real value
+   */
   public SkillComplexNumber(final double real) {
     super();
     this.value = new Complex(real);
   }
 
+  /**
+   * Create a {@link SkillComplexNumber}
+   * 
+   * @param real Real value
+   * @param imag Imaginary value
+   */
   public SkillComplexNumber(final double real, final double imag) {
     super();
     this.value = new Complex(real, imag);
   }
 
+  /**
+   * Create a {@link SkillComplexNumber}
+   * 
+   * @param complex Complex value
+   */
   public SkillComplexNumber(final Complex complex) {
     super();
     this.value = complex;
@@ -90,8 +120,10 @@ public final class SkillComplexNumber extends SkillNumber {
   }
 
   /**
-   * @param element
-   * @return
+   * Create a {@link SkillComplexNumber} from an XML element
+   * 
+   * @param element XML element
+   * @return complex number
    */
   static SkillComplexNumber build(final Element element) {
 
@@ -119,7 +151,7 @@ public final class SkillComplexNumber extends SkillNumber {
 
     return new SkillComplexNumber(x, y);
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

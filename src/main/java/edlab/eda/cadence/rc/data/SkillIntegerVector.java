@@ -1,24 +1,65 @@
 package edlab.eda.cadence.rc.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Skill vector of integers
+ */
 public final class SkillIntegerVector extends SkillVector {
+
   private final int[] values;
 
+  /**
+   * Create vector of integers
+   * 
+   * @param values
+   */
   SkillIntegerVector(final int[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(final SkillList list) {
+  /**
+   * Create vector of integers
+   * 
+   * @param values
+   */
+  SkillIntegerVector(final List<Integer> values) {
 
-    final int[] values = new int[list.getLength()];
+    this.values = new int[values.size()];
+
+    int i = 0;
+
+    for (Integer integer : values) {
+      this.values[i++] = integer;
+    }
+  }
+
+  /**
+   * Create a {@link SkillStringVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when the list consists uniquely of integers. Non intgeger
+   *         elements are omitted
+   */
+  static SkillIntegerVector getVectorFromList(final SkillList list) {
+
+    List<Integer> values = new ArrayList<Integer>();
 
     SkillFixnum fixnum;
 
-    for (int i = 0; i < values.length; i++) {
-      fixnum = (SkillFixnum) list.getByIndex(i);
-      values[i] = fixnum.getFixnum();
+    for (SkillDataobject obj : list) {
+
+      try {
+
+        fixnum = (SkillFixnum) obj;
+        values.add(fixnum.getFixnum());
+
+      } catch (Exception e) {
+      }
     }
 
     return new SkillIntegerVector(values);
@@ -45,6 +86,11 @@ public final class SkillIntegerVector extends SkillVector {
     }
   }
 
+  /**
+   * Get all values in the vector as array
+   * 
+   * @return array
+   */
   public int[] getValues() {
     return this.values;
   }
