@@ -8,7 +8,7 @@ import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a SKILL command
+ * Representation of a Skill command
  */
 public final class SkillCommand implements EvaluableToSkill {
 
@@ -77,9 +77,9 @@ public final class SkillCommand implements EvaluableToSkill {
         }
       }
     }
-    
+
     builder.append(")");
-    
+
     return builder.toString();
   }
 

@@ -3,7 +3,7 @@ package edlab.eda.cadence.rc.api;
 import java.util.Set;
 
 /**
- * Template of a Skill-Command with keyword parameters
+ * Template of a Skill command with keyword parameters
  *
  */
 public final class KeywordParameterSkillCommandTemplate

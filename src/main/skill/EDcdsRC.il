@@ -147,7 +147,7 @@
 ; 
 ;
 ;Parameters:
-; file              file path where the SKILL command is stored
+; file              file path where the Skill command is stored
 ;
 ; ?returnType       string, either "print" or "string". When "print" is 
 ;                     provided, the XML is printed to the XIW, when "string"

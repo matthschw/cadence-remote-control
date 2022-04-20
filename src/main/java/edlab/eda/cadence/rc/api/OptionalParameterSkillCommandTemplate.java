@@ -1,7 +1,7 @@
 package edlab.eda.cadence.rc.api;
 
 /**
- * Template of a Skill-Command with optional parameters
+ * Template of a Skill command with optional parameters
  */
 public final class OptionalParameterSkillCommandTemplate
     extends SkillCommandTemplate {

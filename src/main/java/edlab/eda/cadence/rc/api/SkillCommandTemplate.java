@@ -6,7 +6,7 @@ import java.util.Map;
 import edlab.eda.cadence.rc.session.EvaluableToSkill;
 
 /**
- * Template of a SKILL-Command
+ * Template of a Skill command
  *
  */
 public class SkillCommandTemplate {
@@ -16,7 +16,7 @@ public class SkillCommandTemplate {
   private final boolean canHaveRest;
 
   /**
-   * Create a SKILL-Command template with an arbitrary number of formal
+   * Create a SSkill command template with an arbitrary number of formal
    * parameters
    *
    * @param name Name of the command
@@ -28,7 +28,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Create a SKILL-Command template with an arbitrary number of formal
+   * Create a Skill command template with an arbitrary number of formal
    * parameters
    *
    * @param name        Name of the command
@@ -42,7 +42,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Create a SKILL-Command template with an fixed number of formal parameters
+   * Create a Skill command template with an fixed number of formal parameters
    *
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
@@ -55,7 +55,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Create a SKILL-Command template with an fixed number of formal parameters
+   * Create a Skill command template with an fixed number of formal parameters
    *
    * @param name                  Name of the command
    * @param numOfFormalParameters Number of formal parameters
@@ -79,7 +79,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Get number of formal parameters of the SKILL-Command template
+   * Get number of formal parameters of the Skill command template
    *
    * @return number of formal parameters
    */
@@ -88,7 +88,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Returns if the the SKILL-Command can have a rest
+   * Returns if the the Skill command can have a rest
    *
    * @return <code>true</code> when the command can have rest,
    *         <code>false</code> otherwise
@@ -98,22 +98,22 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command template
+   * Build a Skill command template
    *
    * @param name Name of the command
-   * @return SKILL-Command template
+   * @return Skill command template
    */
   public static SkillCommandTemplate build(final String name) {
     return new SkillCommandTemplate(name);
   }
 
   /**
-   * Build a SKILL command template
+   * Build a Skill command template
    *
    * @param name        Name of the command
    * @param canHaveRest <code>true</code> when the command can have rest,
    *                    <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill command template
    */
   public static SkillCommandTemplate build(final String name,
       final boolean canHaveRest) {
@@ -121,11 +121,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command template
+   * Build a Skill command template
    *
    * @param name             Name of the command
    * @param formalParameters Number of formal parameters
-   * @return SKILL-Command template
+   * @return Skill command template
    */
   public static SkillCommandTemplate build(final String name,
       final int formalParameters) {
@@ -133,13 +133,13 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command template
+   * Build a Skill command template
    *
    * @param name             Name of the command
    * @param formalParameters Number of formal parameters
    * @param canHaveRest      <code>true</code> when the command can have rest,
    *                         <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill command template
    */
   public static SkillCommandTemplate build(final String name,
       final int formalParameters, final boolean canHaveRest) {
@@ -147,9 +147,9 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -160,10 +160,10 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamater Single formal parameter
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -177,10 +177,10 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamaters Array of formal parameters
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the number of provided parameters do
    *                                  not match
    */
@@ -193,10 +193,10 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param optionalAndRestParameters Optional parameters and rest as list
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -231,11 +231,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamater           Single formal parameter
    * @param optionalAndRestParameters Optional parameters and rest as list
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -270,11 +270,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamaters          Array of formal parameters
    * @param optionalAndRestParameters Optional parameters and rest as list
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -309,10 +309,10 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param keywordParameters Map of keyword parameters
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -328,11 +328,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param keywordParameters Map of keyword parameters
    * @param restParameters    Rest parameters as list
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -353,7 +353,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamater   Single formal parameter
    * @param keywordParameters Map of keyword parameters
@@ -373,12 +373,12 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamater   Single formal parameter
    * @param keywordParameters Map of keyword parameters
    * @param restParameters    Rest parameters as list
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -400,11 +400,11 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamaters  Array of formal parameters
    * @param keywordParameters Map of keyword parameters
-   * @return SKILL command
+   * @return Skill command
    * @throws IncorrectSyntaxException when the provided parameters do not match
    *                                  with the template
    */
@@ -419,7 +419,7 @@ public class SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command
+   * Build a Skill command
    *
    * @param formalParamaters  Array of formal parameters
    * @param keywordParameters Map of keyword parameters
@@ -454,7 +454,7 @@ public class SkillCommandTemplate {
    */
   private void checkFormalParameters(final int formalParameters)
       throws IncorrectSyntaxException {
-    
+
     if (this.formalParameters != formalParameters) {
       throw new IncorrectSyntaxException(this.name, formalParameters,
           this.formalParameters);
