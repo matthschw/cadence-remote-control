@@ -6,18 +6,19 @@ Remote Control for Cadence-Tools in Java
 This toolbox provides remote-control capabilities for Cadence-based
 tools in Java.
 
+This software was developed for [OpenJDK 1.8](https://openjdk.java.net) 
+and [Apache Maven 3.6.3](https://maven.apache.org).
+The documentation can be created with 
+```bash
+mvn javadoc:javadoc
+```
+and accessed at  `./target/apidocs/index.html`.
+
 ## Installation
 
 ```bash
 mvn install
 ```
-
-The documentation can be created with
-
-```bash
-mvn javadoc:javadoc
-```
-and accesssed in
 
 ## Known Issues
 
