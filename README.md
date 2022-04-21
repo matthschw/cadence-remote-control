@@ -9,16 +9,36 @@ tools in Java.
 This software was developed for [OpenJDK 1.8](https://openjdk.java.net) 
 and [Apache Maven 3.6.3](https://maven.apache.org).
 The documentation can be created with 
+
 ```bash
 mvn javadoc:javadoc
 ```
+
 and accessed at  `./target/apidocs/index.html`.
 
 ## Installation
 
+Clone this repository:
+
+```bash
+$ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
+```
+
+`cd cadence-remote-control` into the directory and install it
+
 ```bash
 mvn install
 ```
+
+Make sure, that Virtuoso is available during the 
+installation process, i.e. the command
+```bash
+virtuoso -W
+```
+should return *sub-version  IC6.1.8-64b.500.20* or something similar.
+Please pay attention that Virtuoso is started in graphical mode while
+the project is installed.
+Do not interact with this CIW.
 
 ## Known Issues
 
