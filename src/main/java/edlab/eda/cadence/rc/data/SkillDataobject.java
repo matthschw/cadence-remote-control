@@ -28,7 +28,7 @@ import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a SKILL data-object
+ * Representation of a Skill data-object
  */
 public abstract class SkillDataobject implements EvaluableToSkill {
 
@@ -94,8 +94,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(final SkillSession session,
-      final String xml) {
+  public static SkillDataobject getSkillDataobjectFromXML(
+      final SkillSession session, final String xml) {
     return SkillDataobject.getSkillDataobjectFromXML(session, xml.getBytes());
   }
 
@@ -106,10 +106,11 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML to be parsed as byte array
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(final SkillSession session,
-      final byte[] xml) {
+  public static SkillDataobject getSkillDataobjectFromXML(
+      final SkillSession session, final byte[] xml) {
 
-    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+        .newInstance();
     DocumentBuilder dBuilder;
 
     try {
@@ -136,7 +137,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    */
   public File writeSkillDataobjectToXML(final File file) {
 
-    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+        .newInstance();
     DocumentBuilder dBuilder;
 
     try {
@@ -146,7 +148,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
       document.appendChild(
           this.traverseSkillDataobjectForXMLGeneration("root", document));
 
-      final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      final TransformerFactory transformerFactory = TransformerFactory
+          .newInstance();
       final Transformer transformer = transformerFactory.newTransformer();
 
       // indent by 2 characters
@@ -177,7 +180,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param element Node in the XML
    * @return SkillDataobject
    */
-  static SkillDataobject traverseNode(final SkillSession session, final Element element) {
+  static SkillDataobject traverseNode(final SkillSession session,
+      final Element element) {
 
     SkillDataobject skillDataobject;
     final NamedNodeMap nodeMap = element.getAttributes();
@@ -199,7 +203,8 @@ public abstract class SkillDataobject implements EvaluableToSkill {
         next = nodeList.item(i);
 
         if ((sub = SkillDataobject.getElement(next)) != null) {
-          dpl.put(next.getNodeName(), SkillDataobject.traverseNode(session, sub));
+          dpl.put(next.getNodeName(),
+              SkillDataobject.traverseNode(session, sub));
         }
       }
 
@@ -303,7 +308,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
       return null;
     }
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

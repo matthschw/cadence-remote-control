@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a native SKILL-Object
+ * Representation of a native Skill object
  *
  */
 public abstract class SkillNativeDataobject extends SkillDataobject {
@@ -32,7 +32,8 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
    */
   public boolean writeSkillDataobjectToXML(final String path) {
 
-    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+        .newInstance();
     DocumentBuilder dBuilder;
     try {
       dBuilder = dbFactory.newDocumentBuilder();
@@ -41,7 +42,8 @@ public abstract class SkillNativeDataobject extends SkillDataobject {
       document.appendChild(
           this.traverseSkillDataobjectForXMLGeneration("root", document));
 
-      final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      final TransformerFactory transformerFactory = TransformerFactory
+          .newInstance();
       final Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 

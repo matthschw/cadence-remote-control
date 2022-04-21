@@ -1,10 +1,8 @@
 package edlab.eda.cadence.rc.data;
 
 /**
- * Fability of waveforms
+ * Familiy of waveforms
  */
 public class SkillWaveFamily {
-
   // to be implemnted
-
 }

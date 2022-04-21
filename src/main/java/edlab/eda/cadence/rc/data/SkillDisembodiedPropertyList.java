@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a native SKILL disembodied property list
+ * Representation of a native Skill disembodied property list
  *
  */
 public final class SkillDisembodiedPropertyList extends SkillBoolean
@@ -35,7 +35,8 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
    *
    * @param properties Map of key-value pairs
    */
-  public SkillDisembodiedPropertyList(final Map<String, SkillDataobject> properties) {
+  public SkillDisembodiedPropertyList(
+      final Map<String, SkillDataobject> properties) {
     super(true);
     this.properties = properties;
   }
@@ -67,7 +68,8 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
       final Document document) {
 
     final Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, SkillDisembodiedPropertyList.TYPE_ID);
+    element.setAttribute(SkillDataobject.TYPE_ID,
+        SkillDisembodiedPropertyList.TYPE_ID);
 
     for (final Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {
@@ -161,7 +163,8 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   }
 
   @Override
-  public void putAll(final Map<? extends String, ? extends SkillDataobject> arg0) {
+  public void putAll(
+      final Map<? extends String, ? extends SkillDataobject> arg0) {
     this.putAll(arg0);
   }
 
@@ -179,7 +182,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
   public Collection<SkillDataobject> values() {
     return this.properties.values();
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

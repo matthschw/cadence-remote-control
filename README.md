@@ -6,6 +6,18 @@ Remote Control for Cadence-Tools in Java
 This toolbox provides remote-control capabilities for Cadence-based
 tools in Java.
 
+## Installation
+
+```bash
+mvn install
+```
+
+The documentation can be created with
+
+```bash
+mvn javadoc:javadoc
+```
+and accesssed in
 
 ## Known Issues
 
@@ -20,7 +32,7 @@ mvn install
 
 ## License
 
-Copyright (C) 2022, [Electronics & Drives](https://www.electronics-and-drives.de/)
+Copyright (C) 2022, [Reutlingen University](https://www.reutlingen-university.de), [Electronics & Drives](https://www.electronics-and-drives.de/)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
