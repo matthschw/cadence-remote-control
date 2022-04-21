@@ -5,39 +5,67 @@ import org.w3c.dom.Element;
 
 import edlab.eda.cadence.rc.session.SkillSession;
 
-public class SkillSingleWave extends SkillDataobject {
+/**
+ * Waveform with single axis
+ */
+public final class SkillSingleWave extends SkillDataobject {
 
   /**
    * Type-Identifier in XML
    */
   public static final String TYPE_ID = "wave";
 
-  private SkillVector x;
-  private SkillVector y;
+  private final SkillVector x;
+  private final SkillVector y;
 
+  @Override
   public String toSkill() {
-    return "nil";
+    return SkillBoolean.getFalse().toSkill();
   }
 
-  public SkillSingleWave(SkillVector x, SkillVector y) {
+  /**
+   * Create a wave
+   * 
+   * @param x Vector of X values
+   * @param y Vector of Y values
+   */
+  SkillSingleWave(final SkillVector x, final SkillVector y) {
     this.x = x;
     this.y = y;
   }
 
+  /**
+   * Get the X values in the waveform
+   * 
+   * @return x vector
+   */
   public SkillVector getX() {
     return this.x;
   }
 
+  /**
+   * Get the Y values in the waveform
+   * 
+   * @return y vector
+   */
   public SkillVector getY() {
     return this.y;
   }
 
-  public static SkillDataobject build(SkillSession session, Element element) {
+  /**
+   * Build a {@link SkillSingleWave} from a XML representaion
+   * 
+   * @param session Session
+   * @param element XML element
+   * @return wave when valid, <code>null</code> otherwise
+   */
+  public static SkillDataobject build(final SkillSession session,
+      final Element element) {
 
-    SkillList xList = (SkillList) SkillList.build(session,
+    final SkillList xList = SkillList.build(session,
         (Element) element.getElementsByTagName("x").item(0));
 
-    SkillList yList = (SkillList) SkillList.build(session,
+    final SkillList yList = SkillList.build(session,
         (Element) element.getElementsByTagName("y").item(0));
 
     return new SkillSingleWave(SkillVector.getVectorFromList(xList),
@@ -45,7 +73,8 @@ public class SkillSingleWave extends SkillDataobject {
   }
 
   @Override
-  public boolean canBeUsedInSession(SkillSession session) {
+  public boolean canBeUsedInSession(final SkillSession session) {
+    // waveform cannot be backannotated to Virtuoso
     return false;
   }
 
@@ -55,9 +84,9 @@ public class SkillSingleWave extends SkillDataobject {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillSingleWave) {
-      SkillSingleWave wave = (SkillSingleWave) o;
+      final SkillSingleWave wave = (SkillSingleWave) o;
       return this.x.equals(wave.x) && this.y.equals(wave.y);
     } else {
       return false;
@@ -65,16 +94,16 @@ public class SkillSingleWave extends SkillDataobject {
   }
 
   @Override
-  String toSkillHierarchical(int depth) {
+  String toSkillHierarchical(final int depth) {
     return "nil";
   }
 
   @Override
-  Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillSingleWave.TYPE_ID);
 
     element.appendChild(
         this.x.traverseSkillDataobjectForXMLGeneration("x", document));

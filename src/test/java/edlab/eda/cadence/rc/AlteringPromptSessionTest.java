@@ -21,28 +21,43 @@ class AlteringPromptSessionTest {
   @Test
   void test() throws UnableToStartSession, EvaluationFailedException,
       IncorrectSyntaxException, InvalidDataobjectReferenceExecption {
-    SkillInteractiveSession session = new SkillInteractiveSession(
-        new File("./src/test/resources/alterPrompt"));
 
-    session.setPrompt("Ready >");
+    SkillInteractiveSession session = null;
 
-    // Start the session
-    session.start();
+    try {
+      session = new SkillInteractiveSession(
+          new File("./src/test/resources/alterPrompt"));
 
-    // create a command template for the command "plus"
-    SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
+      session.setPrompt("Ready >");
 
-    // create the command "(plus 1 41)"
-    SkillCommand command = template.buildCommand(
-        new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+      // Start the session
+      session.start();
 
-    // evaluate the command in the session
-    SkillFixnum obj = (SkillFixnum) session.evaluate(command);
+      // create a command template for the command "plus"
+      SkillCommandTemplate template = SkillCommandTemplate.build("plus", 2);
 
-    if (obj.getFixnum() != 42) {
-      fail("Evaluation failed");
+      // create the command "(plus 1 41)"
+      SkillCommand command = template.buildCommand(
+          new EvaluableToSkill[] { new SkillFixnum(1), new SkillFixnum(41) });
+
+      // evaluate the command in the session
+      SkillFixnum obj = (SkillFixnum) session.evaluate(command);
+
+      if (obj.getFixnum() != 42) {
+        fail("Evaluation failed");
+      }
+
+      session.stop();
+    } catch (Exception e) {
+      
+      session.stop();
+      
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e2) {
+      }
+      
+      throw e;
     }
-
-    session.stop();
   }
 }

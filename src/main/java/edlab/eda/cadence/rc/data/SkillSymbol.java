@@ -4,47 +4,47 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Representation of a SKILL-Symbol
+ * Representation of a Skill Symbol
  *
  */
-public class SkillSymbol extends SkillBoolean {
+public final class SkillSymbol extends SkillBoolean {
 
   /**
-   * Type-Identifier in XML
+   * Type identifier in XML
    */
   public static final String TYPE_ID = "symbol";
 
-  private String printName;
+  private final String printName;
 
   /**
-   * Create a SkillSymbol from a given print name
+   * Create a Skill Symbol from a given print name
    *
    * @param printName Symbol name
    */
-  public SkillSymbol(String printName) {
+  public SkillSymbol(final String printName) {
     super(true);
     this.printName = printName;
   }
 
   @Override
-  protected String toSkillHierarchical(int depth) {
+  protected String toSkillHierarchical(final int depth) {
     return "'" + this.printName;
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillSymbol.TYPE_ID);
     element.setTextContent(this.printName);
     return element;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     if (o instanceof SkillSymbol) {
-      SkillSymbol object = (SkillSymbol) o;
+      final SkillSymbol object = (SkillSymbol) o;
       return this.printName.equals(object.printName);
     } else {
       return false;

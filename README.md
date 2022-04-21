@@ -6,7 +6,17 @@ Remote Control for Cadence-Tools in Java
 This toolbox provides remote-control capabilities for Cadence-based
 tools in Java.
 
-# Installation
+This software was developed for [OpenJDK 1.8](https://openjdk.java.net) 
+and [Apache Maven 3.6.3](https://maven.apache.org).
+The documentation can be created with 
+
+```bash
+mvn javadoc:javadoc
+```
+
+and accessed at  `./target/apidocs/index.html`.
+
+## Installation
 
 Clone this repository:
 
@@ -19,6 +29,7 @@ $ git clone https://github.com/electronics-and-drives/cadence-remote-control.git
 ```bash
 mvn install
 ```
+
 Make sure, that Virtuoso is available during the 
 installation process, i.e. the command
 ```bash
@@ -28,7 +39,6 @@ should return *sub-version  IC6.1.8-64b.500.20* or something similar.
 Please pay attention that Virtuoso is started in graphical mode while
 the project is installed.
 Do not interact with this CIW.
-
 
 ## Known Issues
 
@@ -43,7 +53,7 @@ mvn install
 
 ## License
 
-Copyright (C) 2022, [Electronics & Drives](https://www.electronics-and-drives.de/)
+Copyright (C) 2022, [Reutlingen University](https://www.reutlingen-university.de), [Electronics & Drives](https://www.electronics-and-drives.de/)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

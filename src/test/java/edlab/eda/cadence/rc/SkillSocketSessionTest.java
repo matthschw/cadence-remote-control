@@ -16,43 +16,49 @@ public class SkillSocketSessionTest {
   public static final File TST_DIR = new File("./");
 
   @Test
-  void test() throws EvaluationFailedException, UnableToStartSession,
-      IncorrectSyntaxException, IOException,
-      InvalidDataobjectReferenceExecption {
+  void test() throws IOException, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption, UnableToStartSession,
+      IncorrectSyntaxException {
 
-    Process process = Runtime.getRuntime()
-        .exec("virtuoso -replay ./src/test/resources/replay.il");
+    Process process = null;
 
     try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-    }
 
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        process.destroy();
+      process = Runtime.getRuntime()
+          .exec("virtuoso -replay ./src/test/resources/replay.il");
+
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
       }
-    });
 
-    SkillSocketSession session = SkillSocketSession.connect(TST_DIR);
+      SkillSocketSession session = SkillSocketSession.connect(TST_DIR);
 
-    SkillSessionMethods.writeFile(session);
-    session.stop();
-    
-    session = SkillSocketSession.connect(TST_DIR);
+      SkillSessionMethods.writeFile(session);
+      session.stop();
 
-    for (int i = 0; i < 100; i++) {
-      SkillSessionMethods.addUpValuesInList(session);
-    }
+      session = SkillSocketSession.connect(TST_DIR);
 
-    session.stop();
-    session = SkillSocketSession.connect(TST_DIR);
+      for (int i = 0; i < 100; i++) {
+        SkillSessionMethods.addUpValuesInList(session);
+      }
 
-    SkillSessionMethods.strcat(session);
+      session.stop();
+      session = SkillSocketSession.connect(TST_DIR);
 
-    SkillSessionMethods.complexNumber(session);
+      SkillSessionMethods.strcat(session);
 
-    session.stop();
+      SkillSessionMethods.complexNumber(session);
+
+      SkillSessionMethods.detectFailingCommand(session);
+
+      session.stop();
+
+    } catch (Exception e) {
+      process.destroyForcibly();
+      throw e;
+    } 
+
+    process.destroyForcibly();
   }
 }

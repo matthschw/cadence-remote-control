@@ -28,7 +28,7 @@ import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a SKILL data-object
+ * Representation of a Skill data-object
  */
 public abstract class SkillDataobject implements EvaluableToSkill {
 
@@ -78,11 +78,11 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml File that contains the XML
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(File xml) {
+  public static SkillDataobject getSkillDataobjectFromXML(final File xml) {
     try {
-      return getSkillDataobjectFromXML(null,
+      return SkillDataobject.getSkillDataobjectFromXML(null,
           FileUtils.readFileToByteArray(xml));
-    } catch (IOException e) {
+    } catch (final IOException e) {
       return new SkillList();
     }
   }
@@ -94,9 +94,9 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
-      String xml) {
-    return getSkillDataobjectFromXML(session, xml.getBytes());
+  public static SkillDataobject getSkillDataobjectFromXML(
+      final SkillSession session, final String xml) {
+    return SkillDataobject.getSkillDataobjectFromXML(session, xml.getBytes());
   }
 
   /**
@@ -106,24 +106,25 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML to be parsed as byte array
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(SkillSession session,
-      byte[] xml) {
+  public static SkillDataobject getSkillDataobjectFromXML(
+      final SkillSession session, final byte[] xml) {
 
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+        .newInstance();
     DocumentBuilder dBuilder;
 
     try {
       dBuilder = dbFactory.newDocumentBuilder();
 
-      Document doc = dBuilder.parse(new ByteArrayInputStream(xml));
+      final Document doc = dBuilder.parse(new ByteArrayInputStream(xml));
 
       doc.getDocumentElement().normalize();
 
-      Element element = doc.getDocumentElement();
+      final Element element = doc.getDocumentElement();
 
-      return traverseNode(session, element);
+      return SkillDataobject.traverseNode(session, element);
 
-    } catch (Exception e) {
+    } catch (final Exception e) {
       return new SkillList();
     }
   }
@@ -134,36 +135,38 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param file Path to XML file
    * @return file when successful, <code>null</code> otherwise
    */
-  public File writeSkillDataobjectToXML(File file) {
+  public File writeSkillDataobjectToXML(final File file) {
 
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+        .newInstance();
     DocumentBuilder dBuilder;
 
     try {
       dBuilder = dbFactory.newDocumentBuilder();
-      Document document = dBuilder.newDocument();
+      final Document document = dBuilder.newDocument();
 
       document.appendChild(
           this.traverseSkillDataobjectForXMLGeneration("root", document));
 
-      TransformerFactory transformerFactory = TransformerFactory.newInstance();
-      Transformer transformer = transformerFactory.newTransformer();
+      final TransformerFactory transformerFactory = TransformerFactory
+          .newInstance();
+      final Transformer transformer = transformerFactory.newTransformer();
 
       // indent by 2 characters
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
           "2");
 
-      DOMSource domSource = new DOMSource(document);
-      StreamResult streamResult = new StreamResult(file);
+      final DOMSource domSource = new DOMSource(document);
+      final StreamResult streamResult = new StreamResult(file);
 
       transformer.transform(domSource, streamResult);
 
-    } catch (ParserConfigurationException e) {
+    } catch (final ParserConfigurationException e) {
       return null;
-    } catch (TransformerConfigurationException e) {
+    } catch (final TransformerConfigurationException e) {
       return null;
-    } catch (TransformerException e) {
+    } catch (final TransformerException e) {
       return null;
     }
     return file;
@@ -177,19 +180,20 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param element Node in the XML
    * @return SkillDataobject
    */
-  static SkillDataobject traverseNode(SkillSession session, Element element) {
+  static SkillDataobject traverseNode(final SkillSession session,
+      final Element element) {
 
     SkillDataobject skillDataobject;
-    NamedNodeMap nodeMap = element.getAttributes();
+    final NamedNodeMap nodeMap = element.getAttributes();
     NodeList nodeList;
 
     Element sub;
 
-    switch (nodeMap.getNamedItem(TYPE_ID).getNodeValue()) {
+    switch (nodeMap.getNamedItem(SkillDataobject.TYPE_ID).getNodeValue()) {
 
     case SkillDisembodiedPropertyList.TYPE_ID:
 
-      SkillDisembodiedPropertyList dpl = new SkillDisembodiedPropertyList();
+      final SkillDisembodiedPropertyList dpl = new SkillDisembodiedPropertyList();
 
       nodeList = element.getChildNodes();
       Node next;
@@ -198,8 +202,9 @@ public abstract class SkillDataobject implements EvaluableToSkill {
 
         next = nodeList.item(i);
 
-        if ((sub = getElement(next)) != null) {
-          dpl.put(next.getNodeName(), traverseNode(session, sub));
+        if ((sub = SkillDataobject.getElement(next)) != null) {
+          dpl.put(next.getNodeName(),
+              SkillDataobject.traverseNode(session, sub));
         }
       }
 
@@ -274,18 +279,19 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    *         otherwise
    */
   @SuppressWarnings("unused")
-  private static boolean isValidNode(Node node) {
+  private static boolean isValidNode(final Node node) {
 
     if (node.hasAttributes()) {
-      NamedNodeMap nodeMap = node.getAttributes();
+      final NamedNodeMap nodeMap = node.getAttributes();
 
-      if (nodeMap.getNamedItem(TYPE_ID) != null) {
+      if (nodeMap.getNamedItem(SkillDataobject.TYPE_ID) != null) {
         return true;
       } else {
         return false;
       }
-    } else
+    } else {
       return false;
+    }
   }
 
   /**
@@ -295,14 +301,14 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @return reference to element, when it is an element, <code>null</code>
    *         otherwise
    */
-  static Element getElement(Node node) {
+  static Element getElement(final Node node) {
     if (node instanceof Element) {
       return (Element) node;
     } else {
       return null;
     }
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

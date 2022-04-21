@@ -14,7 +14,10 @@ import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
 
-public abstract class SkillSession implements CanExecuteSkillCommands {
+/**
+ * A session which is capable of executing Skill commands
+ */
+public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   // Context file
   public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
@@ -30,6 +33,8 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   // Timeout
   protected long timeoutDuration = 1;
   protected TimeUnit timeoutTimeUnit = TimeUnit.HOURS;
+  protected long timeout_ms = this.timeoutTimeUnit
+      .toMillis(this.timeoutDuration);
 
   protected String prompt = PROMPT_DEFAULT;
   protected Matcher<Result> nextCommand;
@@ -58,7 +63,7 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   protected SkillSession() {
 
-    String content = System.getenv(PROMPT_ENV_VAR);
+    final String content = System.getenv(PROMPT_ENV_VAR);
 
     if (content instanceof String) {
       this.prompt = content;
@@ -69,14 +74,16 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   /**
    * Specify the prompt for return value recognition. Can be done only, when the
-   * session is not active.
+   * session is not active. When this method is not used, the prompt is
+   * extracted of <code>ED_CDS_INIT_PROMPT</code>. When this environment
+   * variable is not set, <code>&gt;</code> is used.
    * 
    * @param prompt Prompt to be used (when not specified <code>&gt;</code> is
    *               used).
    * @return <code>true</code> when change is valid, <code>false</code>
    *         otherwise
    */
-  public boolean setPrompt(String prompt) {
+  public boolean setPrompt(final String prompt) {
 
     if (this.isActive()) {
       return false;
@@ -88,18 +95,42 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   }
 
   /**
-   * Set the timeout for the session. The session will terminate when no action
-   * is performed (command is sent) or the session does not respond in the
-   * specified time.
+   * Set the timeout for the session. The session will wait the here provided
+   * amount of time until the evaluation of a command is finished
    *
-   * @param duration Timeout
-   * @param unit     Time Unit to be used
-   * @return this
+   * @param timeoutDuration duration
+   * @param timeoutTimeUnit Time Unit to be used
+   * @return this when chanhing was valid, <code>null</code> otherwise
    */
-  public SkillSession setTimeout(long duration, TimeUnit unit) {
-    this.timeoutDuration = duration;
-    this.timeoutTimeUnit = unit;
-    return this;
+  public SkillSession setTimeout(final long timeoutDuration,
+      final TimeUnit timeoutTimeUnit) {
+
+    if ((timeoutDuration > 0) && (timeoutTimeUnit instanceof TimeUnit)) {
+      this.timeoutDuration = timeoutDuration;
+      this.timeoutTimeUnit = timeoutTimeUnit;
+      this.timeout_ms = this.timeoutTimeUnit.toMillis(this.timeoutDuration);
+      return this;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Get the timeout duration
+   * 
+   * @return watchdogTimeoutDuration
+   */
+  public long getTimeoutDuration() {
+    return this.timeoutDuration;
+  }
+
+  /**
+   * Get the timeout time unit
+   * 
+   * @return timeoutTimeUnit
+   */
+  public TimeUnit getTimeUnit() {
+    return this.timeoutTimeUnit;
   }
 
   /**
@@ -141,8 +172,10 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
 
   /**
    * Stop the session
+   * 
+   * @return this
    */
-  public abstract void stop();
+  public abstract SkillSession stop();
 
   @Override
   protected void finalize() {
@@ -150,14 +183,14 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   }
 
   @Override
-  public File getResourcePath(String fileName, String suffix) {
+  public File getResourcePath(final String fileName, final String suffix) {
     return this.getResourcePathFromAscii(fileName, suffix);
   }
 
   @Override
-  public File getResourcePathFromBinary(String fileName, String suffix) {
+  public File getResourcePathFromBinary(final String fileName, final String suffix) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
     byte[] data;
@@ -169,7 +202,7 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
       file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
       file.deleteOnExit();
-    } catch (IOException e) {
+    } catch (final IOException e) {
       file = null;
     }
 
@@ -177,17 +210,17 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
   }
 
   @Override
-  public File getResourcePathFromAscii(String fileName, String suffix) {
+  public File getResourcePathFromAscii(final String fileName, final String suffix) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
-    Scanner scanner = new Scanner(stream);
+    final Scanner scanner = new Scanner(stream);
 
     FileWriter writer;
 
     try {
-      File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
+      final File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       writer = new FileWriter(file);
       while (scanner.hasNextLine()) {
         writer.append(scanner.nextLine());
@@ -196,20 +229,20 @@ public abstract class SkillSession implements CanExecuteSkillCommands {
       scanner.close();
       return file;
 
-    } catch (IOException e1) {
+    } catch (final IOException e1) {
     }
     scanner.close();
     return null;
   }
 
   @Override
-  public String getResourceFromAscii(String fileName) {
+  public String getResourceFromAscii(final String fileName) {
 
-    InputStream stream = getClass().getClassLoader()
+    final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
 
-    Scanner scanner = new Scanner(stream);
-    StringBuilder builder = new StringBuilder();
+    final Scanner scanner = new Scanner(stream);
+    final StringBuilder builder = new StringBuilder();
 
     boolean first = true;
 

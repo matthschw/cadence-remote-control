@@ -21,7 +21,7 @@
 *    o EDcdsRCbuildXML
 *    o EDcdsRCescapeXML
 *
-* Copyright (C) 2021, Electronics & Drives 
+* Copyright (C) 2022, Electronics & Drives 
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -147,7 +147,7 @@
 ; 
 ;
 ;Parameters:
-; file              file path where the SKILL command is stored
+; file              file path where the Skill command is stored
 ;
 ; ?returnType       string, either "print" or "string". When "print" is 
 ;                     provided, the XML is printed to the XIW, when "string"

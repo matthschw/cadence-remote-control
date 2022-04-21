@@ -3,69 +3,69 @@ package edlab.eda.cadence.rc.api;
 import java.util.Set;
 
 /**
- * Template of a SKILL-Command with keyword parameters
- *
+ * Template of a Skill command with keyword parameters
  */
-public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
+public final class KeywordParameterSkillCommandTemplate
+    extends SkillCommandTemplate {
 
-  private Set<String> keywordParameters;
+  private final Set<String> keywordParameters;
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      Set<String> keywordParameters) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final Set<String> keywordParameters) {
     super(name);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      int numberOfFormalParameters, Set<String> keywordParameters) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final int numberOfFormalParameters, final Set<String> keywordParameters) {
     super(name, numberOfFormalParameters);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      Set<String> keywordParameters, boolean canHaveRest) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final Set<String> keywordParameters, final boolean canHaveRest) {
     super(name, canHaveRest);
     this.keywordParameters = keywordParameters;
   }
 
-  private KeywordParameterSkillCommandTemplate(String name,
-      int numberOfFormalParameters, Set<String> keywordParameters,
-      boolean canHaveRest) {
+  private KeywordParameterSkillCommandTemplate(final String name,
+      final int numberOfFormalParameters, final Set<String> keywordParameters,
+      final boolean canHaveRest) {
     super(name, numberOfFormalParameters, canHaveRest);
     this.keywordParameters = keywordParameters;
   }
 
   /**
-   * Get keyword parameters of the SKILL-Command template
+   * Get keyword parameters of the Skill-Command template
    *
    * @return Names of keyword-parameters
    */
   public Set<String> getKeywordParameters() {
-    return keywordParameters;
+    return this.keywordParameters;
   }
 
   /**
-   * Build a SKILL command template with keyword parameters
+   * Build a Skill command template with keyword parameters
    *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
-   * @return SKILL-Command template
+   * @return Skill command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      Set<String> keywordParameters) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final Set<String> keywordParameters) {
     return new KeywordParameterSkillCommandTemplate(name, keywordParameters);
   }
 
   /**
-   * Build a SKILL command template with formal and keyword parameters
+   * Build a Skill command template with formal and keyword parameters
    *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
-   * @return SKILL-Command template
+   * @return Skill command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      int formalParameters, Set<String> keywordParameters) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final Set<String> keywordParameters) {
 
     if (formalParameters < 0) {
       return null;
@@ -76,33 +76,33 @@ public class KeywordParameterSkillCommandTemplate extends SkillCommandTemplate {
   }
 
   /**
-   * Build a SKILL command template with keyword parameters and rest
+   * Build a Skill command template with keyword parameters and rest
    *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      Set<String> keywordParameters, boolean canHaveRest) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final Set<String> keywordParameters, final boolean canHaveRest) {
     return new KeywordParameterSkillCommandTemplate(name, keywordParameters,
         canHaveRest);
   }
 
   /**
-   * Build a SKILL command template with formal and keyword parameters and rest
+   * Build a Skill command template with formal and keyword parameters and rest
    *
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return SKILL-Command template
+   * @return Skill command template
    */
-  public static KeywordParameterSkillCommandTemplate build(String name,
-      int formalParameters, Set<String> keywordParameters,
-      boolean canHaveRest) {
+  public static KeywordParameterSkillCommandTemplate build(final String name,
+      final int formalParameters, final Set<String> keywordParameters,
+      final boolean canHaveRest) {
 
     if (formalParameters < 0) {
       return null;

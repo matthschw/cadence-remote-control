@@ -9,9 +9,9 @@ import org.w3c.dom.Element;
  * Representation of a Skill flonum
  *
  */
-public class SkillFlonum extends SkillNumber {
+public final class SkillFlonum extends SkillNumber {
 
-  private BigDecimal value;
+  private final BigDecimal value;
 
   /**
    * Type-Identifier in XML
@@ -23,7 +23,7 @@ public class SkillFlonum extends SkillNumber {
    *
    * @param flonum Flonum
    */
-  public SkillFlonum(BigDecimal flonum) {
+  public SkillFlonum(final BigDecimal flonum) {
     super();
     this.value = flonum;
   }
@@ -38,16 +38,16 @@ public class SkillFlonum extends SkillNumber {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillFlonum.TYPE_ID);
     element.setTextContent(this.value.toString());
     return element;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     BigDecimal value = null;
 
@@ -65,7 +65,7 @@ public class SkillFlonum extends SkillNumber {
   }
 
   @Override
-  protected String toSkillHierarchical(int depth) {
+  protected String toSkillHierarchical(final int depth) {
     return "" + this.value.toString();
   }
 

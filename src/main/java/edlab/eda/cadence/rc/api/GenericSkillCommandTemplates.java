@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Container for generic Skill command templates
  */
-public class GenericSkillCommandTemplates {
+public final class GenericSkillCommandTemplates {
 
   public static final String PLUS = "plus";
   public static final String SQRT = "sqrt";
@@ -57,7 +57,7 @@ public class GenericSkillCommandTemplates {
 
   private static GenericSkillCommandTemplates commandTemplates = null;
 
-  private Map<String, SkillCommandTemplate> templates;
+  private final Map<String, SkillCommandTemplate> templates;
 
   private GenericSkillCommandTemplates() {
 
@@ -182,7 +182,6 @@ public class GenericSkillCommandTemplates {
     this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML, 1));
-
   }
 
   /**
@@ -191,7 +190,7 @@ public class GenericSkillCommandTemplates {
    * @param name Name of the command
    * @return template when existing, <code>null</code> otherwise
    */
-  public static SkillCommandTemplate getTemplate(String name) {
+  public static SkillCommandTemplate getTemplate(final String name) {
 
     if (GenericSkillCommandTemplates.commandTemplates == null) {
       GenericSkillCommandTemplates.commandTemplates = new GenericSkillCommandTemplates();

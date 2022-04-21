@@ -8,19 +8,19 @@ import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
- * Representation of a SKILL command
+ * Representation of a Skill command
  */
-public class SkillCommand implements EvaluableToSkill {
+public final class SkillCommand implements EvaluableToSkill {
 
-  private SkillCommandTemplate template;
-  private EvaluableToSkill[] formalParameters;
-  private Map<String, EvaluableToSkill> keywordParameters;
-  private List<EvaluableToSkill> optionalAndRestParameters;
+  private final SkillCommandTemplate template;
+  private final EvaluableToSkill[] formalParameters;
+  private final Map<String, EvaluableToSkill> keywordParameters;
+  private final List<EvaluableToSkill> optionalAndRestParameters;
 
-  SkillCommand(SkillCommandTemplate template,
-      EvaluableToSkill[] formalParameters,
-      Map<String, EvaluableToSkill> keywordParameters,
-      List<EvaluableToSkill> optionalAndRestParameters) {
+  SkillCommand(final SkillCommandTemplate template,
+      final EvaluableToSkill[] formalParameters,
+      final Map<String, EvaluableToSkill> keywordParameters,
+      final List<EvaluableToSkill> optionalAndRestParameters) {
 
     this.template = template;
     this.formalParameters = formalParameters;
@@ -31,13 +31,13 @@ public class SkillCommand implements EvaluableToSkill {
   @Override
   public String toSkill() {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
 
     builder.append("(").append(this.template.getName());
 
     if (this.formalParameters != null) {
 
-      for (EvaluableToSkill formalParameter : this.formalParameters) {
+      for (final EvaluableToSkill formalParameter : this.formalParameters) {
 
         builder.append(" ");
         if (formalParameter == null) {
@@ -50,7 +50,7 @@ public class SkillCommand implements EvaluableToSkill {
 
     if (this.keywordParameters != null) {
 
-      for (Entry<String, EvaluableToSkill> entry : this.keywordParameters
+      for (final Entry<String, EvaluableToSkill> entry : this.keywordParameters
           .entrySet()) {
 
         builder.append(" ");
@@ -66,7 +66,7 @@ public class SkillCommand implements EvaluableToSkill {
 
     if (this.optionalAndRestParameters != null) {
 
-      for (EvaluableToSkill evaluableToSkill : this.optionalAndRestParameters) {
+      for (final EvaluableToSkill evaluableToSkill : this.optionalAndRestParameters) {
 
         builder.append(" ");
 
@@ -77,17 +77,17 @@ public class SkillCommand implements EvaluableToSkill {
         }
       }
     }
-    
+
     builder.append(")");
-    
+
     return builder.toString();
   }
 
   @Override
-  public boolean canBeUsedInSession(SkillSession session) {
+  public boolean canBeUsedInSession(final SkillSession session) {
 
     if (this.formalParameters != null) {
-      for (EvaluableToSkill formalParameter : formalParameters) {
+      for (final EvaluableToSkill formalParameter : this.formalParameters) {
         if (!formalParameter.canBeUsedInSession(session)) {
           return false;
         }
@@ -95,15 +95,15 @@ public class SkillCommand implements EvaluableToSkill {
     }
 
     if (this.keywordParameters != null) {
-      for (String key : this.keywordParameters.keySet()) {
-        if (!keywordParameters.get(key).canBeUsedInSession(session)) {
+      for (final String key : this.keywordParameters.keySet()) {
+        if (!this.keywordParameters.get(key).canBeUsedInSession(session)) {
           return false;
         }
       }
     }
 
     if (this.optionalAndRestParameters != null) {
-      for (EvaluableToSkill evaluableToSkill : this.formalParameters) {
+      for (final EvaluableToSkill evaluableToSkill : this.formalParameters) {
         if (!evaluableToSkill.canBeUsedInSession(session)) {
           return false;
         }

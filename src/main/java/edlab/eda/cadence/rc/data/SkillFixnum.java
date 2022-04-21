@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
  * Representation of a Skill fixnum
  *
  */
-public class SkillFixnum extends SkillNumber {
+public final class SkillFixnum extends SkillNumber {
 
   private int value;
 
@@ -21,7 +21,7 @@ public class SkillFixnum extends SkillNumber {
    *
    * @param fixnum Fixnum
    */
-  public SkillFixnum(int fixnum) {
+  public SkillFixnum(final int fixnum) {
     super();
     this.value = fixnum;
 
@@ -42,25 +42,25 @@ public class SkillFixnum extends SkillNumber {
    * @param fixnum Value as integer
    * @return value
    */
-  public int setFixum(int fixnum) {
+  public int setFixum(final int fixnum) {
     this.value = fixnum;
     return this.value;
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillFixnum.TYPE_ID);
     element.setTextContent(String.valueOf(this.value));
     return element;
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
 
     if (o instanceof SkillFixnum) {
-      SkillFixnum object = (SkillFixnum) o;
+      final SkillFixnum object = (SkillFixnum) o;
       return this.value == object.value;
     } else {
       return false;
@@ -68,7 +68,7 @@ public class SkillFixnum extends SkillNumber {
   }
 
   @Override
-  protected String toSkillHierarchical(int depth) {
+  protected String toSkillHierarchical(final int depth) {
     return String.valueOf(this.value);
   }
   

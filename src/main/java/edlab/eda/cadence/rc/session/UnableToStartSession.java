@@ -9,23 +9,24 @@ public class UnableToStartSession extends Exception {
 
   private static final long serialVersionUID = 5809804414514574838L;
 
-  public UnableToStartSession(String message) {
+  public UnableToStartSession(final String message) {
     super(message);
   }
 
-  public UnableToStartSession(String command, File workingDir) {
+  public UnableToStartSession(final String command, final File workingDir) {
     super("Unable to start session with command \"" + command
         + "\" in directory " + workingDir.getAbsolutePath());
   }
 
-  public UnableToStartSession(String command, File workingDir, File logfile) {
+  public UnableToStartSession(final String command, final File workingDir,
+      final File logfile) {
     super(
         "Unable to start session with command \"" + command + "\" in directory "
             + workingDir.getAbsolutePath() + ". " + "\nPlease investigate \""
             + logfile.getAbsolutePath() + "\" for detailed information.");
   }
 
-  public UnableToStartSession(int port) {
+  public UnableToStartSession(final int port) {
     super("Unable to connect to session with port " + port);
   }
 }

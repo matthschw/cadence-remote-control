@@ -7,7 +7,7 @@ package edlab.eda.cadence.rc.session;
 public interface EvaluableToSkill {
 
   /**
-   * Evaluate to a SKILL command
+   * Evaluate to a Skill command
    *
    * @return Skill Code
    */

@@ -2,13 +2,22 @@ package edlab.eda.cadence.rc.data;
 
 /**
  * Representation of a boolean value in Skill
- *
  */
 public abstract class SkillBoolean extends SkillNativeDataobject {
 
   protected boolean bool;
 
-  public SkillBoolean(boolean bool) {
+  /**
+   * Skill value for truef
+   */
+  public static final String TRUE = "t";
+
+  /**
+   * Create a Skill Boolean
+   * 
+   * @param bool Boolean
+   */
+  public SkillBoolean(final boolean bool) {
     this.bool = bool;
   }
 
@@ -35,7 +44,7 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
    * @return Skill data-object
    */
   public static SkillDataobject getTrue() {
-    return new SkillSymbol("t");
+    return new SkillSymbol(SkillBoolean.TRUE);
   }
 
   /**
@@ -44,15 +53,14 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
    * @param bool Boolean value
    * @return Skill data-object
    */
-  public static SkillDataobject get(boolean bool) {
-
+  public static SkillDataobject get(final boolean bool) {
     if (bool) {
       return SkillBoolean.getTrue();
     } else {
       return SkillBoolean.getFalse();
     }
   }
-  
+
   /**
    * Identify whether an object is an instance of this class
    *

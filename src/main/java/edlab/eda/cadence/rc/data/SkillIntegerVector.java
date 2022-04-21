@@ -1,39 +1,80 @@
 package edlab.eda.cadence.rc.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillIntegerVector extends SkillVector {
-  private int[] values;
+/**
+ * Skill vector of integers
+ */
+public final class SkillIntegerVector extends SkillVector {
 
-  public SkillIntegerVector(int[] values) {
+  private final int[] values;
+
+  /**
+   * Create vector of integers
+   * 
+   * @param values
+   */
+  SkillIntegerVector(final int[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  /**
+   * Create vector of integers
+   * 
+   * @param values
+   */
+  SkillIntegerVector(final List<Integer> values) {
 
-    int[] values = new int[list.getLength()];
+    this.values = new int[values.size()];
+
+    int i = 0;
+
+    for (final Integer integer : values) {
+      this.values[i++] = integer;
+    }
+  }
+
+  /**
+   * Create a {@link SkillStringVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when the list consists uniquely of integers. Non intgeger
+   *         elements are omitted
+   */
+  static SkillIntegerVector getVectorFromList(final SkillList list) {
+
+    final List<Integer> values = new ArrayList<>();
 
     SkillFixnum fixnum;
 
-    for (int i = 0; i < values.length; i++) {
-      fixnum = (SkillFixnum) list.getByIndex(i);
-      values[i] = fixnum.getFixnum();
+    for (final SkillDataobject obj : list) {
+
+      try {
+
+        fixnum = (SkillFixnum) obj;
+        values.add(fixnum.getFixnum());
+
+      } catch (final Exception e) {
+      }
     }
 
     return new SkillIntegerVector(values);
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillIntegerVector) {
-      SkillIntegerVector vector = (SkillIntegerVector) o;
+      final SkillIntegerVector vector = (SkillIntegerVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
+      for (int i = 0; i < this.values.length; i++) {
         if (this.values[i] != vector.values[i]) {
           return false;
         }
@@ -45,6 +86,11 @@ public class SkillIntegerVector extends SkillVector {
     }
   }
 
+  /**
+   * Get all values in the vector as array
+   * 
+   * @return array
+   */
   public int[] getValues() {
     return this.values;
   }
@@ -55,13 +101,13 @@ public class SkillIntegerVector extends SkillVector {
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDataobject.TYPE_ID);
 
-    for (int value : this.values) {
+    for (final int value : this.values) {
       element.appendChild(new SkillFixnum(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }

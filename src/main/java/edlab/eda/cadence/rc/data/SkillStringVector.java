@@ -1,40 +1,87 @@
 package edlab.eda.cadence.rc.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class SkillStringVector extends SkillVector {
+/**
+ * Skill vector of strings
+ */
+public final class SkillStringVector extends SkillVector {
 
-  private String[] values;
+  private final String[] values;
 
-  public SkillStringVector(String[] values) {
+  /**
+   * Create vector of strings
+   * 
+   * @param values
+   */
+  SkillStringVector(final String[] values) {
     this.values = values;
   }
 
-  static SkillVector getVectorFromList(SkillList list) {
+  /**
+   * Create vector of strings
+   * 
+   * @param values
+   */
+  SkillStringVector(final List<String> values) {
 
-    String[] values = new String[list.getLength()];
+    this.values = new String[values.size()];
 
-    SkillString str;
+    int i = 0;
 
-    for (int i = 0; i < values.length; i++) {
-      str = (SkillString) list.getByIndex(i);
-      values[i] = str.getString();
+    for (final String string : values) {
+      this.values[i++] = string;
+    }
+  }
+
+  /**
+   * Create an empty vector
+   */
+  SkillStringVector() {
+    this.values = new String[0];
+  }
+
+  /**
+   * Create a {@link SkillStringVector} from a {@link SkillList}
+   * 
+   * @param list List
+   * @return vector when the list consists uniquely of strings. Non string
+   *         elements are omitted
+   */
+  static SkillStringVector getVectorFromList(final SkillList list) {
+
+    final List<String> values = new ArrayList<>();
+
+    SkillString skillString;
+
+    for (final SkillDataobject string : list) {
+
+      try {
+
+        skillString = (SkillString) string;
+        values.add(skillString.getString());
+
+      } catch (final Exception e) {
+      }
     }
 
     return new SkillStringVector(values);
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (o instanceof SkillStringVector) {
-      SkillStringVector vector = (SkillStringVector) o;
+      final SkillStringVector vector = (SkillStringVector) o;
 
       if (this.values.length != vector.values.length) {
         return false;
       }
 
-      for (int i = 0; i < values.length; i++) {
+      for (int i = 0; i < this.values.length; i++) {
         if (!this.values[i].equals(vector.values[i])) {
           return false;
         }
@@ -45,24 +92,29 @@ public class SkillStringVector extends SkillVector {
       return false;
     }
   }
-  
+
+  /**
+   * Get all values in the vector as array
+   * 
+   * @return array
+   */
   public String[] getValues() {
     return this.values;
   }
-  
+
   @Override
   public int getLength() {
     return this.values.length;
   }
 
   @Override
-  protected Element traverseSkillDataobjectForXMLGeneration(String name,
-      Document document) {
+  protected Element traverseSkillDataobjectForXMLGeneration(final String name,
+      final Document document) {
 
-    Element element = document.createElement(name);
-    element.setAttribute(SkillDataobject.TYPE_ID, TYPE_ID);
+    final Element element = document.createElement(name);
+    element.setAttribute(SkillDataobject.TYPE_ID, SkillDataobject.TYPE_ID);
 
-    for (String value : this.values) {
+    for (final String value : this.values) {
       element.appendChild(new SkillString(value)
           .traverseSkillDataobjectForXMLGeneration("entry", document));
     }
@@ -80,6 +132,4 @@ public class SkillStringVector extends SkillVector {
   public static boolean isInstanceOf(final Object o) {
     return o instanceof SkillStringVector;
   }
-
-
 }
