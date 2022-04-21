@@ -4,7 +4,6 @@ import java.util.Set;
 
 /**
  * Template of a Skill command with keyword parameters
- *
  */
 public final class KeywordParameterSkillCommandTemplate
     extends SkillCommandTemplate {
@@ -50,7 +49,7 @@ public final class KeywordParameterSkillCommandTemplate
    *
    * @param name              Name of the command
    * @param keywordParameters Keyword parameters
-   * @return Skill-Command template
+   * @return Skill command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final Set<String> keywordParameters) {
@@ -63,7 +62,7 @@ public final class KeywordParameterSkillCommandTemplate
    * @param name              Name of the command
    * @param formalParameters  Number of formal parameters
    * @param keywordParameters Keyword parameters
-   * @return Skill-Command template
+   * @return Skill command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final Set<String> keywordParameters) {
@@ -83,7 +82,7 @@ public final class KeywordParameterSkillCommandTemplate
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return Skill-Command template
+   * @return Skill command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final Set<String> keywordParameters, final boolean canHaveRest) {
@@ -99,7 +98,7 @@ public final class KeywordParameterSkillCommandTemplate
    * @param keywordParameters Keyword parameters
    * @param canHaveRest       <code>true</code> when the command can have rest,
    *                          <code>false</code> otherwise
-   * @return Skill-Command template
+   * @return Skill command template
    */
   public static KeywordParameterSkillCommandTemplate build(final String name,
       final int formalParameters, final Set<String> keywordParameters,

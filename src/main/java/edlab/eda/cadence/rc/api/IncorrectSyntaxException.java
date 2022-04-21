@@ -39,29 +39,66 @@ public final class IncorrectSyntaxException extends Exception {
         + " are requried");
   }
 
+  /**
+   * This exception is thrown when keyword paramaters are added to a template
+   * with no keyword parameters
+   * 
+   * @param name Name of the function
+   * @return exception
+   */
   static IncorrectSyntaxException createNoKeywordParameterFuntionException(
       final String name) {
     return new IncorrectSyntaxException(
         "Function \"" + name + "\" has no keyword parameters");
   }
 
+  /**
+   * This exception is thrown when an invalid keyword paramater is added to a
+   * template
+   * 
+   * @param name    Name of the function
+   * @param keyword Invalid keyword parameter
+   * @return exception
+   */
   static IncorrectSyntaxException createInvalidKeywordExecption(
       final String name, final String keyword) {
     return new IncorrectSyntaxException("Function \"" + name
-        + "\" has no keyword with name \"" + keyword + "\"");
+        + "\" has no keyword parameter with name \"" + keyword + "\"");
   }
 
+  /**
+   * This exception is thrown when a rest is provided to a template where no
+   * rest can be added
+   * 
+   * @param name Name of the function
+   * @return exception
+   */
   static IncorrectSyntaxException createHasNoRestExecption(final String name) {
     return new IncorrectSyntaxException(
         "Cannot provide rest to function \"" + name + "\"");
   }
 
+  /**
+   * This exception is thrown when optional parameters are provided to a
+   * template where no optional parameters can be added
+   * 
+   * @param name Name of the function
+   * @return exception
+   */
   static IncorrectSyntaxException createHasNoOptionalParametersExecption(
       final String name) {
     return new IncorrectSyntaxException(
         "Cannot provide optional parameters to function \"" + name + "\"");
   }
 
+  /**
+   * This exception is thrown when more optional parameters are provided than
+   * available
+   * 
+   * @param name          Name of the function
+   * @param maxParameters Maximum number of allowed parameters
+   * @return exception
+   */
   static IncorrectSyntaxException createInvalidOptionalParametersExecption(
       final String name, final int maxParameters) {
     return new IncorrectSyntaxException("Cannot provide more than "

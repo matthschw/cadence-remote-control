@@ -16,7 +16,7 @@ public class SkillCommandTemplate {
   private final boolean canHaveRest;
 
   /**
-   * Create a SSkill command template with an arbitrary number of formal
+   * Create a Skill command template with an arbitrary number of formal
    * parameters
    *
    * @param name Name of the command

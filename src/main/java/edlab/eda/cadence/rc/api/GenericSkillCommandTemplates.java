@@ -182,7 +182,6 @@ public final class GenericSkillCommandTemplates {
     this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML, 1));
-
   }
 
   /**
