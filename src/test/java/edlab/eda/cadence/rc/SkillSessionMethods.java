@@ -116,6 +116,8 @@ public class SkillSessionMethods {
 
   private static final String STR = STR1 + STR2 + STR3;
 
+  private static final String TESTFUN_NAME = "EDtestFun";
+
   static void strcat(SkillSession session)
       throws IncorrectSyntaxException, UnableToStartSession,
       EvaluationFailedException, InvalidDataobjectReferenceExecption {
@@ -287,6 +289,37 @@ public class SkillSessionMethods {
       SkillDataobject obj = session.evaluate(command);
       fail("Invalid command not detected");
     } catch (EvaluationFailedException e) {
+    }
+  }
+
+  static void loadingCode(SkillSession session)
+      throws UnableToStartSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption, IncorrectSyntaxException {
+
+    if (session.isSkillFunctionCallable(TESTFUN_NAME)) {
+      fail("Function \"" + TESTFUN_NAME + "\" is callable, but should not");
+    }
+
+    if (!session.loadSkillCode(new File("./src/test/resources/EDTestFun.il"))) {
+      fail("Cannot load Skill code");
+    }
+
+    if (!session.isSkillFunctionCallable(TESTFUN_NAME)) {
+      fail("Function \"" + TESTFUN_NAME + "\" is not callable");
+    }
+
+    SkillCommandTemplate template = SkillCommandTemplate.build(TESTFUN_NAME);
+
+    SkillDataobject obj = session.evaluate(template.buildCommand());
+
+    if (obj instanceof SkillFixnum) {
+
+      if (((SkillFixnum) obj).getFixnum() != 42) {
+        fail("Function \"" + TESTFUN_NAME + "\" does not return 42");
+      }
+
+    } else {
+      fail("Function \"" + TESTFUN_NAME + "\" return type invalid");
     }
   }
 }

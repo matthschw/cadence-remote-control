@@ -8,8 +8,12 @@ import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import edlab.eda.cadence.rc.api.GenericSkillCommandTemplates;
+import edlab.eda.cadence.rc.api.IncorrectSyntaxException;
 import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
+import edlab.eda.cadence.rc.data.SkillString;
+import edlab.eda.cadence.rc.data.SkillSymbol;
 import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
@@ -182,13 +186,176 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     this.stop();
   }
 
+  /**
+   * Identify if a Skill function with a given name is callable
+   * 
+   * @param functionName Name of the function
+   * @return <code>true</code> when the function is callable, <code>false</code>
+   *         otherwise
+   */
+  public boolean isSkillFunctionCallable(final String functionName) {
+
+    try {
+
+      final SkillCommand command = GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
+          .buildCommand(new SkillSymbol(functionName));
+
+      final SkillDataobject obj = this.evaluate(command);
+
+      if (obj instanceof SkillDataobject && obj.isTrue()) {
+        return true;
+      }
+
+    } catch (IncorrectSyntaxException | UnableToStartSession
+        | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
+    }
+
+    return false;
+  }
+
+  /**
+   * Load a file consisting of Skill code
+   * 
+   * @param functionName Name of the function
+   * @return <code>true</code> when the code was loaded, <code>false</code>
+   *         otherwise
+   */
+  public boolean loadSkillCode(final File skillFile) {
+
+    try {
+
+      final SkillCommand command = GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.LOAD)
+          .buildCommand(new SkillString(skillFile.getAbsolutePath()));
+
+      final SkillDataobject obj = this.evaluate(command);
+
+      if (obj instanceof SkillDataobject && obj.isTrue()) {
+        return true;
+      }
+
+    } catch (IncorrectSyntaxException | UnableToStartSession
+        | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
+    }
+
+    return false;
+  }
+
+  /**
+   * Load Skill code from within the JAR. The code is only loaded when the
+   * specified function is not callable
+   * 
+   * @param resource     Path to Skill file wihtin JAR
+   * @param suffix       Suffix of the Skill file (il oder ils)
+   * @param functionName Function within the Skill file
+   * @return <code>true</code> when the file is loaded, <code>false</code>
+   *         otherwise
+   */
+  public boolean loadCodeFromJar(final String resource, final String suffix,
+      final String functionName) {
+
+    if (this.isSkillFunctionCallable(functionName)) {
+
+      return true;
+
+    } else {
+
+      final File skillSourceCode = this.getResourcePathFromAscii(resource,
+          suffix);
+
+      boolean retval = false;
+
+      if (skillSourceCode instanceof File) {
+
+        retval = this.loadSkillCode(skillSourceCode);
+
+        skillSourceCode.delete();
+
+        return retval;
+        
+      } else {
+
+        return false;
+      }
+    }
+  }
+
+  /**
+   * Load Skill file
+   * 
+   * @param resource
+   * @param entryFun
+   * @return
+   */
+  public boolean loadSkillFile(File resource, String entryFun) {
+
+    if (this.isActive()) {
+
+      boolean loadSource = false;
+
+      SkillCommand command = null;
+      SkillDataobject obj;
+
+      try {
+
+        command = GenericSkillCommandTemplates
+            .getTemplate(GenericSkillCommandTemplates.IS_CALLABLE)
+            .buildCommand(new SkillSymbol(entryFun));
+
+        obj = this.evaluate(command);
+
+        if (obj instanceof SkillDataobject && !obj.isTrue()) {
+          loadSource = true;
+        }
+
+      } catch (final Exception e) {
+        loadSource = true;
+      }
+
+      if (loadSource) {
+
+        try {
+
+          command = GenericSkillCommandTemplates
+              .getTemplate(GenericSkillCommandTemplates.LOAD)
+              .buildCommand(new SkillString(resource.getAbsolutePath()));
+
+        } catch (final IncorrectSyntaxException e) {
+          // cannot happen
+        }
+
+        try {
+
+          obj = this.evaluate(command);
+
+          if (obj instanceof SkillDataobject && obj.isTrue()) {
+            return true;
+          }
+        } catch (final UnableToStartSession e) {
+          // cannot happen
+        } catch (final EvaluationFailedException e) {
+          // cannot happen
+        } catch (final InvalidDataobjectReferenceExecption e) {
+          // cannot happen
+        }
+
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   @Override
   public File getResourcePath(final String fileName, final String suffix) {
     return this.getResourcePathFromAscii(fileName, suffix);
   }
 
   @Override
-  public File getResourcePathFromBinary(final String fileName, final String suffix) {
+  public File getResourcePathFromBinary(final String fileName,
+      final String suffix) {
 
     final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);
@@ -210,7 +377,8 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   }
 
   @Override
-  public File getResourcePathFromAscii(final String fileName, final String suffix) {
+  public File getResourcePathFromAscii(final String fileName,
+      final String suffix) {
 
     final InputStream stream = this.getClass().getClassLoader()
         .getResourceAsStream(fileName);

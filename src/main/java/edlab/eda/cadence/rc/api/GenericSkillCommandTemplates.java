@@ -49,7 +49,10 @@ public final class GenericSkillCommandTemplates {
   public static final String GET_WORKING_DIR = "getWorkingDir";
   public static final String GET_LOGIN = "getLogin";
   public static final String GET_CURRENT_TIME = "getCurrentTime";
-
+  
+  
+  
+  public static final String ED_CDS_RC = "EDcdsRC";
   public static final String ED_CDS_RC_FOMAT_COMMAND = "EDcdsRCfmtCmd";
   public static final String ED_CDS_RC_BUILD_XML = "EDcdsRCbuildXML";
   public static final String ED_CDS_RC_ESCPAE_XML = "EDcdsRCescapeXML";

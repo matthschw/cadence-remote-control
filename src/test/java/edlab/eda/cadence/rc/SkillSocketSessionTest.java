@@ -52,12 +52,14 @@ public class SkillSocketSessionTest {
 
       SkillSessionMethods.detectFailingCommand(session);
 
+      SkillSessionMethods.loadingCode(session);
+
       session.stop();
 
     } catch (Exception e) {
       process.destroyForcibly();
       throw e;
-    } 
+    }
 
     process.destroyForcibly();
   }
