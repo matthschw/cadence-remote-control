@@ -400,9 +400,13 @@ public final class SkillInteractiveSession extends SkillSession {
               builder.toString());
         }
       } catch (final Exception e) {
+
         if (e instanceof EvaluationFailedException) {
+
           throw (EvaluationFailedException) e;
+
         } else {
+
           throw new EvaluationFailedException(skillCommand, xml);
         }
       }
