@@ -16,7 +16,7 @@ import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
 
-class AlteringPromptSessionTest {
+class AlteringPromptDirectSessionTest {
 
   @Test
   void test() throws UnableToStartSession, EvaluationFailedException,
@@ -49,14 +49,14 @@ class AlteringPromptSessionTest {
 
       session.stop();
     } catch (Exception e) {
-      
+
       session.stop();
-      
+
       try {
         Thread.sleep(5000);
       } catch (InterruptedException e2) {
       }
-      
+
       throw e;
     }
   }

@@ -31,7 +31,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   protected static final int MAX_CMD_LENGTH = 7500;
 
   // Prompt in Cadence Session
-  protected static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
+  public static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
   protected static final String PROMPT_DEFAULT = ">";
 
   // Timeout
