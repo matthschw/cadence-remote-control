@@ -16,6 +16,7 @@ import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillDisembodiedPropertyList;
 import edlab.eda.cadence.rc.data.SkillList;
 import edlab.eda.cadence.rc.data.SkillString;
+import edlab.eda.cadence.rc.data.SkillSymbol;
 import net.sf.expectit.Expect;
 import net.sf.expectit.ExpectBuilder;
 import net.sf.expectit.matcher.Matchers;
@@ -378,6 +379,7 @@ public final class SkillInteractiveSession extends SkillSession {
               .getByIndex(errorList.getLength() - 1);
 
           SkillString errorMessage;
+          SkillSymbol errorSymbol;
 
           final StringBuilder builder = new StringBuilder();
 
@@ -385,15 +387,30 @@ public final class SkillInteractiveSession extends SkillSession {
 
           for (final SkillDataobject messageObj : messageList) {
 
-            errorMessage = (SkillString) messageObj;
+            if (messageObj instanceof SkillString) {
 
-            if (first) {
-              first = false;
-            } else {
-              builder.append("\n");
+              errorMessage = (SkillString) messageObj;
+
+              if (first) {
+                first = false;
+              } else {
+                builder.append("\n");
+              }
+
+              builder.append(errorMessage.getString());
+
+            } else if (messageObj instanceof SkillSymbol) {
+
+              if (first) {
+                first = false;
+              } else {
+                builder.append(" - ");
+              }
+
+              errorSymbol = (SkillSymbol) messageObj;
+
+              builder.append(errorSymbol.getPrintName());
             }
-
-            builder.append(errorMessage.getString());
           }
 
           throw new EvaluationFailedException(command.toSkill(),
