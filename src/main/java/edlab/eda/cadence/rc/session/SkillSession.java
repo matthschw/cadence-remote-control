@@ -24,15 +24,26 @@ import net.sf.expectit.matcher.Matchers;
 public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   // Context file
-  public static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
+  protected static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
   // Skill file
-  public static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
+  protected static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
 
+  /**
+   * Maximal length of a command that can be fowared to the Skill session.
+   * Commands that are longer will loaded froma file
+   */
   protected static final int MAX_CMD_LENGTH = 7500;
 
-  // Prompt in Cadence Session
+  /**
+   * Environment variable that can be used to specify the initial prompt of the
+   * Skill session
+   */
   public static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
-  protected static final String PROMPT_DEFAULT = ">";
+
+  /**
+   * Default prompt of the Skill session
+   */
+  public static final String PROMPT_DEFAULT = ">";
 
   // Timeout
   protected long timeoutDuration = 1;
@@ -273,7 +284,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
         skillSourceCode.delete();
 
         return retval;
-        
+
       } else {
 
         return false;
