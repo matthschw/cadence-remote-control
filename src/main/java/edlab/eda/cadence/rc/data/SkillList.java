@@ -45,7 +45,7 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final List<SkillDataobject> list) {
 
-    super(true);
+    super(!(list == null || list.isEmpty()));
 
     if (list == null) {
       this.list = new LinkedList<>();
@@ -65,14 +65,17 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final SkillDataobject[] array) {
 
-    super(true);
+    super(array.length > 0);
 
     this.list = new LinkedList<>();
 
     if (array != null) {
 
       for (final SkillDataobject obj : array) {
-        this.list.addLast(obj);
+
+        if (obj instanceof SkillDataobject) {
+          this.list.addLast(obj);
+        }
       }
     }
 
@@ -88,11 +91,15 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final String[] data) {
 
-    super(true);
+    super(data.length > 0);
     this.list = new LinkedList<>();
 
     for (final String string : data) {
-      this.list.add(new SkillString(string));
+
+      if (string instanceof String) {
+
+        this.list.add(new SkillString(string));
+      }
     }
 
     if (this.list.isEmpty()) {
@@ -107,11 +114,13 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final int[] data) {
 
-    super(true);
+    super(data.length > 0);
     this.list = new LinkedList<>();
 
     for (final int element : data) {
+
       this.list.add(new SkillFixnum(element));
+
     }
 
     if (this.list.isEmpty()) {
@@ -126,12 +135,16 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final BigDecimal[] data) {
 
-    super(true);
+    super(data.length > 0);
 
     this.list = new LinkedList<>();
 
     for (final BigDecimal element : data) {
-      this.list.add(new SkillFlonum(element));
+
+      if (element instanceof BigDecimal) {
+
+        this.list.add(new SkillFlonum(element));
+      }
     }
 
     if (this.list.isEmpty()) {
@@ -139,6 +152,9 @@ public final class SkillList extends SkillBoolean
     }
   }
 
+  /**
+   * Update the boolean correspondance of the list
+   */
   private void updateBool() {
 
     if (this.list != null) {
@@ -280,7 +296,18 @@ public final class SkillList extends SkillBoolean
    * @param index Position in list
    * @return list element
    */
+  @Deprecated
   public SkillDataobject getByIndex(final int index) {
+    return this.list.get(index);
+  }
+
+  /**
+   * Get a {@link SkillDataobject} from a list by index
+   *
+   * @param index Position in list
+   * @return list element
+   */
+  public SkillDataobject get(final int index) {
     return this.list.get(index);
   }
 
@@ -289,7 +316,26 @@ public final class SkillList extends SkillBoolean
    *
    * @return number of list elements
    */
+  @Deprecated
   public int getLength() {
+    return this.list.size();
+  }
+
+  /**
+   * Get number of list elements
+   *
+   * @return number of list elements
+   */
+  public int length() {
+    return this.list.size();
+  }
+
+  /**
+   * Get number of list elements
+   *
+   * @return number of list elements
+   */
+  public int size() {
     return this.list.size();
   }
 
@@ -328,10 +374,10 @@ public final class SkillList extends SkillBoolean
 
       for (final SkillDataobject skillDataobject : this.list) {
 
-        if (!firstIteration) {
-          builder.append(" ");
-        } else {
+        if (firstIteration) {
           firstIteration = false;
+        } else {
+          builder.append(" ");
         }
 
         builder.append(skillDataobject.toSkillHierarchical(++depth));
@@ -342,7 +388,7 @@ public final class SkillList extends SkillBoolean
       return builder.toString();
 
     } else {
-      return "nil";
+      return SkillBoolean.FALSE;
     }
   }
 
@@ -389,6 +435,13 @@ public final class SkillList extends SkillBoolean
     }
   }
 
+  /**
+   * Build a {@link SkillList} from an XML element
+   * 
+   * @param session Session
+   * @param element XML element
+   * @return list
+   */
   static SkillList build(final SkillSession session, final Element element) {
 
     final SkillList list = new SkillList();

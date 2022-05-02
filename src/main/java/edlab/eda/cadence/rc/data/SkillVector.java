@@ -15,13 +15,13 @@ public abstract class SkillVector extends SkillDataobject {
    */
   static SkillVector getVectorFromList(final SkillList list) {
 
-    if (list.getByIndex(0) instanceof SkillString) {
+    if (list.get(0) instanceof SkillString) {
       return SkillStringVector.getVectorFromList(list);
-    } else if (list.getByIndex(0) instanceof SkillFixnum) {
+    } else if (list.get(0) instanceof SkillFixnum) {
       return SkillIntegerVector.getVectorFromList(list);
-    } else if (list.getByIndex(0) instanceof SkillFlonum) {
+    } else if (list.get(0) instanceof SkillFlonum) {
       return SkillDoubleVector.getVectorFromList(list);
-    } else if (list.getByIndex(0) instanceof SkillComplexNumber) {
+    } else if (list.get(0) instanceof SkillComplexNumber) {
       return SkillComplexVector.getVectorFromList(list);
     }
 

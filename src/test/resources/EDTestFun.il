@@ -1,0 +1,1 @@
+(defun EDtestFun () 42)

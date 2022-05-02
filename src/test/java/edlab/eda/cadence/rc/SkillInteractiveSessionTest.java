@@ -37,6 +37,8 @@ public class SkillInteractiveSessionTest {
       SkillSessionMethods.complexNumber(session);
 
       SkillSessionMethods.detectFailingCommand(session);
+      
+      SkillSessionMethods.loadingCode(session);
 
       session.stop();
 

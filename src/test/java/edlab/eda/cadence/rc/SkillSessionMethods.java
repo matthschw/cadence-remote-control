@@ -29,8 +29,8 @@ import edlab.eda.cadence.rc.session.UnableToStartSession;
 
 public class SkillSessionMethods {
 
-  private static final String FILE_NAME = "fuubar.txt";
-  private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
+  static final String FILE_NAME = "fuubar.txt";
+  static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n"
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
@@ -66,7 +66,7 @@ public class SkillSessionMethods {
       + "Stet clita kasd gubergren, no sea takimata sanctus.\n"
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
 
-  private static final String STR2 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
+  static final String STR2 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum."
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
@@ -112,9 +112,11 @@ public class SkillSessionMethods {
       + "Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.\n"
       + "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.\n";
 
-  private static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
+  static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
 
   private static final String STR = STR1 + STR2 + STR3;
+
+  private static final String TESTFUN_NAME = "EDtestFun";
 
   static void strcat(SkillSession session)
       throws IncorrectSyntaxException, UnableToStartSession,
@@ -287,6 +289,37 @@ public class SkillSessionMethods {
       SkillDataobject obj = session.evaluate(command);
       fail("Invalid command not detected");
     } catch (EvaluationFailedException e) {
+    }
+  }
+
+  static void loadingCode(SkillSession session)
+      throws UnableToStartSession, EvaluationFailedException,
+      InvalidDataobjectReferenceExecption, IncorrectSyntaxException {
+
+    if (session.isSkillFunctionCallable(TESTFUN_NAME)) {
+      fail("Function \"" + TESTFUN_NAME + "\" is callable, but should not");
+    }
+
+    if (!session.loadSkillCode(new File("./src/test/resources/EDTestFun.il"))) {
+      fail("Cannot load Skill code");
+    }
+
+    if (!session.isSkillFunctionCallable(TESTFUN_NAME)) {
+      fail("Function \"" + TESTFUN_NAME + "\" is not callable");
+    }
+
+    SkillCommandTemplate template = SkillCommandTemplate.build(TESTFUN_NAME);
+
+    SkillDataobject obj = session.evaluate(template.buildCommand());
+
+    if (obj instanceof SkillFixnum) {
+
+      if (((SkillFixnum) obj).getFixnum() != 42) {
+        fail("Function \"" + TESTFUN_NAME + "\" does not return 42");
+      }
+
+    } else {
+      fail("Function \"" + TESTFUN_NAME + "\" return type invalid");
     }
   }
 }

@@ -31,6 +31,15 @@ public final class SkillSymbol extends SkillBoolean {
     return "'" + this.printName;
   }
 
+  /**
+   * Get the print name
+   * 
+   * @return print name
+   */
+  public String getPrintName() {
+    return this.printName;
+  }
+
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
       final Document document) {

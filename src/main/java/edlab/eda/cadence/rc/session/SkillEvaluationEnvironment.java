@@ -63,4 +63,5 @@ public interface SkillEvaluationEnvironment {
    * @return Resource as string
    */
   public String getResourceFromAscii(String fileName);
+  
 }
