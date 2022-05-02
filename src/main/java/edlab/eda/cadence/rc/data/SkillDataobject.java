@@ -24,7 +24,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edlab.eda.cadence.rc.session.EvaluableToSkill;
-import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.SkillSession;
 
 /**
@@ -78,6 +77,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml File that contains the XML
    * @return SkillDataobject
    */
+  @Deprecated
   public static SkillDataobject getSkillDataobjectFromXML(final File xml) {
     try {
       return SkillDataobject.getSkillDataobjectFromXML(null,
@@ -90,7 +90,24 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Create a {@link SkillDataobject} from a XML
    *
-   * @param session Corresponding {@link SkillInteractiveSession}
+   * @param session Corresponding {@link SkillSession}
+   * @param xml     XML file
+   * @return SkillDataobject
+   */
+  public static SkillDataobject getSkillDataobjectFromXML(
+      final SkillSession session, final File xml) {
+    try {
+      return SkillDataobject.getSkillDataobjectFromXML(session,
+          FileUtils.readFileToByteArray(xml));
+    } catch (IOException e) {
+      return new SkillList();
+    }
+  }
+
+  /**
+   * Create a {@link SkillDataobject} from a XML
+   *
+   * @param session Corresponding {@link SkillSession}
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
@@ -102,7 +119,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
   /**
    * Create a {@link SkillDataobject} from a XML
    *
-   * @param session Corresponding {@link SkillInteractiveSession}
+   * @param session Corresponding {@link SkillSession}
    * @param xml     XML to be parsed as byte array
    * @return SkillDataobject
    */

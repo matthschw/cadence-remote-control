@@ -11,6 +11,7 @@ import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.api.SkillCommandTemplate;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.session.EvaluationFailedException;
+import edlab.eda.cadence.rc.session.FileSkillSession;
 import edlab.eda.cadence.rc.session.InvalidDataobjectReferenceExecption;
 import edlab.eda.cadence.rc.session.SkillInteractiveSession;
 import edlab.eda.cadence.rc.session.UnableToStartSession;
@@ -44,10 +45,10 @@ class WaveformTest {
 
     obj.writeSkillDataobjectToXML(TSTFILE);
 
-    SkillDataobject obj2 = SkillDataobject.getSkillDataobjectFromXML(TSTFILE);
+    SkillDataobject obj2 = FileSkillSession.init(TSTFILE).getSkillData();
 
     if (!obj.equals(obj2)) {
-      fail("Waveforms dont match");
+      fail("Waveforms do not match");
     }
 
     session.stop();

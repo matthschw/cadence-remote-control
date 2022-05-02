@@ -95,6 +95,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
 
         if (!object.properties.containsKey(key)
             || !this.properties.get(key).equals(object.properties.get(key))) {
+
           return false;
         }
       }

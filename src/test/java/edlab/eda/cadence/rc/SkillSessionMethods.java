@@ -29,8 +29,8 @@ import edlab.eda.cadence.rc.session.UnableToStartSession;
 
 public class SkillSessionMethods {
 
-  private static final String FILE_NAME = "fuubar.txt";
-  private static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
+  static final String FILE_NAME = "fuubar.txt";
+  static final String STR1 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum.\n"
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n"
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
@@ -66,7 +66,7 @@ public class SkillSessionMethods {
       + "Stet clita kasd gubergren, no sea takimata sanctus.\n"
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
 
-  private static final String STR2 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
+  static final String STR2 = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
       + "At vero eos et accusam et justo duo dolores et ea rebum."
       + "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
@@ -112,7 +112,7 @@ public class SkillSessionMethods {
       + "Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.\n"
       + "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.\n";
 
-  private static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
+  static final String STR3 = "Franz faehrt im komplett verwahrlosten Taxi quer durch Bayern.";
 
   private static final String STR = STR1 + STR2 + STR3;
 
