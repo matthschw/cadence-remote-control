@@ -8,9 +8,14 @@ public abstract class SkillBoolean extends SkillNativeDataobject {
   protected boolean bool;
 
   /**
-   * Skill value for truef
+   * Skill value for true
    */
   public static final String TRUE = "t";
+
+  /**
+   * Skill value for false
+   */
+  public static final String FALSE = "nil";
 
   /**
    * Create a Skill Boolean

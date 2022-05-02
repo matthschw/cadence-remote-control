@@ -16,6 +16,7 @@ public final class SkillDoubleVector extends SkillVector {
   private final BigDecimal[] values;
 
   /**
+   * Create a new double vector
    * 
    * @param values
    */

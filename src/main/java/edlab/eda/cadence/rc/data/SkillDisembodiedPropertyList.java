@@ -50,7 +50,7 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
       builder.append("'");
     }
 
-    builder.append("(nil");
+    builder.append("(").append(SkillBoolean.FALSE);
 
     for (final Map.Entry<String, SkillDataobject> entry : this.properties
         .entrySet()) {
@@ -100,7 +100,9 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
       }
 
       return true;
+
     } else {
+
       return false;
     }
   }

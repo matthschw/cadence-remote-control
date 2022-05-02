@@ -376,7 +376,7 @@ public final class SkillInteractiveSession extends SkillSession {
               .get(SkillSession.ID_ERROR);
 
           final SkillList messageList = (SkillList) errorList
-              .getByIndex(errorList.getLength() - 1);
+              .get(errorList.length() - 1);
 
           SkillString errorMessage;
           SkillSymbol errorSymbol;
