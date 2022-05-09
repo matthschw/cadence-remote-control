@@ -36,6 +36,11 @@ public final class SkillFlonum extends SkillNumber {
   public BigDecimal getFlonum() {
     return this.value;
   }
+  
+  @Override
+  public BigDecimal getNumber() {
+    return new BigDecimal(this.value.toString());
+  }
 
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,

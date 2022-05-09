@@ -1,5 +1,7 @@
 package edlab.eda.cadence.rc.data;
 
+import java.math.BigDecimal;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -46,6 +48,12 @@ public final class SkillFixnum extends SkillNumber {
     this.value = fixnum;
     return this.value;
   }
+  
+
+  @Override
+  public BigDecimal getNumber() {
+    return new BigDecimal(this.value);
+  }
 
   @Override
   protected Element traverseSkillDataobjectForXMLGeneration(final String name,
@@ -82,4 +90,5 @@ public final class SkillFixnum extends SkillNumber {
   public static boolean isInstanceOf(final Object o) {
     return o instanceof SkillFixnum;
   }
+
 }

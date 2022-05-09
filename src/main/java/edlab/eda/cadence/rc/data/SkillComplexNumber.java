@@ -1,6 +1,7 @@
 package edlab.eda.cadence.rc.data;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.apache.commons.math3.complex.Complex;
 import org.w3c.dom.Document;
@@ -73,6 +74,11 @@ public final class SkillComplexNumber extends SkillNumber {
   public SkillComplexNumber(final Complex complex) {
     super();
     this.value = complex;
+  }
+
+  @Override
+  public BigDecimal getNumber() {
+    return new BigDecimal(this.value.abs()).round(MathContext.DECIMAL64);
   }
 
   @Override
