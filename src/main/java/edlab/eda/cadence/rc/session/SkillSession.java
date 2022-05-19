@@ -334,7 +334,17 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     try {
       final File file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       writer = new FileWriter(file);
+
+      boolean first = false;
+
       while (scanner.hasNextLine()) {
+
+        if (first) {
+          first = false;
+        } else {
+          writer.append("\n");
+        }
+
         writer.append(scanner.nextLine());
       }
       writer.close();
