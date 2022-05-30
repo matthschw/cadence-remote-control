@@ -130,7 +130,12 @@ public final class SkillDisembodiedPropertyList extends SkillBoolean
 
   @Override
   public SkillDataobject get(final Object arg0) {
-    return this.properties.get(arg0);
+
+    if (this.properties.containsKey(arg0)) {
+      return this.properties.get(arg0);
+    } else {
+      return SkillBoolean.getFalse();
+    }
   }
 
   @Override
