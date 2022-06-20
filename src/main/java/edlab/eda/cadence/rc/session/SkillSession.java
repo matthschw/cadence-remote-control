@@ -1,9 +1,11 @@
 package edlab.eda.cadence.rc.session;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +29,11 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   protected static final String CONTEXT_RESOURCE = "cxt/64bit/EDcdsRC.cxt";
   // Skill file
   protected static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
+
+  /**
+   * Command for executing <code>cds_root></code>
+   */
+  public static final String CDS_ROOT_CMD = "cds_root";
 
   /**
    * Maximal length of a command that can be fowared to the Skill session.
@@ -214,7 +221,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       final SkillDataobject obj = this.evaluate(command);
 
-      if (obj instanceof SkillDataobject && obj.isTrue()) {
+      if ((obj instanceof SkillDataobject) && obj.isTrue()) {
         return true;
       }
 
@@ -242,7 +249,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       final SkillDataobject obj = this.evaluate(command);
 
-      if (obj instanceof SkillDataobject && obj.isTrue()) {
+      if ((obj instanceof SkillDataobject) && obj.isTrue()) {
         return true;
       }
 
@@ -381,5 +388,55 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     scanner.close();
 
     return builder.toString();
+  }
+
+  /**
+   * Get the root to a Cadence tool
+   * 
+   * @param tool Tool to be searched, e.g. <code>virtuoso</code> or
+   *             <code>skill</code>
+   * @return root when available, <code>null</code> otherwise
+   */
+  public static String cdsRoot(final String tool) {
+
+    final String[] commands = { CDS_ROOT_CMD, tool };
+
+    Process proc;
+
+    final Runtime rt = Runtime.getRuntime();
+
+    try {
+
+      proc = rt.exec(commands);
+
+      final InputStream stdIn = proc.getInputStream();
+      final InputStreamReader isr = new InputStreamReader(stdIn);
+      final BufferedReader br = new BufferedReader(isr);
+
+      String line = null;
+
+      final StringBuilder builder = new StringBuilder();
+
+      while ((line = br.readLine()) != null) {
+        builder.append(line);
+      }
+
+      final int exitVal = proc.waitFor();
+
+      stdIn.close();
+      isr.close();
+      br.close();
+
+      if (exitVal == 0) {
+        return builder.toString();
+      }
+
+    } catch (final IOException e) {
+      e.printStackTrace();
+    } catch (final InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    return null;
   }
 }
