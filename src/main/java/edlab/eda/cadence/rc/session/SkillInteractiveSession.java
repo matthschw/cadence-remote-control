@@ -170,8 +170,6 @@ public final class SkillInteractiveSession extends SkillSession {
             this.workingDir);
       }
 
-      System.out.println("A " + this.nextCommand.toString());
-
       try {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {
@@ -179,8 +177,6 @@ public final class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
       }
-
-      System.out.println("B");
 
       SkillCommand skillPromptsCommand = null;
 
