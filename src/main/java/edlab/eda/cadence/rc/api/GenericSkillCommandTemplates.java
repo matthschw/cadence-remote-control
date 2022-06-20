@@ -41,6 +41,7 @@ public final class GenericSkillCommandTemplates {
   public static final String ERRSET = "errset";
   public static final String EXIT = "exit";
   public static final String LOAD = "load";
+  public static final String QUOTE = "quote";
   public static final String LOAD_CONTEXT = "loadContext";
 
   public static final String SET_PROMPTS = "setPrompts";
@@ -137,6 +138,9 @@ public final class GenericSkillCommandTemplates {
 
     this.templates.put(GenericSkillCommandTemplates.LOAD,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOAD, 1));
+    
+    this.templates.put(GenericSkillCommandTemplates.QUOTE,
+        new SkillCommandTemplate(GenericSkillCommandTemplates.QUOTE, 1));
 
     this.templates.put(GenericSkillCommandTemplates.LOADI,
         new SkillCommandTemplate(GenericSkillCommandTemplates.LOADI, 1));

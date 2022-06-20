@@ -170,6 +170,8 @@ public final class SkillInteractiveSession extends SkillSession {
             this.workingDir);
       }
 
+      System.out.println("A " + this.nextCommand.toString());
+
       try {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {
@@ -177,6 +179,8 @@ public final class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
       }
+
+      System.out.println("B");
 
       SkillCommand skillPromptsCommand = null;
 
@@ -190,7 +194,7 @@ public final class SkillInteractiveSession extends SkillSession {
       }
 
       this.prompt = PROMPT_DEFAULT;
-      this.nextCommand = Matchers.regexp("\n" + this.prompt);
+      this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt));
 
       try {
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
@@ -199,6 +203,7 @@ public final class SkillInteractiveSession extends SkillSession {
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
       }
+
       try {
         this.expect.expect(this.nextCommand);
       } catch (final IOException e) {

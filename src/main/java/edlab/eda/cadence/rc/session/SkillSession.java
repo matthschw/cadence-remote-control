@@ -16,6 +16,7 @@ import edlab.eda.cadence.rc.api.SkillCommand;
 import edlab.eda.cadence.rc.data.SkillDataobject;
 import edlab.eda.cadence.rc.data.SkillString;
 import edlab.eda.cadence.rc.data.SkillSymbol;
+import net.sf.expectit.MultiResult;
 import net.sf.expectit.Result;
 import net.sf.expectit.matcher.Matcher;
 import net.sf.expectit.matcher.Matchers;
@@ -59,7 +60,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       .toMillis(this.timeoutDuration);
 
   protected String prompt = PROMPT_DEFAULT;
-  protected Matcher<Result> nextCommand;
+  protected Matcher<MultiResult> nextCommand;
 
   // Identifiers in Cadence Session
   public static final String CDS_RC_GLOBAL = "EDcdsRC";
@@ -91,7 +92,8 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       this.prompt = content;
     }
 
-    this.nextCommand = Matchers.regexp("\n" + this.prompt);
+    this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt),
+        Matchers.startsWith(this.prompt));
   }
 
   /**
@@ -111,7 +113,8 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       return false;
     } else {
       this.prompt = prompt;
-      this.nextCommand = Matchers.regexp("\n" + this.prompt);
+      this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt),
+          Matchers.startsWith(this.prompt));
       return true;
     }
   }
