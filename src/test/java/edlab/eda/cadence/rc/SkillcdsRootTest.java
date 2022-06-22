@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import edlab.eda.cadence.rc.session.SkillSession;
 
-class CdsRootTest {
+class SkillcdsRootTest {
 
   @Test
   void test() {
