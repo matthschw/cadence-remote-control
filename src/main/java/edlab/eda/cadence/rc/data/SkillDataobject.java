@@ -94,12 +94,12 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML file
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(
+  public final static SkillDataobject getSkillDataobjectFromXML(
       final SkillSession session, final File xml) {
     try {
       return SkillDataobject.getSkillDataobjectFromXML(session,
           FileUtils.readFileToByteArray(xml));
-    } catch (IOException e) {
+    } catch (final IOException e) {
       return new SkillList();
     }
   }
@@ -111,7 +111,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML as string to be parsed
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(
+  public final static SkillDataobject getSkillDataobjectFromXML(
       final SkillSession session, final String xml) {
     return SkillDataobject.getSkillDataobjectFromXML(session, xml.getBytes());
   }
@@ -123,7 +123,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param xml     XML to be parsed as byte array
    * @return SkillDataobject
    */
-  public static SkillDataobject getSkillDataobjectFromXML(
+  public final static SkillDataobject getSkillDataobjectFromXML(
       final SkillSession session, final byte[] xml) {
 
     final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
@@ -152,7 +152,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param file Path to XML file
    * @return file when successful, <code>null</code> otherwise
    */
-  public File writeSkillDataobjectToXML(final File file) {
+  public final File writeSkillDataobjectToXML(final File file) {
 
     final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
         .newInstance();
@@ -197,7 +197,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @param element Node in the XML
    * @return SkillDataobject
    */
-  static SkillDataobject traverseNode(final SkillSession session,
+  static final SkillDataobject traverseNode(final SkillSession session,
       final Element element) {
 
     SkillDataobject skillDataobject;
@@ -296,7 +296,7 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    *         otherwise
    */
   @SuppressWarnings("unused")
-  private static boolean isValidNode(final Node node) {
+  private final static boolean isValidNode(final Node node) {
 
     if (node.hasAttributes()) {
       final NamedNodeMap nodeMap = node.getAttributes();
@@ -318,12 +318,49 @@ public abstract class SkillDataobject implements EvaluableToSkill {
    * @return reference to element, when it is an element, <code>null</code>
    *         otherwise
    */
-  static Element getElement(final Node node) {
+  static final Element getElement(final Node node) {
     if (node instanceof Element) {
       return (Element) node;
     } else {
       return null;
     }
+  }
+
+  /**
+   * Transform a {@link Object} to a corresponding {@link SkillDataobject}
+   * 
+   * @param obj Object to be transformed
+   * @return {@link SkillDataobject} when possible, <code>nil</code> otherwise
+   */
+  public final static SkillDataobject transformObject(final Object obj) {
+
+    if (obj instanceof SkillDataobject) {
+      return (SkillDataobject) obj;
+    } else if (obj instanceof String) {
+      return new SkillString((String) obj);
+    } else if (obj instanceof Short) {
+      return new SkillFixnum((Short) obj);
+    } else if (obj instanceof Byte) {
+      return new SkillFixnum((Byte) obj);
+    } else if (obj instanceof Integer) {
+      return new SkillFixnum((Integer) obj);
+    } else if (obj instanceof Double) {
+      return new SkillFlonum(new BigDecimal((Double) obj));
+    } else if (obj instanceof Float) {
+      return new SkillFlonum(new BigDecimal((Float) obj));
+    } else if (obj instanceof String[]) {
+      return new SkillList((String[]) obj);
+    } else if (obj instanceof BigDecimal[]) {
+      return new SkillList((BigDecimal[]) obj);
+    } else if (obj instanceof double[]) {
+      return new SkillList((double[]) obj);
+    } else if (obj instanceof int[]) {
+      return new SkillList((int[]) obj);
+    } else if (obj instanceof SkillDataobject[]) {
+      return new SkillList((SkillDataobject[]) obj);
+    }
+
+    return new SkillList();
   }
 
   /**

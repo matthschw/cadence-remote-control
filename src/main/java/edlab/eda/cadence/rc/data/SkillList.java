@@ -45,7 +45,7 @@ public final class SkillList extends SkillBoolean
    */
   public SkillList(final List<SkillDataobject> list) {
 
-    super(!(list == null || list.isEmpty()));
+    super(!((list == null) || list.isEmpty()));
 
     if (list == null) {
       this.list = new LinkedList<>();
@@ -145,6 +145,27 @@ public final class SkillList extends SkillBoolean
 
         this.list.add(new SkillFlonum(element));
       }
+    }
+
+    if (this.list.isEmpty()) {
+      this.updateBool();
+    }
+  }
+
+  /**
+   * Create a Skill list from a {@link double} array
+   *
+   * @param data array of {@link double}
+   */
+  public SkillList(final double[] data) {
+    super(data.length > 0);
+
+    this.list = new LinkedList<>();
+
+    for (final double element : data) {
+
+      this.list.add(new SkillFlonum(new BigDecimal(element)));
+
     }
 
     if (this.list.isEmpty()) {
