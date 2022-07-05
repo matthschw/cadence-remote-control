@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  */
 public abstract class SkillNumber extends SkillBoolean {
 
-  public SkillNumber() {
+  protected SkillNumber() {
     super(true);
   }
 

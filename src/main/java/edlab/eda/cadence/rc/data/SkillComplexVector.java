@@ -90,7 +90,7 @@ public final class SkillComplexVector extends SkillVector {
    * 
    * @return array
    */
-  public Complex[] getValues() {
+  public  Complex[] getValues() {
     return this.values;
   }
 
