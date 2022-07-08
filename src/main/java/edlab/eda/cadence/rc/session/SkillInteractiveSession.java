@@ -23,7 +23,12 @@ import net.sf.expectit.matcher.Matchers;
 
 /**
  * Session for communication with an interactive session using Cadence Skill
- * syntax
+ * syntax. This session will create a watchdog by default. This watchdog will
+ * {@link SkillInteractiveSession#stop()} the session when no communciation was
+ * conducted within the specified timeout
+ * {@link SkillInteractiveSession#setWatchdogTimeout(long, TimeUnit)}. This
+ * behavior can be deactivated by specifying a negative timeout or by setting
+ * the environment variable <code>ED_CDS_RC_NO_WATCHDOG</code>.
  */
 public final class SkillInteractiveSession extends SkillSession {
 
