@@ -357,8 +357,14 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
         writer.append(scanner.nextLine());
       }
+
       writer.close();
       scanner.close();
+
+      try {
+        stream.close();
+      } catch (Exception e) {
+      }
 
       return file;
 
@@ -366,7 +372,12 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     }
 
     scanner.close();
-    
+
+    try {
+      stream.close();
+    } catch (Exception e) {
+    }
+
     return null;
   }
 
@@ -392,6 +403,11 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       builder.append(scanner.next());
     }
     scanner.close();
+
+    try {
+      stream.close();
+    } catch (IOException e) {
+    }
 
     return builder.toString();
   }
