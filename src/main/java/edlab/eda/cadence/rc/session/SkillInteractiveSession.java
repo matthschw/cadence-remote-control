@@ -28,7 +28,10 @@ import net.sf.expectit.matcher.Matchers;
  * conducted within the specified timeout
  * {@link SkillInteractiveSession#setWatchdogTimeout(long, TimeUnit)}. This
  * behavior can be deactivated by specifying a negative timeout or by setting
- * the environment variable <code>ED_CDS_RC_NO_WATCHDOG</code>.
+ * the environment variable <code>ED_CDS_RC_NO_WATCHDOG</code>. At
+ * initialization of a {@link SkillInteractiveSession} this information is read
+ * from the environment variable and cannot be changed during the lifetime of
+ * the object.
  */
 public final class SkillInteractiveSession extends SkillSession {
 
