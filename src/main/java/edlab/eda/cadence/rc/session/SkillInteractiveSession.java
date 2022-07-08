@@ -440,6 +440,7 @@ public final class SkillInteractiveSession extends SkillSession {
           this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
 
       this.watchdog.start();
+
     }
 
     return data;

@@ -359,11 +359,14 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       }
       writer.close();
       scanner.close();
+
       return file;
 
     } catch (final IOException e1) {
     }
+
     scanner.close();
+    
     return null;
   }
 
