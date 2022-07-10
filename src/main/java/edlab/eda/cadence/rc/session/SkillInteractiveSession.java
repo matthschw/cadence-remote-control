@@ -238,7 +238,16 @@ public final class SkillInteractiveSession extends SkillSession {
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
 
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Starting expect...");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP,
+              new String[] { "Starting if expect failed", e.getMessage() });
+        }
 
         this.stop();
         throw new UnableToStartInteractiveSession(this.command,
@@ -246,8 +255,23 @@ public final class SkillInteractiveSession extends SkillSession {
       }
 
       try {
+
         this.expect.expect(this.nextCommand);
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP,
+              "Initializing expect with \"" + this.nextCommand + "\"");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger.add(Logger.START_STEP, new String[] {
+              "Initializing expect with \"" + this.nextCommand + "\" failed:",
+              e.getMessage() });
+        }
+
         this.stop();
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
@@ -268,8 +292,27 @@ public final class SkillInteractiveSession extends SkillSession {
       this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt));
 
       try {
+
         this.expect.send(skillPromptsCommand.toSkill() + "\n");
+
+        if (this.logger instanceof Logger) {
+
+          this.logger.add(Logger.START_STEP, "Send SKILL prompt command \""
+              + skillPromptsCommand.toSkill() + "\"");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger
+              .add(Logger.START_STEP,
+                  new String[] {
+                      "Send SKILL prompt command \""
+                          + skillPromptsCommand.toSkill() + "\" failed:",
+                      e.getMessage() });
+        }
+
         this.stop();
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
