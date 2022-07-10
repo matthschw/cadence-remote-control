@@ -40,6 +40,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
   private String command;
   private final File workingDir;
+  private Thread shutdownHook = null;
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
 
@@ -205,6 +206,7 @@ public final class SkillInteractiveSession extends SkillSession {
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
+
           this.logger.add(Logger.START_STEP,
               "Starting process with command \"" + this.command
                   + "\" in directory \"" + this.workingDir + "\" failed");
@@ -216,7 +218,8 @@ public final class SkillInteractiveSession extends SkillSession {
       }
 
       // add shutdown hook for process
-      Runtime.getRuntime().addShutdownHook(new Thread() {
+
+      this.shutdownHook = new Thread() {
         @Override
         public void run() {
           try {
@@ -224,10 +227,12 @@ public final class SkillInteractiveSession extends SkillSession {
           } catch (final Exception e) {
           }
         }
-      });
+      };
+
+      Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 
       try {
-        
+
         this.expect = new ExpectBuilder()
             .withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
@@ -539,6 +544,11 @@ public final class SkillInteractiveSession extends SkillSession {
       this.process.destroyForcibly();
     }
 
+    try {
+      Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+    } catch (Exception e) {
+    }
+
     this.process = null;
 
     return this;
@@ -569,7 +579,7 @@ public final class SkillInteractiveSession extends SkillSession {
    *
    * @return date of last activity in the session
    */
-  Date getLastActivity() {
+  protected Date getLastActivity() {
     return this.lastActivity;
   }
 
