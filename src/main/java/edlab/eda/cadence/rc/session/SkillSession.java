@@ -46,12 +46,20 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
    * Environment variable that can be used to specify the initial prompt of the
    * Skill session
    */
-  public static final String PROMPT_ENV_VAR = "ED_CDS_INIT_PROMPT";
+  public static final String ENVVAR_PROMPT = "ED_CDS_RC_PROMPT";
+
+  /**
+   * Create a logger
+   */
+  public static final String ENVVAR_LOGGER = "ED_CDS_LOG";
 
   /**
    * Default prompt of the Skill session
    */
   public static final String PROMPT_DEFAULT = ">";
+
+  // Logger
+  protected final Logger logger;
 
   // Timeout
   protected long timeoutDuration = 1;
@@ -86,10 +94,18 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   protected SkillSession() {
 
-    final String content = System.getenv(PROMPT_ENV_VAR);
+    String content = System.getenv(ENVVAR_PROMPT);
 
     if (content instanceof String) {
       this.prompt = content;
+    }
+
+    content = System.getenv(ENVVAR_LOGGER);
+
+    if (content instanceof String) {
+      this.logger = Logger.create();
+    } else {
+      this.logger = null;
     }
 
     this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt),
@@ -112,7 +128,15 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     if (this.isActive()) {
       return false;
     } else {
+
       this.prompt = prompt;
+
+      if (this.logger instanceof Logger) {
+
+        this.logger.add(Logger.CONFIG_STEP,
+            "Set prompt to \"" + this.prompt + "\"");
+      }
+
       this.nextCommand = Matchers.anyOf(Matchers.regexp("\n" + this.prompt),
           Matchers.startsWith(this.prompt));
       return true;
@@ -134,6 +158,13 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       this.timeoutDuration = timeoutDuration;
       this.timeoutTimeUnit = timeoutTimeUnit;
       this.timeout_ms = this.timeoutTimeUnit.toMillis(this.timeoutDuration);
+
+      if (this.logger instanceof Logger) {
+
+        this.logger.add(Logger.CONFIG_STEP,
+            "Set timeout_ms=" + this.timeout_ms);
+      }
+
       return this;
     } else {
       return null;
@@ -230,6 +261,10 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
     } catch (IncorrectSyntaxException | UnableToStartSession
         | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
+
+      this.logger.add(Logger.INFO_STEP,
+          new String[] { "Identification of SKILL fuction \"" + functionName
+              + "\" failed with :", e.getMessage() });
     }
 
     return false;
@@ -258,6 +293,11 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
     } catch (IncorrectSyntaxException | UnableToStartSession
         | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
+
+      this.logger.add(Logger.INFO_STEP,
+          new String[] {
+              "Loading of SKILL code \"" + skillFile + "\" failed with :",
+              e.getMessage() });
     }
 
     return false;
@@ -293,9 +333,21 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
         skillSourceCode.delete();
 
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.INFO_STEP,
+              "Loading SKILL code  from \"" + resource + "\" with suffix \""
+                  + suffix + "\" finished with " + retval);
+        }
+
         return retval;
 
       } else {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger.add(Logger.INFO_STEP, "Unable to load SKILL code  from \""
+              + resource + "\" with suffix \"" + suffix + "\"");
+        }
 
         return false;
       }
@@ -316,6 +368,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
     byte[] data;
     File file = null;
+
     try {
       data = new byte[stream.available()];
       stream.read(data);
@@ -323,7 +376,19 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       file = File.createTempFile(TMP_FILE_PREFIX, suffix);
       Files.write(file.toPath(), data);
       file.deleteOnExit();
+
     } catch (final IOException e) {
+
+      if (this.logger instanceof Logger) {
+
+        this.logger
+            .add(Logger.INFO_STEP,
+                new String[] {
+                    "Unable to load binary resource from \"" + fileName
+                        + "\" with suffix \"" + suffix + "\":",
+                    e.getMessage() });
+      }
+
       file = null;
     }
 
@@ -363,19 +428,49 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       try {
         stream.close();
-      } catch (Exception e) {
+      } catch (final Exception e) {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger
+              .add(Logger.INFO_STEP,
+                  new String[] {
+                      "Unable to load ASCII resource from \"" + fileName
+                          + "\" with suffix \"" + suffix + "\":",
+                      e.getMessage() });
+        }
       }
 
       return file;
 
     } catch (final IOException e1) {
+
+      if (this.logger instanceof Logger) {
+
+        this.logger
+            .add(Logger.INFO_STEP,
+                new String[] {
+                    "Unable to load ASCII resource from \"" + fileName
+                        + "\" with suffix \"" + suffix + "\":",
+                    e1.getMessage() });
+      }
     }
 
     scanner.close();
 
     try {
       stream.close();
-    } catch (Exception e) {
+    } catch (final Exception e) {
+
+      if (this.logger instanceof Logger) {
+
+        this.logger
+            .add(Logger.INFO_STEP,
+                new String[] {
+                    "Unable to load ASCII resource from \"" + fileName
+                        + "\" with suffix \"" + suffix + "\":",
+                    e.getMessage() });
+      }
     }
 
     return null;
@@ -406,7 +501,15 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
     try {
       stream.close();
-    } catch (IOException e) {
+    } catch (final IOException e) {
+
+      if (this.logger instanceof Logger) {
+
+        this.logger.add(Logger.INFO_STEP,
+            new String[] {
+                "Unable to load ASCII resource from \"" + fileName + "\":",
+                e.getMessage() });
+      }
     }
 
     return builder.toString();
