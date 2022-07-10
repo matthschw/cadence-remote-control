@@ -42,6 +42,11 @@ public final class SkillInteractiveSession extends SkillSession {
   private final File workingDir;
 
   private static final String DEFAULT_COMMAND = "virtuoso -nograph";
+
+  /**
+   * The {@link SkillSessionWatchdog} can be disabled by setting this
+   * environemnt variable.
+   */
   public static final String ENVVAR_NO_WATCHDOG = "ED_CDS_RC_NO_WATCHDOG";
 
   private static final File DEFAULT_WORKING_DIR = new File("");
@@ -57,11 +62,7 @@ public final class SkillInteractiveSession extends SkillSession {
    * Create a Session
    */
   public SkillInteractiveSession() {
-    super();
-    this.command = DEFAULT_COMMAND;
-    this.workingDir = DEFAULT_WORKING_DIR.getAbsoluteFile();
-
-    this.useWatchdog = SkillInteractiveSession.useWatchdog();
+    this(DEFAULT_WORKING_DIR.getAbsoluteFile());
   }
 
   /**
@@ -74,6 +75,13 @@ public final class SkillInteractiveSession extends SkillSession {
     this.command = DEFAULT_COMMAND;
     this.workingDir = workingDir.getAbsoluteFile();
     this.useWatchdog = SkillInteractiveSession.useWatchdog();
+
+    if (this.logger instanceof Logger) {
+      this.logger.add(Logger.INFO_STEP,
+          new String[] { "Create interactive session with",
+              " -command:" + this.command,
+              " -useWatchdog:" + this.useWatchdog });
+    }
   }
 
   /**
@@ -87,9 +95,9 @@ public final class SkillInteractiveSession extends SkillSession {
 
       final String envvar = System.getenv(ENVVAR_NO_WATCHDOG);
 
-      return !(envvar instanceof String && envvar.length() > 0);
+      return !((envvar instanceof String) && (envvar.length() > 0));
 
-    } catch (Exception e) {
+    } catch (final Exception e) {
     }
 
     return true;
@@ -104,6 +112,11 @@ public final class SkillInteractiveSession extends SkillSession {
    */
   public SkillInteractiveSession setCommand(final String command) {
     this.command = command;
+
+    if (this.logger instanceof Logger) {
+      this.logger.add(Logger.INFO_STEP, "Set command \"" + command + "\"");
+    }
+
     return this;
   }
 
@@ -122,6 +135,14 @@ public final class SkillInteractiveSession extends SkillSession {
     if (timeoutTimeUnit instanceof TimeUnit) {
       this.watchdogTimeoutDuration = timeoutDuration;
       this.watchdogTimeoutTimeUnit = timeoutTimeUnit;
+
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.INFO_STEP,
+            "Set watchdogTimeoutDuration=" + this.watchdogTimeoutDuration
+                + " and watchdogTimeoutTimeUnit="
+                + this.watchdogTimeoutTimeUnit);
+      }
+
       return this;
     } else {
       return null;
@@ -167,12 +188,28 @@ public final class SkillInteractiveSession extends SkillSession {
 
     if (!this.isActive()) {
 
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.START_STEP, "Starting session...");
+      }
+
       try {
 
         this.process = Runtime.getRuntime().exec(this.command + "\n", null,
             this.workingDir);
 
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Starting process with command \""
+              + this.command + "\" in directory \"" + this.workingDir + "\"");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP,
+              "Starting process with command \"" + this.command
+                  + "\" in directory \"" + this.workingDir + "\" failed");
+        }
+
         this.stop();
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
@@ -190,6 +227,7 @@ public final class SkillInteractiveSession extends SkillSession {
       });
 
       try {
+        
         this.expect = new ExpectBuilder()
             .withInputs(this.process.getInputStream())
             .withOutput(this.process.getOutputStream()).withExceptionOnFailure()
@@ -274,7 +312,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
       this.lastActivity = new Date();
 
-      if (this.useWatchdog && this.watchdogTimeoutDuration > 0) {
+      if (this.useWatchdog && (this.watchdogTimeoutDuration > 0)) {
 
         this.watchdog = new SkillSessionWatchdog(this,
             this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
@@ -466,7 +504,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
     this.lastActivity = new Date();
 
-    if (this.useWatchdog && this.watchdogTimeoutDuration > 0) {
+    if (this.useWatchdog && (this.watchdogTimeoutDuration > 0)) {
 
       this.watchdog = new SkillSessionWatchdog(this,
           this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
@@ -480,7 +518,7 @@ public final class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession stop() {
 
-    if (this.useWatchdog && this.watchdog instanceof SkillSessionWatchdog) {
+    if (this.useWatchdog && (this.watchdog instanceof SkillSessionWatchdog)) {
       this.watchdog.kill();
       this.watchdog = null;
     }

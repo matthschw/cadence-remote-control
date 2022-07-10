@@ -19,7 +19,7 @@ class AlteringPromptEnvVarSessionTest {
   @Test
   void test() throws Exception {
 
-    withEnvironmentVariable(SkillSession.PROMPT_ENV_VAR, "Ready >")
+    withEnvironmentVariable(SkillSession.ENVVAR_PROMPT, "Ready >")
         .execute(() -> {
           SkillInteractiveSession session = null;
 
