@@ -218,7 +218,6 @@ public final class SkillInteractiveSession extends SkillSession {
       }
 
       // add shutdown hook for process
-
       this.shutdownHook = new Thread() {
         @Override
         public void run() {
@@ -259,17 +258,22 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.expect(this.nextCommand);
 
         if (this.logger instanceof Logger) {
+
           this.logger.add(Logger.START_STEP,
-              "Initializing expect with \"" + this.nextCommand + "\"");
+              "Initialization of Skill session finished, token \""
+                  + this.nextCommand + "\" found");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP, new String[] {
-              "Initializing expect with \"" + this.nextCommand + "\" failed:",
-              e.getMessage() });
+          this.logger
+              .add(Logger.START_STEP,
+                  new String[] {
+                      "Initialization of Skill session finished, token \""
+                          + this.nextCommand + "\" NOT found:",
+                      e.getMessage() });
         }
 
         this.stop();
@@ -297,7 +301,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP, "Send SKILL prompt command \""
+          this.logger.add(Logger.START_STEP, "Send Skill prompt command \""
               + skillPromptsCommand.toSkill() + "\"");
         }
 
@@ -305,12 +309,10 @@ public final class SkillInteractiveSession extends SkillSession {
 
         if (this.logger instanceof Logger) {
 
-          this.logger
-              .add(Logger.START_STEP,
-                  new String[] {
-                      "Send SKILL prompt command \""
-                          + skillPromptsCommand.toSkill() + "\" failed:",
-                      e.getMessage() });
+          this.logger.add(Logger.START_STEP,
+              new String[] { "Send Skill prompt command \""
+                  + skillPromptsCommand.toSkill() + "\" failed:",
+                  e.getMessage() });
         }
 
         this.stop();
@@ -320,7 +322,21 @@ public final class SkillInteractiveSession extends SkillSession {
 
       try {
         this.expect.expect(this.nextCommand);
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP,
+              "Wating for return of Skill prompt finished");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP,
+              new String[] {
+                  "Waiting for return of Skill prompt did not finish",
+                  e.getMessage() });
+        }
+
         this.stop();
         throw new UnableToStartInteractiveSession(this.command,
             this.workingDir);
@@ -340,8 +356,21 @@ public final class SkillInteractiveSession extends SkillSession {
       }
 
       try {
+
         this.expect.send(skillLoadCommand.toSkill() + "\n");
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Loading Skill commands with \""
+              + skillLoadCommand.toSkill() + "\"");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Loading Skill commands with \""
+              + skillLoadCommand.toSkill() + "\" failed");
+        }
+
         this.stop();
         skillControlApi.delete();
         throw new EvaluationFailedException(skillLoadCommand.toSkill());
@@ -349,7 +378,18 @@ public final class SkillInteractiveSession extends SkillSession {
 
       try {
         this.expect.expect(this.nextCommand);
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Loading Skill commands finished");
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, new String[] {
+              "Loading Skill commands did not finish", e.getMessage() });
+        }
+
         this.stop();
         skillControlApi.delete();
         throw new UnableToStartInteractiveSession(this.command,
@@ -366,6 +406,10 @@ public final class SkillInteractiveSession extends SkillSession {
             this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
 
         this.watchdog.start();
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.START_STEP, "Start watchdog");
+        }
       }
 
       return this;
@@ -404,9 +448,15 @@ public final class SkillInteractiveSession extends SkillSession {
     SkillDataobject data = null;
 
     if (this.watchdog instanceof SkillSessionWatchdog) {
+
       // kill watchdog when available
+
       this.watchdog.kill();
       this.watchdog = null;
+
+      if (this.logger instanceof Logger) {
+        this.logger.add("Kill watchdog");
+      }
     }
 
     if (this.isActive()) {
@@ -414,7 +464,17 @@ public final class SkillInteractiveSession extends SkillSession {
       // identify if command contains invalid complex dataobejcts that are not
       // available in the session
       if (!command.canBeUsedInSession(this)) {
-        throw new InvalidDataobjectReferenceExecption(command, this);
+
+        final InvalidDataobjectReferenceExecption e = new InvalidDataobjectReferenceExecption(
+            command, this);
+
+        if (this.logger instanceof Logger) {
+          this.logger.add("Command \"" + e.getCommand().toSkill()
+              + "\" cannot be evaluated in session");
+          this.logger.next();
+        }
+
+        throw e;
       }
 
       SkillCommand outer = null;
@@ -431,8 +491,16 @@ public final class SkillInteractiveSession extends SkillSession {
 
       String skillCommand = outer.toSkill();
 
+      if (this.logger instanceof Logger) {
+        this.logger.add("Format Skill command to \"" + outer.toSkill() + "\"");
+      }
+
       // store command in a file when MAX_CMD_LENGTH exceeded
       if (skillCommand.length() > SkillSession.MAX_CMD_LENGTH) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add("Skill command is too long, store in file..");
+        }
 
         try {
 
@@ -442,6 +510,11 @@ public final class SkillInteractiveSession extends SkillSession {
           final FileWriter writer = new FileWriter(skillCommandFile);
           writer.write(command.toSkill());
           writer.close();
+
+          if (this.logger instanceof Logger) {
+            this.logger
+                .add("Write command to file \"" + skillCommandFile + "\"");
+          }
 
           skillCommandFile.deleteOnExit();
 
@@ -456,7 +529,12 @@ public final class SkillInteractiveSession extends SkillSession {
             // cannot occur
           }
         } catch (final IOException e) {
-          // "/tmp" is always writable
+
+          // "/tmp" is always writable, error very unlikely
+          if (this.logger instanceof Logger) {
+            this.logger.add(new String[] { "Cannot write command to file",
+                e.getMessage() });
+          }
         }
       }
 
@@ -589,7 +667,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
     try {
       Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
-    } catch (Exception e) {
+    } catch (final Exception e) {
     }
 
     this.process = null;
@@ -608,10 +686,26 @@ public final class SkillInteractiveSession extends SkillSession {
     String retval = null;
 
     try {
+
       this.expect.send(cmd + "\n");
+
+      if (this.logger instanceof Logger) {
+        this.logger.add(
+            new String[] { "Send command ", " " + cmd, " to Skill session" });
+      }
+
       retval = this.expect.expect(SkillSession.XML_MATCH).group(1);
 
+      if (this.logger instanceof Logger) {
+        this.logger.add(new String[] { "Skill session returned", retval });
+      }
+
     } catch (final Exception e) {
+
+      if (this.logger instanceof Logger) {
+        this.logger
+            .add(new String[] { "Communication failed with", e.getMessage() });
+      }
     }
 
     return retval;
