@@ -340,6 +340,38 @@ final class Logger {
   public static final int MSG_CODE_50 = 50;
 
   /**
+   * 
+   * @see SkillSocketSession
+   */
+  public static final int MSG_CODE_51 = 51;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_52 = 52;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_53 = 53;
+  
+  
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_54 = 54;
+  
+  
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_55 = 55;
+
+  /**
    * Create a new {@link Logger}
    * 
    * @return logger

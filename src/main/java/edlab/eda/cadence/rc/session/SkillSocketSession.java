@@ -36,6 +36,8 @@ public final class SkillSocketSession extends SkillSession {
 
   private final Map<String, EvaluableToSkill> keywords;
 
+  private Thread shutdownHook;
+
   private static final int WAIT_PERIOD_MS = 10;
 
   private static final long INIT_TIMEOUT_DURATION = 10;
@@ -47,6 +49,11 @@ public final class SkillSocketSession extends SkillSession {
 
     this.keywords = new HashMap<>();
     this.keywords.put("returnType", new SkillString("string"));
+
+    if (this.logger instanceof Logger) {
+      this.logger.add(Logger.MSG_CODE_51, Logger.INFO_STEP,
+          "Create socket session @ port:" + this.port);
+    }
   }
 
   @Override
@@ -55,9 +62,22 @@ public final class SkillSocketSession extends SkillSession {
     if (!this.isActive()) {
 
       try {
+
         this.socket = new Socket();
         this.socket.connect(new InetSocketAddress("0.0.0.0", this.port), 1000);
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_52, Logger.START_STEP,
+              "Connected to socket " + this.port);
+        }
+
       } catch (final IOException e) {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_53, Logger.START_STEP,
+              "Unable to connect to socket " + this.port);
+        }
+
         throw new UnableToStartSocketSession(this.port);
       }
 
@@ -68,6 +88,12 @@ public final class SkillSocketSession extends SkillSession {
           this.socket.close();
         } catch (final IOException e1) {
         }
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_54, Logger.START_STEP,
+              "Cannot open input stream to socket " + this.port);
+        }
+
         throw new UnableToStartSocketSession(this.port);
       }
 
@@ -78,12 +104,17 @@ public final class SkillSocketSession extends SkillSession {
           this.socket.close();
         } catch (final IOException e1) {
         }
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_55, Logger.START_STEP,
+              "Cannot open output stream to socket " + this.port);
+        }
+
         throw new UnableToStartSocketSession(this.port);
       }
 
       // add shutdown hook for process
-      Runtime.getRuntime().addShutdownHook(new Thread() {
-
+      this.shutdownHook = new Thread() {
         @Override
         public void run() {
           try {
@@ -98,7 +129,9 @@ public final class SkillSocketSession extends SkillSession {
           } catch (final Exception e) {
           }
         }
-      });
+      };
+
+      Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 
       SkillCommand cmd = null;
 
@@ -255,6 +288,8 @@ public final class SkillSocketSession extends SkillSession {
     this.socket = null;
     this.outputStream = null;
     this.inputStream = null;
+
+    Runtime.getRuntime().removeShutdownHook(shutdownHook);
 
     return this;
   }
