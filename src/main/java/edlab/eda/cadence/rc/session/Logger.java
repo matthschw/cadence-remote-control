@@ -356,20 +356,55 @@ final class Logger {
    * @see SkillSocketSession#start()
    */
   public static final int MSG_CODE_53 = 53;
-  
-  
+
   /**
    * 
    * @see SkillSocketSession#start()
    */
   public static final int MSG_CODE_54 = 54;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_55 = 55;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_56 = 56;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_57 = 57;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_58 = 58;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_59 = 59;
+
+  /**
+   * 
+   * @see SkillSocketSession#start()
+   */
+  public static final int MSG_CODE_60 = 60;
   
   
   /**
    * 
    * @see SkillSocketSession#start()
    */
-  public static final int MSG_CODE_55 = 55;
+  public static final int MSG_CODE_61 = 61;
 
   /**
    * Create a new {@link Logger}

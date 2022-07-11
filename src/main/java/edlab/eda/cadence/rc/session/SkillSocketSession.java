@@ -82,7 +82,14 @@ public final class SkillSocketSession extends SkillSession {
       }
 
       try {
+
         this.inputStream = this.socket.getInputStream();
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_57, Logger.START_STEP,
+              "Open input stream to socket " + this.port);
+        }
+
       } catch (final IOException e) {
         try {
           this.socket.close();
@@ -99,6 +106,12 @@ public final class SkillSocketSession extends SkillSession {
 
       try {
         this.outputStream = this.socket.getOutputStream();
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_56, Logger.START_STEP,
+              "Open output stream to socket " + this.port);
+        }
+
       } catch (final IOException e) {
         try {
           this.socket.close();
@@ -150,6 +163,11 @@ public final class SkillSocketSession extends SkillSession {
 
         if (retval.equals("nil")) {
 
+          if (this.logger instanceof Logger) {
+            this.logger.add(Logger.MSG_CODE_59, Logger.START_STEP,
+                "Skill resource not loaded");
+          }
+
           final File skillControlApi = this.getResourcePath(
               SkillSession.SKILL_RESOURCE, SkillSession.TMP_SKILL_FILE_SUFFIX);
 
@@ -163,12 +181,23 @@ public final class SkillSocketSession extends SkillSession {
 
           this.communicate(cmd.toSkill(), 1);
 
+          if (this.logger instanceof Logger) {
+            this.logger.add(Logger.MSG_CODE_60, Logger.START_STEP,
+                "Skill resource loaded");
+          }
+
           skillControlApi.delete();
         }
 
         return this;
 
       } else {
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_58, Logger.START_STEP,
+              "Unable to detect if Skill resource is loaded");
+        }
+
         throw new UnableToStartSocketSession(this.port);
       }
     } else {
@@ -200,7 +229,15 @@ public final class SkillSocketSession extends SkillSession {
     String xml;
 
     if (!command.canBeUsedInSession(this)) {
+
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.MSG_CODE_61, "Command \"" + command.toSkill()
+            + "\" cannot be evaluated in session");
+        this.logger.next();
+      }
+
       throw new InvalidDataobjectReferenceExecption(command, this);
+
     }
 
     SkillCommand outer = null;
