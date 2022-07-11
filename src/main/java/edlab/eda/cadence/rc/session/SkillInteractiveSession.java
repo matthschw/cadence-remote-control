@@ -78,7 +78,7 @@ public final class SkillInteractiveSession extends SkillSession {
     this.useWatchdog = SkillInteractiveSession.useWatchdog();
 
     if (this.logger instanceof Logger) {
-      this.logger.add(Logger.INFO_STEP,
+      this.logger.add(Logger.MSG_CODE_12, Logger.INFO_STEP,
           new String[] { "Create interactive session with",
               " -command:" + this.command,
               " -useWatchdog:" + this.useWatchdog });
@@ -115,7 +115,8 @@ public final class SkillInteractiveSession extends SkillSession {
     this.command = command;
 
     if (this.logger instanceof Logger) {
-      this.logger.add(Logger.INFO_STEP, "Set command \"" + command + "\"");
+      this.logger.add(Logger.MSG_CODE_13, Logger.INFO_STEP,
+          "Set command \"" + command + "\"");
     }
 
     return this;
@@ -138,7 +139,7 @@ public final class SkillInteractiveSession extends SkillSession {
       this.watchdogTimeoutTimeUnit = timeoutTimeUnit;
 
       if (this.logger instanceof Logger) {
-        this.logger.add(Logger.INFO_STEP,
+        this.logger.add(Logger.MSG_CODE_14, Logger.INFO_STEP,
             "Set watchdogTimeoutDuration=" + this.watchdogTimeoutDuration
                 + " and watchdogTimeoutTimeUnit="
                 + this.watchdogTimeoutTimeUnit);
@@ -190,7 +191,8 @@ public final class SkillInteractiveSession extends SkillSession {
     if (!this.isActive()) {
 
       if (this.logger instanceof Logger) {
-        this.logger.add(Logger.START_STEP, "Starting session...");
+        this.logger.add(Logger.MSG_CODE_15, Logger.START_STEP,
+            "Starting session...");
       }
 
       try {
@@ -199,15 +201,16 @@ public final class SkillInteractiveSession extends SkillSession {
             this.workingDir);
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Starting process with command \""
-              + this.command + "\" in directory \"" + this.workingDir + "\"");
+          this.logger.add(Logger.MSG_CODE_16, Logger.START_STEP,
+              "Starting process with command \"" + this.command
+                  + "\" in directory \"" + this.workingDir + "\"");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_17, Logger.START_STEP,
               "Starting process with command \"" + this.command
                   + "\" in directory \"" + this.workingDir + "\" failed");
         }
@@ -238,13 +241,14 @@ public final class SkillInteractiveSession extends SkillSession {
             .build().withTimeout(this.timeoutDuration, this.timeoutTimeUnit);
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Starting expect...");
+          this.logger.add(Logger.MSG_CODE_18, Logger.START_STEP,
+              "Starting expect...");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_19, Logger.START_STEP,
               new String[] { "Starting if expect failed", e.getMessage() });
         }
 
@@ -259,7 +263,7 @@ public final class SkillInteractiveSession extends SkillSession {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_20, Logger.START_STEP,
               "Initialization of Skill session finished, token \""
                   + this.nextCommand + "\" found");
         }
@@ -269,7 +273,7 @@ public final class SkillInteractiveSession extends SkillSession {
         if (this.logger instanceof Logger) {
 
           this.logger
-              .add(Logger.START_STEP,
+              .add(Logger.MSG_CODE_21, Logger.START_STEP,
                   new String[] {
                       "Initialization of Skill session finished, token \""
                           + this.nextCommand + "\" NOT found:",
@@ -301,15 +305,16 @@ public final class SkillInteractiveSession extends SkillSession {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP, "Send Skill prompt command \""
-              + skillPromptsCommand.toSkill() + "\"");
+          this.logger.add(Logger.MSG_CODE_22, Logger.START_STEP,
+              "Send Skill prompt command \"" + skillPromptsCommand.toSkill()
+                  + "\"");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_23, Logger.START_STEP,
               new String[] { "Send Skill prompt command \""
                   + skillPromptsCommand.toSkill() + "\" failed:",
                   e.getMessage() });
@@ -324,14 +329,14 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.expect(this.nextCommand);
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_24, Logger.START_STEP,
               "Wating for return of Skill prompt finished");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP,
+          this.logger.add(Logger.MSG_CODE_25, Logger.START_STEP,
               new String[] {
                   "Waiting for return of Skill prompt did not finish",
                   e.getMessage() });
@@ -360,15 +365,17 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.send(skillLoadCommand.toSkill() + "\n");
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Loading Skill commands with \""
-              + skillLoadCommand.toSkill() + "\"");
+          this.logger.add(Logger.MSG_CODE_26, Logger.START_STEP,
+              "Loading Skill commands with \"" + skillLoadCommand.toSkill()
+                  + "\"");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Loading Skill commands with \""
-              + skillLoadCommand.toSkill() + "\" failed");
+          this.logger.add(Logger.MSG_CODE_27, Logger.START_STEP,
+              "Loading Skill commands with \"" + skillLoadCommand.toSkill()
+                  + "\" failed");
         }
 
         this.stop();
@@ -380,13 +387,14 @@ public final class SkillInteractiveSession extends SkillSession {
         this.expect.expect(this.nextCommand);
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Loading Skill commands finished");
+          this.logger.add(Logger.MSG_CODE_28, Logger.START_STEP,
+              "Loading Skill commands finished");
         }
 
       } catch (final IOException e) {
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, new String[] {
+          this.logger.add(Logger.MSG_CODE_29, Logger.START_STEP, new String[] {
               "Loading Skill commands did not finish", e.getMessage() });
         }
 
@@ -408,7 +416,8 @@ public final class SkillInteractiveSession extends SkillSession {
         this.watchdog.start();
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.START_STEP, "Start watchdog");
+          this.logger.add(Logger.MSG_CODE_30, Logger.START_STEP,
+              "Start watchdog");
         }
       }
 
@@ -455,7 +464,7 @@ public final class SkillInteractiveSession extends SkillSession {
       this.watchdog = null;
 
       if (this.logger instanceof Logger) {
-        this.logger.add("Kill watchdog");
+        this.logger.add(Logger.MSG_CODE_31, "Kill watchdog");
       }
     }
 
@@ -469,8 +478,8 @@ public final class SkillInteractiveSession extends SkillSession {
             command, this);
 
         if (this.logger instanceof Logger) {
-          this.logger.add("Command \"" + e.getCommand().toSkill()
-              + "\" cannot be evaluated in session");
+          this.logger.add(Logger.MSG_CODE_32, "Command \""
+              + e.getCommand().toSkill() + "\" cannot be evaluated in session");
           this.logger.next();
         }
 
@@ -492,14 +501,16 @@ public final class SkillInteractiveSession extends SkillSession {
       String skillCommand = outer.toSkill();
 
       if (this.logger instanceof Logger) {
-        this.logger.add("Format Skill command to \"" + outer.toSkill() + "\"");
+        this.logger.add(Logger.MSG_CODE_33,
+            "Format Skill command to \"" + outer.toSkill() + "\"");
       }
 
       // store command in a file when MAX_CMD_LENGTH exceeded
       if (skillCommand.length() > SkillSession.MAX_CMD_LENGTH) {
 
         if (this.logger instanceof Logger) {
-          this.logger.add("Skill command is too long, store in file..");
+          this.logger.add(Logger.MSG_CODE_34,
+              "Skill command is too long, store command in file...");
         }
 
         try {
@@ -512,8 +523,9 @@ public final class SkillInteractiveSession extends SkillSession {
           writer.close();
 
           if (this.logger instanceof Logger) {
-            this.logger
-                .add("Write command to file \"" + skillCommandFile + "\"");
+
+            this.logger.add(Logger.MSG_CODE_35,
+                "Write Skill command to file \"" + skillCommandFile + "\"");
           }
 
           skillCommandFile.deleteOnExit();
@@ -532,8 +544,8 @@ public final class SkillInteractiveSession extends SkillSession {
 
           // "/tmp" is always writable, error very unlikely
           if (this.logger instanceof Logger) {
-            this.logger.add(new String[] { "Cannot write command to file",
-                e.getMessage() });
+            this.logger.add(Logger.MSG_CODE_36, new String[] {
+                "Cannot write command to file", e.getMessage() });
           }
         }
       }
@@ -543,11 +555,21 @@ public final class SkillInteractiveSession extends SkillSession {
       final SkillDataobject obj = SkillDataobject
           .getSkillDataobjectFromXML(this, xml);
 
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.MSG_CODE_37,
+            new String[] { "Parsed return value:", obj.toSkill() });
+      }
+
       try {
 
         SkillDisembodiedPropertyList top = (SkillDisembodiedPropertyList) obj;
 
         if (top.get(SkillSession.ID_VALID).isTrue()) {
+
+          if (this.logger instanceof Logger) {
+            this.logger.add(Logger.MSG_CODE_38,
+                new String[] { "Return value is valid" });
+          }
 
           if (top.containsKey(SkillSession.ID_FILE)) {
 
@@ -556,16 +578,32 @@ public final class SkillInteractiveSession extends SkillSession {
 
             final File dataFile = new File(filePath.getString());
 
+            if (this.logger instanceof Logger) {
+              this.logger.add(Logger.MSG_CODE_39,
+                  new String[] { "Return value is stored in file \""
+                      + dataFile.toString() + "\"" });
+            }
+
             xml = new String(Files.readAllBytes(dataFile.toPath()),
                 StandardCharsets.US_ASCII);
 
             top = (SkillDisembodiedPropertyList) SkillDataobject
                 .getSkillDataobjectFromXML(this, xml);
 
+            if (this.logger instanceof Logger) {
+              this.logger.add(Logger.MSG_CODE_40, new String[] {
+                  "Parsed return value from file:", obj.toSkill() });
+            }
+
             dataFile.delete();
           }
 
           data = top.get(SkillSession.ID_DATA);
+
+          if (this.logger instanceof Logger) {
+            this.logger.add(Logger.MSG_CODE_41, new String[] {
+                "Extract data from return value", data.toSkill() });
+          }
 
         } else {
 
@@ -610,10 +648,25 @@ public final class SkillInteractiveSession extends SkillSession {
             }
           }
 
-          throw new EvaluationFailedException(command.toSkill(),
-              builder.toString());
+          EvaluationFailedException e = new EvaluationFailedException(
+              command.toSkill(), builder.toString());
+
+          if (this.logger instanceof Logger) {
+            this.logger.add(Logger.MSG_CODE_42,
+                new String[] { "Return value is invalid", builder.toString() });
+            this.logger.next();
+          }
+
+          throw e;
         }
       } catch (final Exception e) {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger.add(Logger.MSG_CODE_43,
+              new String[] { "Exeception during evaluation", e.getMessage() });
+          this.logger.next();
+        }
 
         if (e instanceof EvaluationFailedException) {
 
@@ -632,6 +685,12 @@ public final class SkillInteractiveSession extends SkillSession {
 
     if (this.useWatchdog && (this.watchdogTimeoutDuration > 0)) {
 
+      if (this.logger instanceof Logger) {
+
+        this.logger.add(Logger.MSG_CODE_44, "Create watchdog");
+        this.logger.next();
+      }
+
       this.watchdog = new SkillSessionWatchdog(this,
           this.watchdogTimeoutDuration, this.watchdogTimeoutTimeUnit, parent);
 
@@ -644,15 +703,29 @@ public final class SkillInteractiveSession extends SkillSession {
   @Override
   public SkillInteractiveSession stop() {
 
+    if (this.logger instanceof Logger) {
+      this.logger.add(Logger.MSG_CODE_49, Logger.STOP_STEP, "Stop session");
+    }
+
     if (this.useWatchdog && (this.watchdog instanceof SkillSessionWatchdog)) {
+
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.MSG_CODE_48, Logger.STOP_STEP, "Kill watchdog");
+      }
       this.watchdog.kill();
       this.watchdog = null;
     }
 
     try {
+
       this.communicate(GenericSkillCommandTemplates
           .getTemplate(GenericSkillCommandTemplates.EXIT).buildCommand()
           .toSkill());
+
+      if (this.logger instanceof Logger) {
+        this.logger.add(Logger.MSG_CODE_50, Logger.STOP_STEP, "Exit session");
+      }
+
     } catch (final IncorrectSyntaxException e) {
     }
 
@@ -690,21 +763,22 @@ public final class SkillInteractiveSession extends SkillSession {
       this.expect.send(cmd + "\n");
 
       if (this.logger instanceof Logger) {
-        this.logger.add(
-            new String[] { "Send command ", " " + cmd, " to Skill session" });
+        this.logger.add(Logger.MSG_CODE_45,
+            new String[] { "Send command ", " " + cmd, "to Skill session" });
       }
 
       retval = this.expect.expect(SkillSession.XML_MATCH).group(1);
 
       if (this.logger instanceof Logger) {
-        this.logger.add(new String[] { "Skill session returned", retval });
+        this.logger.add(Logger.MSG_CODE_46,
+            new String[] { "Skill session returned", retval });
       }
 
     } catch (final Exception e) {
 
       if (this.logger instanceof Logger) {
-        this.logger
-            .add(new String[] { "Communication failed with", e.getMessage() });
+        this.logger.add(Logger.MSG_CODE_47,
+            new String[] { "Communication failed with", e.getMessage() });
       }
     }
 

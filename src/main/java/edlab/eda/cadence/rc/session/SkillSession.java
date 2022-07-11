@@ -133,7 +133,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       if (this.logger instanceof Logger) {
 
-        this.logger.add(Logger.CONFIG_STEP,
+        this.logger.add(Logger.MSG_CODE_1, Logger.CONFIG_STEP,
             "Set prompt to \"" + this.prompt + "\"");
       }
 
@@ -161,7 +161,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       if (this.logger instanceof Logger) {
 
-        this.logger.add(Logger.CONFIG_STEP,
+        this.logger.add(Logger.MSG_CODE_2, Logger.CONFIG_STEP,
             "Set timeout_ms=" + this.timeout_ms);
       }
 
@@ -262,7 +262,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     } catch (IncorrectSyntaxException | UnableToStartSession
         | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
 
-      this.logger.add(Logger.INFO_STEP,
+      this.logger.add(Logger.MSG_CODE_3, Logger.INFO_STEP,
           new String[] { "Identification of SKILL fuction \"" + functionName
               + "\" failed with :", e.getMessage() });
     }
@@ -294,7 +294,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     } catch (IncorrectSyntaxException | UnableToStartSession
         | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
 
-      this.logger.add(Logger.INFO_STEP,
+      this.logger.add(Logger.MSG_CODE_4, Logger.INFO_STEP,
           new String[] {
               "Loading of SKILL code \"" + skillFile + "\" failed with :",
               e.getMessage() });
@@ -334,7 +334,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
         skillSourceCode.delete();
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.INFO_STEP,
+          this.logger.add(Logger.MSG_CODE_5, Logger.INFO_STEP,
               "Loading SKILL code  from \"" + resource + "\" with suffix \""
                   + suffix + "\" finished with " + retval);
         }
@@ -345,8 +345,9 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.INFO_STEP, "Unable to load SKILL code  from \""
-              + resource + "\" with suffix \"" + suffix + "\"");
+          this.logger.add(Logger.MSG_CODE_6, Logger.INFO_STEP,
+              "Unable to load SKILL code  from \"" + resource
+                  + "\" with suffix \"" + suffix + "\"");
         }
 
         return false;
@@ -382,7 +383,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       if (this.logger instanceof Logger) {
 
         this.logger
-            .add(Logger.INFO_STEP,
+            .add(Logger.MSG_CODE_7, Logger.INFO_STEP,
                 new String[] {
                     "Unable to load binary resource from \"" + fileName
                         + "\" with suffix \"" + suffix + "\":",
@@ -433,7 +434,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
         if (this.logger instanceof Logger) {
 
           this.logger
-              .add(Logger.INFO_STEP,
+              .add(Logger.MSG_CODE_8, Logger.INFO_STEP,
                   new String[] {
                       "Unable to load ASCII resource from \"" + fileName
                           + "\" with suffix \"" + suffix + "\":",
@@ -448,7 +449,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       if (this.logger instanceof Logger) {
 
         this.logger
-            .add(Logger.INFO_STEP,
+            .add(Logger.MSG_CODE_9, Logger.INFO_STEP,
                 new String[] {
                     "Unable to load ASCII resource from \"" + fileName
                         + "\" with suffix \"" + suffix + "\":",
@@ -465,7 +466,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
       if (this.logger instanceof Logger) {
 
         this.logger
-            .add(Logger.INFO_STEP,
+            .add(Logger.MSG_CODE_10, Logger.INFO_STEP,
                 new String[] {
                     "Unable to load ASCII resource from \"" + fileName
                         + "\" with suffix \"" + suffix + "\":",
@@ -505,7 +506,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       if (this.logger instanceof Logger) {
 
-        this.logger.add(Logger.INFO_STEP,
+        this.logger.add(Logger.MSG_CODE_11,Logger.INFO_STEP,
             new String[] {
                 "Unable to load ASCII resource from \"" + fileName + "\":",
                 e.getMessage() });
