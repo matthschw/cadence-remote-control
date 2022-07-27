@@ -3,7 +3,10 @@ package edlab.eda.cadence.rc.api;
 import edlab.eda.cadence.rc.session.EvaluableToSkill;
 import edlab.eda.cadence.rc.session.SkillSession;
 
-public class SkillUnlessStatement extends SkillControlStructure {
+/**
+ * unless statement
+ */
+public final class SkillUnlessStatement extends SkillControlStructure {
 
   private final EvaluableToSkill statement;
   private final EvaluableToSkill[] unlessBranch;
