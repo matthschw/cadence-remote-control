@@ -15,28 +15,17 @@ public final class IncorrectSyntaxException extends Exception {
   /**
    * Create a new exception
    * 
-   * @param providedFormalParamaters Number of provided formal parameter
-   * @param neededFormalParameters   Number of needed formal parameter
-   */
-  @Deprecated
-  public IncorrectSyntaxException(final int providedFormalParamaters,
-      final int neededFormalParameters) {
-    super(providedFormalParamaters + " format parameters are provided, but "
-        + neededFormalParameters + " are requried");
-  }
-
-  /**
-   * Create a new exception
-   * 
    * @param name                     Name of function
    * @param providedFormalParamaters Number of provided formal parameter
    * @param neededFormalParameters   Number of needed formal parameter
    */
   public IncorrectSyntaxException(final String name,
       final int providedFormalParamaters, final int neededFormalParameters) {
+
     super("Function \"" + name + "\" requires " + neededFormalParameters
-        + " formal parameters are provided, but " + providedFormalParamaters
-        + " are requried");
+        + " formal parameters, but " + providedFormalParamaters
+        + " are provided");
+
   }
 
   /**

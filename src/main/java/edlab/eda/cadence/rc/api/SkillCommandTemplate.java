@@ -12,7 +12,7 @@ import edlab.eda.cadence.rc.session.EvaluableToSkill;
 public class SkillCommandTemplate {
 
   private final String name;
-  private final int formalParameters;
+  private final int numOfFormalParameters;
   private final boolean canHaveRest;
 
   /**
@@ -23,7 +23,7 @@ public class SkillCommandTemplate {
    */
   protected SkillCommandTemplate(final String name) {
     this.name = name;
-    this.formalParameters = 0;
+    this.numOfFormalParameters = 0;
     this.canHaveRest = false;
   }
 
@@ -37,7 +37,7 @@ public class SkillCommandTemplate {
    */
   protected SkillCommandTemplate(final String name, final boolean canHaveRest) {
     this.name = name;
-    this.formalParameters = 0;
+    this.numOfFormalParameters = 0;
     this.canHaveRest = canHaveRest;
   }
 
@@ -50,7 +50,7 @@ public class SkillCommandTemplate {
   protected SkillCommandTemplate(final String name,
       final int numOfFormalParameters) {
     this.name = name;
-    this.formalParameters = numOfFormalParameters;
+    this.numOfFormalParameters = numOfFormalParameters;
     this.canHaveRest = false;
   }
 
@@ -65,7 +65,7 @@ public class SkillCommandTemplate {
   protected SkillCommandTemplate(final String name,
       final int numOfFormalParameters, final boolean canHaveRest) {
     this.name = name;
-    this.formalParameters = numOfFormalParameters;
+    this.numOfFormalParameters = numOfFormalParameters;
     this.canHaveRest = canHaveRest;
   }
 
@@ -84,7 +84,7 @@ public class SkillCommandTemplate {
    * @return number of formal parameters
    */
   public int getFormalParameters() {
-    return this.formalParameters;
+    return this.numOfFormalParameters;
   }
 
   /**
@@ -455,9 +455,9 @@ public class SkillCommandTemplate {
   private void checkFormalParameters(final int formalParameters)
       throws IncorrectSyntaxException {
 
-    if (this.formalParameters != formalParameters) {
+    if (this.numOfFormalParameters != formalParameters) {
       throw new IncorrectSyntaxException(this.name, formalParameters,
-          this.formalParameters);
+          this.numOfFormalParameters);
     }
   }
 
