@@ -271,6 +271,38 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   }
 
   /**
+   * Identify if a Skill class with a given name is callable
+   * 
+   * @param className Name of the class
+   * @return <code>true</code> when the class is defined, <code>false</code>
+   *         otherwise
+   */
+  public boolean isClassCallable(final String className) {
+
+    try {
+
+      final SkillCommand command = GenericSkillCommandTemplates
+          .getTemplate(GenericSkillCommandTemplates.FIND_CLASS)
+          .buildCommand(new SkillSymbol(className));
+
+      final SkillDataobject obj = this.evaluate(command);
+
+      if ((obj instanceof SkillDataobject) && obj.isTrue()) {
+        return true;
+      }
+
+    } catch (IncorrectSyntaxException | UnableToStartSession
+        | EvaluationFailedException | InvalidDataobjectReferenceExecption e) {
+
+      this.logger.add(Logger.MSG_CODE_62, Logger.INFO_STEP, new String[] {
+          "Identification of SKILL class \"" + className + "\" failed with :",
+          e.getMessage() });
+    }
+
+    return false;
+  }
+
+  /**
    * Load a file consisting of Skill code
    * 
    * @param functionName Name of the function
@@ -313,7 +345,22 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
    * @return <code>true</code> when the file is loaded, <code>false</code>
    *         otherwise
    */
+  @Deprecated
   public boolean loadCodeFromJar(final String resource, final String suffix,
+      final String functionName) {
+    return this.loadCodeFromJarWithReferenceFun(resource, functionName);
+  }
+
+  /**
+   * Load Skill code from within the JAR. The code is only loaded when the
+   * specified function is not callable
+   * 
+   * @param resource     Path to Skill file wihtin JAR
+   * @param functionName Function within the Skill file
+   * @return <code>true</code> when the file is loaded, <code>false</code>
+   *         otherwise
+   */
+  public boolean loadCodeFromJarWithReferenceFun(final String resource,
       final String functionName) {
 
     if (this.isSkillFunctionCallable(functionName)) {
@@ -323,7 +370,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
     } else {
 
       final File skillSourceCode = this.getResourcePathFromAscii(resource,
-          suffix);
+          TMP_SKILL_FILE_SUFFIX);
 
       boolean retval = false;
 
@@ -336,7 +383,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
         if (this.logger instanceof Logger) {
           this.logger.add(Logger.MSG_CODE_5, Logger.INFO_STEP,
               "Loading SKILL code  from \"" + resource + "\" with suffix \""
-                  + suffix + "\" finished with " + retval);
+                  + TMP_SKILL_FILE_SUFFIX + "\" finished with " + retval);
         }
 
         return retval;
@@ -347,7 +394,58 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
           this.logger.add(Logger.MSG_CODE_6, Logger.INFO_STEP,
               "Unable to load SKILL code  from \"" + resource
-                  + "\" with suffix \"" + suffix + "\"");
+                  + "\" with suffix \"" + TMP_SKILL_FILE_SUFFIX + "\"");
+        }
+
+        return false;
+      }
+    }
+  }
+
+  /**
+   * Load Skill code from within the JAR. The code is only loaded when the
+   * specified function is not callable
+   * 
+   * @param resource     Path to Skill file wihtin JAR
+   * @param functionName Function within the Skill file
+   * @return <code>true</code> when the file is loaded, <code>false</code>
+   *         otherwise
+   */
+  public boolean loadCodeFromJarWithReferenceClass(final String resource,
+      final String className) {
+
+    if (this.isClassCallable(className)) {
+
+      return true;
+
+    } else {
+
+      final File skillSourceCode = this.getResourcePathFromAscii(resource,
+          TMP_SKILLPP_FILE_SUFFIX);
+
+      boolean retval = false;
+
+      if (skillSourceCode instanceof File) {
+
+        retval = this.loadSkillCode(skillSourceCode);
+
+        skillSourceCode.delete();
+
+        if (this.logger instanceof Logger) {
+          this.logger.add(Logger.MSG_CODE_5, Logger.INFO_STEP,
+              "Loading SKILL code  from \"" + resource + "\" with suffix \""
+                  + TMP_SKILLPP_FILE_SUFFIX + "\" finished with " + retval);
+        }
+
+        return retval;
+
+      } else {
+
+        if (this.logger instanceof Logger) {
+
+          this.logger.add(Logger.MSG_CODE_6, Logger.INFO_STEP,
+              "Unable to load SKILL code  from \"" + resource
+                  + "\" with suffix \"" + TMP_SKILLPP_FILE_SUFFIX + "\"");
         }
 
         return false;
@@ -506,7 +604,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
       if (this.logger instanceof Logger) {
 
-        this.logger.add(Logger.MSG_CODE_11,Logger.INFO_STEP,
+        this.logger.add(Logger.MSG_CODE_11, Logger.INFO_STEP,
             new String[] {
                 "Unable to load ASCII resource from \"" + fileName + "\":",
                 e.getMessage() });

@@ -55,6 +55,8 @@ public final class GenericSkillCommandTemplates {
   public static final String ED_CDS_RC_BUILD_XML = "EDcdsRCbuildXML";
   public static final String ED_CDS_RC_ESCPAE_XML = "EDcdsRCescapeXML";
   public static final String ED_CDS_RC_EXECUTE_COMMAND_FROM_FILE = "EDcdsRCexCmdFile";
+  
+  public static final String FIND_CLASS = "findClass";
 
   private static GenericSkillCommandTemplates commandTemplates = null;
 
@@ -186,6 +188,11 @@ public final class GenericSkillCommandTemplates {
     this.templates.put(GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML,
         new SkillCommandTemplate(
             GenericSkillCommandTemplates.ED_CDS_RC_ESCPAE_XML, 1));
+    
+    
+    this.templates.put(GenericSkillCommandTemplates.FIND_CLASS,
+        new SkillCommandTemplate(
+            GenericSkillCommandTemplates.FIND_CLASS, 1));
   }
 
   /**

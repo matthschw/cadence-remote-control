@@ -398,13 +398,18 @@ final class Logger {
    * @see SkillSocketSession#start()
    */
   public static final int MSG_CODE_60 = 60;
-  
-  
+
   /**
    * 
    * @see SkillSocketSession#start()
    */
   public static final int MSG_CODE_61 = 61;
+
+  /**
+   * 
+   * @see SkillSession#isClassCallable(String)
+   */
+  public static final int MSG_CODE_62 = 62;
 
   /**
    * Create a new {@link Logger}
