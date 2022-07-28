@@ -45,5 +45,13 @@
  * <pre>
  * export ED_CDS_RC_PROMPT=$
  * </pre>
+ * 
+ * <p>
+ * <code>ED_CDS_LOG</code>
+ * <p>
+ * 
+ * When you set the environment variable <code>ED_CDS_LOG</code> to any value, a
+ * {@link edlab.eda.cadence.rc.session.SkillSession} will create a logfile. This
+ * is needed for debugging.
  */
 package edlab.eda.cadence.rc.session;

@@ -31,8 +31,6 @@ before executing
 mvn install
 ```
 
-```
-
 ## License
 
 Copyright (C) 2022, [Reutlingen University](https://www.reutlingen-university.de), [Electronics & Drives](https://www.electronics-and-drives.de/)
