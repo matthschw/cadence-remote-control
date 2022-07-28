@@ -1,13 +1,15 @@
 # cadence-remote-control
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
 
-Remote Control for Cadence-Tools in Java
-
-This toolbox provides remote-control capabilities for Cadence-based
-tools in Java.
+This toolbox provides remote-control capabilities for 
+[Cadence](https://www.cadence.com) software in Java.
+This toolbox can be connected to tools, that can be controlled with the
+programming 
+language [Cadence SKILL](https://en.wikipedia.org/wiki/Cadence_SKILL).
 
 This software was developed for [OpenJDK 1.8](https://openjdk.java.net) 
 and [Apache Maven 3.6.3](https://maven.apache.org).
+
 The documentation can be created with 
 ```bash
 mvn javadoc:javadoc
