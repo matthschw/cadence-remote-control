@@ -50,13 +50,13 @@ final class Logger {
 
   /**
    * 
-   * @see SkillSession#loadCodeFromJar(String, String, String)
+   * @see SkillSession#loadCodeFromJarWithReferenceFun(String, String)
    */
   public static final int MSG_CODE_5 = 5;
 
   /**
    * 
-   * @see SkillSession#loadCodeFromJar(String, String, String)
+   * @see SkillSession#loadCodeFromJarWithReferenceFun(String, String)
    */
   public static final int MSG_CODE_6 = 6;
 
@@ -410,6 +410,18 @@ final class Logger {
    * @see SkillSession#isClassCallable(String)
    */
   public static final int MSG_CODE_62 = 62;
+
+  /**
+   * 
+   * @see SkillSession#loadCodeFromJarWithReferenceClass(String, String)
+   */
+  public static final int MSG_CODE_63 = 63;
+
+  /**
+   * 
+   * @see SkillSession#loadCodeFromJarWithReferenceClass(String, String)
+   */
+  public static final int MSG_CODE_64 = 64;
 
   /**
    * Create a new {@link Logger}

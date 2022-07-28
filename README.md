@@ -31,19 +31,6 @@ before executing
 mvn install
 ```
 
-## Watchdog
-
-By default, a watchdog is created for every *SkillInteractiveSession* session.
-The watchdog will terminate the session when no communication within the 
-specified timeout was conducted. 
-
-This behavior can be deactivated:
-
-- Specify a negative timeout or
-- Set the environment variable `ED_CDS_RC_NO_WATCHDOG` , e.g.,
-
-```bash
-export ED_CDS_RC_NO_WATCHDOG=1
 ```
 
 ## License

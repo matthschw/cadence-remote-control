@@ -32,7 +32,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   protected static final String SKILL_RESOURCE = "skill/EDcdsRC.il";
 
   /**
-   * Command for executing <code>cds_root></code>
+   * Command for executing <code>cds_root</code>
    */
   public static final String CDS_ROOT_CMD = "cds_root";
 
@@ -305,7 +305,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
   /**
    * Load a file consisting of Skill code
    * 
-   * @param functionName Name of the function
+   * @param skillFile File to be loaded
    * @return <code>true</code> when the code was loaded, <code>false</code>
    *         otherwise
    */
@@ -404,10 +404,10 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
   /**
    * Load Skill code from within the JAR. The code is only loaded when the
-   * specified function is not callable
+   * specified class is not found
    * 
-   * @param resource     Path to Skill file wihtin JAR
-   * @param functionName Function within the Skill file
+   * @param resource  Path to Skill file wihtin JAR
+   * @param className Class within the Skill++ file
    * @return <code>true</code> when the file is loaded, <code>false</code>
    *         otherwise
    */
@@ -432,7 +432,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
         skillSourceCode.delete();
 
         if (this.logger instanceof Logger) {
-          this.logger.add(Logger.MSG_CODE_5, Logger.INFO_STEP,
+          this.logger.add(Logger.MSG_CODE_63, Logger.INFO_STEP,
               "Loading SKILL code  from \"" + resource + "\" with suffix \""
                   + TMP_SKILLPP_FILE_SUFFIX + "\" finished with " + retval);
         }
@@ -443,7 +443,7 @@ public abstract class SkillSession implements SkillEvaluationEnvironment {
 
         if (this.logger instanceof Logger) {
 
-          this.logger.add(Logger.MSG_CODE_6, Logger.INFO_STEP,
+          this.logger.add(Logger.MSG_CODE_64, Logger.INFO_STEP,
               "Unable to load SKILL code  from \"" + resource
                   + "\" with suffix \"" + TMP_SKILLPP_FILE_SUFFIX + "\"");
         }
